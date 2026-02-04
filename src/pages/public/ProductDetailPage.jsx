@@ -173,7 +173,7 @@ const ProductDetailPage = () => {
     <div className="min-h-screen bg-gray-50 py-8">
       <div className="container mx-auto px-4">
         {/* Breadcrumb */}
-        <div className="mb-6 text-sm text-gray-600">
+        <div className="mb-6 text-sm text-gray-600 text-nowrap overflow-x-auto scrollbar-hide">
           <button onClick={() => navigate('/')} className="hover:text-blue-600">
             Home
           </button>
@@ -207,7 +207,7 @@ const ProductDetailPage = () => {
             <div className='w-full h-94 flex justify-start gap-2'>
               {/* Thumbnails */}
               {product.images?.length > 1 && (
-                <div className="w-26 flex flex-col gap-2 overflow-x-auto">
+                <div className="w-26 flex flex-col gap-2 overflow-x-auto scrollbar-hide">
                   {product.images.map((img, index) => (
                     <button
                       key={index}
@@ -294,17 +294,17 @@ const ProductDetailPage = () => {
 
             {/* Product Info */}
             <div className='w-full'>
-              <h1 className="text-2xl font-medium text-gray-900 mb-3">{product.title}</h1>
-              <p className='text-sm mb-4'> {product?.description || "Lorem ipsum dolor sit amet consectetur adipisicing elit. Delectus tempore porro incidunt, eius similique rerum ducimus eos error veritatis ipsum." } </p>
+              <h1 className="text-xl font-semibold text-gray-900 mb-3">{product.title}</h1>
+              <p className='text-sm mb-4 text-dark/60'> {product?.description || "Lorem ipsum dolor sit amet consectetur adipisicing elit. Delectus tempore porro incidunt, eius similique rerum ducimus eos error veritatis ipsum." } </p>
               
               {/* Price */}
               <div className="mb-6">
                 <div className="flex items-center gap-3 mb-2">
-                  <span className="text-xl font-bold text-dark">
+                  <span className="text-base font-bold text-dark">
                     ₦{product.price.toLocaleString()}
                   </span>
                   {product.originalPrice && (
-                    <span className="text-gray-500 line-through text-xl">
+                    <span className="text-gray-500 line-through text-base">
                       ₦{product.originalPrice.toLocaleString()}
                     </span>
                   )}
@@ -418,13 +418,13 @@ const ProductDetailPage = () => {
               </div>
             </div>
 
-            <div className='w-full max-w-80 border border-primary/30 rounded-sm overflow-hidden'>
+            <div className='w-full lg:max-w-80 border border-primary/30 rounded-sm overflow-hidden'>
               <div className='p-4 bg-primary/30 text-base flex items-center gap-2'>
                 <Truck size={18} className="text-primary" />
                 <p className='font-medium'> Delivery via Sarri Ride </p>
               </div>
 
-              <div className='p-4 flex flex-col items-start gap-2'>
+              <div className='p-4 flex flex-col sm:flex-row lg:flex-col items-start gap-2'>
                 <div className='w-full rounded p-2 border border-dark/10 flex gap-1'>
                   <Box size={18} className='mt-2' />
                   <span className='flex flex-col'>
@@ -441,11 +441,12 @@ const ProductDetailPage = () => {
                     <small className='leading-tight flex text-dark/80'> 7-day return policy </small>
                   </span>
                 </div>
-                <div className='w-full rounded p-2 border border-dark/10 gap-1'>
-                  <ShieldCheck size={18} className="mt-2" />
-                  <span className='flex flex-col'>
+
+                <div className='w-full rounded p-2 border border-dark/10 flex gap-1'>
+                  <ShieldCheck size={18} className="mt-2 w-fit" />
+                  <span className='flex flex-col w-full'>
                     <p className='font-semibold'> Inspection Safety: </p>
-                    <small className='leading-tight text-dark/80'> 
+                    <small className='leading-tight text-xs text-dark/80'> 
                       Keep your transaction safe, all payments should stay in Mosalak Hub for fraud protection and support.
                     </small>
                   </span>
@@ -456,7 +457,7 @@ const ProductDetailPage = () => {
 
           {/* Product Details Tabs */}
           <div className="mt-6 space-y-6">
-            <div className="flex border-b border-gray-200 overflow-x-auto">
+            <div className="flex border-b border-gray-200 overflow-x-auto scrolbar-hide" >
               {[
                 { key: "details", label: "Details" },
                 { key: "specs", label: "Specifications" },
@@ -478,14 +479,14 @@ const ProductDetailPage = () => {
             </div>
 
             
-            <div className="p-6">
+            <div className="p-0">
               {/* Details */}
               {activeTab === "details" && (
-                <div className="space-y-6">
+                <div className="space-y-2">
                   <h3 className="text-xl font-bold">Product Details</h3>
                   <p className="text-gray-700">{product.description}</p>
 
-                  <h4 className="font-bold">Key Features</h4>
+                  <h4 className="font-bold mt-6">Key Features</h4>
                   <ul className="grid grid-cols-1 md:grid-cols-2 gap-2">
                     {product.features?.map((feature, index) => (
                       <li key={index} className="text-gray-700">
@@ -547,13 +548,42 @@ const ProductDetailPage = () => {
                         </div>
                         <span className='w-px h-30 bg-gray-400'></span>
 
-                        <div className='flex flex-col items-start gap-1'>
-                          <span> 5 Star </span>
-                          <span> 4 Star </span>
-                          <span> 3 Star </span>
-                          <span> 2 Star </span>
-                          <span> 1 Star </span>
+                        {/* <div className='w-full flex items-start gap-2'> */}
+                        <div className='w-full flex flex-col items-start gap-0'>
+                          <div className='w-full flex items-center justify-start gap-2 text-nowrap'> 
+                            <span className="w-16"> 5 Star </span>
+                            <span className='h-2 w-[90%] bg-primary rounded-full'></span>
+                            <span className='ml-auto'> (12) </span>
+                          </div>
+                          <div className='w-full flex items-center justify-start gap-2 text-nowrap'> 
+                            <span className="w-16"> 4 Star </span>
+                            <span className='h-2 w-[80%] bg-primary rounded-full'></span>
+                            <span className='ml-auto'> (4) </span>
+                          </div>
+                          <div className='w-full flex items-center justify-start gap-2 text-nowrap'> 
+                            <span className="w-16 mr-0"> 3 Star </span>
+                            <span className='h-2 w-[60%] bg-primary rounded-full'></span>
+                            <span className='ml-auto'> (10) </span>
+                          </div>
+                          <div className='w-full flex items-center justify-start gap-2 text-nowrap'> 
+                            <span className="w-16"> 2 Star </span>
+                            <span className='h-2 w-[40%] bg-primary rounded-full'></span>
+                            <span className='ml-auto'> (2) </span>
+                          </div>
+                          <div className='w-full flex items-center justify-start gap-2 text-nowrap'> 
+                            <span className="w-16"> 1 Star </span>
+                            <span className='h-2 w-[20%] bg-primary rounded-full'></span>
+                            <span className='ml-auto'> (1) </span>
+                          </div>
                         </div>
+
+                          {/* <div className='w-full h-full flex flex-col items-center justify-between gap-1 bg-yellow-300'>
+                            <span className='h-2 w-[80%] bg-primary rounded-full block'></span>
+                            <span className='h-2 w-full bg-primary rounded-full block'></span>
+                            <span className='h-2 w-full bg-primary rounded-full block'></span>
+                            <span className='h-2 w-full bg-primary rounded-full block'></span>
+                          </div> */}
+                        {/* </div> */}
 
                       </div>
 

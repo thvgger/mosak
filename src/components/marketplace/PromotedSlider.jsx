@@ -80,6 +80,48 @@ const PromotedSlider = () => {
           <button className="btn w-full"> Show Now </button>
         </div>
 
+        {/* Card 3 */}
+        <div className="w-full shrink-0 bg-primary/40 rounded-xl p-4 flex flex-col items-center justify-between text-center gap-4">
+          <img
+            src=""
+            alt=""
+            className="bg-gray-300 w-full h-30 object-cover rounded-md"
+          />
+          <strong>21% Discount</strong>
+          <p className="text-sm">
+            Escape the noise, It’s time to hear the magic with Xiaomi Earbuds.
+          </p>
+          <span className="flex items-center gap-2 text-sm">
+            Price:
+            <span className="bg-gray-200 px-2 py-1 rounded">
+              ₦99 NGN
+            </span>
+          </span>
+
+          <button className="btn w-full"> Show Now </button>
+        </div>
+
+        {/* Card 4 */}
+        <div className="w-full shrink-0 bg-primary/40 rounded-xl p-4 flex flex-col items-center justify-between text-center gap-4">
+          <img
+            src=""
+            alt=""
+            className="bg-gray-300 w-full h-30 object-cover rounded-md"
+          />
+          <strong>21% Discount</strong>
+          <p className="text-sm">
+            Escape the noise, It’s time to hear the magic with Xiaomi Earbuds.
+          </p>
+          <span className="flex items-center gap-2 text-sm">
+            Price:
+            <span className="bg-gray-200 px-2 py-1 rounded">
+              ₦99 NGN
+            </span>
+          </span>
+
+          <button className="btn w-full"> Show Now </button>
+        </div>
+
         {/* Add more cards as needed */}
       </div>
     </div>

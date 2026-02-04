@@ -362,7 +362,7 @@ const Wishlist = () => {
         </div>
 
         {/* Tips Section */}
-        <div className="mt-12 bg-gradient-to-r from-primary/5 to-blue-50 rounded-2xl p-8">
+        <div className="mt-12 bg-linear-to-r from-primary/5 to-blue-50 rounded-2xl p-8">
           <div className="max-w-3xl mx-auto text-center">
             <div className="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-6">
               <ShoppingBag className="text-primary" size={28} />
@@ -406,7 +406,7 @@ const Wishlist = () => {
           <div className="flex overflow-x-auto gap-4 pb-4 -mx-4 px-4">
             {/* This would be populated with recommended products */}
             {[1, 2, 3, 4].map((i) => (
-              <div key={i} className="flex-shrink-0 w-64">
+              <div key={i} className="shrink-0 w-64">
                 <div className="bg-white rounded-xl shadow-sm p-4">
                   <div className="w-full h-40 bg-gray-200 rounded-lg mb-4"></div>
                   <h4 className="font-semibold mb-2">Recommended Product {i}</h4>
