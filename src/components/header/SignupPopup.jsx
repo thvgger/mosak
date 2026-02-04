@@ -1,23 +1,19 @@
 import { useState } from "react";
+import { useAuth } from '../../contexts/AuthContext';
 
-const SignupPopup = ({ onSignInClick, selectedRole }) => {
+const SignupPopup = ({ onClose, onSignInClick, selectedRole, onSuccess }) => {
+  const { signup, loading } = useAuth();
+  const [error, setError] = useState('');
+  const [passwordError, setPasswordError] = useState('');
+  
   const [formData, setFormData] = useState({
     fullName: "",
-    emailOrPhone: "",
+    email: "",
     password: "",
     confirmPassword: "",
-    role: selectedRole || "" // Include role in form data
+    phone: "",
+    role: selectedRole || "buyer"
   });
-
-  // Update role when selectedRole prop changes
-  // useEffect(() => {
-  //   if (selectedRole) {
-  //     setFormData(prev => ({
-  //       ...prev,
-  //       role: selectedRole
-  //     }));
-  //   }
-  // }, [selectedRole]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -25,29 +21,64 @@ const SignupPopup = ({ onSignInClick, selectedRole }) => {
       ...prev,
       [name]: value
     }));
+    
+    setError('');
+    setPasswordError('');
   };
 
-  const handleSubmit = (e) => {
+  const validatePassword = () => {
+    if (formData.password !== formData.confirmPassword) {
+      setPasswordError("Passwords don't match");
+      return false;
+    }
+    if (formData.password.length < 6) {
+      setPasswordError("Password must be at least 6 characters");
+      return false;
+    }
+    return true;
+  };
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // Handle signup logic here
-    console.log("Signup data with role:", formData);
-    // You can show the selected role to the user
-    if (selectedRole) {
-      alert(`Creating account as: ${selectedRole.toUpperCase()}`);
+    
+    if (!validatePassword()) {
+      return;
+    }
+    
+    const userData = {
+      name: formData.fullName,
+      email: formData.email,
+      password: formData.password,
+      phone: formData.phone,
+      role: formData.role
+    };
+    
+    const result = await signup(userData);
+    
+    if (result.success) {
+      onSuccess();
+      onClose();
+    } else {
+      setError(result.error);
     }
   };
 
   return (
     <div className="bg-white rounded-md p-6 md:p-8 max-w-md w-full shadow-xl">
-      {/* <h2 className="text-xl font-semibold text-center mb-0.5">Create Your Account</h2> */}
-      
-      {/* Show selected role if available */}
       {selectedRole && (
-        <div className="mb-4 py-0.5 pb-1.5 px-3 bg-primary/10 rounded-lg text-center">
-          <span className="text-xs">Creating account as a: </span>
-          <span className="text-xs text-primary">
+        <div className="mb-4 py-2 px-3 bg-primary/10 rounded-lg text-center">
+          <span className="text-sm">Creating account as a: </span>
+          <span className="text-sm font-semibold text-primary">
             {selectedRole.toUpperCase()}
           </span>
+        </div>
+      )}
+      
+      <h2 className="text-xl font-semibold text-center mb-6">Create Your Account</h2>
+      
+      {error && (
+        <div className="mb-4 p-3 bg-red-50 text-red-600 rounded text-sm">
+          {error}
         </div>
       )}
       
@@ -60,21 +91,30 @@ const SignupPopup = ({ onSignInClick, selectedRole }) => {
             value={formData.fullName}
             onChange={handleChange}
             className="w-full border border-gray-300 rounded px-4 py-3 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
-            // placeholder="Enter your full name"
             required
           />
         </div>
         
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">Email or Phone</label>
+          <label className="block text-sm font-medium text-gray-700 mb-1">Email Address</label>
           <input 
-            type="text" 
-            name="emailOrPhone"
-            value={formData.emailOrPhone}
+            type="email" 
+            name="email"
+            value={formData.email}
             onChange={handleChange}
             className="w-full border border-gray-300 rounded px-4 py-3 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
-            // placeholder="Enter email or phone number"
             required
+          />
+        </div>
+        
+        <div>
+          <label className="block text-sm font-medium text-gray-700 mb-1">Phone Number</label>
+          <input 
+            type="tel" 
+            name="phone"
+            value={formData.phone}
+            onChange={handleChange}
+            className="w-full border border-gray-300 rounded px-4 py-3 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
           />
         </div>
         
@@ -86,7 +126,6 @@ const SignupPopup = ({ onSignInClick, selectedRole }) => {
             value={formData.password}
             onChange={handleChange}
             className="w-full border border-gray-300 rounded px-4 py-3 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
-            // placeholder="Enter password"
             required
           />
         </div>
@@ -99,24 +138,28 @@ const SignupPopup = ({ onSignInClick, selectedRole }) => {
             value={formData.confirmPassword}
             onChange={handleChange}
             className="w-full border border-gray-300 rounded px-4 py-3 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
-            // placeholder="Confirm your password"
             required
           />
+          {passwordError && (
+            <p className="text-red-500 text-xs mt-1">{passwordError}</p>
+          )}
         </div>
         
         <button 
           type="submit"
           className="w-full btn"
+          disabled={loading}
         >
-          CREATE ACCOUNT →
+          {loading ? 'Creating Account...' : 'CREATE ACCOUNT →'}
         </button>
       </form>
       
-      <div className="text-center mt-4">
+      <div className="text-center mt-6">
         <span className="text-gray-600">Already have an account? </span>
         <button 
           className="text-primary font-semibold hover:underline"
           onClick={onSignInClick}
+          disabled={loading}
         >
           Sign In
         </button>

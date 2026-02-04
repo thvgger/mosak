@@ -1,13 +1,12 @@
 import { useState } from "react";
 import { Eye, EyeClosed } from 'lucide-react';
+import { useAuth } from '../../contexts/AuthContext';
 
-const LoginPopup = ({ onCreateAccountClick }) => {
-
-  const [showPassword, setShowPassword ] = useState(false);
-  const toggleShowPassword = () => {
-    setShowPassword(!showPassword);
-  }
-
+const LoginPopup = ({ onClose, onCreateAccountClick, onSuccess }) => {
+  const { login, loading } = useAuth();
+  const [showPassword, setShowPassword] = useState(false);
+  const [error, setError] = useState('');
+  
   const [formData, setFormData] = useState({
     email: "",
     password: "",
@@ -20,17 +19,35 @@ const LoginPopup = ({ onCreateAccountClick }) => {
       ...prev,
       [name]: type === 'checkbox' ? checked : value
     }));
+    setError('');
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // Handle login logic here
-    console.log("Login data:", formData);
+    
+    const result = await login(formData.email, formData.password);
+    
+    if (result.success) {
+      onSuccess();
+      onClose();
+    } else {
+      setError(result.error);
+    }
+  };
+
+  const toggleShowPassword = () => {
+    setShowPassword(!showPassword);
   };
 
   return (
     <div className="bg-white rounded-md p-8 max-h-[90vh] max-w-md w-full shadow-xl overflow-y-auto">
       <h2 className="text-xl font-semibold tracking-normal text-center mb-6">Sign in to your account</h2>
+      
+      {error && (
+        <div className="mb-4 p-3 bg-red-50 text-red-600 rounded text-sm">
+          {error}
+        </div>
+      )}
       
       <form className="space-y-4" onSubmit={handleSubmit}>
         <div>
@@ -41,7 +58,6 @@ const LoginPopup = ({ onCreateAccountClick }) => {
             value={formData.email}
             onChange={handleChange}
             className="w-full border border-gray-300 rounded px-4 py-3 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
-            placeholder=""
             required
           />
         </div>
@@ -55,15 +71,14 @@ const LoginPopup = ({ onCreateAccountClick }) => {
               value={formData.password}
               onChange={handleChange}
               className="w-full border border-gray-300 rounded px-4 py-3 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
-              placeholder=""
               required
             />
-            <button className="absolute top-1/2 right-4 -translate-y-1/2 text-dark/40 cursor-pointer" onClick={toggleShowPassword}> 
-              {!showPassword ? (
-                <Eye /> 
-              ) : (
-                <EyeClosed />
-              )}
+            <button 
+              type="button"
+              className="absolute top-1/2 right-4 -translate-y-1/2 text-dark/40 cursor-pointer"
+              onClick={toggleShowPassword}
+            > 
+              {!showPassword ? <Eye /> : <EyeClosed />}
             </button>
           </div>
         </div>
@@ -87,18 +102,23 @@ const LoginPopup = ({ onCreateAccountClick }) => {
         <button 
           type="submit"
           className="w-full btn mt-2"
+          disabled={loading}
         >
-          LOGIN
+          {loading ? 'Logging in...' : 'LOGIN'}
         </button>
       </form>
       
-      <div className="text-center mt-0 flex flex-col gap-4 relative">
-        {/* <span className="before:absolute after:left-0 after:top-6.5 after:w-full after:h-px after:bg-dark/40 after:content-['']"></span> */}
-        <span className="after:absolute after:left-0 after:top-6.5 after:w-full after:h-px after:bg-dark/40 after:content-['']"></span>
-        <span className="text-dark/60 text-sm z-2 w-fit mx-auto px-2.5 bg-white">Don't have account </span>
+      <div className="text-center mt-6 flex flex-col gap-4 relative">
+        <div className="relative">
+          <hr className="border-gray-300" />
+          <span className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-white px-4 text-dark/60 text-sm">
+            Don't have an account
+          </span>
+        </div>
         <button 
           className="btn btn-tertiary"
           onClick={onCreateAccountClick}
+          disabled={loading}
         >
           CREATE ACCOUNT
         </button>

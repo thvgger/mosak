@@ -10,11 +10,10 @@ import ProductDetailPage from '../pages/public/ProductDetailPage';
 import Freelancers from '../pages/public/Freelancers';
 import Community from '../pages/public/Community';
 import Postings from '../pages/public/Postings';
-import Services from '../pages/public/Services';
 import HelpCenter from '../pages/public/HelpCenter';
 import Faqs from "../pages/public/Faqs.jsx";
 import Contact from '../pages/public/Contact.jsx';
-
+import Leaderboards from '../pages/public/Leaderboards.jsx';
 
 // User Routes
 import UserDashboardLayout from "../layouts/UserDashboardLayout";
@@ -29,10 +28,12 @@ import Disputes from '../pages/user/Disputes.jsx';
 import Notifications from '../pages/user/Notifications.jsx';
 import Profile from '../pages/user/Profile.jsx';
 
+// Auth Components
+// import LoginPage from '../pages/public/LoginPage.jsx';
+// import SignupPage from '../pages/public/SignupPage.jsx';
 
 import NotFound from '../pages/NotFound.jsx';
-import Leaderboards from '../pages/public/Leaderboards.jsx';
-
+import ProtectedRoute from '../components/ProtectedRoute';
 
 const AppRoutes = () => {
   return (
@@ -52,17 +53,20 @@ const AppRoutes = () => {
         <Route path="/help-center" element={<HelpCenter />} />
         <Route path="/faqs" element={<Faqs />} />
         <Route path="/contact" element={<Contact />} />
-
-        <Route path='cart' element={<Cart />} />
-        <Route path='wishlist' element={<Wishlist />} />
-        <Route path='checkout/*' element={<Checkout />} />
-
-
+        
+        {/* Auth Pages */}
+        {/* <Route path="/login" element={<LoginPage />} />
+        <Route path="/signup" element={<SignupPage />} /> */}
+        
         <Route path='*' element={<NotFound />} />
       </Route>
 
-      {/* Dashboard Routes */}
-      <Route path="/account" element={<UserDashboardLayout />}>
+      {/* Protected Dashboard Routes */}
+      <Route path="/account" element={
+        <ProtectedRoute>
+          <UserDashboardLayout />
+        </ProtectedRoute>
+      }>
         <Route index element={<DashboardPage />} />
         <Route path="dashboard" element={<DashboardPage />} />
         <Route path="orders" element={<Orders />} />
@@ -73,7 +77,22 @@ const AppRoutes = () => {
         <Route path="profile" element={<Profile />} />
       </Route>
 
-
+      {/* Protected Shopping Routes */}
+      <Route path="/cart" element={
+        <ProtectedRoute>
+          <Cart />
+        </ProtectedRoute>
+      } />
+      <Route path="/wishlist" element={
+        <ProtectedRoute>
+          <Wishlist />
+        </ProtectedRoute>
+      } />
+      <Route path="/checkout/*" element={
+        <ProtectedRoute>
+          <Checkout />
+        </ProtectedRoute>
+      } />
     </Routes>
   )
 }

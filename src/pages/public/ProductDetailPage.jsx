@@ -1,24 +1,43 @@
 import React, { useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useMarketplace } from '../../contexts/MarketplaceContext';
+import { useAuth } from '../../contexts/AuthContext';
+import { useShopping } from '../../contexts/ShoppingContext';
 import car from "../../assets/car.png";
-import { Heart, Share2, ShieldBan, ShoppingCart, Truck, Box, RotateCcw, ShieldCheck, Check, X, Shield, MessageCircle, Star  } from 'lucide-react';
+import { Heart, Share2, ShieldBan, ShoppingCart, Truck, Box, RotateCcw, ShieldCheck, Check, X, Shield, MessageCircle, Star } from 'lucide-react';
 import pattern from "../../assets/pattern.png";
 
 const ProductDetailPage = () => {
   const { id } = useParams();
   const navigate = useNavigate();
-  const { getProductById, addToCart, wishlist, addToWishlist, removeFromWishlist } = useMarketplace();
+  const { getProductById } = useMarketplace();
+  const { isAuthenticated, user } = useAuth();
+  const { 
+    cart, 
+    wishlist, 
+    addToCart: addToShoppingCart, 
+    removeFromCart: removeFromShoppingCart, 
+    addToWishlist: addToShoppingWishlist, 
+    removeFromWishlist: removeFromShoppingWishlist,
+    cartItemCount 
+  } = useShopping();
   
   const [quantity, setQuantity] = useState(1);
   const [selectedImage, setSelectedImage] = useState(0);
   const [isLightboxOpen, setIsLightboxOpen] = useState(false);
-  const [isEscrowModalOpen, setIsEscrowModalOpen] = useState(false); // New state for escrow modal
-  
+  const [isEscrowModalOpen, setIsEscrowModalOpen] = useState(false);
+  const [activeTab, setActiveTab] = useState("details");
+  const [showLoginPrompt, setShowLoginPrompt] = useState(false);
   
   const product = getProductById(id);
+  const images = product?.images || [];
 
-  const images = product.images || [];
+  // Check if product is in wishlist
+  const isInWishlist = wishlist?.some(item => item.id === product?.id);
+  
+  // Check if product is in cart
+  const isInCart = cart?.some(item => item.id === product?.id);
+  const cartQuantity = isInCart ? cart.find(item => item.id === product?.id)?.quantity : 0;
 
   const showPrevImage = () => {
     setSelectedImage((prev) =>
@@ -32,10 +51,6 @@ const ProductDetailPage = () => {
     );
   };
 
-
-  const [activeTab, setActiveTab] = useState("details");
-
-  
   if (!product) {
     return (
       <div className="min-h-screen flex items-center justify-center">
@@ -52,18 +67,29 @@ const ProductDetailPage = () => {
     );
   }
   
-  const isInWishlist = wishlist?.includes(product.id);
-  
   const handleAddToCart = () => {
-    addToCart(product, quantity);
+    if (!isAuthenticated) {
+      setShowLoginPrompt(true);
+      return;
+    }
+    
+    addToShoppingCart(product, quantity);
+    // Show success message (you could use a toast notification here)
     alert(`${product.title} added to cart!`);
   };
   
   const handleWishlistToggle = () => {
+    if (!isAuthenticated) {
+      setShowLoginPrompt(true);
+      return;
+    }
+    
     if (isInWishlist) {
-      removeFromWishlist(product.id);
+      removeFromShoppingWishlist(product.id);
+      alert(`${product.title} removed from wishlist`);
     } else {
-      addToWishlist(product.id);
+      addToShoppingWishlist(product);
+      alert(`${product.title} added to wishlist`);
     }
   };
   
@@ -85,13 +111,62 @@ const ProductDetailPage = () => {
   const totalAmount = product.price + escrowFee;
 
   const handleEscrowPurchase = () => {
+    if (!isAuthenticated) {
+      setShowLoginPrompt(true);
+      return;
+    }
     setIsEscrowModalOpen(true);
   };
 
   const proceedToCheckout = () => {
-    addToCart(product, quantity);
+    if (!isAuthenticated) {
+      setShowLoginPrompt(true);
+      setIsEscrowModalOpen(false);
+      return;
+    }
+    
+    // Add to cart if not already added
+    if (!isInCart) {
+      addToShoppingCart(product, quantity);
+    }
+    
     navigate('/checkout');
     setIsEscrowModalOpen(false);
+  };
+
+  // Handle direct checkout without escrow modal
+  const handleDirectCheckout = () => {
+    if (!isAuthenticated) {
+      setShowLoginPrompt(true);
+      return;
+    }
+    
+    if (!isInCart) {
+      addToShoppingCart(product, quantity);
+    }
+    
+    navigate('/checkout');
+  };
+
+  // Handle login prompt actions
+  const handleLoginRedirect = () => {
+    setShowLoginPrompt(false);
+    navigate('/login', { 
+      state: { 
+        from: `/product/${id}`,
+        message: 'Please login to continue' 
+      } 
+    });
+  };
+
+  const handleSignupRedirect = () => {
+    setShowLoginPrompt(false);
+    navigate('/signup', { 
+      state: { 
+        from: `/product/${id}`,
+        message: 'Create an account to continue' 
+      } 
+    });
   };
 
   return (
@@ -117,11 +192,19 @@ const ProductDetailPage = () => {
           <span className="text-gray-900">{product.title.substring(0, 30)}...</span>
         </div>
 
+        {/* User greeting (if logged in) */}
+        {isAuthenticated && user && (
+          <div className="mb-4 bg-primary/5 p-3 rounded-lg">
+            <p className="text-sm">
+              Welcome back, <span className="font-semibold">{user.name}</span>! Ready to purchase?
+            </p>
+          </div>
+        )}
+
         <div className="overflow-hidden">
           <div className="flex items-start flex-wrap lg:flex-nowrap gap-8 p-0">
             {/* Product Images */}
             <div className='w-full h-94 flex justify-start gap-2'>
-
               {/* Thumbnails */}
               {product.images?.length > 1 && (
                 <div className="w-26 flex flex-col gap-2 overflow-x-auto">
@@ -214,18 +297,6 @@ const ProductDetailPage = () => {
               <h1 className="text-2xl font-medium text-gray-900 mb-3">{product.title}</h1>
               <p className='text-sm mb-4'> {product?.description || "Lorem ipsum dolor sit amet consectetur adipisicing elit. Delectus tempore porro incidunt, eius similique rerum ducimus eos error veritatis ipsum." } </p>
               
-              {/* Condition & Location */}
-              {/* <div className="flex items-center gap-4 text-gray-600 mb-4">
-                <span className="bg-gray-100 px-3 py-1 rounded text-sm">{product.condition}</span>
-                <div className="flex items-center">
-                  <svg className="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
-                  </svg>
-                  {product.location}
-                </div>
-              </div> */}
-
               {/* Price */}
               <div className="mb-6">
                 <div className="flex items-center gap-3 mb-2">
@@ -239,8 +310,6 @@ const ProductDetailPage = () => {
                   )}
                 </div>
               </div>
-
-
 
               {/* Reviews */}
               <div>
@@ -256,6 +325,28 @@ const ProductDetailPage = () => {
 
               <hr className='w-full border-px border-dark/10 flex items-center my-6' />
 
+              {/* Quantity Selector */}
+              {/* <div className="mb-4">
+                <label className="block text-sm font-medium text-gray-700 mb-2">Quantity</label>
+                <div className="flex items-center gap-2">
+                  <button
+                    onClick={() => setQuantity(prev => Math.max(1, prev - 1))}
+                    className="w-10 h-10 flex items-center justify-center border border-gray-300 rounded-lg hover:bg-gray-50"
+                  >
+                    -
+                  </button>
+                  <span className="w-16 h-10 flex items-center justify-center border border-gray-300 rounded-lg">
+                    {quantity}
+                  </span>
+                  <button
+                    onClick={() => setQuantity(prev => prev + 1)}
+                    className="w-10 h-10 flex items-center justify-center border border-gray-300 rounded-lg hover:bg-gray-50"
+                  >
+                    +
+                  </button>
+                </div>
+              </div> */}
+
               {/* Action Buttons */}
               <div className="flex items-center justify-between gap-4 mb-6">
                 <div className='flex items-center gap-2'>
@@ -265,25 +356,61 @@ const ProductDetailPage = () => {
                     className="btn"
                   >
                     <Shield size={18} />
-                    Buy
+                    Buy Now
                   </button>
+                  
+                  {/* Add to Cart Button */}
                   <button
                     onClick={handleAddToCart}
-                    className="btn btn-tertiary">
+                    className="btn btn-tertiary"
+                    disabled={isInCart}
+                  >
                     <ShoppingCart size={18} strokeWidth={1.5} />
-                    Add to Cart
+                    {isInCart ? `In Cart (${cartQuantity})` : 'Add to Cart'}
                   </button>
+
+                  {/* Quick Buy Button */}
+                  {/* <button
+                    onClick={handleDirectCheckout}
+                    className="btn btn-text"
+                  >
+                    Quick Buy
+                  </button> */}
                 </div>
 
                 <div className='flex items-center gap-2.5'>
-                  <button onClick={handleWishlistToggle}>
+                  <button 
+                    onClick={handleWishlistToggle}
+                    className={`p-2 rounded-full ${isInWishlist ? 'bg-red-50 text-red-500' : 'hover:bg-gray-100'}`}
+                    title={isInWishlist ? 'Remove from wishlist' : 'Add to wishlist'}
+                  >
                     <Heart size={20} fill={isInWishlist ? "currentColor" : "none"} />
                   </button>
-                  <button onClick={shareProduct}>
+                  <button 
+                    onClick={shareProduct}
+                    className="p-2 rounded-full hover:bg-gray-100"
+                    title="Share product"
+                  >
                     <Share2 size={20} />
                   </button>
                 </div>
               </div>
+
+              {/* Cart & Wishlist Status */}
+              {isAuthenticated && (
+                <div className="mb-4 text-sm text-gray-600">
+                  {isInCart && (
+                    <p className="text-green-600 mb-1">
+                      ✓ This item is in your cart ({cartQuantity} {cartQuantity === 1 ? 'item' : 'items'})
+                    </p>
+                  )}
+                  {isInWishlist && (
+                    <p className="text-red-600">
+                      ♥ This item is in your wishlist
+                    </p>
+                  )}
+                </div>
+              )}
 
               <div className='bg-primary/20 text-dark p-4 px-6 rounded-t-xl'>
                 <strong className='flex items-center gap-1 mb-1.5'><Shield size={18} strokeWidth={2} className='text-primary' /> Escrow Protection Active </strong>
@@ -369,7 +496,6 @@ const ProductDetailPage = () => {
                 </div>
               )}
 
-
               {/* Specifications */}
               {activeTab === "specs" && (
                 <div className="space-y-6">
@@ -402,7 +528,6 @@ const ProductDetailPage = () => {
                 </div>
               )}
 
-
               {/* Reviews */}
               {activeTab === "reviews" && (
                 <div className="space-y-4">
@@ -432,27 +557,38 @@ const ProductDetailPage = () => {
 
                       </div>
 
-
                       {/* Remarks */}
                       <div className='flex flex-col items-start gap-2 border-t border-gray-400 pt-4'>
                         <span> Stacey </span>
                         <span> ⭐⭐⭐⭐ </span>
                         <p className='text-sm'> 
-                          I bought it 3 weeks ago and now come back just to say “Awesome Product”. I really enjoy it. At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupt et quas molestias excepturi sint non provident.
+                          I bought it 3 weeks ago and now come back just to say "Awesome Product". I really enjoy it. At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupt et quas molestias excepturi sint non provident.
                         </p>
 
                         <div className='text-sm space-x-4 font-medium'>
                           <span> Stacey Sam </span>
                           <span> 21-12-2025 </span>
                         </div>
-
-
                       </div>
                     </div>
                   ) : (
-                    <p className="text-gray-500">
-                      No reviews yet. Be the first to review this product.
-                    </p>
+                    <div className="text-center py-8">
+                      <p className="text-gray-500 mb-4">
+                        No reviews yet. Be the first to review this product.
+                      </p>
+                      {isAuthenticated ? (
+                        <button className="btn btn-text">
+                          Write a Review
+                        </button>
+                      ) : (
+                        <button 
+                          onClick={() => setShowLoginPrompt(true)}
+                          className="btn btn-text"
+                        >
+                          Login to Review
+                        </button>
+                      )}
+                    </div>
                   )}
                 </div>
               )}
@@ -483,7 +619,16 @@ const ProductDetailPage = () => {
                     </div>
                     <span>Member since 2024</span>
                   </div>
-                  <button className='btn btn-tertiary' onClick={() => {navigate("/messages")}}>
+                  <button 
+                    className='btn btn-tertiary' 
+                    onClick={() => {
+                      if (!isAuthenticated) {
+                        setShowLoginPrompt(true);
+                        return;
+                      }
+                      navigate("/messages")
+                    }}
+                  >
                     <MessageCircle size={16} strokeWidth={1.75} /> Chat with seller
                   </button>
                 </div>
@@ -560,23 +705,33 @@ const ProductDetailPage = () => {
 
             {/* Modal Content */}
             <div className="p-4">
+              {/* Buyer/Seller Info */}
+              {isAuthenticated && user && (
+                <div className='grid grid-cols-2 gap-2 mb-4'>
+                  <div className='flex flex-col items-center gap-1 p-2 bg-primary/5 rounded-md'>
+                    <span className='text-xs'> Buyer </span>
+                    <span className='text-sm font-semibold'>{user.name}</span>
+                    <span className='text-xs text-gray-500'>{user.email}</span>
+                  </div>
+
+                  <div className='flex flex-col items-center gap-1 p-2 bg-primary/10 rounded-md'>
+                    <span className='text-xs'> Seller </span>
+                    <span className="text-sm font-semibold">{product.seller.name}</span>
+                    {product.seller.verified && (
+                      <span className='text-xs text-green-600 flex items-center gap-1'>
+                        <ShieldCheck size={12} />
+                        Verified Seller
+                      </span>
+                    )}
+                  </div>
+                </div>
+              )}
+
               {/* Product Info */}
               <div className="mb-4">
                 <img src={product.images[0]} alt='' className='w-full h-40 object-center object-cover rounded-xl mb-2' />
                 <h3 className="font-bold text-base mb-2">{product.title}</h3>
                 <p className='text-xs mb-2 line-clamp-2'>{product.description}</p>
-
-                <div className='grid grid-cols-2 gap-2 mt-4'>
-                  <div className='flex flex-col items-center gap-1 p-2 bg-primary/5 rounded-md'>
-                    <span className='text-xs'> Buyer </span>
-                    <span className='text-sm font-semibold'> YOU </span>
-                  </div>
-
-                  <div className='flex flex-col items-center gap-1 p-2 bg-primary/10 rounded-md'>
-                    <span className='text-xs '> Seller </span>
-                    <span className='text-sm font-semibold'>{product.seller.name}</span>
-                  </div>
-                </div>
 
                 <div className='mt-4 space-y-1'>
                   <p className='text-sm'> Agreed Amount (₦) </p>
@@ -585,20 +740,11 @@ const ProductDetailPage = () => {
                       type='text' 
                       className='border border-gray-300 text-base px-3 py-1.5 w-full rounded-md'
                       placeholder='₦285,000'
+                      defaultValue={product.price.toLocaleString()}
                     />
                   </form>
                   <small> Enter the final price you and the seller agreed on </small>
                 </div>
-                {/* <div className="flex items-center gap-4 text-gray-600 mb-3">
-                  <span className="bg-gray-100 px-3 py-1 rounded text-sm">{product.condition}</span>
-                  <span className="flex items-center">
-                    <svg className="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
-                    </svg>
-                    {product.location}
-                  </span>
-                </div> */}
               </div>
 
               {/* Payment Breakdown */}
@@ -646,25 +792,6 @@ const ProductDetailPage = () => {
                   </li>
                 </ol>
               </div>
-
-              {/* Benefits */}
-              {/* <div className="mb-6">
-                <h4 className="font-bold mb-3">Benefits of Using Escrow</h4>
-                <ul className="space-y-2 text-sm">
-                  <li className="flex items-start gap-2">
-                    <Check className="text-green-600 mt-0.5" size={16} />
-                    <span>Your payment is protected until you receive the item.</span>
-                  </li>
-                  <li className="flex items-start gap-2">
-                    <Check className="text-green-600 mt-0.5" size={16} />
-                    <span>Fraud prevention and secure transaction.</span>
-                  </li>
-                  <li className="flex items-start gap-2">
-                    <Check className="text-green-600 mt-0.5" size={16} />
-                    <span>7-day return policy for defective items.</span>
-                  </li>
-                </ul>
-              </div> */}
             </div>
 
             {/* Modal Footer */}
@@ -686,6 +813,73 @@ const ProductDetailPage = () => {
               <p className="text-xs text-gray-500 text-center mt-3">
                 By proceeding, you agree to our Terms of Service and Privacy Policy.
               </p>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Login Prompt Modal */}
+      {showLoginPrompt && (
+        <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-90 p-4">
+          <div className="bg-white rounded-lg shadow-xl max-w-md w-full">
+            <div className="p-6">
+              <div className="text-center mb-6">
+                <div className="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-4">
+                  <Shield className="text-primary" size={32} />
+                </div>
+                <h3 className="text-xl font-bold mb-2">Authentication Required</h3>
+                <p className="text-gray-600">
+                  Please login or create an account to add items to your cart, wishlist, or make purchases.
+                </p>
+              </div>
+
+              <div className="space-y-3">
+                <button
+                  onClick={handleLoginRedirect}
+                  className="w-full btn"
+                >
+                  Login to Your Account
+                </button>
+                <button
+                  onClick={handleSignupRedirect}
+                  className="w-full btn btn-tertiary"
+                >
+                  Create New Account
+                </button>
+              </div>
+
+              <div className="mt-6 pt-6 border-t border-gray-200">
+                <p className="text-sm text-gray-500 text-center">
+                  By creating an account, you'll be able to:
+                </p>
+                <ul className="mt-3 space-y-2 text-sm">
+                  <li className="flex items-center gap-2">
+                    <Check className="text-green-500" size={16} />
+                    <span>Save items to your wishlist</span>
+                  </li>
+                  <li className="flex items-center gap-2">
+                    <Check className="text-green-500" size={16} />
+                    <span>Add items to your cart</span>
+                  </li>
+                  <li className="flex items-center gap-2">
+                    <Check className="text-green-500" size={16} />
+                    <span>Make secure purchases with escrow</span>
+                  </li>
+                  <li className="flex items-center gap-2">
+                    <Check className="text-green-500" size={16} />
+                    <span>Track your orders</span>
+                  </li>
+                </ul>
+              </div>
+            </div>
+
+            <div className="p-4 bg-gray-50 border-t border-gray-200">
+              <button
+                onClick={() => setShowLoginPrompt(false)}
+                className="w-full text-sm text-gray-600 hover:text-gray-800"
+              >
+                Continue Browsing
+              </button>
             </div>
           </div>
         </div>

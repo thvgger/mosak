@@ -183,8 +183,8 @@ const MarketplacePage = () => {
           />
           <div className="absolute inset-y-0 left-0 w-4/5 max-w-sm bg-white overflow-y-auto">
             <div className="p-4">
-              <div className="flex justify-between items-center mb-4">
-                <h2 className="text-xl font-bold">Filters</h2>
+              <div className="flex justify-end items-center mb-4">
+                {/* <h2 className="text-xl font-bold">Filters</h2> */}
                 <button 
                   onClick={() => setShowMobileFilters(false)}
                   className="text-gray-500 hover:text-gray-700"
