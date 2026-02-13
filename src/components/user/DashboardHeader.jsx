@@ -13,7 +13,6 @@ const DashboardHeader = () => {
         </button>
         <Link to="/" className=" flex-1">
           <img src={logo} alt='' className='h-fit w-40' />
-          {/* <h1 className="text-2xl font-bold text-gray-800"> MosalakHub </h1> */}
         </Link>
 
         {/* <div className="flex items-center">

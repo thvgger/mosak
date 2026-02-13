@@ -16,7 +16,7 @@ const JoinCommunity = () => {
           <h2 className='section-title'> Join the Mosalak Community </h2>
           <p> Earn points on every transaction. Unlock exclusive rewards and badges. </p>
           <h4 className='font-semibold text-2xl'> Up to 25% OFF </h4>
-          <div className='flex items-center gap-3 md:mt-8'>
+          <div className='flex items-center gap-3 md:mt-6'>
             <button className='btn btn-secondary'> Join Community </button>
             <button className='btn btn-tertiary text-white border-white'> View Rewards </button>
           </div>

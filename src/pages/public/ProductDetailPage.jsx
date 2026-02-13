@@ -3,8 +3,10 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { useMarketplace } from '../../contexts/MarketplaceContext';
 import { useAuth } from '../../contexts/AuthContext';
 import { useShopping } from '../../contexts/ShoppingContext';
+import { useAuthModal } from '../../contexts/AuthModalContext'; // Add this import
 import car from "../../assets/car.png";
-import { Heart, Share2, ShieldBan, ShoppingCart, Truck, Box, RotateCcw, ShieldCheck, Check, X, Shield, MessageCircle, Star } from 'lucide-react';
+import avatarImg from "../../assets/avatar.png"; // Add this import if needed
+import { Heart, Share2, ShoppingCart, Truck, Box, RotateCcw, ShieldCheck, Shield, MessageCircle, Star, ArrowRight } from 'lucide-react';
 import pattern from "../../assets/pattern.png";
 
 const ProductDetailPage = () => {
@@ -12,6 +14,8 @@ const ProductDetailPage = () => {
   const navigate = useNavigate();
   const { getProductById } = useMarketplace();
   const { isAuthenticated, user } = useAuth();
+  const { openModal } = useAuthModal(); // Use the global modal context
+  
   const { 
     cart, 
     wishlist, 
@@ -27,7 +31,6 @@ const ProductDetailPage = () => {
   const [isLightboxOpen, setIsLightboxOpen] = useState(false);
   const [isEscrowModalOpen, setIsEscrowModalOpen] = useState(false);
   const [activeTab, setActiveTab] = useState("details");
-  const [showLoginPrompt, setShowLoginPrompt] = useState(false);
   
   const product = getProductById(id);
   const images = product?.images || [];
@@ -69,7 +72,10 @@ const ProductDetailPage = () => {
   
   const handleAddToCart = () => {
     if (!isAuthenticated) {
-      setShowLoginPrompt(true);
+      openModal("login", () => {
+        // This callback runs after successful login
+        handleAddToCart();
+      });
       return;
     }
     
@@ -80,7 +86,10 @@ const ProductDetailPage = () => {
   
   const handleWishlistToggle = () => {
     if (!isAuthenticated) {
-      setShowLoginPrompt(true);
+      openModal("login", () => {
+        // This callback runs after successful login
+        handleWishlistToggle();
+      });
       return;
     }
     
@@ -112,7 +121,10 @@ const ProductDetailPage = () => {
 
   const handleEscrowPurchase = () => {
     if (!isAuthenticated) {
-      setShowLoginPrompt(true);
+      openModal("login", () => {
+        // This callback runs after successful login
+        handleEscrowPurchase();
+      });
       return;
     }
     setIsEscrowModalOpen(true);
@@ -120,7 +132,10 @@ const ProductDetailPage = () => {
 
   const proceedToCheckout = () => {
     if (!isAuthenticated) {
-      setShowLoginPrompt(true);
+      openModal("login", () => {
+        // This callback runs after successful login
+        proceedToCheckout();
+      });
       setIsEscrowModalOpen(false);
       return;
     }
@@ -137,7 +152,10 @@ const ProductDetailPage = () => {
   // Handle direct checkout without escrow modal
   const handleDirectCheckout = () => {
     if (!isAuthenticated) {
-      setShowLoginPrompt(true);
+      openModal("login", () => {
+        // This callback runs after successful login
+        handleDirectCheckout();
+      });
       return;
     }
     
@@ -146,27 +164,6 @@ const ProductDetailPage = () => {
     }
     
     navigate('/checkout');
-  };
-
-  // Handle login prompt actions
-  const handleLoginRedirect = () => {
-    setShowLoginPrompt(false);
-    navigate('/login', { 
-      state: { 
-        from: `/product/${id}`,
-        message: 'Please login to continue' 
-      } 
-    });
-  };
-
-  const handleSignupRedirect = () => {
-    setShowLoginPrompt(false);
-    navigate('/signup', { 
-      state: { 
-        from: `/product/${id}`,
-        message: 'Create an account to continue' 
-      } 
-    });
   };
 
   return (
@@ -195,8 +192,8 @@ const ProductDetailPage = () => {
         {/* User greeting (if logged in) */}
         {isAuthenticated && user && (
           <div className="mb-4 bg-primary/5 p-3 rounded-lg">
-            <p className="text-sm">
-              Welcome back, <span className="font-semibold">{user.name}</span>! Ready to purchase?
+            <p className="text-sm text-dark/80">
+              Welcome back, <span className="font-semibold text-dark">{user.name}</span>! Ready to purchase?
             </p>
           </div>
         )}
@@ -325,28 +322,6 @@ const ProductDetailPage = () => {
 
               <hr className='w-full border-px border-dark/10 flex items-center my-6' />
 
-              {/* Quantity Selector */}
-              {/* <div className="mb-4">
-                <label className="block text-sm font-medium text-gray-700 mb-2">Quantity</label>
-                <div className="flex items-center gap-2">
-                  <button
-                    onClick={() => setQuantity(prev => Math.max(1, prev - 1))}
-                    className="w-10 h-10 flex items-center justify-center border border-gray-300 rounded-lg hover:bg-gray-50"
-                  >
-                    -
-                  </button>
-                  <span className="w-16 h-10 flex items-center justify-center border border-gray-300 rounded-lg">
-                    {quantity}
-                  </span>
-                  <button
-                    onClick={() => setQuantity(prev => prev + 1)}
-                    className="w-10 h-10 flex items-center justify-center border border-gray-300 rounded-lg hover:bg-gray-50"
-                  >
-                    +
-                  </button>
-                </div>
-              </div> */}
-
               {/* Action Buttons */}
               <div className="flex items-center justify-between gap-4 mb-6">
                 <div className='flex items-center gap-2'>
@@ -368,17 +343,9 @@ const ProductDetailPage = () => {
                     <ShoppingCart size={18} strokeWidth={1.5} />
                     {isInCart ? `In Cart (${cartQuantity})` : 'Add to Cart'}
                   </button>
-
-                  {/* Quick Buy Button */}
-                  {/* <button
-                    onClick={handleDirectCheckout}
-                    className="btn btn-text"
-                  >
-                    Quick Buy
-                  </button> */}
                 </div>
 
-                <div className='flex items-center gap-2.5'>
+                <div className='flex items-center gap-1'>
                   <button 
                     onClick={handleWishlistToggle}
                     className={`p-2 rounded-full ${isInWishlist ? 'bg-red-50 text-red-500' : 'hover:bg-gray-100'}`}
@@ -413,7 +380,7 @@ const ProductDetailPage = () => {
               )}
 
               <div className='bg-primary/20 text-dark p-4 px-6 rounded-t-xl'>
-                <strong className='flex items-center gap-1 mb-1.5'><Shield size={18} strokeWidth={2} className='text-primary' /> Escrow Protection Active </strong>
+                <strong className='flex items-center gap-1.5 mb-1.5'><Shield size={18} strokeWidth={2} className='text-primary' /> Escrow Protection Active </strong>
                 <p className='text-sm text-dark/60 leading-relaxed'> Your payment is held securely until you confirm receipt. Buy with confidence. </p>
               </div>
             </div>
@@ -457,7 +424,7 @@ const ProductDetailPage = () => {
 
           {/* Product Details Tabs */}
           <div className="mt-6 space-y-6">
-            <div className="flex border-b border-gray-200 overflow-x-auto scrolbar-hide" >
+            <div className="flex border-b border-gray-200 overflow-x-auto scrollbar-hide" >
               {[
                 { key: "details", label: "Details" },
                 { key: "specs", label: "Specifications" },
@@ -504,15 +471,15 @@ const ProductDetailPage = () => {
 
                   <table className="w-full text-sm border border-gray-200 rounded-lg overflow-hidden">
                     <tbody>
-                      <tr className="border-b">
+                      <tr className="border-b border-gray-300">
                         <td className="p-3 text-gray-600">Brand</td>
                         <td className="p-3 font-medium">{product.brand}</td>
                       </tr>
-                      <tr className="border-b">
+                      <tr className="border-b border-gray-300">
                         <td className="p-3 text-gray-600">Year</td>
                         <td className="p-3 font-medium">{product.year}</td>
                       </tr>
-                      <tr className="border-b">
+                      <tr className="border-b border-gray-300">
                         <td className="p-3 text-gray-600">Mileage</td>
                         <td className="p-3 font-medium">
                           {product.mileage?.toLocaleString()} km
@@ -548,7 +515,6 @@ const ProductDetailPage = () => {
                         </div>
                         <span className='w-px h-30 bg-gray-400'></span>
 
-                        {/* <div className='w-full flex items-start gap-2'> */}
                         <div className='w-full flex flex-col items-start gap-0'>
                           <div className='w-full flex items-center justify-start gap-2 text-nowrap'> 
                             <span className="w-16"> 5 Star </span>
@@ -576,20 +542,23 @@ const ProductDetailPage = () => {
                             <span className='ml-auto'> (1) </span>
                           </div>
                         </div>
-
-                          {/* <div className='w-full h-full flex flex-col items-center justify-between gap-1 bg-yellow-300'>
-                            <span className='h-2 w-[80%] bg-primary rounded-full block'></span>
-                            <span className='h-2 w-full bg-primary rounded-full block'></span>
-                            <span className='h-2 w-full bg-primary rounded-full block'></span>
-                            <span className='h-2 w-full bg-primary rounded-full block'></span>
-                          </div> */}
-                        {/* </div> */}
-
                       </div>
 
                       {/* Remarks */}
                       <div className='flex flex-col items-start gap-2 border-t border-gray-400 pt-4'>
                         <span> Stacey </span>
+                        <span> ⭐⭐⭐⭐ </span>
+                        <p className='text-sm'> 
+                          I bought it 3 weeks ago and now come back just to say "Awesome Product". I really enjoy it. At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupt et quas molestias excepturi sint non provident.
+                        </p>
+
+                        <div className='text-sm space-x-4 font-medium'>
+                          <span> Stacey Sam </span>
+                          <span> 21-12-2025 </span>
+                        </div>
+                      </div>
+                      <div className='flex flex-col items-start gap-2 border-t border-gray-400 pt-4'>
+                        <span> James </span>
                         <span> ⭐⭐⭐⭐ </span>
                         <p className='text-sm'> 
                           I bought it 3 weeks ago and now come back just to say "Awesome Product". I really enjoy it. At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupt et quas molestias excepturi sint non provident.
@@ -612,7 +581,7 @@ const ProductDetailPage = () => {
                         </button>
                       ) : (
                         <button 
-                          onClick={() => setShowLoginPrompt(true)}
+                          onClick={() => openModal("login")}
                           className="btn btn-text"
                         >
                           Login to Review
@@ -642,21 +611,60 @@ const ProductDetailPage = () => {
                     </div>
                   </div>
                   <div className="flex flex-col items-start gap-2 text-sm text-gray-600 mb-3">
-                    Location:
-                    Response Rate:
+                    <div> Location: {product.location} </div>
+                    <div> Response Rate: </div>
                     <div className="flex items-center">
                       Rating: {product.seller.rating}
                     </div>
-                    <span>Member since 2024</span>
                   </div>
+                  {/* Chat with seller button - now using global modal */}
                   <button 
                     className='btn btn-tertiary' 
                     onClick={() => {
                       if (!isAuthenticated) {
-                        setShowLoginPrompt(true);
+                        openModal("login", () => {
+                          // This callback runs after successful login
+                          navigate("/account/messages", { 
+                            state: { 
+                              product: {
+                                id: product.id,
+                                name: product.title,
+                                image: product.images?.[0] || car,
+                                price: product.price,
+                                status: 'available',
+                                seller: product.seller
+                              },
+                              seller: {
+                                id: `seller_${product.id}`,
+                                name: product.seller?.name || 'Seller',
+                                avatar: product.seller?.avatar || avatarImg,
+                                verified: product.seller?.verified || false,
+                                rating: product.seller?.rating || 4.0
+                              }
+                            }
+                          });
+                        });
                         return;
                       }
-                      navigate("/messages")
+                      navigate("/account/messages", { 
+                        state: { 
+                          product: {
+                            id: product.id,
+                            name: product.title,
+                            image: product.images?.[0] || car,
+                            price: product.price,
+                            status: 'available',
+                            seller: product.seller
+                          },
+                          seller: {
+                            id: `seller_${product.id}`,
+                            name: product.seller?.name || 'Seller',
+                            avatar: product.seller?.avatar || avatarImg,
+                            verified: product.seller?.verified || false,
+                            rating: product.seller?.rating || 4.0
+                          }
+                        }
+                      });
                     }}
                   >
                     <MessageCircle size={16} strokeWidth={1.75} /> Chat with seller
@@ -666,7 +674,7 @@ const ProductDetailPage = () => {
             </div>
 
             {/* How Escrow Works */}
-            <div className='p-4 bg-primary/50 rounded-lg relative'>
+            <div className='p-4 bg-primary/30 rounded-lg relative'>
               <div className='absolute z-0 inset-0 opacity-15' style={{
               backgroundImage: `url(${pattern})`,
               backgroundSize: "cover",
@@ -688,14 +696,15 @@ const ProductDetailPage = () => {
                   4. <span> Payment released to seller after confirmation </span>
                 </li>
               </ul>
+              <button className='btn relative mt-4 z-10'> Read Full Details <ArrowRight size={18} /> </button>
             </div>
 
             {/* Return Policy */}
-            <div className='bg-primary/10 p-4 rounded-sm'>
+            <div className='bg-primary/10 p-4 rounded-lg'>
               <h3> Return Policy </h3>
               <p> 7-day return for items that are defective or not as described. </p>
-              <button className='btn btn-text'>
-                Read Full Policy
+              <button onClick={() => {navigate("/return-policy")}} className='text-sm flex items-center gap-1 text-primary mt-4 cursor-pointer'>
+                Read Full Policy <ArrowRight size={16} strokeWidth={1} />
               </button>
             </div>
           </div>
@@ -729,7 +738,7 @@ const ProductDetailPage = () => {
                 onClick={() => setIsEscrowModalOpen(false)}
                 className=" hover:bg-gray-100/30 rounded-full p-1 cursor-pointer"
               >
-                <X size={24} />
+                ✕
               </button>
             </div>
 
@@ -848,72 +857,7 @@ const ProductDetailPage = () => {
         </div>
       )}
 
-      {/* Login Prompt Modal */}
-      {showLoginPrompt && (
-        <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-90 p-4">
-          <div className="bg-white rounded-lg shadow-xl max-w-md w-full">
-            <div className="p-6">
-              <div className="text-center mb-6">
-                <div className="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-4">
-                  <Shield className="text-primary" size={32} />
-                </div>
-                <h3 className="text-xl font-bold mb-2">Authentication Required</h3>
-                <p className="text-gray-600">
-                  Please login or create an account to add items to your cart, wishlist, or make purchases.
-                </p>
-              </div>
-
-              <div className="space-y-3">
-                <button
-                  onClick={handleLoginRedirect}
-                  className="w-full btn"
-                >
-                  Login to Your Account
-                </button>
-                <button
-                  onClick={handleSignupRedirect}
-                  className="w-full btn btn-tertiary"
-                >
-                  Create New Account
-                </button>
-              </div>
-
-              <div className="mt-6 pt-6 border-t border-gray-200">
-                <p className="text-sm text-gray-500 text-center">
-                  By creating an account, you'll be able to:
-                </p>
-                <ul className="mt-3 space-y-2 text-sm">
-                  <li className="flex items-center gap-2">
-                    <Check className="text-green-500" size={16} />
-                    <span>Save items to your wishlist</span>
-                  </li>
-                  <li className="flex items-center gap-2">
-                    <Check className="text-green-500" size={16} />
-                    <span>Add items to your cart</span>
-                  </li>
-                  <li className="flex items-center gap-2">
-                    <Check className="text-green-500" size={16} />
-                    <span>Make secure purchases with escrow</span>
-                  </li>
-                  <li className="flex items-center gap-2">
-                    <Check className="text-green-500" size={16} />
-                    <span>Track your orders</span>
-                  </li>
-                </ul>
-              </div>
-            </div>
-
-            <div className="p-4 bg-gray-50 border-t border-gray-200">
-              <button
-                onClick={() => setShowLoginPrompt(false)}
-                className="w-full text-sm text-gray-600 hover:text-gray-800"
-              >
-                Continue Browsing
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
+      {/* REMOVED Login Prompt Modal - Now handled globally */}
     </div>
   );
 };

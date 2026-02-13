@@ -11,6 +11,14 @@ const MOCK_USERS = [
     name: 'John Doe',
     role: 'buyer',
     phone: '+1234567890'
+  },
+  {
+    id: 2,
+    email: 'sam@example.com',
+    password: 'password123',
+    name: 'Sam Doe',
+    role: 'buyer',
+    phone: '+1234567890'
   }
 ];
 

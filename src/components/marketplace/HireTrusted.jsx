@@ -73,7 +73,7 @@ const HireTrusted = () => {
     <section className='py-8 md:py-12 bg-white'>
       <div className='container'>
         {/* Header */}
-        <div className='flex items-center justify-between mb-8'>
+        <div className='flex items-center justify-between mb-4 md:mb-8'>
           <div className="flex items-center gap-4">
             <span className="w-1 h-8 bg-primary rounded-full"></span>
             <h2 className="text-xl md:text-2xl font-bold text-gray-900 mb-0"> 
@@ -88,7 +88,7 @@ const HireTrusted = () => {
         </div>
 
         {/* Services Grid */}
-        <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4'>
+        <div className='grid grid-cols-2 lg:grid-cols-4 gap-2 sm:gap-4'>
           {services.map((service) => (
             <div key={service.id} 
               className="border border-primary/20 overflow-hidden rounded-md hover:shadow-lg transition-shadow duration-300"
@@ -99,7 +99,7 @@ const HireTrusted = () => {
               </div>
 
               {/* User Info */}
-              <div className='flex items-center justify-between px-2 mb-4'>
+              <div className='flex flex-col sm:flex-row items-start sm:items-center justify-between px-2 mb-4'>
                 <p className='text-lg font-semibold'> {service.userName} </p>
                 <span className={`p-1 px-2 rounded text-xs bg-primary/10 flex items-center gap-1 ${getBadgeColor(service.rank)}`}>
                   <img src={service.icon} className='h-4 w-fit'/> 
@@ -109,8 +109,7 @@ const HireTrusted = () => {
 
               {/* Service Icon & Title */}
               <div className="flex flex-col items-start gap-1 justify-between px-2 mb-2">
-                <h4 className="text-sm font-medium">{service.title}</h4>
-                <p className="text-sm"> {service.bio} </p>
+                <p className="text-sm line-clamp-1"> {service.bio} </p>
               </div>
 
               {/* Rating */}
@@ -123,7 +122,7 @@ const HireTrusted = () => {
               </div>
 
               {/* Price */}
-              <div className="flex items-center gap-1.5 px-2 mb-4">
+              <div className="flex flex-wrap items-center gap-1.5 px-2 mb-4">
                 <p className="text-sm">Starting at</p>
                 <p className="text-lg font-bold text-primary"> ₦{service.price}</p>
               </div>

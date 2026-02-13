@@ -69,7 +69,7 @@ const MarketplacePage = () => {
   };
 
   return (
-    <section className="min-h-screen bg-gray-50">
+    <section className="min-h-screen bg-gray-50 pb-6">
       <div className='bg-[#eaeaea]'>
         <SearchBar onSearch={handleSearch} />
       </div>
@@ -107,14 +107,14 @@ const MarketplacePage = () => {
           </div>
 
           {/* Products Content */}
-          <div className="flex-1 bg-white p-4 rounded-2xl shadow-md">
+          <div className="flex-1 md:bg-white md:p-4 md:rounded-2xl md:shadow-md">
             {/* Toolbar */}
             <div className="mb-2 flex justify-between items-center">
               <div>
                 <h4 className="text-base font-medium">
                   {/* Show "All Products" when no category filter is active */}
                   {currentCategory ? currentCategory.name : 'All Products'}
-                  <span className="text-gray-500 font-normal ml-1.5">
+                  <span className="text-gray-500 font-normal text-sm ml-1.5">
                     ({pagination.total} products found)
                   </span>
                 </h4>

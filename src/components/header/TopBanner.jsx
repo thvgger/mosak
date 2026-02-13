@@ -3,7 +3,7 @@ import { ChevronRight } from 'lucide-react';
 
 const TopBanner = () => {
   return (
-    <div className='bg-white px-4 md:px-10 py-2 text-center text-sm text-white hidden md:flex'>
+    <div className='bg-white px-4 md:px-5 py-2 text-center text-sm text-white hidden md:flex'>
       <div className="container bg-linear-to-r from-[#006eff] via-[#0F1BFF]/70 to-[#020FFF]/70 rounded-2xl flex items-center justify-between">
         <span className='px-8 py-2.5 md:py-4 text-sm md:text-base md:font-medium'>
           {/* Stop doing everything.  */}

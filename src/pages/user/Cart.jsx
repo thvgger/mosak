@@ -7,6 +7,7 @@ import {
   Minus, 
   ArrowLeft, 
   Shield, 
+  ShieldBan,
   Package, 
   Truck,
   X,
@@ -178,21 +179,35 @@ const Cart = () => {
   return (
     <div className="min-h-screen bg-gray-50 py-8">
       <div className="container mx-auto px-4">
+        {/* Breadcrumb */}
+        <div className="mb-6 text-sm text-gray-600 text-nowrap overflow-x-auto scrollbar-hide">
+          <button onClick={() => navigate('/')} className="hover:text-blue-600">
+            Home
+          </button>
+          <span className="mx-2">  &rsaquo; </span>
+          <button onClick={() => navigate('/cart')} className="hover:text-blue-600">
+            Cart
+          </button>
+        </div>
+
         {/* Header */}
         <div className="mb-8">
-          <button
+          {/* <button
             onClick={() => navigate('/marketplace')}
             className="inline-flex items-center gap-2 text-gray-600 hover:text-gray-900 mb-4"
           >
             <ArrowLeft size={20} />
             Continue Shopping
-          </button>
+          </button> */}
           <div className="flex items-center justify-between">
-            <h1 className="text-3xl font-bold">Shopping Cart</h1>
+            <h3 className="text-lg font-semibold">
+              My Cart 
+              ({cartItemCount} {cartItemCount === 1 ? 'item' : 'items'})
+            </h3>
             <div className="flex items-center gap-4">
-              <span className="text-gray-600">
+              {/* <span className="text-gray-600">
                 {cartItemCount} {cartItemCount === 1 ? 'item' : 'items'}
-              </span>
+              </span> */}
               <button
                 onClick={handleClearCart}
                 className={`flex items-center gap-2 px-4 py-2 rounded-lg transition ${
@@ -220,7 +235,11 @@ const Cart = () => {
           {/* Cart Items */}
           <div className="lg:w-2/3">
             {/* Cart Summary Banner */}
-            <div className="bg-primary/5 border border-primary/20 rounded-xl p-4 mb-6">
+            <div className='bg-primary/20 p-4 rounded-lg mb-2'>
+              <h4 className='flex items-center gap-1 mb-2'> <ShieldBan size={20} strokeWidth={1.5} className='text-primary' /> Protected by Escrow </h4>
+              <p> Your payment is held securely until you confirm delivery </p>
+            </div>
+            {/* <div className="bg-primary/5 border border-primary/20 rounded-xl p-4 mb-6">
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-3">
                   <div className="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center">
@@ -241,7 +260,7 @@ const Cart = () => {
                   {checkoutLoading ? 'Processing...' : 'Checkout Now'}
                 </button>
               </div>
-            </div>
+            </div> */}
 
             {/* Cart Items List */}
             <div className="bg-white rounded-xl shadow-sm overflow-hidden">

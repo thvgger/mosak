@@ -1,4 +1,4 @@
-import React from 'react'
+import React from 'react';
 import { Route, Routes } from 'react-router-dom';
 
 // Public Routes
@@ -27,17 +27,19 @@ import Wallet from '../pages/user/Wallet.jsx';
 import Disputes from '../pages/user/Disputes.jsx';
 import Notifications from '../pages/user/Notifications.jsx';
 import Profile from '../pages/user/Profile.jsx';
+import Settings from '../pages/user/Settings.jsx';
+import AccountHelp from '../pages/user/AccountHelp.jsx';
 
-// Auth Components
-// import LoginPage from '../pages/public/LoginPage.jsx';
-// import SignupPage from '../pages/public/SignupPage.jsx';
+// Community Routes
+import CommunityRoutes from '../pages/community';
 
 import NotFound from '../pages/NotFound.jsx';
 import ProtectedRoute from '../components/ProtectedRoute';
 
 const AppRoutes = () => {
   return (
-    <Routes className="font-body">
+    <Routes>
+      {/* Public Routes */}
       <Route path='/' element={<PublicLayout />}>
         <Route index element={<Home />} />
         <Route path="/marketplace" element={<MarketPlace />} />
@@ -47,16 +49,26 @@ const AppRoutes = () => {
         </Route>
         <Route path="/product/:id" element={<ProductDetailPage />} />
         <Route path="/freelancers" element={<Freelancers />} />
-        <Route path="/community" element={<Community />} />
+        
+        {/* Updated Community Route - Now uses nested routes */}
+        <Route path="/community/*" element={<CommunityRoutes />} />
+        
         <Route path="/postings" element={<Postings />} />
         <Route path="/leaderboards" element={<Leaderboards />} />
         <Route path="/help-center" element={<HelpCenter />} />
         <Route path="/faqs" element={<Faqs />} />
         <Route path="/contact" element={<Contact />} />
         
-        {/* Auth Pages */}
-        {/* <Route path="/login" element={<LoginPage />} />
-        <Route path="/signup" element={<SignupPage />} /> */}
+        <Route path="/cart" element={
+          <ProtectedRoute>
+            <Cart />
+          </ProtectedRoute>
+        } />
+        <Route path="/wishlist" element={
+          <ProtectedRoute>
+            <Wishlist />
+          </ProtectedRoute>
+        } />
         
         <Route path='*' element={<NotFound />} />
       </Route>
@@ -74,20 +86,10 @@ const AppRoutes = () => {
         <Route path="wallet" element={<Wallet />} />
         <Route path="disputes" element={<Disputes />} />
         <Route path="notifications" element={<Notifications />} />
-        <Route path="profile" element={<Profile />} />
+        <Route path="settings" element={<Settings />} />
+        <Route path="help" element={<AccountHelp />} />
       </Route>
 
-      {/* Protected Shopping Routes */}
-      <Route path="/cart" element={
-        <ProtectedRoute>
-          <Cart />
-        </ProtectedRoute>
-      } />
-      <Route path="/wishlist" element={
-        <ProtectedRoute>
-          <Wishlist />
-        </ProtectedRoute>
-      } />
       <Route path="/checkout/*" element={
         <ProtectedRoute>
           <Checkout />

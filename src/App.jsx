@@ -2,18 +2,23 @@ import AppRoutes from "./routes/AppRoutes";
 import { BrowserRouter } from "react-router-dom";
 import { MarketplaceProvider } from './contexts/MarketplaceContext';
 import { AuthProvider } from './contexts/AuthContext';
+import { AuthModalProvider } from './contexts/AuthModalContext';
 import { ShoppingProvider } from './contexts/ShoppingContext';
+import GlobalAuthModal from "./components/common/GlobalAuthModal";
 
 function App() {
   return (
     <BrowserRouter>
-      <AuthProvider>
-        <ShoppingProvider>
-          <MarketplaceProvider>
-            <AppRoutes />
-          </MarketplaceProvider>
-        </ShoppingProvider>
-      </AuthProvider>
+      <AuthModalProvider>
+        <AuthProvider>
+          <ShoppingProvider>
+            <MarketplaceProvider>
+              <GlobalAuthModal />
+              <AppRoutes />
+            </MarketplaceProvider>
+          </ShoppingProvider>
+        </AuthProvider>
+      </AuthModalProvider>
     </BrowserRouter>
   )
 }

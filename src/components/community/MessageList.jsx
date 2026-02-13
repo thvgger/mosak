@@ -1,12 +1,7 @@
 const MessageList = () => {
   return (
-    <div className="flex-1 overflow-y-auto p-6 space-y-6">
-      {/* System Message */}
-      <div className="bg-primary/10 p-4 rounded-lg text-sm">
-        🔒 Payment held in escrow for Order #MOS-2847
-        <span className="block text-xs text-gray-500 mt-1">10:45 AM</span>
-      </div>
 
+    <div className="p-4 md:p-6 space-y-4 md:space-y-6">
       <Message
         name="Chioma Adeleke"
         badge="Gold"
@@ -18,7 +13,7 @@ const MessageList = () => {
         name="Tunde Bakere"
         badge="Silver"
         role="Buyer"
-        message="Congratulations Chioma! I’ll check it out. Has anyone tried the new search filters?"
+        message="Congratulations Chioma! I'll check it out. Has anyone tried the new search filters?"
       />
 
       <Message
@@ -33,30 +28,31 @@ const MessageList = () => {
 
 export default MessageList;
 
+
 /* Message Component */
 const Message = ({ name, badge, role, message }) => (
-  <div className="flex gap-4">
-    <div className="w-10 h-10 rounded-full bg-primary text-white flex items-center justify-center font-bold">
+  <div className="flex gap-3 md:gap-4">
+    <div className="w-8 h-8 md:w-10 md:h-10 rounded-full bg-primary text-white flex items-center justify-center font-bold text-sm md:text-base shrink-0">
       {name[0]}
     </div>
 
-    <div className="flex-1">
-      <div className="flex items-center gap-2">
-        <span className="font-semibold">{name}</span>
-        <span className="text-xs bg-yellow-100 px-2 rounded">
+    <div className="flex-1 min-w-0">
+      <div className="flex flex-wrap items-center gap-1 md:gap-2">
+        <span className="font-semibold text-sm md:text-base">{name}</span>
+        <span className="text-xs bg-yellow-100 px-2 rounded whitespace-nowrap">
           {badge}
         </span>
-        <span className="text-xs bg-gray-100 px-2 rounded">
+        <span className="text-xs bg-gray-100 px-2 rounded whitespace-nowrap">
           {role}
         </span>
-        <span className="text-xs text-gray-400">10:24 AM</span>
+        <span className="text-xs text-gray-400 ml-auto whitespace-nowrap">10:24 AM</span>
       </div>
 
-      <p className="text-gray-700 mt-1">{message}</p>
+      <p className="text-gray-700 mt-1 text-sm md:text-base wrap-break-words">{message}</p>
 
       <div className="flex gap-2 mt-2 text-sm">
-        <button className="px-2 py-1 bg-gray-100 rounded">👍 5</button>
-        <button className="px-2 py-1 bg-gray-100 rounded">🔥 3</button>
+        <button className="px-2 py-1 bg-gray-100 rounded text-xs md:text-sm">👍 5</button>
+        <button className="px-2 py-1 bg-gray-100 rounded text-xs md:text-sm">🔥 3</button>
       </div>
     </div>
   </div>

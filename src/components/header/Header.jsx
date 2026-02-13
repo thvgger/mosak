@@ -1,47 +1,30 @@
-import { useState, useRef } from "react";
-import { Link, NavLink, useLocation, useNavigate } from "react-router-dom";
+import { useState, useRef, useEffect } from "react";
+import { Link, NavLink, useNavigate } from "react-router-dom";
 import Logo from "../../assets/mosalak-logo.png";
-import { X, Menu } from 'lucide-react';
-import RolePopup from "./RolePopup";
-import SignupPopup from "./SignupPopup";
-import LoginPopup from "./LoginPopup";
+import avatar from "../../assets/avatar.png";
+import { X, Menu, MessageSquare, Bell } from 'lucide-react';
 import { ShoppingCart, Heart, ChevronDown } from 'lucide-react';
 import AccountPopup from "./AccountPopup";
 import { useAuth } from "../../contexts/AuthContext";
 import { useShopping } from "../../contexts/ShoppingContext";
+import { useAuthModal } from "../../contexts/AuthModalContext"; 
 
-const Header = () => {
+const Header = ({ isAccount }) => {
   const { user, logout, isAuthenticated } = useAuth();
-  const { cartItemCount, wishlist, cartTotal } = useShopping();
+  const { cartItemCount, wishlist } = useShopping();
+  const { openModal } = useAuthModal();
+  
   const [accountPopup, setAccountPopup] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [activePopup, setActivePopup] = useState(null);
-  const [selectedRole, setSelectedRole] = useState(null);
+  
   const navigate = useNavigate();
-
   const accountRef = useRef();
-  const location = useLocation();
-  const isHome = location.pathname === '/';
+  
 
   const navlink = ({isActive}) => isActive ? 
     "text-primary font-medium text-sm text-gray-700 hover:text-primary underline" : 
     "font-medium text-sm text-gray-700 hover:text-primary";
 
-  const handleClosePopup = () => {
-    setActivePopup(null);
-    setSelectedRole(null);
-  };
-
-  const handleBackdropClick = (e) => {
-    if (e.target === e.currentTarget) {
-      handleClosePopup();
-    }
-  };
-
-  const handleRoleContinue = (role) => {
-    setSelectedRole(role);
-    setActivePopup("signup");
-  };
 
   const handleLogout = () => {
     logout();
@@ -49,16 +32,32 @@ const Header = () => {
     navigate('/');
   };
 
-  // Handle successful login
-  const handleLoginSuccess = () => {
-    setActivePopup(null);
-  };
 
-  // Handle successful signup
-  const handleSignupSuccess = () => {
-    setActivePopup(null);
-    setSelectedRole(null);
-  };
+  // Close account popup when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      // Check if accountPopup is open and click is outside the accountRef
+      if (accountPopup && accountRef.current && !accountRef.current.contains(event.target)) {
+        setAccountPopup(false);
+      }
+    };
+
+    // Add event listener
+    document.addEventListener('mousedown', handleClickOutside);
+    
+    // Cleanup
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [accountPopup]); 
+
+  
+  useEffect(() => {
+    if (isMenuOpen) {
+      setAccountPopup(false);
+    }
+  }, [isMenuOpen]);
+  
 
   return (
     <>
@@ -80,40 +79,51 @@ const Header = () => {
           {/* User Actions */}
           <div className="w-fit flex items-center justify-end gap-2.5">
             {isAuthenticated ? (
-              <div className="flex items-center gap-6">
-                <div className="space-x-4 flex">
-                  <Link to="/cart" className="text-sm text-dark/80 flex items-center gap-2 cursor-pointer relative"> 
-                    <span className="hidden md:inline-flex"> Cart </span>
-                    <ShoppingCart size={22} strokeWidth={1.5} className="text-primary" />
-                    {cartItemCount > 0 && (
-                      <span className="absolute -right-1.5 -top-1 w-4 h-4 flex items-center justify-center rounded-full bg-white border border-[#1B6392]/70 text-[9px] text-[#1B6392]/70 font-medium">
-                        {cartItemCount}
-                      </span>
-                    )}
-                  </Link>
-                  <Link to="/wishlist" className="text-sm text-dark/80 flex items-center gap-2 cursor-pointer relative"> 
-                    <span className="hidden md:inline-flex"> Wishlist </span>
-                    <Heart size={22} strokeWidth={1.5} className="text-primary text-xs" />
-                    {wishlist.length > 0 && (
-                      <span className="absolute -right-1.5 -top-1 w-4 h-4 flex items-center justify-center rounded-full bg-white border border-[#1B6392]/70 text-[9px] text-[#1B6392]/70 font-medium">
-                        {wishlist.length}
-                      </span>
-                    )}
-                  </Link>
-                  <div ref={accountRef} className="text-sm text-dark/80 cursor-pointer relative"> 
-                    <button onClick={() => setAccountPopup(!accountPopup)} className="flex items-center gap-0.5 cursor-pointer">
-                      {user?.avatar ? (
-                        <img src={user.avatar} alt={user.name} className="w-7 h-7 rounded-full" />
-                      ) : (
-                        <span className="w-7 h-7 rounded-full bg-primary/10 text-primary md:hidden flex items-center justify-center">
-                          {user?.name?.charAt(0) || 'U'}
+              <div className="flex items-center gap-4">
+                {!isAccount ? (
+                  <div className="space-x-4 flex">
+                    <Link to="/cart" className="text-sm text-dark/80 flex items-center gap-2 cursor-pointer relative"> 
+                      <ShoppingCart size={22} strokeWidth={1.5} className="text-primary" />
+                      {cartItemCount > 0 && (
+                        <span className="absolute -right-1.5 -top-1 w-4 h-4 flex items-center justify-center rounded-full bg-white border border-[#1B6392]/70 text-[9px] text-[#1B6392]/70 font-medium">
+                          {cartItemCount}
                         </span>
                       )}
-                      <span className="hidden md:inline-flex ml-2"> {user?.name?.split(' ')[0] || 'Account'} </span>
-                      <ChevronDown size={16} strokeWidth={1.5} className={`transition-all duration-200 ${accountPopup ? "rotate-180" : ""}`} />
+                    </Link>
+                    <Link to="/wishlist" className="text-sm text-dark/80 flex items-center gap-2 cursor-pointer relative"> 
+                      <Heart size={22} strokeWidth={1.5} className="text-primary text-xs" />
+                      {wishlist.length > 0 && (
+                        <span className="absolute -right-1.5 -top-1 w-4 h-4 flex items-center justify-center rounded-full bg-white border border-[#1B6392]/70 text-[9px] text-[#1B6392]/70 font-medium">
+                          {wishlist.length}
+                        </span>
+                      )}
+                    </Link>
+                  </div>
+                ) : (
+                  <div className="space-x-4 flex">
+                    <Link to="/account/messages" className="">
+                      <MessageSquare size={20} strokeWidth={2} className="text-primary" />
+                    </Link>
+                    <Link to="/account/notifications" className="">
+                      <Bell size={22} strokeWidth={2} className="text-primary" />
+                    </Link>
+                  </div>
+                )}
+                  <div ref={accountRef} className="text-sm text-dark/80 cursor-pointer relative"> 
+                    <button 
+                      onClick={() => setAccountPopup(!accountPopup)} 
+                      className="flex items-center gap-0.5 cursor-pointer"
+                    >
+                      <img src={user?.avatar || avatar} alt={user?.name || 'User'} className="w-7 h-7 rounded-full object-cover" />
+                      <ChevronDown 
+                        size={16} 
+                        strokeWidth={1.5} 
+                        className={`transition-all duration-200 ${accountPopup ? "rotate-180" : ""}`} 
+                      />
                     </button>
                     {accountPopup && (
                       <AccountPopup 
+                        isAccount={isAccount}
                         user={user}
                         onLogout={handleLogout}
                         onClose={() => setAccountPopup(false)}
@@ -121,18 +131,17 @@ const Header = () => {
                     )}
                   </div>
                 </div>
-              </div>
             ) : (
-              <div className="space-x-2.5 flex">
+              <div className="space-x-2.5 hidden md:flex">
                 <button 
                   className="btn btn-text px-4"
-                  onClick={() => setActivePopup("login")}
+                  onClick={() => openModal("login")} // Use global modal
                 >
                   Login
                 </button>
                 <button 
                   className="btn"
-                  onClick={() => setActivePopup("role")}
+                  onClick={() => openModal("role")} // Use global modal
                 >
                   Sign Up
                 </button>
@@ -159,7 +168,7 @@ const Header = () => {
                     className="btn btn-tertiary"
                     onClick={() => {
                       setIsMenuOpen(false);
-                      setActivePopup("login");
+                      openModal("login"); // Use global modal
                     }}
                   >
                     Login
@@ -168,7 +177,7 @@ const Header = () => {
                     className="btn"
                     onClick={() => {
                       setIsMenuOpen(false);
-                      setActivePopup("role");
+                      openModal("role"); // Use global modal
                     }}
                   >
                     Sign Up
@@ -182,42 +191,6 @@ const Header = () => {
 
       {isMenuOpen && (
         <div className="flex lg:hidden fixed inset-0 top-16 md:top-20 left-0 z-20 w-full h-full bg-black/70 cursor-pointer" onClick={() => { setIsMenuOpen(false)}}></div>
-      )}
-
-      {/* Popup Overlay */}
-      {activePopup && (
-        <div 
-          className="fixed inset-0 bg-black/70 z-60 flex items-center justify-center p-4"
-          onClick={handleBackdropClick}
-        >
-          {activePopup === "role" && (
-            <RolePopup
-              onClose={handleClosePopup}
-              onContinue={handleRoleContinue}
-              onSignInClick={() => setActivePopup("login")}
-            />
-          )}
-
-          {activePopup === "signup" && (
-            <SignupPopup
-              onClose={handleClosePopup}
-              onSignInClick={() => setActivePopup("login")}
-              selectedRole={selectedRole}
-              onSuccess={handleSignupSuccess}
-            />
-          )}
-
-          {activePopup === "login" && (
-            <LoginPopup
-              onClose={handleClosePopup}
-              onCreateAccountClick={() => {
-                setSelectedRole(null);
-                setActivePopup("role");
-              }}
-              onSuccess={handleLoginSuccess}
-            />
-          )}
-        </div>
       )}
     </>
   );

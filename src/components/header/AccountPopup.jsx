@@ -1,9 +1,9 @@
 import React from 'react';
-import { Handbag, Store, ShieldUser, User, LogOut, Settings } from 'lucide-react';
+import { Handbag, Store, ShieldUser, User, LogOut, Settings, MessageSquare } from 'lucide-react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../../contexts/AuthContext';
 
-const AccountPopup = ({ user, onLogout, onClose }) => {
+const AccountPopup = ({ isAccount, user, onLogout, onClose }) => {
   const navigate = useNavigate();
 
   const handleNavigation = (path) => {
@@ -33,40 +33,52 @@ const AccountPopup = ({ user, onLogout, onClose }) => {
             </div>
           </div>
           
-          <div className='space-y-3'>
+          <div className='space-y-4'>
             <button 
-              onClick={() => handleNavigation('/account/dashboard')}
-              className='flex items-center gap-3 w-full p-2 rounded-lg hover:bg-gray-50'
+              onClick={() => handleNavigation('/account')}
+              className='flex items-center gap-3 w-full'
             >
-              <User size={18} />
+              <User size={18} strokeWidth={1.5} />
               <span>My Dashboard</span>
             </button>
+
+            {!isAccount && (
+              <button 
+                onClick={() => handleNavigation('/account/messages')}
+                className='flex items-center gap-3 w-full'
+              >
+                <MessageSquare size={16} strokeWidth={1.5} className='' />
+                <span>My Messages</span>
+              </button>
+            )}
+
+
             
-            {user.role === 'seller' && (
+            {/* {user.role === 'seller' && ( */}
               <button 
                 onClick={() => handleNavigation('/account/seller')}
-                className='flex items-center gap-3 w-full p-2 rounded-lg hover:bg-gray-50'
+                className='flex items-center gap-3 w-full'
               >
-                <Store size={18} />
+                <Store size={18} strokeWidth={1.5} />
                 <span>Seller Dashboard</span>
               </button>
-            )}
+            {/* )} */}
             
-            {user.role === 'freelancer' && (
+            {/* {user.role === 'freelancer' && ( */}
               <button 
                 onClick={() => handleNavigation('/account/freelancer')}
-                className='flex items-center gap-3 w-full p-2 rounded-lg hover:bg-gray-50'
+                className='flex items-center gap-3 w-full'
               >
-                <ShieldUser size={18} />
+                <ShieldUser size={18} strokeWidth={1.5} />
                 <span>Freelancer Dashboard</span>
               </button>
-            )}
+            {/* )} */}
             
             <button 
-              onClick={() => handleNavigation('/account/profile')}
-              className='flex items-center gap-3 w-full p-2 rounded-lg hover:bg-gray-50'
+              onClick={() => handleNavigation('/account/settings')}
+              className='flex items-center gap-3 w-full'
             >
-              <Settings size={18} />
+              <Settings size={18} strokeWidth={1.5} />
               <span>Account Settings</span>
             </button>
             
