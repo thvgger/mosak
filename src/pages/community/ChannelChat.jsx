@@ -60,14 +60,14 @@ const ChannelChat = () => {
               {!isSidebarOpen ? (
                 <button
                   onClick={() => setIsSidebarOpen(prev => !prev)}
-                  className="p-2 rounded hover:bg-gray-50"
+                  className="rounded hover:bg-gray-50"
                 >
                   <PanelLeftOpen size={20} />
                 </button>
               ) : (
                 <button
                   onClick={() => setIsSidebarOpen(prev => !prev)}
-                  className="p-2 rounded hover:bg-gray-50"
+                  className="rounded hover:bg-gray-50"
                 >
                   <PanelRightOpen size={20} />
                 </button>

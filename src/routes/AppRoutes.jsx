@@ -8,12 +8,13 @@ import MarketPlace from '../pages/public/MarketPlace';
 import MarketplacePage from '../pages/public/MarketplacePage';
 import ProductDetailPage from '../pages/public/ProductDetailPage';
 import Freelancers from '../pages/public/Freelancers';
-import Community from '../pages/public/Community';
+// import Community from '../pages/public/Community';
 import Postings from '../pages/public/Postings';
 import HelpCenter from '../pages/public/HelpCenter';
 import Faqs from "../pages/public/Faqs.jsx";
 import Contact from '../pages/public/Contact.jsx';
 import Leaderboards from '../pages/public/Leaderboards.jsx';
+import About from '../pages/public/About.jsx';
 
 // User Routes
 import UserDashboardLayout from "../layouts/UserDashboardLayout";
@@ -58,6 +59,7 @@ const AppRoutes = () => {
         <Route path="/help-center" element={<HelpCenter />} />
         <Route path="/faqs" element={<Faqs />} />
         <Route path="/contact" element={<Contact />} />
+        <Route path="/about" element={<About />} />
         
         <Route path="/cart" element={
           <ProtectedRoute>

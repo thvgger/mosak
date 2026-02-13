@@ -7,7 +7,7 @@ const Footer = () => {
 
   const footerLinks = {
     'About Mosalak': [
-      { label: 'About Us', url: '#' },
+      { label: 'About Us', url: '/about' },
       { label: 'How it Works', url: '#' },
       { label: 'Trust & Safety', url: '#' },
       { label: 'Escrow Protection', url: '#' },

@@ -26,7 +26,7 @@ import {
 } from 'lucide-react';
 
 const RightSidebar = ({ isOpen, onClose, selectedUser, onSelectUser }) => {
-  const [activeTab, setActiveTab] = useState('profile');
+  const [activeTab, setActiveTab] = useState('online');
 
   // Sample online users
   const onlineUsers = [

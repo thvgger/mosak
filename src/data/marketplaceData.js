@@ -185,7 +185,7 @@ export const marketplaceData = {
     {
       id: 'phones-tablets',
       name: 'Phones & Tablets',
-      icon: '🚗',
+      icon: '📱',
       color: "from-[#82F69B] to-[#396E45]",
       subcategories: ['Samsung', 'Iphone', 'Realme', 'Xiaomi', 'Oppo', 'Vivo', 'Huawei', 'Infinix', 'Tecno']
     },
@@ -206,7 +206,7 @@ export const marketplaceData = {
     {
       id: 'electronics',
       name: 'Electronics',
-      icon: '📱',
+      icon: '🔌',
       color: "from-[#004B14] to-[#00B12F]",
       subcategories: [ 'laptops', 'gas-cooker', 'audio', 'gaming']
     },

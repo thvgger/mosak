@@ -1,62 +1,70 @@
 import React from 'react';
-import { TrendingUp, ChevronRight, Shield, Star, Award } from 'lucide-react';
+import { useOutletContext } from 'react-router-dom';
+import { TrendingUp, ChevronRight, Shield, Star, Award, Handbag, Wallet, ShieldCheck } from 'lucide-react';
 
 const DashboardPage = () => {
+
+   const { user } = useOutletContext();
+
+
   return (
     <div className="space-y-6">
       {/* Welcome Section */}
-      <div className="bg-linear-to-bl from-primary to-blue-400 rounded-2xl p-6">
+      <div className="bg-primary rounded-lg p-6">
         <div className="flex items-center flex-wrap justify-between gap-2">
-          <div>
-            <h1 className="text-2xl font-bold text-white">Welcome back, <span className="">Chioma Adeleke</span></h1>
-            <div className="flex items-center space-x-2 mt-2">
-              <span className="px-3 py-1 bg-gray-800 text-white text-xs font-semibold rounded-full">SILVER</span>
-              <span className="px-3 py-1 bg-green-100 text-green-800 text-xs font-semibold rounded-full">VERIFIED</span>
+          {/* <div> */}
+            <h1 className="text-xl font-semibold text-white">Welcome back, <span className=""> {user.name} </span></h1>
+            <div className="flex items-center space-x-2 mt-4">
+              <span className="px-3 py-1 bg-gray-200 text-xs font-medium rounded-md">SILVER</span>
+              <span className="px-3 py-1 bg-gray-100 text-primary text-xs font-medium rounded-md">VERIFIED</span>
             </div>
-          </div>
-          <div className="text-right">
-            <p className="text-sm text-white">Member since Jan 2026</p>
-          </div>
+          {/* </div> */}
         </div>
       </div>
 
       {/* Stats Grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
         {/* Active Orders */}
-        <div className="bg-white rounded-xl p-6 border border-gray-200 shadow-sm">
-          <div className="flex items-center justify-between">
-            <div>
-              <p className="text-sm text-gray-500">Active Orders</p>
-              <h3 className="text-2xl font-bold mt-2">2</h3>
-            </div>
-            <div className="px-3 py-1 bg-green-100 text-green-800 rounded-full flex items-center text-sm">
-              <TrendingUp size={16} className="mr-1" />
-              +3 this week
-            </div>
+        <div className="bg-white rounded-xl p-6 border border-gray-200 shadow-sm flex flex-col items-start gap-1">
+          <span> 
+            <Handbag size={20} strokeWidth={1.5} />
+          </span>
+          <h3 className="text-2xl font-bold">2</h3>
+          <p className="text-sm text-gray-500">Active Orders</p>
+          <div className="px-1 py-1 bg-green-100 text-green-800 rounded-full flex items-center text-xs">
+            <TrendingUp size={16} className="mr-1" />
+            +3 this week
           </div>
         </div>
 
         {/* Wallet Balance */}
-        <div className="bg-white rounded-xl p-6 border border-gray-200 shadow-sm">
+        <div className="bg-white rounded-xl p-6 border border-gray-200 shadow-sm flex flex-col items-start gap-1">
+          <span>
+            <Wallet size={20} strokeWidth={1.5} />
+          </span>
+          <h3 className="text-2xl font-bold">₦450,000</h3>
           <p className="text-sm text-gray-500">Wallet Balance</p>
-          <h3 className="text-2xl font-bold mt-2">₦450,000</h3>
         </div>
 
         {/* Funds in Escrow */}
-        <div className="bg-white rounded-xl p-6 border border-gray-200 shadow-sm">
-          <div className="flex items-center justify-between">
-            <div>
-              <p className="text-sm text-gray-500">Funds in Escrow</p>
-              <h3 className="text-2xl font-bold mt-2">₦125,000</h3>
-            </div>
-            <div className="text-blue-600 text-sm font-semibold">+3 orders</div>
+        <div className="bg-white rounded-xl p-6 border border-gray-200 shadow-sm flex flex-col items-start gap-1">
+          <div>
+            <span>
+              <ShieldCheck />
+            </span>
+            <h3 className="text-2xl font-bold mt-2">₦125,000</h3>
+            <p className="text-sm text-gray-500">Funds in Escrow</p>
           </div>
+          <div className="text-blue-600 text-sm font-semibold">+3 orders</div>
         </div>
 
         {/* Available Points */}
-        <div className="bg-white rounded-xl p-6 border border-gray-200 shadow-sm">
-          <p className="text-sm text-gray-500">Available Points</p>
+        <div className="bg-white rounded-xl p-6 border border-gray-200 shadow-sm flex flex-col items-start gap-1">
+          <span>
+            <Star />
+          </span>
           <h3 className="text-2xl font-bold mt-2">3,450</h3>
+          <p className="text-sm text-gray-500">Available Points</p>
           <a href="#" className="text-blue-600 text-sm flex items-center mt-2 hover:underline">
             Learn how to earn points <ChevronRight size={16} />
           </a>
@@ -64,9 +72,9 @@ const DashboardPage = () => {
       </div>
 
       {/* Bottom Section */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         {/* KYC Verification */}
-        <div className="bg-white rounded-xl p-6 border border-gray-200 shadow-sm">
+        <div className="col-span-2 bg-white rounded-xl p-6 border border-gray-200 shadow-sm">
           <div className="flex items-center justify-between mb-4">
             <h3 className="font-semibold text-gray-800">KYC Verification Status</h3>
             <Shield className="text-blue-600" size={24} />
@@ -86,7 +94,7 @@ const DashboardPage = () => {
         </div>
 
         {/* Member Status */}
-        <div className="bg-linear-to-r from-amber-50 to-yellow-50 rounded-xl p-6 border border-gray-200 shadow-sm">
+        <div className="col-span-1 bg-linear-to-r from-amber-50 to-yellow-50 rounded-xl p-6 border border-gray-200 shadow-sm">
           <div className="flex items-center justify-between mb-4">
             <div className="flex items-center space-x-3">
               <Award className="text-amber-600" size={28} />
