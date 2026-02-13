@@ -1,6 +1,7 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import useEmblaCarousel from 'embla-carousel-react';
 import { ChevronRight, ChevronLeft } from 'lucide-react';
+import car from "../../assets/car.png";
 
 const PinnedAdvert = () => {
   const ads = [
@@ -118,7 +119,7 @@ const PinnedAdvert = () => {
   }, [emblaApi, onSelect]);
 
   return (
-    <div className="bg-white mb-4 p-4">
+    <div className="bg-white mb-4 p-4 relative">
       {/* Header */}
       <div className="flex items-center justify-between mb-4">
         <h3 className="text-base font-bold"> M-Adverts</h3>
@@ -130,7 +131,7 @@ const PinnedAdvert = () => {
       </div>
 
       {/* Carousel Container */}
-      <div className="embla overflow-x-hidden px-4 relative" ref={emblaRef}>
+      <div className="embla overflow-x-hidden px-4" ref={emblaRef}>
         <div className="embla__container flex">
           {groupedAds.map((adPair, index) => (
             <div key={index} className="w-full flex-[0_0_100%] flex gap-4">
@@ -166,22 +167,26 @@ const PinnedAdvert = () => {
                     </div>
                       
                     {/* Message */}
-                    <div>
-                      <p className="text-xs text-gray-700 line-clamp-2">
-                        {ad.message}
-                      </p>
-                      
-                      {/* Link */}
-                      <div className="overflow-hidden">
-                        <a 
-                          href={ad.link} 
-                          target="_blank" 
-                          rel="noopener noreferrer"
-                          className="text-primary text-xs font-medium hover:underline break-all"
-                        >
-                          {ad.link}
-                        </a>
+                    <div className='flex items-start gap-2'>
+                      <div className='flex- flex-col gap-2'>
+                        <p className="text-xs text-gray-700 line-clamp-2 mb-1">
+                          {ad.message}
+                        </p>
+                        
+                        {/* Link */}
+                        <div className="overflow-hidden">
+                          <a 
+                            href={ad.link} 
+                            target="_blank" 
+                            rel="noopener noreferrer"
+                            className="text-primary text-xs font-medium hover:underline break-all line-clamp-1"
+                          >
+                            {ad.link}
+                          </a>
+                        </div>
                       </div>
+
+                      <img src={ad?.img || car} alt='' className='w-18 h-fit rounded-sm' />
                     </div>
                   </div>
                 </div>
@@ -192,17 +197,17 @@ const PinnedAdvert = () => {
 
 
         {/* Navigation Buttons */}
-        <div className="absolute top-1/2 -translate-y-1/2 w-full flex items-center justify-between gap-2">
+        <div className="w-full flex items-center justify-between gap-2 mt-1">
           <button
             onClick={scrollPrev}
-            className="h-8 w-8 -ml-4 bg-primary text-white rounded-full border flex items-center justify-center hover:bg-primary/80 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
+            className="absolute top-1/2 -translate-y-1/2 left-0 h-8 w-8 bg-primary text-white rounded-full border-4 border-white/80 flex items-center justify-center hover:bg-primary/80 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
             disabled={!canScrollPrev}
           >
             <ChevronLeft size={16} />
           </button>
           <button
             onClick={scrollNext}
-            className="h-8 w-8 mr-4 bg-primary text-white rounded-full border flex items-center justify-center hover:bg-primary/80 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
+            className="absolute top-1/2 -translate-y-1/2 right-0 h-8 w-8 bg-primary text-white rounded-full border-4 border-white/80 flex items-center justify-center hover:bg-primary/80 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
             disabled={!canScrollNext}
           >
             <ChevronRight size={16} />

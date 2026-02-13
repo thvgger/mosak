@@ -4,15 +4,15 @@ const MessageInput = () => {
   return (
     <div className="bg-white p-3 md:p-4 flex items-center gap-2 md:gap-4 border-t border-gray-300 sticky bottom-0">
       {/* Mobile-friendly buttons */}
-      <button className="hidden sm:block"> 
-        <Link size={16} /> 
+      <button className=""> 
+        <Link size={16} className="text-gray-400" /> 
       </button>
-      <button className="sm:hidden">
-        <Paperclip size={16} />
+      <button className="">
+        <Paperclip size={16} className="text-gray-400" />
       </button>
       
-      <button className="hidden md:block"> 
-        <CalendarRange size={16} /> 
+      <button className=""> 
+        <CalendarRange size={18} className="text-gray-400" /> 
       </button>
       
       {/* <button className="ml-auto md:ml-0">
@@ -22,7 +22,7 @@ const MessageInput = () => {
       <input
         type="text"
         placeholder="Type your message..."
-        className="flex-1 border rounded-lg px-3 md:px-4 py-2 focus:outline-none text-sm md:text-base"
+        className="flex-1 border border-gray-300 rounded-lg px-3 md:px-4 py-2 focus:outline-none text-sm md:text-base"
       />
 
       <button className="bg-primary text-white p-2 md:px-4 md:py-2 rounded-lg">
