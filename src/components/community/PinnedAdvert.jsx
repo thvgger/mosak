@@ -121,78 +121,78 @@ const PinnedAdvert = () => {
     <div className="bg-white mb-4 p-4">
       {/* Header */}
       <div className="flex items-center justify-between mb-4">
-        <h3 className="text-base md:text-lg font-bold text-gray-800"> M-Adverts</h3>
-        <div className="flex items-center gap-2">          
-          <button className="btn px-3 py-2 text-sm ml-2">
-            <span className="hidden sm:inline">View All Ads</span>
-            <span className="sm:hidden">View All</span>
-            <ChevronRight size={16} />
-          </button>
-        </div>
+        <h3 className="text-base font-bold"> M-Adverts</h3>
+        <button className="btn px-3 py-2 text-xs">
+          <span className="hidden sm:inline">View All Ads</span>
+          <span className="sm:hidden">View All</span>
+          <ChevronRight size={14} />
+        </button>
       </div>
 
       {/* Carousel Container */}
       <div className="embla overflow-x-hidden px-4 relative" ref={emblaRef}>
         <div className="embla__container flex">
           {groupedAds.map((adPair, index) => (
-            <div 
-              key={index}
-              className="flex-[0_0_50%] px-2 flex gap-4"
-            >
-                {adPair.map((ad) => (
-                  <div key={ad.id} className="bg-primary/20 border border-primary/30 rounded-lg p-4 h-full">
-                    {/* Ad Type Badge */}
-                    {/* <div className="mb-3">
-                      <span className="bg-primary text-white text-xs font-bold px-3 py-1 rounded-full">
-                        {ad.type}
-                      </span>
-                    </div> */}
+            <div key={index} className="w-full flex-[0_0_100%] flex gap-4">
+              {adPair.map((ad) => (
+                <div key={ad.id} className="bg-primary/20 border border-primary/30 rounded-lg p-4 w-full h-full">
+                  {/* Ad Type Badge */}
+                  {/* <div className="mb-3">
+                    <span className="bg-primary text-white text-xs font-bold px-3 py-1 rounded-full">
+                      {ad.type}
+                    </span>
+                  </div> */}
 
-                    {/* User Info */}
-                    <div className="flex items-start gap-3">
-                      {/* User Details */}
-                      <div className="flex">
-                        {/* Avatar */}
-                        <div className="w-8 h-8 bg-primary text-white rounded-full flex items-center justify-center text-sm font-bold shrink-0">
+                  {/* User Info */}
+                  <div className="flex flex-col items-start gap-3">
+                    {/* User Details */}
+                    <div className="w-full flex items-center justify-between gap-2">
+                      {/* Avatar */}
+                      <div className='flex items-center gap-2'>
+                        <div className="w-7 h-7 bg-primary border border-white text-white rounded-full flex items-center justify-center text-[10px] font-bold shrink-0">
                           {ad.initials}
-                        </div>                      
-                        <h4 className="font-bold text-gray-800 text-sm truncate">{ad.name}</h4>
-                          <div className='flex items-center gap-2'>
-                            <span className="bg-yellow-200 text-yellow-800 text-xs font-medium px-2 py-0.5 rounded-full whitespace-nowrap">
-                              {ad.badge}
-                            </span>
-                            <span className="bg-gray-200 px-2 py-0.5 rounded-full text-xs text-gray-500 whitespace-nowrap">
-                              {ad.role}
-                            </span>
-                          </div>
-                        
-                        {/* Message */}
-                        <p className="text-sm text-gray-700 mb-3 line-clamp-2">
-                          {ad.message}
-                        </p>
-                        
-                        {/* Link */}
-                        <div className="overflow-hidden">
-                          <a 
-                            href={ad.link} 
-                            target="_blank" 
-                            rel="noopener noreferrer"
-                            className="text-primary text-sm font-medium hover:underline break-all"
-                          >
-                            {ad.link}
-                          </a>
                         </div>
+                        <h4 className="font-bold text-gray-800 text-xs truncate">{ad.name}</h4>
+                      </div>
+
+                      <div className='flex items-center gap-2'>
+                        <span className="bg-yellow-200 text-yellow-800 text-xs font-medium px-2 py-0.5 rounded-full whitespace-nowrap">
+                          {ad.badge}
+                        </span>
+                        <span className="bg-gray-200 px-2 py-0.5 rounded-full text-xs text-gray-500 whitespace-nowrap">
+                          {ad.role}
+                        </span>
+                      </div>
+                    </div>
+                      
+                    {/* Message */}
+                    <div>
+                      <p className="text-xs text-gray-700 line-clamp-2">
+                        {ad.message}
+                      </p>
+                      
+                      {/* Link */}
+                      <div className="overflow-hidden">
+                        <a 
+                          href={ad.link} 
+                          target="_blank" 
+                          rel="noopener noreferrer"
+                          className="text-primary text-xs font-medium hover:underline break-all"
+                        >
+                          {ad.link}
+                        </a>
                       </div>
                     </div>
                   </div>
-                ))}
-              </div>
+                </div>
+              ))}
+            </div>
           ))}
         </div>
 
 
-                  {/* Navigation Buttons */}
-        <div className="absolute top-1/2 w-full flex items-center justify-between gap-2">
+        {/* Navigation Buttons */}
+        <div className="absolute top-1/2 -translate-y-1/2 w-full flex items-center justify-between gap-2">
           <button
             onClick={scrollPrev}
             className="h-8 w-8 -ml-4 bg-primary text-white rounded-full border flex items-center justify-center hover:bg-primary/80 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
@@ -208,26 +208,26 @@ const PinnedAdvert = () => {
             <ChevronRight size={16} />
           </button>
         </div>
-      </div>
 
-      {/* Dots Indicator */}
-      <div className="flex justify-center mt-4 gap-2">
-        {groupedAds.map((_, i) => (
-          <button
+        {/* Dots Indicator */}
+        <div className="flex justify-center gap-2 mt-4">
+          {groupedAds.map((_, i) => (
+            <button
             key={i}
             onClick={() => scrollTo(i)}
             className={`w-2 h-2 rounded-full transition-all duration-300 ${
               i === selectedIndex ? "bg-primary w-4" : "bg-gray-300"
             }`}
             aria-label={`Go to slide ${i + 1}`}
-          />
-        ))}
-      </div>
+            />
+          ))}
+        </div>
 
-      {/* Page Indicator */}
-      {/* <div className="text-center mt-2 text-sm text-gray-500">
-        {selectedIndex + 1} of {groupedAds.length}
-      </div> */}
+        {/* Page Indicator */}
+        {/* <div className="text-center mt-2 text-sm text-gray-500">
+          {selectedIndex + 1} of {groupedAds.length}
+        </div> */}
+      </div>
     </div>
   );
 };
