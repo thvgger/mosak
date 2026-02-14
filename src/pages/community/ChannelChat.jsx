@@ -6,15 +6,12 @@ import MessageInput from '../../components/community/MessageInput';
 import RightSidebar from '../../components/community/RightSidebar';
 import PinnedAdvert from '../../components/community/PinnedAdvert';
 
-
 const ChannelChat = () => {
   const { channelId } = useParams();
   const [isRightSidebarOpen, setIsRightSidebarOpen] = useState(false);
   const [selectedUser, setSelectedUser] = useState(null);
 
-
   const { setIsSidebarOpen, isSidebarOpen } = useOutletContext();
-
 
   const getChannelInfo = (id) => {
     const channels = {
@@ -33,16 +30,14 @@ const ChannelChat = () => {
     return channels[id] || { name: id, description: 'Channel discussions', members: '0' };
   };
 
-  // const channelInfo = getChannelInfo(channelId);
   const channelInfo = getChannelInfo(channelId || 'general');
 
-
   return (
-    <div className="flex relative">
+    <div className="flex h-full bg-white">
       {/* Chat Area */}
-      <div className="flex-1 flex flex-col min-w-0 bg-white">
+      <div className="flex-1 flex flex-col min-w-0 h-full">
         {/* Channel Header with Sidebar Toggle */}
-        <div className="min-h-14 border-b border-gray-300 flex items-center justify-between px-4 bg-white sticky z-10 top-0">
+        <div className="min-h-14 border-b border-gray-200 flex items-center justify-between px-4 bg-white">
           <div className="w-full flex items-center gap-3">
             <div className="flex items-center">
               {!isSidebarOpen ? (
@@ -62,7 +57,6 @@ const ChannelChat = () => {
               )}
             </div>
 
-
             <div className="w-full flex items-center justify-between flex-wrap gap-1.5">
               <h2 className="font-semibold text-base"> #{channelInfo.name} </h2>
               <p className="text-xs text-gray-500 truncate max-w-md">
@@ -81,20 +75,22 @@ const ChannelChat = () => {
 
         <PinnedAdvert />
 
-        {/* Messages */}
-        <MessageList channelId={channelId} />
+        {/* Messages - This will scroll */}
+        <div className="flex-1 overflow-y-auto">
+          <MessageList channelId={channelId} />
+        </div>
         
-        {/* Input */}
+        {/* Input - This stays sticky at the bottom */}
         <MessageInput channelId={channelId} />
       </div>
 
       {/* Right Sidebar - User Profiles */}
-      <RightSidebar 
+      {/* <RightSidebar 
         isOpen={isRightSidebarOpen}
         onClose={() => setIsRightSidebarOpen(false)}
         selectedUser={selectedUser}
         onSelectUser={setSelectedUser}
-      />
+      /> */}
     </div>
   );
 };

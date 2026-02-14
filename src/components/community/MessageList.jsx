@@ -1,6 +1,6 @@
 const MessageList = () => {
   return (
-    <div className="p-4 space-y-4 md:space-y-6">
+    <div className="p-4 space-y-4 md:space-y-6 pb-4">
       <Message
         name="Chioma Adeleke"
         badge="Gold"
@@ -28,12 +28,19 @@ const MessageList = () => {
         role="Freelancer"
         message="Yes! The filters are super helpful. Makes discovery much easier."
       />
+      
+      {/* Add more messages to demonstrate scrolling */}
+      <Message
+        name="John Doe"
+        badge="Silver"
+        role="Buyer"
+        message="This is another message to show scrolling behavior."
+      />
     </div>
   );
 };
 
 export default MessageList;
-
 
 /* Message Component */
 const Message = ({ name, badge, role, message }) => (
@@ -57,8 +64,8 @@ const Message = ({ name, badge, role, message }) => (
       <p className="text-gray-700 mt-1 text-sm md:text-base wrap-break-words">{message}</p>
 
       <div className="flex gap-2 mt-2 text-sm">
-        <button className="px-2 py-1 bg-gray-100 rounded text-xs md:text-sm">👍 5</button>
-        <button className="px-2 py-1 bg-gray-100 rounded text-xs md:text-sm">🔥 3</button>
+        <button className="px-2 py-1 bg-gray-100 rounded text-xs md:text-sm hover:bg-gray-200 transition-colors">👍 5</button>
+        <button className="px-2 py-1 bg-gray-100 rounded text-xs md:text-sm hover:bg-gray-200 transition-colors">🔥 3</button>
       </div>
     </div>
   </div>

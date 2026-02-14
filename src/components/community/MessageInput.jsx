@@ -14,10 +14,6 @@ const MessageInput = () => {
       <button className=""> 
         <CalendarRange size={18} className="text-gray-400" /> 
       </button>
-      
-      {/* <button className="ml-auto md:ml-0">
-        <Smile size={16} />
-      </button> */}
 
       <input
         type="text"
@@ -26,7 +22,6 @@ const MessageInput = () => {
       />
 
       <button className="bg-primary text-white p-2 md:px-4 md:py-2 rounded-lg">
-        {/* <span className="hidden md:inline">Send</span> */}
         <span className="">
           <Send />
         </span>

@@ -1,9 +1,20 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import PostCard from "../../components/posting/PostCard.jsx";
 import CreatePostModal from "../../components/posting/CreatePostModal.jsx";
 
 const Postings = () => {
   const [openModal, setOpenModal] = useState(false);
+
+    
+  useEffect(() => {
+    if(openModal) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "auto";
+    }
+
+  }, [openModal]);
+
 
   return (
     <div className="bg-gray-50 min-h-screen container mx-auto py-4">

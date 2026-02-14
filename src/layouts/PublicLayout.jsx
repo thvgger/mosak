@@ -16,9 +16,9 @@ const PublicLayout = () => {
   
   return (
     <div>
-      {isHome && <TopBanner />}
-      {!isHome && <TopNav />}
-      <Header isCommunity={isCommunity} />
+      {isHome && !isCommunity && <TopBanner />}
+      {!isHome && !isCommunity && <TopNav />}
+      {!isCommunity && <Header isCommunity={isCommunity} /> }
       <Outlet />
       {!isCommunity && <Footer />}
     </div>

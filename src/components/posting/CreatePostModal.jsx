@@ -1,7 +1,89 @@
 import { useState } from "react";
+import { ChevronDown } from "lucide-react";
+
+// Custom Dropdown Component
+const CustomDropdown = ({ value, onChange, options, placeholder }) => {
+  const [isOpen, setIsOpen] = useState(false);
+
+  const current = options.find(opt => opt.value === value);
+
+  return (
+    <div className="relative">
+      {/* Trigger */}
+      <button
+        type="button"
+        onClick={() => setIsOpen(!isOpen)}
+        className={`w-full flex items-center justify-between gap-2 px-4 py-2 rounded-lg border ${
+          current ? 'border-gray-400' : 'border-gray-400'
+        } text-left bg-white hover:bg-gray-50 transition`}
+      >
+        <span className={current ? 'text-dark' : 'text-gray-500'}>
+          {current?.label || placeholder}
+        </span>
+        <ChevronDown
+          size={16}
+          className={`transition-transform ${isOpen ? "rotate-180" : ""}`}
+        />
+      </button>
+
+      {/* Overlay */}
+      {isOpen && (
+        <>
+          <div
+            className="fixed inset-0 z-10"
+            onClick={() => setIsOpen(false)}
+          />
+
+          {/* Dropdown */}
+          <div className="absolute left-0 right-0 mt-1 rounded-lg bg-white border border-gray-200 shadow-lg z-20 overflow-hidden">
+            {options.map(option => (
+              <button
+                key={option.value}
+                type="button"
+                onClick={() => {
+                  onChange(option.value);
+                  setIsOpen(false);
+                }}
+                className={`w-full text-left px-4 py-3 text-sm transition
+                  ${
+                    value === option.value
+                      ? "bg-primary/10 text-primary font-medium"
+                      : "text-gray-700 hover:bg-gray-50"
+                  }`}
+              >
+                {option.label}
+              </button>
+            ))}
+          </div>
+        </>
+      )}
+    </div>
+  );
+};
 
 const CreatePostModal = ({ isOpen, onClose }) => {
   const [description, setDescription] = useState("");
+  const [role, setRole] = useState("");
+  const [workMode, setWorkMode] = useState("");
+
+  // Role options
+  const roleOptions = [
+    { value: "ui-ux-designer", label: "UI/UX Designer" },
+    { value: "frontend-developer", label: "Frontend Developer" },
+    { value: "backend-developer", label: "Backend Developer" },
+    { value: "fullstack-developer", label: "Full Stack Developer" },
+    { value: "product-manager", label: "Product Manager" },
+    { value: "graphic-designer", label: "Graphic Designer" },
+    { value: "content-writer", label: "Content Writer" },
+    { value: "marketing-specialist", label: "Marketing Specialist" },
+  ];
+
+  // Work Mode options
+  const workModeOptions = [
+    { value: "remote", label: "Remote" },
+    { value: "hybrid", label: "Hybrid" },
+    { value: "onsite", label: "Onsite" },
+  ];
 
   if (!isOpen) return null;
 
@@ -63,24 +145,24 @@ const CreatePostModal = ({ isOpen, onClose }) => {
               <label className="text-sm font-medium mb-1 block">
                 Role Needed
               </label>
-              <select className="w-full border border-gray-400 rounded-lg px-4 py-2">
-                <option>Select a role...</option>
-                <option>UI/UX Designer</option>
-                <option>Frontend Developer</option>
-                <option>Backend Developer</option>
-              </select>
+              <CustomDropdown
+                value={role}
+                onChange={setRole}
+                options={roleOptions}
+                placeholder="Select a role..."
+              />
             </div>
 
             <div>
               <label className="text-sm font-medium mb-1 block">
                 Work Mode
               </label>
-              <select className="w-full border border-gray-400 rounded-lg px-4 py-2">
-                <option>Select Work Mode</option>
-                <option>Remote</option>
-                <option>Hybrid</option>
-                <option>Onsite</option>
-              </select>
+              <CustomDropdown
+                value={workMode}
+                onChange={setWorkMode}
+                options={workModeOptions}
+                placeholder="Select Work Mode"
+              />
             </div>
           </div>
 
@@ -93,12 +175,12 @@ const CreatePostModal = ({ isOpen, onClose }) => {
               <input
                 type="number"
                 placeholder="Min (₦)"
-                className="border border-gray-400 rounded-lg px-4 py-2"
+                className="border border-gray-400 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-primary"
               />
               <input
                 type="number"
                 placeholder="Max (₦)"
-                className="border border-gray-400 rounded-lg px-4 py-2"
+                className="border border-gray-400 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-primary"
               />
             </div>
           </div>
@@ -109,7 +191,7 @@ const CreatePostModal = ({ isOpen, onClose }) => {
               Attachments (Optional)
             </label>
 
-            <div className="border-2 border-dashed border-gray-400 rounded-lg p-6 text-center text-gray-500">
+            <div className="border-2 border-dashed border-gray-400 rounded-lg p-6 text-center text-gray-500 hover:border-primary transition cursor-pointer">
               <div className="text-2xl mb-2">⬆️</div>
               <p className="text-sm">
                 Click to upload or drag and drop
@@ -125,21 +207,21 @@ const CreatePostModal = ({ isOpen, onClose }) => {
             <button
               type="button"
               onClick={onClose}
-              className="btn border border-dark w-ful"
+              className="btn border border-dark w-full md:w-auto px-6 py-2 rounded-lg hover:bg-gray-100 transition"
             >
               Cancel
             </button>
 
             <button
               type="button"
-              className="btn w-full"
+              className="btn w-full md:w-auto px-6 py-2 bg-primary text-white rounded-lg hover:bg-primary-dark transition"
             >
               Publish & Promote Post
             </button>
 
             <button
               type="submit"
-              className="btn btn-outline w-full"
+              className="btn btn-outline w-full md:w-auto px-6 py-2 border-2 border-primary text-primary rounded-lg hover:bg-primary hover:text-white transition"
             >
               Publish Post
             </button>

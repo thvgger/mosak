@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { NavLink, useNavigate } from 'react-router-dom';
+import { Link, NavLink, useNavigate } from 'react-router-dom';
 import { 
   Home, 
   Bell, 
@@ -26,6 +26,7 @@ import {
   Map,
   Star
 } from 'lucide-react';
+import Logo from "../../assets/mosalak-logo.png";
 
 const CommunitySidebar = ({ isOpen, onClose }) => {
   const navigate = useNavigate();
@@ -196,9 +197,12 @@ const CommunitySidebar = ({ isOpen, onClose }) => {
         ${isOpen ? 'w-64' : 'w-0'}
       `}>
 
-        <div className="flex-1 overflow-y-auto mt-14 md:mt-0">
+        <div className="flex-1 overflow-y-auto">
           {/* Channels by Group */}
           <div className="p-3 space-y-4">
+            <Link to="/" className="w-fit h-fit mb-4 flex px-2 py-1">
+              <img src={Logo} alt="Mosalak Hub Logo" className="w-32 md:w-38 object-cover" />
+            </Link>
             {channelGroups.map((group) => (
               <div key={group.id} className="space-y-1">
                 {/* Group Header */}
