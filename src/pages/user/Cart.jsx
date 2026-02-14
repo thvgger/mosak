@@ -239,28 +239,6 @@ const Cart = () => {
               <h4 className='flex items-center gap-1 mb-2'> <ShieldBan size={20} strokeWidth={1.5} className='text-primary' /> Protected by Escrow </h4>
               <p> Your payment is held securely until you confirm delivery </p>
             </div>
-            {/* <div className="bg-primary/5 border border-primary/20 rounded-xl p-4 mb-6">
-              <div className="flex items-center justify-between">
-                <div className="flex items-center gap-3">
-                  <div className="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center">
-                    <ShoppingBag className="text-primary" size={24} />
-                  </div>
-                  <div>
-                    <h3 className="font-semibold">Your Shopping Cart</h3>
-                    <p className="text-sm text-gray-600">
-                      {cartItemCount} {cartItemCount === 1 ? 'item' : 'items'} • Total: ₦{cartTotal.toLocaleString()}
-                    </p>
-                  </div>
-                </div>
-                <button
-                  onClick={handleCheckout}
-                  disabled={checkoutLoading}
-                  className="btn px-6"
-                >
-                  {checkoutLoading ? 'Processing...' : 'Checkout Now'}
-                </button>
-              </div>
-            </div> */}
 
             {/* Cart Items List */}
             <div className="bg-white rounded-xl shadow-sm overflow-hidden">

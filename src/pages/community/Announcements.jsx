@@ -43,24 +43,24 @@ const Announcements = () => {
 
   return (
     <div className="h-full overflow-y-auto">
-      <div className="max-w-4xl mx-auto p-6">
+      <div className="max-w-4xl mx-auto p-4 md:p-6">
         {/* Header */}
-        <div className="flex items-center gap-3 mb-8">
+        <div className="flex items-center gap-3 mb-6 md:mb-8">
           <div className="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center">
             <Bell size={24} className="text-primary" />
           </div>
           <div>
-            <h1 className="text-2xl font-bold text-gray-800">Announcements</h1>
-            <p className="text-gray-600">Stay updated with the latest news from Mosalak</p>
+            <h1 className="text-xl md:text-2xl font-bold text-gray-800">Announcements</h1>
+            <p className="text-sm md:text-base text-gray-600">Stay updated with the latest news from Mosalak</p>
           </div>
         </div>
 
         {/* Announcements List */}
-        <div className="space-y-6">
+        <div className="space-y-4 md:space-y-6">
           {announcements.map((announcement) => (
             <div 
               key={announcement.id} 
-              className="bg-white rounded-lg border p-6 hover:shadow-md transition-shadow"
+              className="bg-white rounded-lg border border-gray-300 p-4 md:p-6 hover:shadow-md transition-shadow"
             >
               {/* Pin Badge */}
               {announcement.pinned && (
@@ -72,7 +72,7 @@ const Announcements = () => {
 
               {/* Title & Category */}
               <div className="flex items-start justify-between gap-4 mb-3">
-                <h2 className="text-xl font-semibold text-gray-800">
+                <h2 className="text-lg md:text-xl font-semibold text-gray-800">
                   {announcement.title}
                 </h2>
                 <span className="px-3 py-1 bg-gray-100 rounded-full text-xs whitespace-nowrap">
@@ -96,12 +96,12 @@ const Announcements = () => {
               </div>
 
               {/* Content */}
-              <p className="text-gray-600 mb-4">
+              <p className="text-sm md:text-base text-gray-600 mb-4">
                 {announcement.content}
               </p>
 
               {/* Stats & Actions */}
-              <div className="flex items-center justify-between pt-4 border-t">
+              <div className="flex items-center justify-between pt-4 border-t border-gray-300">
                 <div className="flex items-center gap-4 text-sm text-gray-500">
                   <span className="flex items-center gap-1">
                     <MessageCircle size={16} />
@@ -112,10 +112,10 @@ const Announcements = () => {
                   </span>
                 </div>
                 <div className="flex gap-2">
-                  <button className="px-4 py-2 text-sm border rounded-lg hover:bg-gray-50">
+                  <button className="px-4 py-2 text-xs border border-gray-300 rounded-lg hover:bg-gray-50">
                     Read More
                   </button>
-                  <button className="p-2 border rounded-lg hover:bg-gray-50">
+                  <button className="p-2 border border-gray-300 rounded-lg hover:bg-gray-50">
                     <Share2 size={16} />
                   </button>
                 </div>

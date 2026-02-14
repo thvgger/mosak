@@ -26,7 +26,6 @@
   width: 100%;
   margin-inline: auto;
   padding-inline: 16px;
-  /* background: red; */
   max-width: 1920px;
 }
 @media screen and (min-width: 768px) {
@@ -56,7 +55,7 @@
 @layer base {
   ::-webkit-scrollbar {
     width: 6px;
-    height: 4px;
+    height: 8.8px;
   }
 
   ::-webkit-scrollbar-track {
@@ -134,7 +133,7 @@ body {
 /* Custom Scrollbar */
 /* ::-webkit-scrollbar {
   width: 6px;
-  height: 4px;
+  height: 8px;
 }
 ::-webkit-scrollbar-track {
   background: #f1f1f1;
@@ -224,5 +223,6 @@ body {
 
 .embla__slide {
   position: relative;
-  flex: 0 0 auto;
+  flex: 0 0 100%;
 } */
+

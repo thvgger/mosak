@@ -26,7 +26,7 @@ import {
 } from 'lucide-react';
 
 const RightSidebar = ({ isOpen, onClose, selectedUser, onSelectUser }) => {
-  const [activeTab, setActiveTab] = useState('online');
+  const [activeTab, setActiveTab] = useState('profile');
 
   // Sample online users
   const onlineUsers = [
@@ -101,7 +101,7 @@ const RightSidebar = ({ isOpen, onClose, selectedUser, onSelectUser }) => {
       {/* Right Sidebar */}
       <aside className={`
         fixed lg:static inset-y-0 right-0 z-50
-        w-64 bg-white
+        w-60 bg-white
         flex flex-col transition-transform duration-300
         ${isOpen ? 'translate-x-0' : 'translate-x-full lg:translate-x-0'}
       `}>
@@ -127,7 +127,7 @@ const RightSidebar = ({ isOpen, onClose, selectedUser, onSelectUser }) => {
 
         {/* Tabs */}
         <div className="flex border-b border-gray-300 px-4">
-          <button
+          {/* <button
             onClick={() => setActiveTab('online')}
             className={`flex-1 py-3 text-xs font-medium border-b-2 transition-colors
               ${activeTab === 'online' 
@@ -136,7 +136,7 @@ const RightSidebar = ({ isOpen, onClose, selectedUser, onSelectUser }) => {
               }`}
           >
             Online (12)
-          </button>
+          </button> */}
           <button
             onClick={() => setActiveTab('profile')}
             className={`flex-1 py-3 text-xs font-medium border-b-2 transition-colors
@@ -205,12 +205,12 @@ const RightSidebar = ({ isOpen, onClose, selectedUser, onSelectUser }) => {
                 <div className="flex items-center justify-center gap-2 mt-2">
                   <div className="flex items-center gap-1">
                     <Star size={14} className="text-yellow-400 fill-current" />
-                    <span className="text-sm font-medium">{selectedUser.rating}</span>
+                    <span className="text-xs font-medium">{selectedUser.rating}</span>
                   </div>
                   <span className="text-gray-300">•</span>
-                  <span className="text-sm text-gray-600">{selectedUser.joined}</span>
+                  <span className="text-xs text-gray-600">{selectedUser.joined}</span>
                   <span className="text-gray-300">•</span>
-                  <span className="text-sm text-gray-600 flex items-center gap-1">
+                  <span className="text-xs text-gray-600 flex items-center gap-1">
                     <MapPin size={12} />
                     {selectedUser.location}
                   </span>
@@ -265,7 +265,7 @@ const RightSidebar = ({ isOpen, onClose, selectedUser, onSelectUser }) => {
               </div>
             </div>
           ) : activeTab === 'profile' && (
-            <div className="p-6 text-center text-gray-500">
+            <div className="p-6 text-sm text-center text-gray-500">
               <User size={48} className="mx-auto mb-4 text-gray-300" />
               <p>Select a member to view their profile</p>
             </div>

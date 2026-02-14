@@ -17,6 +17,7 @@ import {
   MessageSquare,
   ArrowLeft
 } from 'lucide-react';
+import car from "../../assets/car.png";
 
 const Messages = () => {
   const { user } = useOutletContext();
@@ -211,7 +212,7 @@ const Messages = () => {
               >
                 <div className="relative shrink-0">
                   <img
-                    src={chat.avatar}
+                    src={chat?.avatar || car}
                     alt={chat.name}
                     className="w-12 h-12 rounded-full object-cover"
                   />
@@ -224,7 +225,15 @@ const Messages = () => {
                     <h3 className="font-medium text-gray-900 truncate">{chat.name}</h3>
                     <span className="text-xs text-gray-500 whitespace-nowrap ml-2">{chat.time}</span>
                   </div>
-                  <p className="text-sm text-gray-500 truncate">{chat.lastMessage}</p>
+                  <p className="text-sm text-gray-500 truncate flex items-center gap-1">
+                    {chat.lastMessage}
+
+                    {chat.unread > 0 && (
+                      <span className="bg-primary text-white text-xs px-1.5 py-px rounded-full">
+                        {chat.unread}
+                      </span>
+                    )}
+                  </p>
                   <div className="flex items-center justify-between mt-1">
                     <span className={`text-xs px-2 py-0.5 rounded-full ${
                       chat.status === 'seller' ? 'bg-blue-100 text-blue-700' :
@@ -233,11 +242,7 @@ const Messages = () => {
                     }`}>
                       {chat.status}
                     </span>
-                    {chat.unread > 0 && (
-                      <span className="bg-primary text-white text-xs px-2 py-0.5 rounded-full">
-                        {chat.unread}
-                      </span>
-                    )}
+                    
                   </div>
                 </div>
               </button>
@@ -266,7 +271,7 @@ const Messages = () => {
                 </button>
                 <div className="relative">
                   <img
-                    src={selectedChat.avatar}
+                    src={selectedChat.avatar || car}
                     alt={selectedChat.name}
                     className="w-10 h-10 rounded-full object-cover"
                   />

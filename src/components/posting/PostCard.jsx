@@ -2,7 +2,7 @@ const PostCard = () => {
   return (
     <article className="bg-white border border-gray-300 rounded-lg p-6 space-y-4">
       {/* Header */}
-      <div className="flex justify-between">
+      <div className="flex items-center justify-between">
         <div className="flex gap-3">
           <div className="w-10 h-10 rounded-full bg-blue-600 text-white flex items-center justify-center font-bold">
             SJ
@@ -11,7 +11,7 @@ const PostCard = () => {
           <div>
             <div className="flex items-center gap-2">
               <h4 className="font-semibold">Sarah Johnson</h4>
-              <span className="text-xs bg-yellow-100 px-2 rounded">GOLD</span>
+              <span className="text-xs bg-yellow-100 px-2 py-1 rounded">GOLD</span>
             </div>
             <p className="text-xs text-gray-500">1 day ago • Edited</p>
           </div>
@@ -55,16 +55,23 @@ const PostCard = () => {
       </div>
 
       {/* Actions */}
-      <div className="flex flex-wrap gap-3 pt-4 border-t">
+      <div className="flex items-center justify-start flex-wrap gap-3 pt-4 border-t border-gray-300">
         <button className="btn">
           Message Client
         </button>
         <button className="btn btn-outline">Save</button>
-        <button className="btn btn-outline flex-1 justify-between">
+        <button className="btn btn-outline relative pr-8!">
           <span className=""> Like </span>
+          <span className="text-[10px] text-gray-600 ml-auto absolute top-0.5 right-0.5 bg-primary/10 p-0.5"> 200 </span>
+        </button>
+        <button className="btn btn-outline">
           <span className=""> Share </span>
         </button>
+
+        
       </div>
+
+
     </article>
   );
 };

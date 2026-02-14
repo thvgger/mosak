@@ -28,7 +28,7 @@ const CreatePostModal = ({ isOpen, onClose }) => {
             <input
               type="text"
               placeholder="e.g., Need UI Designer for Mobile App"
-              className="w-full border rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-primary"
+              className="w-full border border-gray-400 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-primary"
             />
           </div>
 
@@ -49,7 +49,7 @@ const CreatePostModal = ({ isOpen, onClose }) => {
               value={description}
               onChange={(e) => setDescription(e.target.value)}
               placeholder="Describe your project requirement, timeline, and specific skills needed..."
-              className="w-full border rounded-lg px-4 py-2 resize-none focus:outline-none focus:ring-2 focus:ring-primary"
+              className="w-full border border-gray-400 rounded-lg px-4 py-2 resize-none focus:outline-none focus:ring-2 focus:ring-primary"
             />
 
             <p className="text-xs text-gray-400 mt-1">
@@ -63,7 +63,7 @@ const CreatePostModal = ({ isOpen, onClose }) => {
               <label className="text-sm font-medium mb-1 block">
                 Role Needed
               </label>
-              <select className="w-full border rounded-lg px-4 py-2">
+              <select className="w-full border border-gray-400 rounded-lg px-4 py-2">
                 <option>Select a role...</option>
                 <option>UI/UX Designer</option>
                 <option>Frontend Developer</option>
@@ -75,7 +75,7 @@ const CreatePostModal = ({ isOpen, onClose }) => {
               <label className="text-sm font-medium mb-1 block">
                 Work Mode
               </label>
-              <select className="w-full border rounded-lg px-4 py-2">
+              <select className="w-full border border-gray-400 rounded-lg px-4 py-2">
                 <option>Select Work Mode</option>
                 <option>Remote</option>
                 <option>Hybrid</option>
@@ -93,12 +93,12 @@ const CreatePostModal = ({ isOpen, onClose }) => {
               <input
                 type="number"
                 placeholder="Min (₦)"
-                className="border rounded-lg px-4 py-2"
+                className="border border-gray-400 rounded-lg px-4 py-2"
               />
               <input
                 type="number"
                 placeholder="Max (₦)"
-                className="border rounded-lg px-4 py-2"
+                className="border border-gray-400 rounded-lg px-4 py-2"
               />
             </div>
           </div>
@@ -109,7 +109,7 @@ const CreatePostModal = ({ isOpen, onClose }) => {
               Attachments (Optional)
             </label>
 
-            <div className="border-2 border-dashed rounded-lg p-6 text-center text-gray-500">
+            <div className="border-2 border-dashed border-gray-400 rounded-lg p-6 text-center text-gray-500">
               <div className="text-2xl mb-2">⬆️</div>
               <p className="text-sm">
                 Click to upload or drag and drop
@@ -125,7 +125,7 @@ const CreatePostModal = ({ isOpen, onClose }) => {
             <button
               type="button"
               onClick={onClose}
-              className="btn border-dark w-ful"
+              className="btn border border-dark w-ful"
             >
               Cancel
             </button>

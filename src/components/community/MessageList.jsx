@@ -1,7 +1,6 @@
 const MessageList = () => {
   return (
-
-    <div className="p-4 md:p-6 space-y-4 md:space-y-6">
+    <div className="p-4 space-y-4 md:space-y-6">
       <Message
         name="Chioma Adeleke"
         badge="Gold"
@@ -14,6 +13,13 @@ const MessageList = () => {
         badge="Silver"
         role="Buyer"
         message="Congratulations Chioma! I'll check it out. Has anyone tried the new search filters?"
+      />
+
+      <Message
+        name="Ngozi Okonkwo"
+        badge="Platinum"
+        role="Freelancer"
+        message="Yes! The filters are super helpful. Makes discovery much easier."
       />
 
       <Message

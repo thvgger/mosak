@@ -38,50 +38,39 @@ const ChannelChat = () => {
 
 
   return (
-    <div className="flex h-full relative">
+    <div className="flex relative">
       {/* Chat Area */}
-      <div className="flex-1 flex flex-col min-w-0 bg-white h-full overflow-y-auto">
+      <div className="flex-1 flex flex-col min-w-0 bg-white">
         {/* Channel Header with Sidebar Toggle */}
-        <div className="min-h-14 border-b border-gray-300 flex items-center justify-between px-4 bg-white">
+        <div className="min-h-14 border-b border-gray-300 flex items-center justify-between px-4 bg-white sticky z-10 top-0">
           <div className="w-full flex items-center gap-3">
-            {/* Sidebar Toggle Button - Visible on mobile/tablet */}
-            {/* <button 
-              onClick={() => document.querySelector('.lg\\:static')?.classList.contains('-translate-x-full') && 
-                document.querySelector('[class*="fixed"]')?.classList.contains('z-50') && 
-                window.innerWidth < 1024 && 
-                document.querySelector('button[onClick*="setIsSidebarOpen"]')?.click()
-              }
-              className="p-2 hover:bg-gray-100 rounded-lg"
-            >
-              <Menu size={20} />
-            </button> */}
-
             <div className="flex items-center">
               {!isSidebarOpen ? (
                 <button
                   onClick={() => setIsSidebarOpen(prev => !prev)}
                   className="rounded hover:bg-gray-50"
                 >
-                  <PanelLeftOpen size={20} />
+                  <PanelLeftOpen size={20} className='text-gray-400' />
                 </button>
               ) : (
                 <button
                   onClick={() => setIsSidebarOpen(prev => !prev)}
                   className="rounded hover:bg-gray-50"
                 >
-                  <PanelRightOpen size={20} />
+                  <PanelRightOpen size={20} className='text-gray-400' />
                 </button>
               )}
             </div>
 
 
-            <div className="w-full flex items-center justify-between flex-wrap gap-2">
-              <h2 className="font-semibold text-lg"> #{channelInfo.name} </h2>
+            <div className="w-full flex items-center justify-between flex-wrap gap-1.5">
+              <h2 className="font-semibold text-base"> #{channelInfo.name} </h2>
               <p className="text-xs text-gray-500 truncate max-w-md">
                 {channelInfo.description}
               </p>
-              <span className="hidden md:flex text-xs bg-gray-100 px-2 py-0.5 rounded-full">
-                {channelInfo.members} members
+              <span className="hidden md:flex text-xs text-gray-600 bg-gray-100 px-2 py-1 rounded-full">
+                {channelInfo.members} members 
+                (12 online)
               </span>
               <button className='flex md:hidden py-1 hover:bg-gray-50 rounded-md'>
                 <EllipsisVertical size={18} strokeWidth={1.5} />

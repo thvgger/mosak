@@ -9,7 +9,7 @@ import { useAuth } from "../../contexts/AuthContext";
 import { useShopping } from "../../contexts/ShoppingContext";
 import { useAuthModal } from "../../contexts/AuthModalContext"; 
 
-const Header = ({ isAccount }) => {
+const Header = ({ isAccount, isCommunity }) => {
   const { user, logout, isAuthenticated } = useAuth();
   const { cartItemCount, wishlist } = useShopping();
   const { openModal } = useAuthModal();
@@ -61,10 +61,10 @@ const Header = ({ isAccount }) => {
 
   return (
     <>
-      <header className="sticky top-0 z-60 bg-white md:bg-white/60 backdrop-blur-md shadow h-16 md:h-20">
+      <header className={`${isCommunity ? "relative" : "sticky"}  top-0 z-60 bg-white md:bg-white/60 backdrop-blur-md shadow h-16 md:h-20`}>
         <div className="container w-full h-full flex items-center justify-between gap-6 relative z-60">
           <Link to="/" className="w-fit h-fit ">
-            <img src={Logo} alt="Mosalak Hub Logo" className="w-38 md:w-52" />
+            <img src={Logo} alt="Mosalak Hub Logo" className="w-36 md:w-52 object-cover" />
           </Link>
 
           {/* Navigation */}
@@ -80,9 +80,9 @@ const Header = ({ isAccount }) => {
           <div className="w-fit flex items-center justify-end gap-2.5">
             {isAuthenticated ? (
               <div className="flex items-center gap-4">
-                {!isAccount ? (
+                {!isAccount && (
                   <div className="space-x-4 flex">
-                    <Link to="/cart" className="text-sm text-dark/80 flex items-center gap-2 cursor-pointer relative"> 
+                    <Link to="/cart" className="relative"> 
                       <ShoppingCart size={22} strokeWidth={1.5} className="text-primary" />
                       {cartItemCount > 0 && (
                         <span className="absolute -right-1.5 -top-1 w-4 h-4 flex items-center justify-center rounded-full bg-white border border-[#1B6392]/70 text-[9px] text-[#1B6392]/70 font-medium">
@@ -90,22 +90,19 @@ const Header = ({ isAccount }) => {
                         </span>
                       )}
                     </Link>
-                    <Link to="/wishlist" className="text-sm text-dark/80 flex items-center gap-2 cursor-pointer relative"> 
-                      <Heart size={22} strokeWidth={1.5} className="text-primary text-xs" />
+                    <Link to="/wishlist" className="relative"> 
+                      <Heart size={22} strokeWidth={1.5} className="text-primary" />
                       {wishlist.length > 0 && (
                         <span className="absolute -right-1.5 -top-1 w-4 h-4 flex items-center justify-center rounded-full bg-white border border-[#1B6392]/70 text-[9px] text-[#1B6392]/70 font-medium">
                           {wishlist.length}
                         </span>
                       )}
                     </Link>
-                  </div>
-                ) : (
-                  <div className="space-x-4 flex">
-                    <Link to="/account/messages" className="">
-                      <MessageSquare size={20} strokeWidth={2} className="text-primary" />
+                    <Link to="/account/messages" className="relative">
+                      <MessageSquare size={19} strokeWidth={1.5} className="text-primary" />
                     </Link>
-                    <Link to="/account/notifications" className="">
-                      <Bell size={22} strokeWidth={2} className="text-primary" />
+                    <Link to="/account/notifications" className="relative">
+                      <Bell size={20} strokeWidth={1.5} className="text-primary" />
                     </Link>
                   </div>
                 )}

@@ -156,19 +156,19 @@ const Wishlist = () => {
       <div className="container mx-auto px-4">
         {/* Header */}
         <div className="mb-8">
-          <button
+          {/* <button
             onClick={() => navigate('/marketplace')}
             className="inline-flex items-center gap-2 text-gray-600 hover:text-gray-900 mb-4"
           >
             <ArrowLeft size={20} />
             Continue Shopping
-          </button>
+          </button> */}
           <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
             <div>
-              <h1 className="text-3xl font-bold mb-2">My Wishlist</h1>
-              <p className="text-gray-600">
+              <h1 className="text-lg font-semibold"> Wishlist ({wishlist.length}) </h1>
+              {/* <p className="text-gray-600">
                 {wishlist.length} {wishlist.length === 1 ? 'item' : 'items'} saved
-              </p>
+              </p> */}
             </div>
             <div className="flex items-center gap-4">
               {/* Filter */}
@@ -210,7 +210,7 @@ const Wishlist = () => {
         </div>
 
         {/* Wishlist Summary */}
-        <div className="bg-white rounded-xl shadow-sm p-6 mb-8">
+        <div className="bg-white rounded-xl shadow-sm p-6 mb-8 hidden">
           <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
             <div className="flex items-center gap-4">
               <div className="w-16 h-16 bg-red-50 rounded-full flex items-center justify-center">
@@ -264,7 +264,7 @@ const Wishlist = () => {
         )}
 
         {/* Wishlist Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6">
           {filteredWishlist.map((item) => (
             <div key={item.id} className="bg-white rounded-xl shadow-sm overflow-hidden hover:shadow-md transition-shadow">
               {/* Product Image */}
@@ -362,7 +362,7 @@ const Wishlist = () => {
         </div>
 
         {/* Tips Section */}
-        <div className="mt-12 bg-linear-to-r from-primary/5 to-blue-50 rounded-2xl p-8">
+        <div className="hidden mt-12 bg-linear-to-r from-primary/5 to-blue-50 rounded-2xl p-8">
           <div className="max-w-3xl mx-auto text-center">
             <div className="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-6">
               <ShoppingBag className="text-primary" size={28} />
@@ -402,7 +402,7 @@ const Wishlist = () => {
 
         {/* Related Suggestions */}
         <div className="mt-12">
-          <h2 className="text-2xl font-bold mb-6">You Might Also Like</h2>
+          <h2 className="text-lg font-semibold mb-6"> Just For You </h2>
           <div className="flex overflow-x-auto gap-4 pb-4 -mx-4 px-4">
             {/* This would be populated with recommended products */}
             {[1, 2, 3, 4].map((i) => (

@@ -189,58 +189,14 @@ const CommunitySidebar = ({ isOpen, onClose }) => {
 
       {/* Sidebar */}
       <aside className={`
-        fixed md:static inset-y-0 left-0 z-50
+        fixed md:sticky inset-y-0 top-0 z-50
          bg-white
         flex flex-col transition-all duration-300
+        border-r border-gray-200
         ${isOpen ? 'w-64' : 'w-0'}
       `}>
-        {/* Header */}
-        {/* <div className="h-16 flex items-center justify-between px-4 border-b border-gray-300">
-          <NavLink 
-            to="/community/channel/general"
-            onClick={handleNavClick}
-            className="flex items-center gap-3"
-          >
-            <div className="w-8 h-8 bg-linear-to-br from-primary to-blue-600 rounded-lg flex items-center justify-center">
-              <MessageSquare size={18} className="text-white" />
-            </div>
-            <div>
-              <h2 className="font-bold text-gray-800">Mosalak</h2>
-              <p className="text-xs text-gray-500">Community</p>
-            </div>
-          </NavLink>
-          <button 
-            onClick={onClose}
-            className="lg:hidden p-2 hover:bg-gray-100 rounded-lg"
-          >
-            <X size={20} />
-          </button>
-        </div> */}
 
-        {/* Scrollable Content */}
         <div className="flex-1 overflow-y-auto mt-14 md:mt-0">
-          {/* Navigation Items */}
-          {/* <div className="p-3 space-y-0.5 border-b border-gray-200">
-            {navItems.map((item) => (
-              <NavLink
-                key={item.path}
-                to={item.path}
-                end={item.end}
-                onClick={handleNavClick}
-                className={({ isActive }) => `
-                  flex items-center gap-3 px-3 py-2 rounded-lg transition-all
-                  ${isActive 
-                    ? 'bg-primary text-white shadow-md' 
-                    : 'text-gray-700 hover:bg-gray-100'
-                  }
-                `}
-              >
-                <item.icon size={18} />
-                <span className="text-sm font-medium">{item.label}</span>
-              </NavLink>
-            ))}
-          </div> */}
-
           {/* Channels by Group */}
           <div className="p-3 space-y-4">
             {channelGroups.map((group) => (

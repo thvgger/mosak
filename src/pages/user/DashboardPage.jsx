@@ -10,15 +10,11 @@ const DashboardPage = () => {
   return (
     <div className="space-y-6">
       {/* Welcome Section */}
-      <div className="bg-primary rounded-lg p-6">
-        <div className="flex items-center flex-wrap justify-between gap-2">
-          {/* <div> */}
-            <h1 className="text-xl font-semibold text-white">Welcome back, <span className=""> {user.name} </span></h1>
-            <div className="flex items-center space-x-2 mt-4">
-              <span className="px-3 py-1 bg-gray-200 text-xs font-medium rounded-md">SILVER</span>
-              <span className="px-3 py-1 bg-gray-100 text-primary text-xs font-medium rounded-md">VERIFIED</span>
-            </div>
-          {/* </div> */}
+      <div className="bg-primary rounded-lg p-6 flex flex-col items-start flex-wrap justify-between">
+        <h1 className="text-xl font-semibold text-white">Welcome back, <span className=""> {user.name} </span></h1>
+        <div className="flex items-center space-x-2 mt-4">
+          <span className="px-3 py-1 bg-gray-200 text-xs font-medium rounded-md">SILVER</span>
+          <span className="px-3 py-1 bg-gray-100 text-primary text-xs font-medium rounded-md">VERIFIED</span>
         </div>
       </div>
 

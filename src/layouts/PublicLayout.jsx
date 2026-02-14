@@ -9,14 +9,18 @@ const PublicLayout = () => {
 
   // Check if current path is home or any other route you consider "home"
   const isHome = ['/', '/home', '/index'].includes(location.pathname);
+
+  // Check if current path is Community
+  const isCommunity = location.pathname.startsWith('/community');
+  // const isCommunity = [ '/community' ].includes(location.pathname);
   
   return (
     <div>
       {isHome && <TopBanner />}
       {!isHome && <TopNav />}
-      <Header />
+      <Header isCommunity={isCommunity} />
       <Outlet />
-      <Footer />
+      {!isCommunity && <Footer />}
     </div>
   );
 }

@@ -2,6 +2,7 @@ import React, { useCallback, useEffect, useState } from 'react';
 import useEmblaCarousel from 'embla-carousel-react';
 import { ChevronRight, ChevronLeft } from 'lucide-react';
 import car from "../../assets/car.png";
+// import "./custom.css";
 
 const PinnedAdvert = () => {
   const ads = [
@@ -75,7 +76,7 @@ const PinnedAdvert = () => {
 
   const [emblaRef, emblaApi] = useEmblaCarousel({
     align: "start",
-    loop: false,
+    loop: true,
     dragFree: true
   });
 
@@ -119,24 +120,24 @@ const PinnedAdvert = () => {
   }, [emblaApi, onSelect]);
 
   return (
-    <div className="bg-white mb-4 p-4 relative">
+    <div className="bg-white p-4 pt-2 pb-0 relative">
       {/* Header */}
-      <div className="flex items-center justify-between mb-4">
-        <h3 className="text-base font-bold"> M-Adverts</h3>
+      <div className="flex items-center justify-between mb-2">
+        <h3 className="text-base font-bold"> M-Adverts </h3>
         <button className="btn px-3 py-2 text-xs">
-          <span className="hidden sm:inline">View All Ads</span>
-          <span className="sm:hidden">View All</span>
+          <span className="hidden sm:inline"> View All Ads </span>
+          <span className="sm:hidden"> View All </span>
           <ChevronRight size={14} />
         </button>
       </div>
 
       {/* Carousel Container */}
-      <div className="embla overflow-x-hidden px-4" ref={emblaRef}>
-        <div className="embla__container flex">
+      <div className="embla h-full relative! overflow-x-hidden px-4 pb-4" ref={emblaRef}>
+        <div className="embla__container w-full">
           {groupedAds.map((adPair, index) => (
-            <div key={index} className="w-full flex-[0_0_100%] flex gap-4">
+            <div key={index} className="embla__slide flex-[0_0_100%] flex items-center justify-start gap-4 last-of-type:pr-4">
               {adPair.map((ad) => (
-                <div key={ad.id} className="bg-primary/20 border border-primary/30 rounded-lg p-4 w-full h-full">
+                <div key={ad.id} className="bg-primary/20 border border-primary/30 rounded-lg p-4 w-full h-fit">
                   {/* Ad Type Badge */}
                   {/* <div className="mb-3">
                     <span className="bg-primary text-white text-xs font-bold px-3 py-1 rounded-full">
@@ -167,9 +168,9 @@ const PinnedAdvert = () => {
                     </div>
                       
                     {/* Message */}
-                    <div className='flex items-start gap-2'>
-                      <div className='flex- flex-col gap-2'>
-                        <p className="text-xs text-gray-700 line-clamp-2 mb-1">
+                    <div className='w-full flex items-start justify-between gap-2'>
+                      <div className='flex flex-col gap-1'>
+                        <p className="text-xs text-gray-700 line-clamp-2">
                           {ad.message}
                         </p>
                         
@@ -186,7 +187,7 @@ const PinnedAdvert = () => {
                         </div>
                       </div>
 
-                      <img src={ad?.img || car} alt='' className='w-18 h-fit rounded-sm' />
+                      <img src={ad?.img || car} alt='' className='w-18 h-auto rounded-sm object-cover object-center' />
                     </div>
                   </div>
                 </div>
@@ -197,17 +198,17 @@ const PinnedAdvert = () => {
 
 
         {/* Navigation Buttons */}
-        <div className="w-full flex items-center justify-between gap-2 mt-1">
+        <div className="w-full flex items-center justify-between gap-2">
           <button
             onClick={scrollPrev}
-            className="absolute top-1/2 -translate-y-1/2 left-0 h-8 w-8 bg-primary text-white rounded-full border-4 border-white/80 flex items-center justify-center hover:bg-primary/80 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
+            className="absolute top-1/2 -translate-y-1/2 left-0 h-8 w-8 bg-primary text-white rounded-full border-4 border-white flex items-center justify-center hover:bg-primary/80 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
             disabled={!canScrollPrev}
           >
             <ChevronLeft size={16} />
           </button>
           <button
             onClick={scrollNext}
-            className="absolute top-1/2 -translate-y-1/2 right-0 h-8 w-8 bg-primary text-white rounded-full border-4 border-white/80 flex items-center justify-center hover:bg-primary/80 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
+            className="absolute top-1/2 -translate-y-1/2 right-0 h-8 w-8 bg-primary text-white rounded-full border-4 border-white flex items-center justify-center hover:bg-primary/80 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
             disabled={!canScrollNext}
           >
             <ChevronRight size={16} />
@@ -215,7 +216,7 @@ const PinnedAdvert = () => {
         </div>
 
         {/* Dots Indicator */}
-        <div className="flex justify-center gap-2 mt-4">
+        <div className="flex justify-center gap-2 mt-2 relative">
           {groupedAds.map((_, i) => (
             <button
             key={i}

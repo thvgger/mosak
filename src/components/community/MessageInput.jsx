@@ -22,7 +22,7 @@ const MessageInput = () => {
       <input
         type="text"
         placeholder="Type your message..."
-        className="flex-1 border border-gray-300 rounded-lg px-3 md:px-4 py-2 focus:outline-none text-sm md:text-base"
+        className="flex-1 border border-gray-300 rounded-lg px-3 md:px-4 py-2 focus:outline-none text-base"
       />
 
       <button className="bg-primary text-white p-2 md:px-4 md:py-2 rounded-lg">

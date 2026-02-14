@@ -57,7 +57,7 @@ const DashboardSidebar = () => {
       {/* Mobile Menu Toggle Button */}
       <button
         onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-        className="lg:hidden fixed top-20 left-4 z-50 p-2 bg-white rounded-lg shadow-md"
+        className="lg:hidden fixed top-16 left-0 z-50 p-2 bg-white rounded-lg shadow-md"
       >
         {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
       </button>
@@ -76,7 +76,7 @@ const DashboardSidebar = () => {
           fixed left-0 top-0 h-full w-64 bg-white border-r border-gray-200 
           transition-all duration-300 ease-in-out z-40
           ${isMobileMenuOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'}
-          pt-14.5
+          pt-10.5 md:pt-14.5
         `}
       >
         <nav className="h-full flex flex-col justify-between pb-6">
