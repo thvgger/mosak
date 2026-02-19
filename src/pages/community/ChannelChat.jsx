@@ -1,20 +1,32 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useParams, useOutletContext } from 'react-router-dom';
 import { Menu, Users, Info, Volume2, Search, Pin, PanelLeftOpen, EllipsisVertical, PanelRightOpen } from 'lucide-react';
 import MessageList from '../../components/community/MessageList';
 import MessageInput from '../../components/community/MessageInput';
-import RightSidebar from '../../components/community/RightSidebar';
+import UserProfileSidebar from '../../components/community/UserProfileSidebar';
 import PinnedAdvert from '../../components/community/PinnedAdvert';
 
 const ChannelChat = () => {
   const { channelId } = useParams();
   const [isRightSidebarOpen, setIsRightSidebarOpen] = useState(false);
   const [selectedUser, setSelectedUser] = useState(null);
+  const [isMobile, setIsMobile] = useState(window.innerWidth < 1024);
 
   const { setIsSidebarOpen, isSidebarOpen } = useOutletContext();
 
+  // Check screen size on resize
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth < 1024);
+    };
+
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
   const getChannelInfo = (id) => {
     const channels = {
+      'home': { name: 'Home', description: 'Main community discussions', members: '1.2k' },
       'general': { name: 'General', description: 'Main community discussions', members: '1.2k' },
       'introductions': { name: 'Introductions', description: 'New members introduce themselves', members: '432' },
       'buyers-lounge': { name: 'Buyers Lounge', description: 'Buyers discussion and tips', members: '856' },
@@ -32,10 +44,20 @@ const ChannelChat = () => {
 
   const channelInfo = getChannelInfo(channelId || 'general');
 
+  const handleUserSelect = (user) => {
+    setSelectedUser(user);
+    setIsRightSidebarOpen(true);
+  };
+
+  const handleCloseProfile = () => {
+    setIsRightSidebarOpen(false);
+    setSelectedUser(null);
+  };
+
   return (
     <div className="flex h-full bg-white">
       {/* Chat Area */}
-      <div className="flex-1 flex flex-col min-w-0 h-full">
+      <div className="flex-1 flex flex-col min-w-0 w-full h-full">
         {/* Channel Header with Sidebar Toggle */}
         <div className="min-h-14 border-b border-gray-200 flex items-center justify-between px-4 bg-white">
           <div className="w-full flex items-center gap-3">
@@ -57,40 +79,41 @@ const ChannelChat = () => {
               )}
             </div>
 
-            <div className="w-full flex items-center justify-between flex-wrap gap-1.5">
+            <div className="w-full flex items-center justify-between gap-2.5">
               <h2 className="font-semibold text-base"> #{channelInfo.name} </h2>
-              <p className="text-xs text-gray-500 truncate max-w-md">
+              <p className="text-xs text-gray-500">
                 {channelInfo.description}
               </p>
               <span className="hidden md:flex text-xs text-gray-600 bg-gray-100 px-2 py-1 rounded-full">
                 {channelInfo.members} members 
                 (12 online)
               </span>
-              <button className='flex md:hidden py-1 hover:bg-gray-50 rounded-md'>
+              <button className='flex md:hidden py-1 px-1 bg-gray-50 hover:bg-gray-100 rounded-lg'>
                 <EllipsisVertical size={18} strokeWidth={1.5} />
               </button>
             </div>
           </div>
         </div>
+        
 
         <PinnedAdvert />
 
         {/* Messages - This will scroll */}
-        <div className="flex-1 overflow-y-auto">
-          <MessageList channelId={channelId} />
+        <div className="flex-1 overflow-y-auto mt-10">
+          <MessageList onUserSelect={handleUserSelect} />
         </div>
         
         {/* Input - This stays sticky at the bottom */}
         <MessageInput channelId={channelId} />
       </div>
 
-      {/* Right Sidebar - User Profiles */}
-      {/* <RightSidebar 
+      {/* Unified Profile Component - Handles both desktop sidebar and mobile popup */}
+      <UserProfileSidebar 
         isOpen={isRightSidebarOpen}
-        onClose={() => setIsRightSidebarOpen(false)}
+        onClose={handleCloseProfile}
         selectedUser={selectedUser}
-        onSelectUser={setSelectedUser}
-      /> */}
+        isMobile={isMobile}
+      />
     </div>
   );
 };

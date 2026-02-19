@@ -171,9 +171,9 @@ const Messages = () => {
   return (
     <div className="h-[calc(100vh-120px)] flex flex-col">
       {/* Header - Only show on desktop or when no chat is selected on mobile */}
-      <div className={`mb-4 ${showMobileChat ? 'hidden md:block' : 'block'}`}>
+      {/* <div className={`mb-4 ${showMobileChat ? 'hidden md:block' : 'block'}`}>
         <h1 className="text-2xl font-bold text-gray-800">Messages</h1>
-      </div>
+      </div> */}
 
       {/* Messages Container */}
       <div className="flex-1 bg-white rounded-xl border border-gray-200 shadow-sm overflow-hidden flex flex-col md:flex-row">

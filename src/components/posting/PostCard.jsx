@@ -62,7 +62,7 @@ const PostCard = () => {
         <button className="btn btn-outline">Save</button>
         <button className="btn btn-outline relative pr-8!">
           <span className=""> Like </span>
-          <span className="text-[10px] text-gray-600 ml-auto absolute top-0.5 right-0.5 bg-primary/10 p-0.5"> 200 </span>
+          <span className="text-[10px] ml-auto absolute -top-1.5 -right-1.5 bg-red-500 text-white rounded-full py-0.5 px-1.5"> 200 </span>
         </button>
         <button className="btn btn-outline">
           <span className=""> Share </span>

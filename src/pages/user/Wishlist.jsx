@@ -12,6 +12,7 @@ import {
 } from 'lucide-react';
 import { useAuth } from '../../contexts/AuthContext';
 import { useShopping } from '../../contexts/ShoppingContext';
+import ProductCard from "../../components/marketplace/ProductCard.jsx";
 
 const Wishlist = () => {
   const { isAuthenticated } = useAuth();
@@ -266,98 +267,7 @@ const Wishlist = () => {
         {/* Wishlist Grid */}
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6">
           {filteredWishlist.map((item) => (
-            <div key={item.id} className="bg-white rounded-xl shadow-sm overflow-hidden hover:shadow-md transition-shadow">
-              {/* Product Image */}
-              <div className="relative">
-                <Link to={`/product/${item.id}`}>
-                  <img
-                    src={item.images?.[0] || 'https://via.placeholder.com/300'}
-                    alt={item.title}
-                    className="w-full h-48 object-cover"
-                  />
-                </Link>
-                
-                {/* Stock Badge */}
-                {item.stock === 0 && (
-                  <div className="absolute top-3 left-3 bg-red-500 text-white text-xs px-3 py-1 rounded-full">
-                    Sold Out
-                  </div>
-                )}
-                
-                {/* Remove Button */}
-                <button
-                  onClick={() => removeFromWishlist(item.id)}
-                  className="absolute top-3 right-3 w-8 h-8 bg-white/90 hover:bg-white rounded-full flex items-center justify-center shadow-sm"
-                  title="Remove from wishlist"
-                >
-                  <X size={18} />
-                </button>
-                
-                {/* Wishlist Heart */}
-                <div className="absolute bottom-3 right-3">
-                  <Heart 
-                    size={24} 
-                    className="text-red-500" 
-                    fill="currentColor"
-                  />
-                </div>
-              </div>
-
-              {/* Product Info */}
-              <div className="p-4">
-                <Link to={`/product/${item.id}`}>
-                  <h3 className="font-semibold text-lg mb-2 hover:text-primary line-clamp-1">
-                    {item.title}
-                  </h3>
-                </Link>
-                
-                <p className="text-gray-600 text-sm mb-3 line-clamp-2">
-                  {item.description}
-                </p>
-                
-                <div className="flex items-center gap-2 mb-3">
-                  <span className="bg-gray-100 px-2 py-1 rounded text-xs">
-                    {item.condition}
-                  </span>
-                  <span className="text-gray-500 text-xs">•</span>
-                  <span className="text-xs text-gray-600">{item.brand}</span>
-                </div>
-
-                {/* Price */}
-                <div className="flex items-center justify-between mb-4">
-                  <div className="text-xl font-bold">
-                    ₦{item.price.toLocaleString()}
-                  </div>
-                  {item.originalPrice && (
-                    <div className="text-sm text-gray-500 line-through">
-                      ₦{item.originalPrice.toLocaleString()}
-                    </div>
-                  )}
-                </div>
-
-                {/* Action Buttons */}
-                <div className="flex gap-2">
-                  <button
-                    onClick={() => handleMoveToCart(item)}
-                    disabled={item.stock === 0}
-                    className={`flex-1 btn py-2 text-sm ${
-                      item.stock === 0 
-                        ? 'bg-gray-100 text-gray-400 cursor-not-allowed' 
-                        : ''
-                    }`}
-                  >
-                    <ShoppingCart size={16} />
-                    {item.stock === 0 ? 'Out of Stock' : 'Add to Cart'}
-                  </button>
-                  <button
-                    onClick={() => navigate(`/product/${item.id}`)}
-                    className="flex-1 btn btn-tertiary py-2 text-sm"
-                  >
-                    View Details
-                  </button>
-                </div>
-              </div>
-            </div>
+            <ProductCard key={item.id} product={item} />
           ))}
         </div>
 

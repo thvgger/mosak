@@ -12,7 +12,8 @@ import {
   Truck,
   X,
   Heart,
-  ShoppingBag
+  ShoppingBag,
+  LockKeyhole
 } from 'lucide-react';
 import { useAuth } from '../../contexts/AuthContext';
 import { useShopping } from '../../contexts/ShoppingContext';
@@ -235,7 +236,7 @@ const Cart = () => {
           {/* Cart Items */}
           <div className="lg:w-2/3">
             {/* Cart Summary Banner */}
-            <div className='bg-primary/20 p-4 rounded-lg mb-2'>
+            <div className='bg-primary/20 p-4 rounded-lg mb-4'>
               <h4 className='flex items-center gap-1 mb-2'> <ShieldBan size={20} strokeWidth={1.5} className='text-primary' /> Protected by Escrow </h4>
               <p> Your payment is held securely until you confirm delivery </p>
             </div>
@@ -245,15 +246,15 @@ const Cart = () => {
               {cart.map((item) => (
                 <div key={item.id} className="border-b border-gray-100 last:border-b-0">
                   <div className="p-6">
-                    <div className="flex gap-6">
+                    <div className="flex flex-col sm:flex-row gap-6">
                       {/* Product Image */}
                       <div className="relative">
                         <img
                           src={item.images?.[0] || 'https://via.placeholder.com/150'}
                           alt={item.title}
-                          className="w-32 h-32 object-cover rounded-lg"
+                          className="min-w-32 h-32 object-cover rounded-lg"
                         />
-                        <button
+                        {/* <button
                           onClick={() => toggleItemSelection(item.id)}
                           className={`absolute top-2 left-2 w-6 h-6 rounded-full border-2 flex items-center justify-center ${
                             selectedItems.includes(item.id)
@@ -262,12 +263,12 @@ const Cart = () => {
                           }`}
                         >
                           {selectedItems.includes(item.id) && '✓'}
-                        </button>
+                        </button> */}
                       </div>
 
                       {/* Product Info */}
                       <div className="flex-1">
-                        <div className="flex justify-between">
+                        <div className="flex flex-wrap gap-4 justify-between">
                           <div>
                             <h3 className="font-semibold text-lg mb-1">
                               <Link to={`/product/${item.id}`} className="hover:text-primary">
@@ -284,58 +285,69 @@ const Cart = () => {
                               <span className="text-gray-500">•</span>
                               <span className="text-sm text-gray-600">{item.brand}</span>
                             </div>
-                          </div>
+                         
+
+                            {/* Actions */}
+                            <div className="flex items-center justify-between mt-4">
+                              <div className="flex items-center gap-4">
+                                {/* Quantity Controls */}
+                                <div className="flex items-center gap-2">
+                                  <button
+                                    onClick={() => handleQuantityChange(item.id, item.quantity - 1)}
+                                    className="w-8 h-8 flex items-center justify-center bg-primary text-white border border-gray-300 rounded-md hover:bg-primary/80"
+                                  >
+                                    <Minus size={16} />
+                                  </button>
+                                  <span className="w-8 text-center">{item.quantity}</span>
+                                  <button
+                                    onClick={() => handleQuantityChange(item.id, item.quantity + 1)}
+                                    className="w-8 h-8 flex items-center justify-center bg-primary text-white border border-gray-300 rounded-md hover:bg-primary/80"
+                                  >
+                                    <Plus size={16} />
+                                  </button>
+                                </div>
+
+                                {/* Action Buttons */}
+                                <div className="flex items-center gap-3">
+                                  {/* <button
+                                    onClick={() => handleMoveToWishlist(item)}
+                                    className="flex items-center gap-2 text-gray-600 hover:text-red-500"
+                                  >
+                                    <Heart size={18} />
+                                    <span className="text-sm">Move to Wishlist</span>
+                                  </button> */}
+                                  {/* <button
+                                    onClick={() => removeFromCart(item.id)}
+                                    className="flex items-center gap-2 text-gray-600 hover:text-red-500"
+                                  >
+                                    <Trash2 size={18} />
+                                    <span className="text-sm">Remove</span>
+                                  </button> */}
+                                </div>
+                              </div>
+                            </div>
+                           </div>
 
                           {/* Price */}
-                          <div className="text-right">
-                            <div className="text-xl font-bold mb-2">
+                          <div className="text-right flex items-center gap-4">
+                            <div className="text-xl text-primary font-bold">
                               ₦{(item.price * item.quantity).toLocaleString()}
                             </div>
-                            <div className="text-sm text-gray-500">
+                            {/* <div className="text-sm text-gray-500">
                               ₦{item.price.toLocaleString()} each
-                            </div>
-                          </div>
-                        </div>
+                            </div> */}
 
-                        {/* Actions */}
-                        <div className="flex items-center justify-between mt-4">
-                          <div className="flex items-center gap-4">
-                            {/* Quantity Controls */}
-                            <div className="flex items-center gap-2">
-                              <button
-                                onClick={() => handleQuantityChange(item.id, item.quantity - 1)}
-                                className="w-8 h-8 flex items-center justify-center border border-gray-300 rounded hover:bg-gray-50"
-                              >
-                                <Minus size={16} />
-                              </button>
-                              <span className="w-12 text-center">{item.quantity}</span>
-                              <button
-                                onClick={() => handleQuantityChange(item.id, item.quantity + 1)}
-                                className="w-8 h-8 flex items-center justify-center border border-gray-300 rounded hover:bg-gray-50"
-                              >
-                                <Plus size={16} />
-                              </button>
-                            </div>
-
-                            {/* Action Buttons */}
-                            <div className="flex items-center gap-3">
-                              <button
-                                onClick={() => handleMoveToWishlist(item)}
-                                className="flex items-center gap-2 text-gray-600 hover:text-red-500"
-                              >
-                                <Heart size={18} />
-                                <span className="text-sm">Move to Wishlist</span>
-                              </button>
-                              <button
+                            <button
                                 onClick={() => removeFromCart(item.id)}
-                                className="flex items-center gap-2 text-gray-600 hover:text-red-500"
+                                className="flex items-center gap-2 text-red-600 hover:text-red-500"
                               >
                                 <Trash2 size={18} />
-                                <span className="text-sm">Remove</span>
+                                {/* <span className="text-sm">Remove</span> */}
                               </button>
-                            </div>
                           </div>
                         </div>
+
+                        
                       </div>
                     </div>
                   </div>
@@ -376,11 +388,14 @@ const Cart = () => {
           {/* Order Summary */}
           <div className="lg:w-1/3">
             <div className="sticky top-24">
-              <div className="bg-white rounded-xl shadow-sm p-6">
-                <h2 className="text-xl font-bold mb-6">Order Summary</h2>
+              <div className="bg-white rounded-xl shadow-sm overflow-hidden">
+                <h2 className="text-xl font-bold mb-6 bg-primary/20 p-6 flex items-center gap-2">
+                  <Truck className='text-primary' />
+                  Order Summary
+                </h2>
 
                 {/* Price Breakdown */}
-                <div className="space-y-4 mb-6">
+                <div className="space-y-4 p-6">
                   <div className="flex justify-between">
                     <span className="text-gray-600">Subtotal ({cartItemCount} items)</span>
                     <span className="font-semibold">₦{cartTotal.toLocaleString()}</span>
@@ -389,7 +404,7 @@ const Cart = () => {
                   <div className="flex justify-between">
                     <span className="text-gray-600">Delivery Fee</span>
                     <span className={deliveryFee === 0 ? 'text-green-600 font-semibold' : 'font-semibold'}>
-                      {deliveryFee === 0 ? 'FREE' : `₦${deliveryFee.toLocaleString()}`}
+                      {deliveryFee === 0 ? '₦3,500' : `₦${deliveryFee.toLocaleString()}`}
                     </span>
                   </div>
                   
@@ -404,24 +419,50 @@ const Cart = () => {
                       <span>₦{totalWithFees.toLocaleString()}</span>
                     </div>
                   </div>
+
+                  {/* Checkout Button */}
+                  <button
+                    onClick={handleCheckout}
+                    disabled={checkoutLoading}
+                    className="w-full btn py-4 text-lg mb-4"
+                  >
+                    {checkoutLoading ? (
+                      <span className="flex items-center justify-center gap-2">
+                        <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+                        Processing...
+                      </span>
+                    ) : (
+                      // `Proceed to Checkout (₦${totalWithFees.toLocaleString()})`
+                      `Proceed to Checkout `
+                    )}
+                  </button>
+
+                
+                  <div className="flex flex-col justify-center gap-4 border border-gray-300 rounded-lg text-sm p-4">
+                    <span className="flex items-center gap-2"> <Shield size={18} className='text-primary' /> Escrow Protection Applied</span>
+                    <span className="flex items-center gap-2"> <Truck size={18} className='text-green-400' /> Free Returns within 7 Days</span>
+                    <span className="flex items-center gap-2"> <LockKeyhole size={18} className='text-yellow-600' /> Secure Payment Processing</span>
+                  </div>
                 </div>
 
                 {/* Delivery Estimate */}
-                <div className="bg-gray-50 rounded-lg p-4 mb-6">
-                  <div className="flex items-center gap-3 mb-3">
-                    <Truck className="text-gray-600" size={20} />
-                    <span className="font-semibold">Delivery Estimate</span>
-                  </div>
-                  <p className="text-sm text-gray-600">
-                    {deliveryFee === 0 
-                      ? 'Free delivery! Your order will arrive in 2-3 business days.'
-                      : 'Standard delivery: 3-5 business days'
-                    }
-                  </p>
-                </div>
+                {/* <div className="px-6 mb-6">
+                  <div className='bg-gray-50 rounded-lg p-4'>
+                    <div className="flex items-center gap-3 mb-3">
+                      <Truck className="text-gray-600" size={20} />
+                      <span className="font-semibold">Delivery Estimate</span>
+                    </div>
+                    <p className="text-sm text-gray-600">
+                      {deliveryFee === 0 
+                        ? 'Free delivery! Your order will arrive in 2-3 business days.'
+                        : 'Standard delivery: 3-5 business days'
+                      }
+                    </p>
+                    </div>
+                </div> */}
 
                 {/* Package Protection */}
-                <div className="bg-primary/5 border border-primary/20 rounded-lg p-4 mb-6">
+                {/* <div className="bg-primary/5 border border-primary/20 rounded-lg p-4 mb-6">
                   <div className="flex items-center gap-3 mb-2">
                     <Package className="text-primary" size={20} />
                     <span className="font-semibold">Package Protection</span>
@@ -433,38 +474,15 @@ const Cart = () => {
                     <input type="checkbox" className="rounded text-primary" />
                     <span className="text-sm">Add Package Protection (+₦500)</span>
                   </label>
-                </div>
+                </div> */}
 
-                {/* Checkout Button */}
-                <button
-                  onClick={handleCheckout}
-                  disabled={checkoutLoading}
-                  className="w-full btn py-4 text-lg mb-4"
-                >
-                  {checkoutLoading ? (
-                    <span className="flex items-center justify-center gap-2">
-                      <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
-                      Processing...
-                    </span>
-                  ) : (
-                    `Proceed to Checkout (₦${totalWithFees.toLocaleString()})`
-                  )}
-                </button>
+                
 
-                {/* Payment Methods */}
-                <div className="text-center">
-                  <p className="text-sm text-gray-500 mb-3">Secure payment with:</p>
-                  <div className="flex justify-center gap-4">
-                    <span className="text-xs bg-gray-100 px-3 py-1 rounded">Paystack</span>
-                    <span className="text-xs bg-gray-100 px-3 py-1 rounded">Flutterwave</span>
-                    <span className="text-xs bg-gray-100 px-3 py-1 rounded">Card</span>
-                    <span className="text-xs bg-gray-100 px-3 py-1 rounded">Bank Transfer</span>
-                  </div>
-                </div>
+                
               </div>
 
               {/* Continue Shopping */}
-              <div className="mt-6 bg-white rounded-xl shadow-sm p-6">
+              {/* <div className="mt-6 bg-white rounded-xl shadow-sm p-6">
                 <h3 className="font-bold mb-4">Continue Shopping</h3>
                 <div className="space-y-3">
                   <button
@@ -486,7 +504,7 @@ const Cart = () => {
                     View Order History
                   </button>
                 </div>
-              </div>
+              </div> */}
             </div>
           </div>
         </div>

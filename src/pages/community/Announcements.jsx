@@ -1,7 +1,10 @@
 import React from 'react';
-import { Bell, Pin, Calendar, User, Tag, MessageCircle, Share2 } from 'lucide-react';
+import { useParams, useOutletContext } from 'react-router-dom';
+import { Bell, Pin, Calendar, User, Tag, MessageCircle, Share2, PanelLeftOpen, PanelRightOpen } from 'lucide-react';
 
 const Announcements = () => {
+  const { setIsSidebarOpen, isSidebarOpen } = useOutletContext();
+
   const announcements = [
     {
       id: 1,
@@ -42,21 +45,36 @@ const Announcements = () => {
   ];
 
   return (
-    <div className="h-full overflow-y-auto">
-      <div className="max-w-4xl mx-auto p-4 md:p-6">
+    <div className="h-full overflow-y-auto flex-1 flex flex-col min-w-0">
         {/* Header */}
-        <div className="flex items-center gap-3 mb-6 md:mb-8">
-          <div className="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center">
-            <Bell size={24} className="text-primary" />
+        <div className="min-h-14 border-b border-gray-200 flex items-center justify-between gap-3 px-4 bg-white">
+          <div className="flex items-center">
+            {!isSidebarOpen ? (
+              <button
+                onClick={() => setIsSidebarOpen(prev => !prev)}
+                className="rounded hover:bg-gray-50"
+              >
+                <PanelLeftOpen size={20} className='text-gray-400' />
+              </button>
+            ) : (
+              <button
+                onClick={() => setIsSidebarOpen(prev => !prev)}
+                className="rounded hover:bg-gray-50"
+              >
+                <PanelRightOpen size={20} className='text-gray-400' />
+              </button>
+            )}
           </div>
-          <div>
-            <h1 className="text-xl md:text-2xl font-bold text-gray-800">Announcements</h1>
-            <p className="text-sm md:text-base text-gray-600">Stay updated with the latest news from Mosalak</p>
+
+          <div className="w-full flex items-center justify-between flex-wrap gap-1.5">
+            <h2 className="font-semibold text-base"> Announcements </h2>
+            <p className="text-xs md:text-sm text-gray-600">Stay updated with the latest news</p>
           </div>
         </div>
 
+
         {/* Announcements List */}
-        <div className="space-y-4 md:space-y-6">
+        <div className="p-4 md:p-6 flex-1 overflow-y-auto grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
           {announcements.map((announcement) => (
             <div 
               key={announcement.id} 
@@ -123,7 +141,6 @@ const Announcements = () => {
             </div>
           ))}
         </div>
-      </div>
     </div>
   );
 };

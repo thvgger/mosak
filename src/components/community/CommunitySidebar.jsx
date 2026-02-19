@@ -26,9 +26,12 @@ import {
   Map,
   Star
 } from 'lucide-react';
-import Logo from "../../assets/mosalak-logo.png";
+// import Logo from "../../assets/mosalak-logo.png";
+import CreateChannelModal from './CreateChannelModal';
 
 const CommunitySidebar = ({ isOpen, onClose }) => {
+  const [isCreateChannelModalOpen, setIsCreateChannelModalOpen] = useState(false);
+
   const navigate = useNavigate();
   const [expandedGroups, setExpandedGroups] = useState({
     announcements: true,
@@ -178,6 +181,17 @@ const CommunitySidebar = ({ isOpen, onClose }) => {
     }
   };
 
+  const handleCreateChannel = (newChannel) => {
+    // Here you would typically make an API call to create the channel
+    console.log('Creating new channel:', newChannel);
+    
+    // You can also navigate to the new channel after creation
+    // navigate(`/community/channel/${newChannel.id}`);
+    
+    // Show success message (you can add a toast notification here)
+    alert(`Channel "${newChannel.name}" created successfully!`);
+  };
+
   return (
     <>
       {/* Mobile Overlay */}
@@ -191,18 +205,18 @@ const CommunitySidebar = ({ isOpen, onClose }) => {
       {/* Sidebar */}
       <aside className={`
         fixed md:sticky inset-y-0 top-0 z-50
-         bg-white
+         bg-white pt-16 pb-0 md:pt-0 md:pb-20
         flex flex-col transition-all duration-300
         border-r border-gray-200
         ${isOpen ? 'w-64' : 'w-0'}
       `}>
 
         <div className="flex-1 overflow-y-auto">
+          {/* <Link to="/" className="w-full h-14 px-4 flex items-center justify-start border-b border-gray-200">
+            <img src={Logo} alt="Mosalak Hub Logo" className="w-32 md:w-38 h-auto mr-auto object-cover" />
+          </Link> */}
           {/* Channels by Group */}
-          <div className="p-3 space-y-4">
-            <Link to="/" className="w-fit h-fit mb-4 flex px-2 py-1">
-              <img src={Logo} alt="Mosalak Hub Logo" className="w-32 md:w-38 object-cover" />
-            </Link>
+          <div className="space-y-4 p-3">
             {channelGroups.map((group) => (
               <div key={group.id} className="space-y-1">
                 {/* Group Header */}
@@ -262,7 +276,9 @@ const CommunitySidebar = ({ isOpen, onClose }) => {
             ))}
 
             {/* Create Channel Button */}
-            <button className="w-full mt-4 px-4 py-2 border border-dashed border-gray-300 rounded-lg text-sm text-gray-600 hover:border-primary hover:text-primary flex items-center justify-center gap-2 transition-colors">
+            <button className="w-full mt-4 px-4 py-2 border border-dashed border-gray-300 rounded-lg text-sm text-gray-600 hover:border-primary hover:text-primary flex items-center justify-center gap-2 transition-colors"
+              onClick={() => setIsCreateChannelModalOpen(true)}
+            >
               <Plus size={16} />
               Create Channel
             </button>
@@ -283,6 +299,13 @@ const CommunitySidebar = ({ isOpen, onClose }) => {
           </div>
         </div>
       </aside>
+
+      {/* Create Channel Modal */}
+      <CreateChannelModal
+        isOpen={isCreateChannelModalOpen}
+        onClose={() => setIsCreateChannelModalOpen(false)}
+        onCreateChannel={handleCreateChannel}
+      />
     </>
   );
 };

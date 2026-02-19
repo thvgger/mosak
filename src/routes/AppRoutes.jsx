@@ -27,9 +27,13 @@ import Messages from '../pages/user/Messages.jsx';
 import Wallet from '../pages/user/Wallet.jsx';
 import Disputes from '../pages/user/Disputes.jsx';
 import Notifications from '../pages/user/Notifications.jsx';
-import Profile from '../pages/user/Profile.jsx';
 import Settings from '../pages/user/Settings.jsx';
 import AccountHelp from '../pages/user/AccountHelp.jsx';
+import Profile from '../pages/user/Profile.jsx';
+import Badges from '../pages/user/Badges.jsx';
+import Verifications from '../pages/user/Verifications.jsx';
+import Security from '../pages/user/Security.jsx';
+import Preferences from '../pages/user/Preferences.jsx';
 
 // Community Routes
 import CommunityRoutes from '../pages/community';
@@ -88,9 +92,16 @@ const AppRoutes = () => {
         <Route path="wallet" element={<Wallet />} />
         <Route path="disputes" element={<Disputes />} />
         <Route path="notifications" element={<Notifications />} />
-        <Route path="settings" element={<Settings />} />
+        
+        {/* Settings Dropdown Routes */}
+        <Route path="profile" element={<Profile />} />
+        <Route path="badges" element={<Badges />} />
+        <Route path="verifications" element={<Verifications />} />
+        <Route path="security" element={<Security />} />
+        <Route path="preferences" element={<Preferences />} />
         <Route path="help" element={<AccountHelp />} />
       </Route>
+
 
       <Route path="/checkout/*" element={
         <ProtectedRoute>

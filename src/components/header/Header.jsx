@@ -63,7 +63,7 @@ const Header = ({ isAccount, isCommunity }) => {
     <>
       <header className={`${isCommunity ? "relative" : "sticky"}  top-0 z-60 bg-white md:bg-white/60 backdrop-blur-md shadow h-16 md:h-20`}>
         <div className="container w-full h-full flex items-center justify-between gap-6 relative z-60">
-          <Link to="/" className="w-fit h-fit ">
+          <Link to="/" className="w-fit h-fit " onClick={()=> { setIsMenuOpen(false); }}>
             <img src={Logo} alt="Mosalak Hub Logo" className="w-36 md:w-52 object-cover" />
           </Link>
 

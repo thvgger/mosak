@@ -3,13 +3,10 @@ import { Route, Routes, Navigate } from 'react-router-dom';
 import CommunityLayout from '../../layouts/CommunityLayout';
 
 // Community Pages
-import CommunityHome from './CommunityHome';
 import ChannelChat from './ChannelChat';
-import MAdverts from './MAdverts';
 import Announcements from './Announcements';
-import Members from './Members';
-import Events from './Events';
-import Polls from './Polls';
+import MAdverts from './MAdverts';
+import All_M_Adverts from './All_M_Adverts';
 
 const CommunityRoutes = () => {
   return (
@@ -23,10 +20,8 @@ const CommunityRoutes = () => {
         
         {/* Other community pages */}
         <Route path="m-adverts" element={<MAdverts />} />
+        <Route path="all-m-adverts" element={<All_M_Adverts />} />
         <Route path="announcements" element={<Announcements />} />
-        <Route path="members" element={<Members />} />
-        <Route path="events" element={<Events />} />
-        <Route path="polls" element={<Polls />} />
         
         {/* Catch-all redirect to general */}
         <Route path="*" element={<Navigate to="/community/channel/general" replace />} />

@@ -1,6 +1,6 @@
 import TopBanner from '../components/header/TopBanner';
 import Header from '../components/header/Header';
-import { Outlet, useLocation } from 'react-router-dom';
+import { Outlet, useLocation, useOutletContext } from 'react-router-dom';
 import Footer from "../components/Footer";
 import TopNav from '../components/header/TopNav';
 
@@ -18,8 +18,8 @@ const PublicLayout = () => {
     <div>
       {isHome && !isCommunity && <TopBanner />}
       {!isHome && !isCommunity && <TopNav />}
-      {!isCommunity && <Header isCommunity={isCommunity} /> }
-      <Outlet />
+      <Header isCommunity={isCommunity} /> 
+      <Outlet context={{ isCommunity }} />
       {!isCommunity && <Footer />}
     </div>
   );
