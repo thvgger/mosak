@@ -10,14 +10,14 @@ const ChannelChat = () => {
   const { channelId } = useParams();
   const [isRightSidebarOpen, setIsRightSidebarOpen] = useState(false);
   const [selectedUser, setSelectedUser] = useState(null);
-  const [isMobile, setIsMobile] = useState(window.innerWidth < 1024);
+  const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
 
   const { setIsSidebarOpen, isSidebarOpen } = useOutletContext();
 
   // Check screen size on resize
   useEffect(() => {
     const handleResize = () => {
-      setIsMobile(window.innerWidth < 1024);
+      setIsMobile(window.innerWidth < 768);
     };
 
     window.addEventListener('resize', handleResize);

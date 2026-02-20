@@ -50,14 +50,14 @@ const UserProfileSidebar = ({ isOpen, onClose, selectedUser, isMobile }) => {
         {/* Mobile Overlay - only shows on mobile but we keep it for consistency */}
         {isOpen && (
           <div 
-            className="fixed inset-0 bg-black/50 z-40 lg:hidden"
+            className="fixed inset-0 bg-black/50 z-40 md:hidden flex"
             onClick={onClose}
           />
         )}
 
         {/* Desktop Sidebar */}
         <aside className={`
-          fixed lg:static inset-y-0 right-0 z-50
+          fixed md:static inset-y-0 right-0 z-50
           w-72 bg-white border-l border-gray-200
           flex flex-col transition-transform duration-300
           ${isOpen ? 'translate-x-0' : 'translate-x-full lg:translate-x-full'}
@@ -193,7 +193,7 @@ const UserProfileSidebar = ({ isOpen, onClose, selectedUser, isMobile }) => {
 
   // Mobile Popup View
   return (
-    <div className="fixed inset-0 z-50 flex items-end lg:hidden">
+    <div className="fixed inset-0 z-50 flex items-end md:hidden">
       {/* Overlay */}
       <div 
         className="absolute inset-0 bg-black/60"
@@ -201,7 +201,7 @@ const UserProfileSidebar = ({ isOpen, onClose, selectedUser, isMobile }) => {
       />
 
       {/* Popup */}
-      <div className="relative bg-white w-full rounded-t-2xl max-h-[90vh] overflow-y-auto animate-slide-up">
+      <div className="relative bg-white w-full rounded-t-2xl max-h-[80vh] overflow-y-auto animate-slide-up">
         {/* Handle bar for drag to close */}
         <div className="sticky top-0 bg-white pt-3 pb-2 flex justify-center border-b border-gray-100">
           <div 
@@ -211,12 +211,12 @@ const UserProfileSidebar = ({ isOpen, onClose, selectedUser, isMobile }) => {
         </div>
 
         {/* Close button */}
-        <button
+        {/* <button
           onClick={onClose}
           className="absolute top-4 right-4 p-2 hover:bg-gray-100 rounded-full z-10"
         >
           <X size={20} />
-        </button>
+        </button> */}
 
         {/* Content */}
         <div className="px-6 pb-8">

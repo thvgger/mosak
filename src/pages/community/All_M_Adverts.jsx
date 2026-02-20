@@ -9,7 +9,7 @@ import {
   List,
   Search
 } from 'lucide-react';
-import MAdverts from './MAdverts';
+// import MAdverts from './MAdverts';
 
 const All_M_Adverts = () => {
   const { setIsSidebarOpen, isSidebarOpen } = useOutletContext();
@@ -79,7 +79,7 @@ const All_M_Adverts = () => {
         </div>
 
         {/* Filters Bar */}
-        <div className="bg-gray-50 px-4 py-2 border-t border-gray-200 flex items-center gap-4 text-sm overflow-x-auto">
+        <div className="bg-gray-50 px-4 py-2 border-t border-gray-200 flex items-center gap-4 text-sm overflow-x-auto text-nowrap scrollbar-hide">
           <span className="text-gray-500 font-medium flex items-center gap-1">
             <Filter size={14} />
             Filters:
@@ -100,9 +100,9 @@ const All_M_Adverts = () => {
       </div>
 
       {/* Content */}
-      <div className="p-4 md:p-6">
+      {/* <div className="p-4 md:p-6">
         <MAdverts />
-      </div>
+      </div> */}
     </div>
   );
 };

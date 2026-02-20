@@ -26,7 +26,7 @@ const Postings = () => {
       </button>
 
       {/* Feed */}
-      <main className="py-6 grid grid-cols-1 md:grid-cols-2 gap-4">
+      <main className="grid grid-cols-1 md:grid-cols-2 gap-4">
         {[1, 2, 3, 4, 5].map((_, i) => (
           <PostCard key={i} />
         ))}

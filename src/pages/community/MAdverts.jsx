@@ -208,10 +208,10 @@ const MAdverts = () => {
             )}
           </div>
 
-          <div className="flex-1 flex items-center justify-between gap-4">
+          <div className="flex-1 flex items-center justify-between gap-4 overflow-x-auto scrollbar-hide">
             <div className="flex items-center gap-3">
-              <h2 className="font-semibold text-lg"> M-Adverts </h2>
-              <span className="text-xs bg-primary/10 text-primary px-2 py-1 rounded-full">
+              <h2 className="font-semibold text-lg text-nowrap"> M-Adverts </h2>
+              <span className="text-xs bg-primary/10 text-primary px-2 py-1 rounded-full text-nowrap">
                 {filteredAdverts.length} active
               </span>
             </div>
@@ -277,7 +277,7 @@ const MAdverts = () => {
           {filteredAdverts.map((advert) => (
             <div 
               key={advert.id} 
-              className={`bg-white rounded-lg border ${advert.pinned ? 'border-primary/30 bg-primary/5' : 'border-gray-200'} p-4 md:p-5 hover:shadow-lg transition-all cursor-pointer`}
+              className={`hidden bg-white rounded-lg border ${advert.pinned ? 'border-primary/30 bg-primary/5' : 'border-gray-200'} p-4 md:p-5 hover:shadow-lg transition-all cursor-pointer`}
             >
               {/* Pin Badge */}
               {advert.pinned && (

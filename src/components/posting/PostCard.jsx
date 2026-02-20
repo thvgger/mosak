@@ -1,6 +1,8 @@
+import { Bookmark, Share2, ThumbsUp } from "lucide-react";
+
 const PostCard = () => {
   return (
-    <article className="bg-white border border-gray-300 rounded-lg p-6 space-y-4">
+    <article className="bg-white border border-gray-300 rounded-lg p-4 md:p-6 space-y-4">
       {/* Header */}
       <div className="flex items-center justify-between">
         <div className="flex gap-3">
@@ -59,19 +61,25 @@ const PostCard = () => {
         <button className="btn">
           Message Client
         </button>
-        <button className="btn btn-outline">Save</button>
-        <button className="btn btn-outline relative pr-8!">
-          <span className=""> Like </span>
-          <span className="text-[10px] ml-auto absolute -top-1.5 -right-1.5 bg-red-500 text-white rounded-full py-0.5 px-1.5"> 200 </span>
-        </button>
-        <button className="btn btn-outline">
-          <span className=""> Share </span>
+        <button className="btn btn-outline gap-1 px-4"> 
+          <Bookmark size={14} strokeWidth={1.5} /> 
+          Save
         </button>
 
-        
+        <button className="btn btn-outline relative px-4">
+          <span className="flex items-center gap-1"> 
+            <ThumbsUp size={14} strokeWidth={1.5} /> Like 
+          </span>
+          <span className="text-[10px] ml-auto absolute -top-1.5 -right-1.5 bg-red-500 text-white rounded-full py-0.5 px-1.5 hover:bg-red-400"> 200 </span>
+        </button>
+
+        <button className="btn btn-outline px-4">
+          <span className="flex items-center gap-1"> 
+            <Share2 size={14} />
+            Share 
+          </span>
+        </button>
       </div>
-
-
     </article>
   );
 };
