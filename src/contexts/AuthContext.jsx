@@ -1,24 +1,33 @@
+// contexts/AuthContext.jsx (updated)
 import React, { createContext, useState, useContext, useEffect } from 'react';
 
 const AuthContext = createContext();
 
-// Mock user database - will be replaced with real backend
+// Mock user database with multiple roles
 const MOCK_USERS = [
   {
     id: 1,
     email: 'user@example.com',
     password: 'password123',
     name: 'John Doe',
-    role: 'buyer',
-    phone: '+1234567890'
+    role: 'buyer', 
+    roles: ['buyer', 'seller', 'freelancer'], 
+    primaryRole: 'buyer',
+    phone: '+1234567890',
+    verified: true,
+    avatar: null
   },
   {
     id: 2,
     email: 'sam@example.com',
     password: 'password123',
     name: 'Sam Doe',
-    role: 'buyer',
-    phone: '+1234567890'
+    role: 'seller',
+    roles: ['seller', 'buyer', 'freelancer'],
+    primaryRole: 'seller',
+    phone: '+1234567890',
+    verified: true,
+    avatar: null
   }
 ];
 
@@ -48,16 +57,18 @@ export const AuthProvider = ({ children }) => {
     );
     
     if (foundUser) {
-      const userData = { 
-        ...foundUser, 
-        token: 'mock-jwt-token-' + Date.now() 
+      // Ensure roles array exists (for backward compatibility)
+      const userWithRoles = {
+        ...foundUser,
+        roles: foundUser.roles || [foundUser.role], // Fallback to single role if roles doesn't exist
+        token: 'mock-jwt-token-' + Date.now()
       };
       
       // Remove password from stored user object
-      const { password: _, ...userWithoutPassword } = userData;
+      const { password: _, ...userWithoutPassword } = userWithRoles;
       
       localStorage.setItem('user', JSON.stringify(userWithoutPassword));
-      localStorage.setItem('token', userData.token);
+      localStorage.setItem('token', userWithRoles.token);
       setUser(userWithoutPassword);
       
       setLoading(false);
@@ -89,10 +100,11 @@ export const AuthProvider = ({ children }) => {
       };
     }
     
-    // Create new user
+    // Create new user with roles array
     const newUser = {
       id: Date.now(),
       ...userData,
+      roles: userData.roles || [userData.role || 'buyer'], // Default to buyer if no role specified
       createdAt: new Date().toISOString()
     };
     
@@ -119,30 +131,20 @@ export const AuthProvider = ({ children }) => {
     setUser(null);
   };
 
-  // Update user profile
-  const updateProfile = async (updates) => {
-    if (!user) return { success: false, error: 'Not logged in' };
-    
-    const updatedUser = { ...user, ...updates };
-    
-    localStorage.setItem('user', JSON.stringify(updatedUser));
-    setUser(updatedUser);
-    
-    return { success: true, user: updatedUser };
+  // Check if user has a specific role
+  const hasRole = (role) => {
+    return user?.roles?.includes(role) || user?.role === role || false;
   };
-
-  // Check authentication status
-  const isAuthenticated = !!user;
 
   return (
     <AuthContext.Provider value={{
       user,
       loading,
-      isAuthenticated,
+      isAuthenticated: !!user,
       login,
       signup,
       logout,
-      updateProfile
+      hasRole
     }}>
       {children}
     </AuthContext.Provider>

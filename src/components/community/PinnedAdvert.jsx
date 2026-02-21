@@ -135,21 +135,21 @@ const PinnedAdvert = () => {
   }, [emblaApi, onSelect]);
 
   return (
-    <div className="bg-white px-4 pt-2 relative space-y-2">
+    <div className="bg-white px-4 py-2 relative space-y-2">
       {/* Header */}
       <div className="flex items-center justify-between">
         <h3 className="text-sm font-semibold"> M-Adverts </h3>
-        <button className="btn gap-1 px-3 py-2 pr-1.5 text-xs" onClick={() => { navigate("/community/all-m-adverts");}}>
+        {/* <button className="btn gap-1 px-3 py-2 pr-1.5 text-xs" onClick={() => { navigate("/community/all-m-adverts");}}>
           <span className="inline"> View All Ads </span>
           <ChevronRight size={14} />
-        </button>
+        </button> */}
       </div>
 
       {/* Carousel Container */}
-      <div className="embla overflow-x-hidden overflow-y-hidden relative pb-4" ref={emblaRef}>
+      <div className="embla overflow-x-hidden overflow-y-hidden relative pb-0" ref={emblaRef}>
         <div className="embla__container w-full h-full pb-2">
           {ads.map((ad, index) => (
-            <div key={index} className="embla__slide md:flex-[0_0_50%] flex items-center justify-start gap-4 bg-primary/20 border border-primary/20 rounded-lg px-3 py-0! last-of-type:mr-3 cursor-pointer" onClick={() => { navigate(`/${ad.link}`)}}>
+            <div key={index} className="embla__slide md:flex-[0_0_50%] flex items-center justify-start gap-4 bg-primary/20 border border-primary/20 rounded-lg px-3 py-2! last-of-type:mr-3 cursor-pointer" onClick={() => { navigate(`/${ad.link}`)}}>
               <div className="flex flex-col items-start gap-2">
                 <div className="w-full flex items-center justify-between gap-2">
                   {/* Avatar */}
@@ -199,8 +199,8 @@ const PinnedAdvert = () => {
 
         {/* Navigation Buttons */}
         <div className="flex items-center justify-between gap-2">
-          {/* <button onClick={scrollPrev} disabled={!canScrollPrev} className='h-full absolute top-0 left-0 bg-linear-to-r from-white to-transparent w-10'></button>
-          <button onClick={scrollNext} disabled={!canScrollNext} className='h-full absolute top-0 right-0 bg-linear-to-l from-white to-transparent w-10'></button> */}
+          <button onClick={scrollPrev} disabled={!canScrollPrev} className='h-full absolute top-0 left-0 bg-linear-to-r from-white to-transparent w-10'></button>
+          <button onClick={scrollNext} disabled={!canScrollNext} className='h-full absolute top-0 right-0 bg-linear-to-l from-white to-transparent w-10'></button>
           <button
             onClick={scrollPrev}
             className="absolute top-1/2 -translate-y-1/2 -left-1 h-8 w-8 bg-primary text-white rounded-full border-4 border-white flex items-center justify-center hover:bg-primary/80 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"

@@ -121,10 +121,10 @@ const Announcements = () => {
               {/* Stats & Actions */}
               <div className="flex items-center justify-between pt-4 border-t border-gray-300">
                 <div className="flex items-center gap-4 text-sm text-gray-500">
-                  <span className="flex items-center gap-1">
+                  {/* <span className="flex items-center gap-1">
                     <MessageCircle size={16} />
                     {announcement.comments} comments
-                  </span>
+                  </span> */}
                   <span className="flex items-center gap-1">
                     👍 {announcement.likes} likes
                   </span>

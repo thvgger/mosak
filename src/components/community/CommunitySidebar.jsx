@@ -276,16 +276,16 @@ const CommunitySidebar = ({ isOpen, onClose }) => {
             ))}
 
             {/* Create Channel Button */}
-            <button className="w-full mt-4 px-4 py-2 border border-dashed border-gray-300 rounded-lg text-sm text-gray-600 hover:border-primary hover:text-primary flex items-center justify-center gap-2 transition-colors"
+            {/* <button className="w-full mt-4 px-4 py-2 border border-dashed border-gray-300 rounded-lg text-sm text-gray-600 hover:border-primary hover:text-primary flex items-center justify-center gap-2 transition-colors"
               onClick={() => setIsCreateChannelModalOpen(true)}
             >
               <Plus size={16} />
               Create Channel
-            </button>
+            </button> */}
           </div>
 
           {/* Community Stats */}
-          <div className="mt-auto p-3">
+          {/* <div className="mt-auto p-3">
             <div className="bg-gray-50 rounded-lg p-3">
               <div className="flex items-center gap-2 text-xs">
                 <Users size={14} className="text-gray-500" />
@@ -296,7 +296,7 @@ const CommunitySidebar = ({ isOpen, onClose }) => {
                 <span className="font-medium">89 online now</span>
               </div>
             </div>
-          </div>
+          </div> */}
         </div>
       </aside>
 

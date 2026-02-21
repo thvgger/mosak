@@ -102,7 +102,7 @@ const HireTrusted = () => {
               <div className='flex flex-col sm:flex-row items-start sm:items-center justify-between px-2 mb-4'>
                 <p className='text-lg font-semibold'> {service.userName} </p>
                 <span className={`p-1 px-2 rounded text-xs bg-primary/10 flex items-center gap-1 ${getBadgeColor(service.rank)}`}>
-                  <img src={service.icon} className='h-4 w-fit'/> 
+                  <img src={service.icon} className='object-cover w-4 h-fit'/> 
                   {service.rank} 
                 </span>
               </div>
@@ -113,7 +113,7 @@ const HireTrusted = () => {
               </div>
 
               {/* Rating */}
-              <div className="flex items-center gap-1.5 px-2 mb-4">
+              <div className="flex items-center gap-1.5 px-2 mb-2">
                 <div className="flex items-center">
                   <Star size={16} className="fill-yellow-400 text-yellow-400" />
                   <span className="ml-1 font-medium text-sm text-gray-900">{service.rating}</span>
@@ -122,7 +122,7 @@ const HireTrusted = () => {
               </div>
 
               {/* Price */}
-              <div className="flex flex-wrap items-center gap-1.5 px-2 mb-4">
+              <div className="flex flex-wrap items-center gap-1.5 px-2">
                 <p className="text-sm">Starting at</p>
                 <p className="text-lg font-bold text-primary"> ₦{service.price}</p>
               </div>

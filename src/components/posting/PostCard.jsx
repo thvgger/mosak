@@ -57,28 +57,30 @@ const PostCard = () => {
       </div>
 
       {/* Actions */}
-      <div className="flex items-center justify-start flex-wrap gap-3 pt-4 border-t border-gray-300">
+      <div className="flex items-center justify-start flex-wrap gap-6 pt-4 border-t border-gray-300">
         <button className="btn">
           Message Client
         </button>
-        <button className="btn btn-outline gap-1 px-4"> 
-          <Bookmark size={14} strokeWidth={1.5} /> 
-          Save
-        </button>
 
-        <button className="btn btn-outline relative px-4">
-          <span className="flex items-center gap-1"> 
-            <ThumbsUp size={14} strokeWidth={1.5} /> Like 
-          </span>
-          <span className="text-[10px] ml-auto absolute -top-1.5 -right-1.5 bg-red-500 text-white rounded-full py-0.5 px-1.5 hover:bg-red-400"> 200 </span>
-        </button>
 
-        <button className="btn btn-outline px-4">
-          <span className="flex items-center gap-1"> 
-            <Share2 size={14} />
-            Share 
+        <div className="flex items-center gap-2 cursor-pointer" title="like">
+          <span className="btn btn-outline border-0 relative p-0! rounded-full hover:bg-transparent hover:text-primary"> 
+            <ThumbsUp size={14} strokeWidth={1.5} /> 
           </span>
-        </button>
+          <span className="text-xs text-primary rounded-full"> 200 </span>
+        </div>
+
+        <div className="flex items-center gap-0" title="save">
+          <span className="btn btn-outline border-0 relative p-0! rounded-full hover:bg-transparent hover:text-primary"> 
+            <Bookmark size={14} strokeWidth={1.5} /> 
+          </span>
+        </div>
+        
+        <div className="flex items-center gap-0" title="share">
+          <span className="btn btn-outline border-0 relative p-0! rounded-full hover:bg-transparent hover:text-primary"> 
+            <Share2 size={14} strokeWidth={1.5} />
+          </span>
+        </div>
       </div>
     </article>
   );

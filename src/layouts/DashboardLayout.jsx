@@ -1,18 +1,25 @@
+// layouts/DashboardLayout.jsx
 import React from 'react';
-import { Outlet, useLocation, useOutletContext } from 'react-router-dom';
-import DashboardSidebar from '../components/user/DashboardSidebar';
+import { Outlet, useLocation } from 'react-router-dom';
 import Header from '../components/header/Header';
+import DashboardSidebar from '../components/user/DashboardSidebar'; // Your existing sidebar
 import { useAuth } from "../contexts/AuthContext";
 
-const UserDashboardLayout = () => {
+const DashboardLayout = () => {
   const location = useLocation();
+  const { user } = useAuth();
+  
+  // Determine which dashboard area we're in
   const isAccount = location.pathname.startsWith('/account');
-
-   const { user, logout, isAuthenticated } = useAuth();
+  const isSeller = location.pathname.startsWith('/seller');
+  const isFreelancer = location.pathname.startsWith('/freelancer');
+  const isEmployer = location.pathname.startsWith('/employer');
+  
+  const isDashboard = isAccount || isSeller || isFreelancer || isEmployer;
 
   return (
     <div className="min-h-screen bg-gray-50">
-      <Header isAccount={isAccount} />
+      <Header isAccount={isDashboard} />
       
       <div className="flex">
         <DashboardSidebar />
@@ -35,4 +42,4 @@ const UserDashboardLayout = () => {
   );
 };
 
-export default UserDashboardLayout;
+export default DashboardLayout;

@@ -70,7 +70,7 @@ const Header = ({ isAccount, isCommunity }) => {
           {/* Navigation */}
           <nav className="hidden lg:flex items-center justify-center gap-6 w-fit mx-auto flex-1">
             <NavLink to="/marketplace" className={navlink}> Market Place </NavLink>
-            <NavLink to="/freelancers" className={navlink}> Freelancers </NavLink>
+            <NavLink to="/freelance" className={navlink}> Freelance </NavLink>
             <NavLink to="/community" className={navlink}> Community </NavLink>
             <NavLink to="/postings" className={navlink}> Postings </NavLink>
             <NavLink to="/leaderboards" className={navlink}> Leaderboards </NavLink>
@@ -154,7 +154,7 @@ const Header = ({ isAccount, isCommunity }) => {
           <div className={`lg:hidden flex fixed left-0 top-16 md:top-20 w-[68vh] h-screen bg-white z-60 py-6 transition-all duration-400 ${isMenuOpen ? "translate-x-0" : "-translate-x-full" }`}>
             <div className="container flex flex-col gap-6 items-start">
               <NavLink to="/marketplace" className={navlink} onClick={()=> { setIsMenuOpen(false); }}> Market Place </NavLink>
-              <NavLink to="/freelancers" className={navlink} onClick={()=> { setIsMenuOpen(false); }}> Freelancers </NavLink>
+              <NavLink to="/freelance" className={navlink} onClick={()=> { setIsMenuOpen(false); }}> Freelance </NavLink>
               <NavLink to="/community" className={navlink} onClick={()=> { setIsMenuOpen(false); }}> Community </NavLink>
               <NavLink to="/postings" className={navlink} onClick={()=> { setIsMenuOpen(false); }}> Postings </NavLink>
               <NavLink to="/leaderboards" className={navlink} onClick={()=> { setIsMenuOpen(false); }}> Leaderboards </NavLink>

@@ -1,10 +1,9 @@
-// components/user/DashboardSidebar.jsx (updated)
 import React, { useState, useEffect } from 'react';
 import { NavLink, useNavigate, useLocation } from 'react-router-dom';
 import { 
   LayoutDashboard, 
   ShoppingBag, 
-  MessageSquare, 
+  Package,
   Wallet, 
   AlertCircle, 
   Bell, 
@@ -16,44 +15,23 @@ import {
   ChevronDown,
   ChevronUp,
   Shield,
-  Award,
   HelpCircle,
-  Package,
-  TrendingUp,
-  Briefcase,
-  Building2
+  TrendingUp
 } from 'lucide-react';
 import { useAuth } from '../../contexts/AuthContext';
 
-const DashboardSidebar = () => {
+const SellerSidebar = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isSettingsOpen, setIsSettingsOpen] = useState(false);
   const { user, logout } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
 
-  // Determine which dashboard we're in based on the URL
-  const isBuyerDashboard = location.pathname.startsWith('/account');
-  const isSellerDashboard = location.pathname.startsWith('/seller');
-  const isFreelancerDashboard = location.pathname.startsWith('/freelancer');
-  const isEmployerDashboard = location.pathname.startsWith('/employer');
-
-  // Menu items for different dashboards
-  const buyerMenuItems = [
-    { path: '/account', icon: LayoutDashboard, label: 'Dashboard', end: true },
-    { path: '/account/orders', icon: ShoppingBag, label: 'Orders' },
-    { path: '/account/messages', icon: MessageSquare, label: 'Messages' },
-    { path: '/account/wallet', icon: Wallet, label: 'Wallet & Earnings' },
-    { path: '/account/disputes', icon: AlertCircle, label: 'Disputes' },
-    { path: '/account/notifications', icon: Bell, label: 'Notifications' },
-    { path: '/account/help', icon: HelpCircle, label: 'Help & Support' },
-  ];
-
-  const sellerMenuItems = [
+  // Seller main menu items
+  const sellerMainMenu = [
     { path: '/seller', icon: LayoutDashboard, label: 'Dashboard', end: true },
     { path: '/seller/products', icon: Package, label: 'Products' },
     { path: '/seller/orders', icon: ShoppingBag, label: 'Orders' },
-    { path: '/seller/messages', icon: MessageSquare, label: 'Messages' },
     { path: '/seller/earnings', icon: Wallet, label: 'Earnings' },
     { path: '/seller/analytics', icon: TrendingUp, label: 'Analytics' },
     { path: '/seller/disputes', icon: AlertCircle, label: 'Disputes' },
@@ -61,60 +39,20 @@ const DashboardSidebar = () => {
     { path: '/seller/help', icon: HelpCircle, label: 'Help & Support' },
   ];
 
-  const freelancerMenuItems = [
-    { path: '/freelancer', icon: LayoutDashboard, label: 'Dashboard', end: true },
-    { path: '/freelancer/projects', icon: Briefcase, label: 'Projects' },
-    { path: '/freelancer/proposals', icon: MessageSquare, label: 'Proposals' },
-    { path: '/freelancer/earnings', icon: Wallet, label: 'Earnings' },
-    { path: '/freelancer/messages', icon: MessageSquare, label: 'Messages' },
-    { path: '/freelancer/portfolio', icon: Award, label: 'Portfolio' },
-    { path: '/freelancer/notifications', icon: Bell, label: 'Notifications' },
+  // Seller settings items
+  const settingsItems = [
+    { path: '/seller/profile', icon: User, label: 'Profile' },
+    { path: '/seller/store', icon: ShoppingBag, label: 'Store Settings' },
+    { path: '/seller/verifications', icon: Shield, label: 'Verifications' },
+    { path: '/seller/security', icon: Shield, label: 'Security' },
+    { path: '/seller/preferences', icon: Settings, label: 'Preferences' },
   ];
-
-  const employerMenuItems = [
-    { path: '/employer', icon: LayoutDashboard, label: 'Dashboard', end: true },
-    { path: '/employer/post-job', icon: Briefcase, label: 'Post a Job' },
-    { path: '/employer/projects', icon: Package, label: 'My Projects' },
-    { path: '/employer/freelancers', icon: User, label: 'Find Freelancers' },
-    { path: '/employer/proposals', icon: MessageSquare, label: 'Proposals' },
-    { path: '/employer/messages', icon: MessageSquare, label: 'Messages' },
-    { path: '/employer/notifications', icon: Bell, label: 'Notifications' },
-  ];
-
-  // Settings items (same for all dashboards but with different base paths)
-  const getSettingsItems = () => {
-    const basePath = isBuyerDashboard ? '/account' : 
-                     isSellerDashboard ? '/seller' :
-                     isFreelancerDashboard ? '/freelancer' : '/employer';
-    
-    return [
-      { path: `${basePath}/profile`, icon: User, label: 'Profile' },
-      { path: `${basePath}/badges`, icon: Award, label: 'Badges & Achievements' },
-      { path: `${basePath}/verifications`, icon: Shield, label: 'Verifications' },
-      { path: `${basePath}/security`, icon: Shield, label: 'Security' },
-      { path: `${basePath}/preferences`, icon: Settings, label: 'Preferences' },
-    ];
-  };
-
-  const settingsItems = getSettingsItems();
-
-  // Get current menu items based on dashboard type
-  const getCurrentMenuItems = () => {
-    if (isBuyerDashboard) return buyerMenuItems;
-    if (isSellerDashboard) return sellerMenuItems;
-    if (isFreelancerDashboard) return freelancerMenuItems;
-    if (isEmployerDashboard) return employerMenuItems;
-    return buyerMenuItems; // Default
-  };
-
-  const currentMenuItems = getCurrentMenuItems();
 
   // Check if any settings route is active
   const isSettingsActive = settingsItems.some(item => 
     location.pathname === item.path || location.pathname.startsWith(item.path + '/')
   );
 
-  // Auto-open settings if on a settings page
   useEffect(() => {
     if (isSettingsActive) {
       setIsSettingsOpen(true);
@@ -130,27 +68,6 @@ const DashboardSidebar = () => {
   useEffect(() => {
     setIsMobileMenuOpen(false);
   }, [location.pathname]);
-
-  // Prevent body scroll when mobile menu is open
-  useEffect(() => {
-    if (isMobileMenuOpen) {
-      document.body.style.overflow = 'hidden';
-    } else {
-      document.body.style.overflow = 'unset';
-    }
-    return () => {
-      document.body.style.overflow = 'unset';
-    };
-  }, [isMobileMenuOpen]);
-
-  // Get dashboard title
-  const getDashboardTitle = () => {
-    if (isBuyerDashboard) return 'Buyer Dashboard';
-    if (isSellerDashboard) return 'Seller Dashboard';
-    if (isFreelancerDashboard) return 'Freelancer Dashboard';
-    if (isEmployerDashboard) return 'Employer Dashboard';
-    return 'Dashboard';
-  };
 
   return (
     <>
@@ -170,7 +87,7 @@ const DashboardSidebar = () => {
         />
       )}
 
-      {/* Sidebar - Responsive */}
+      {/* Sidebar */}
       <aside
         className={`
           fixed left-0 top-0 h-full w-64 bg-white border-r border-gray-200 
@@ -180,16 +97,11 @@ const DashboardSidebar = () => {
         `}
       >
         <nav className="h-full flex flex-col justify-between pb-4">
-          {/* Dashboard Title */}
-          <div className="px-6 pt-8 pb-2 border-b border-gray-200">
-            <h2 className="font-semibold text-gray-800">{getDashboardTitle()}</h2>
-          </div>
-
           {/* Menu Items */}
-          <div className="flex-1 py-4 overflow-y-auto">
+          <div className="mt-6 py-4 overflow-y-auto">
             <ul className="space-y-1.5 px-4">
-              {/* Main Menu Items */}
-              {currentMenuItems.map((item) => (
+              {/* Seller Main Menu */}
+              {sellerMainMenu.map((item) => (
                 <li key={item.path}>
                   <NavLink
                     to={item.path}
@@ -257,7 +169,7 @@ const DashboardSidebar = () => {
             </ul>
           </div>
 
-          {/* User Info & Logout - Sticky at bottom */}
+          {/* User Info & Logout */}
           <div className="px-4 mt-auto">
             <div className="border-t border-gray-200 pt-4 space-y-4">
               <div className="flex items-center gap-3 px-2">
@@ -268,11 +180,11 @@ const DashboardSidebar = () => {
                 />
                 <div className="flex flex-col gap-px overflow-hidden">
                   <span className="text-sm md:text-base font-medium truncate">
-                    {user?.name || 'User'}
+                    {user?.name || 'Seller'}
                   </span>
                   <div className="flex items-center gap-1">
                     <small className="text-xs md:text-sm text-gray-500">
-                      {user?.role || 'User'}
+                      Seller
                     </small>
                     {user?.verified && (
                       <Shield size={12} className="text-blue-500" />
@@ -296,4 +208,4 @@ const DashboardSidebar = () => {
   );
 };
 
-export default DashboardSidebar;
+export default SellerSidebar;

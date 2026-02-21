@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { useParams, useOutletContext } from 'react-router-dom';
-import { Menu, Users, Info, Volume2, Search, Pin, PanelLeftOpen, EllipsisVertical, PanelRightOpen } from 'lucide-react';
+import { useParams, useOutletContext, useNavigate } from 'react-router-dom';
+import { Menu, Users, Info, Volume2, Search, Pin, PanelLeftOpen, EllipsisVertical, ChevronRight, PanelRightOpen } from 'lucide-react';
 import MessageList from '../../components/community/MessageList';
 import MessageInput from '../../components/community/MessageInput';
 import UserProfileSidebar from '../../components/community/UserProfileSidebar';
@@ -11,6 +11,8 @@ const ChannelChat = () => {
   const [isRightSidebarOpen, setIsRightSidebarOpen] = useState(false);
   const [selectedUser, setSelectedUser] = useState(null);
   const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
+
+  const navigate = useNavigate();
 
   const { setIsSidebarOpen, isSidebarOpen } = useOutletContext();
 
@@ -84,22 +86,26 @@ const ChannelChat = () => {
               <p className="text-xs text-gray-500">
                 {channelInfo.description}
               </p>
-              <span className="hidden md:flex text-xs text-gray-600 bg-gray-100 px-2 py-1 rounded-full">
+              {/* <span className="hidden md:flex text-xs text-gray-600 bg-gray-100 px-2 py-1 rounded-full">
                 {channelInfo.members} members 
                 (12 online)
-              </span>
-              <button className='flex md:hidden py-1 px-1 bg-gray-50 hover:bg-gray-100 rounded-lg'>
-                <EllipsisVertical size={18} strokeWidth={1.5} />
+              </span> */}
+              <button className="btn gap-1 px-3 py-2 pr-1.5 text-xs" onClick={() => { navigate("/community/all-m-adverts");}}>
+                <span className="inline"> View All Ads </span>
+                <ChevronRight size={14} />
               </button>
+              {/* <button className='flex md:hidden py-1 px-1 bg-gray-50 hover:bg-gray-100 rounded-lg'>
+                <EllipsisVertical size={18} strokeWidth={1.5} />
+              </button> */}
             </div>
           </div>
         </div>
         
 
-        <PinnedAdvert />
 
         {/* Messages - This will scroll */}
-        <div className="flex-1 overflow-y-auto mt-10">
+        <div className="flex-1 overflow-y-auto mt-0">
+          <PinnedAdvert />
           <MessageList onUserSelect={handleUserSelect} />
         </div>
         

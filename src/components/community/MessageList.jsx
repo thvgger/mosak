@@ -1,4 +1,6 @@
-import React from 'react';
+import { EllipsisVertical, Reply } from 'lucide-react';
+import React, { useRef, useEffect, useS } from 'react';
+
 
 const MessageList = ({ onUserSelect }) => {
   return (
@@ -135,8 +137,30 @@ const Message = ({ name, badge, role, message, onUserSelect }) => {
     }
   };
 
+
+  const [ menuPopupVisible, setMenuPopupVisible ] = React.useState(false);
+
+  const menuPopupOpen = () => {
+    setMenuPopupVisible(!menuPopupVisible);
+  };
+
+  const outsideMenuRef = React.useRef();
+
+  React.useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (outsideMenuRef.current && !outsideMenuRef.current.contains(event.target)) {
+        setMenuPopupVisible(false);
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [outsideMenuRef]);
+
   return (
-    <div className="flex gap-3">
+    <div className="flex gap-3 relative" ref={outsideMenuRef}>
       {/* Profile Picture or Initials */}
       <div 
         onClick={handleClick}
@@ -164,11 +188,26 @@ const Message = ({ name, badge, role, message, onUserSelect }) => {
 
         <p className="text-gray-700 mt-1.5 text-xs md:text-sm wrap-break-words">{message}</p>
 
-        <div className="flex gap-2 mt-2 text-sm">
-          <button className="px-2 py-1 bg-gray-100 rounded text-xs md:text-sm hover:bg-gray-200 transition-colors">👍 5</button>
-          <button className="px-2 py-1 bg-gray-100 rounded text-xs md:text-sm hover:bg-gray-200 transition-colors">🔥 3</button>
+        <div className="flex items-center gap-2 mt-2 text-sm">
+          <button title='like' className="px-2 py-1 bg-gray-100 rounded text-xs md:text-sm hover:bg-gray-200 transition-colors">👍 5</button>
+          <button title='fire' className="px-2 py-1 bg-gray-100 rounded text-xs md:text-sm hover:bg-gray-200 transition-colors">🔥 3</button>
+          <button title='reply' className='btn gap-1 text-xs text-dark bg-gray-200 rounded-sm px-2 py-1.5 h-fit'> 
+            <Reply size={14} />
+            reply
+          </button>
         </div>
+
       </div>
+        <EllipsisVertical size={18} strokeWidth={1.5} onClick={() => { menuPopupOpen(); }} className="ml-auto rounded-sm cursor-pointer hover:opacity-80 hover:bg-gray-200 transition-all" /> 
+        {menuPopupVisible && (
+          <div className="absolute bg-white border rounded shadow-md p-2 text-xs text-gray-400 right-4 top-10 z-10" ref={outsideMenuRef}>
+            <button className="w-full text-left px-2 py-1 hover:bg-gray-100 rounded">Edit</button>
+            <button className="w-full text-left px-2 py-1 hover:bg-gray-100 rounded">Delete</button>
+            <button className="w-full text-left px-2 py-1 hover:bg-gray-100 rounded">Report</button>
+            <button className="w-full text-left px-2 py-1 hover:bg-gray-100 rounded">Block</button>
+            {/* <button className="w-full text-left px-2 py-1 hover:bg-gray-100 rounded">Copy Message Link</button> */}
+          </div>
+        )}
     </div>
   );
 };

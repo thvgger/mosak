@@ -327,7 +327,7 @@ const CategoriesBar = () => {
 
   return (
     <div className="bg-indigo-200 shadow-sm">
-      <div className="container flex items-center gap-8 py-4 text-sm overflow-x-auto">
+      <div className="container flex items-center gap-8 py-4 text-sm overflow-x-auto scrollbar-hide">
         {/* All Categories Button */}
         <button
           ref={buttonRef}
