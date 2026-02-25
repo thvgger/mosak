@@ -3,6 +3,7 @@ import Header from '../components/header/Header';
 import { Outlet, useLocation, useOutletContext } from 'react-router-dom';
 import Footer from "../components/Footer";
 import TopNav from '../components/header/TopNav';
+import BottomNav from '../components/BottomNav';
 
 const PublicLayout = () => {
   const location = useLocation();
@@ -15,11 +16,12 @@ const PublicLayout = () => {
   // const isCommunity = [ '/community' ].includes(location.pathname);
   
   return (
-    <div>
+    <div className='relative'>
       {isHome && !isCommunity && <TopBanner />}
       {!isHome && !isCommunity && <TopNav />}
       <Header isCommunity={isCommunity} /> 
       <Outlet context={{ isCommunity }} />
+      <BottomNav />
       {!isCommunity && <Footer />}
     </div>
   );
