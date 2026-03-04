@@ -17,11 +17,11 @@ const CommunityLayout = () => {
     return () => { 
       // Reset when component unmounts 
       document.body.style.overflowY = "auto"; 
-    }; }
-  , [isCommunity]);
+    };
+  }, [isCommunity]);
   
   return (
-    <div className="flex h-screen bg-gray-100 overflow-hidden relative border-b border-gray-300 container! mx-auto py-4 p-0!">
+    <div className="flex h-screen bg-gray-100 overflow-hidden relative container! mx-auto p-0!">
       {/* Left Sidebar - Channels & Groups */}
       <CommunitySidebar 
         isOpen={isSidebarOpen} 
@@ -29,7 +29,7 @@ const CommunityLayout = () => {
       />
 
       {/* Main Content Area */}
-      <div className="flex-1 flex h-full flex-col min-w-0 relative pb-16 md:pb-20">
+      <div className="flex-1 flex h-full flex-col min-w-0 w-full relative pb-16 md:pb-20">
         <Outlet context={{ setIsSidebarOpen, isSidebarOpen }} />
       </div>
     </div>

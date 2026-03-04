@@ -16,12 +16,12 @@ const PublicLayout = () => {
   // const isCommunity = [ '/community' ].includes(location.pathname);
   
   return (
-    <div className='relative'>
+    <div className='relative pb-20'>
       {isHome && !isCommunity && <TopBanner />}
       {!isHome && !isCommunity && <TopNav />}
       <Header isCommunity={isCommunity} /> 
       <Outlet context={{ isCommunity }} />
-      <BottomNav />
+      {!isCommunity && <BottomNav />}
       {!isCommunity && <Footer />}
     </div>
   );

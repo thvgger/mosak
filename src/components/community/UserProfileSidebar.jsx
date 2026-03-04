@@ -57,7 +57,7 @@ const UserProfileSidebar = ({ isOpen, onClose, selectedUser, isMobile }) => {
 
         {/* Desktop Sidebar */}
         <aside className={`
-          fixed md:static inset-y-0 right-0 z-50
+          fixed md:sticky inset-y-0 right-0
           w-72 bg-white border-l border-gray-200
           flex flex-col transition-transform duration-300
           ${isOpen ? 'translate-x-0' : 'translate-x-full lg:translate-x-full'}
@@ -201,7 +201,7 @@ const UserProfileSidebar = ({ isOpen, onClose, selectedUser, isMobile }) => {
       />
 
       {/* Popup */}
-      <div className="relative bg-white w-full rounded-t-2xl max-h-[80vh] overflow-y-auto animate-slide-up">
+      <div className="relative bg-white w-full rounded-t-2xl max-h-[80vh] pb-4 overflow-y-auto animate-slide-up">
         {/* Handle bar for drag to close */}
         <div className="sticky top-0 bg-white pt-3 pb-2 flex justify-center border-b border-gray-100">
           <div 
@@ -221,7 +221,7 @@ const UserProfileSidebar = ({ isOpen, onClose, selectedUser, isMobile }) => {
         {/* Content */}
         <div className="px-6 pb-8">
           {/* Profile Header */}
-          <div className="text-center">
+          <div className="text-center pt-2">
             <div className="w-24 h-24 mx-auto rounded-full bg-linear-to-br from-primary to-blue-600 text-white flex items-center justify-center text-3xl font-bold">
               {userData.avatar}
             </div>

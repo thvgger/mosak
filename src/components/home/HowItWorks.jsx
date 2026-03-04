@@ -214,7 +214,7 @@ const HowItWorksDropdown = ({ value, onChange }) => {
   return (
     <section className="py-8 md:py-12 bg-white">
       <div className="container">
-        <div className="mb-8 flex items-center justify-between">
+        <div className="mb-4 md:mb-8 flex items-center justify-between">
           <h2 className="section-title mb-0">How it works</h2>
 
           <div className="flex items-center space-x-2 text-muted text-sm">
@@ -247,7 +247,7 @@ const HowItWorksDropdown = ({ value, onChange }) => {
             {cards.map((item) => (
               <div
                 key={item.id}
-                className="min-w-full sm:min-w-[calc(80vw-2.5rem)] md:min-w-0 shrink-0 md:shrink relative rounded-2xl overflow-hidden group bg-cover bg-no-repeat"
+                className="w-full sm:min-w-[calc(80vw-2.5rem)] md:min-w-0 shrink-0 md:shrink relative rounded-2xl overflow-hidden group bg-cover bg-no-repeat"
               >
                 <img
                   src={item.image}

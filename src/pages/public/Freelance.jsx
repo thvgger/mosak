@@ -3,7 +3,7 @@ import Categories from '../../components/freelance/Categories';
 
 const Freelance = () => {
   return (
-    <section className='container'>
+    <section className='container px-0!'>
       <Categories />
     </section>
   )

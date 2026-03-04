@@ -205,13 +205,13 @@ const CommunitySidebar = ({ isOpen, onClose }) => {
       {/* Sidebar */}
       <aside className={`
         fixed md:sticky inset-y-0 top-0 z-50
-         bg-white pt-16 pb-0 md:pt-0 md:pb-20
+        bg-white pt-16 md:pt-0 pb-0 md:pb-20
         flex flex-col transition-all duration-300
         border-r border-gray-200
         ${isOpen ? 'w-64' : 'w-0'}
       `}>
 
-        <div className="flex-1 overflow-y-auto">
+        <div className="flex-1 h-full overflow-y-auto">
           {/* <Link to="/" className="w-full h-14 px-4 flex items-center justify-start border-b border-gray-200">
             <img src={Logo} alt="Mosalak Hub Logo" className="w-32 md:w-38 h-auto mr-auto object-cover" />
           </Link> */}

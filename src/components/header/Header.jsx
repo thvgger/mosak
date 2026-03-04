@@ -64,7 +64,7 @@ const Header = ({ isAccount, isCommunity }) => {
       <header className={`${isCommunity ? "relative" : "sticky"}  top-0 z-60 bg-white md:bg-white/60 backdrop-blur-md shadow h-16 md:h-20`}>
         <div className="container w-full h-full flex items-center justify-between gap-6 relative z-60">
           <Link to="/" className="w-fit h-fit " onClick={()=> { setIsMenuOpen(false); }}>
-            <img src={Logo} alt="Mosalak Hub Logo" className="w-36 md:w-52 object-cover" />
+            <img src={Logo} alt="Mosalak Hub Logo" className="w-20 md:w-28 object-cover" />
           </Link>
 
           {/* Navigation */}
@@ -129,25 +129,29 @@ const Header = ({ isAccount, isCommunity }) => {
                   </div>
                 </div>
             ) : (
-              <div className="space-x-2.5 hidden md:flex">
-                <button 
-                  className="btn btn-text px-4"
-                  onClick={() => openModal("login")} // Use global modal
-                >
-                  Login
-                </button>
-                <button 
-                  className="btn"
-                  onClick={() => openModal("role")} // Use global modal
-                >
-                  Sign Up
-                </button>
-              </div>
+              !isCommunity && (
+                <div className="space-x-2.5 flex">
+                  <button 
+                    className="btn btn-text border border-primary text-primary px-4"
+                    onClick={() => openModal("login")} // Use global modal
+                  >
+                    Login
+                  </button>
+                  <button 
+                    className="btn"
+                    onClick={() => openModal("role")} // Use global modal
+                  >
+                    Sign Up
+                  </button>
+                </div>
+              )
             )}
             
-            <button className="lg:hidden text-2xl cursor-pointer" onClick={() => setIsMenuOpen(prev => !prev)}>
-              {isMenuOpen ? <X /> : <Menu />}
-            </button>
+            {isCommunity && (
+              <button className="lg:hidden text-2xl cursor-pointer" onClick={() => setIsMenuOpen(prev => !prev)}>
+                {isMenuOpen ? <X /> : <Menu />}
+              </button>
+            )}
           </div>
 
           {/* Mobile Menu */}
