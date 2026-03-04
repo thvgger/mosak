@@ -1,5 +1,8 @@
 import { useState } from "react";
 import featuresBg from "../../assets/features-bg.png";
+import marketplace1 from "../../assets/how-it-works/marketplace/img-01.png";
+import marketplace2 from "../../assets/how-it-works/marketplace/img-02.png";
+import marketplace3 from "../../assets/how-it-works/marketplace/img-03.png";
 import HowItWorks1 from "../../assets/how-it-works-1.png";
 import HowItWorks2 from "../../assets/how-it-works-2.png";
 import HowItWorks3 from "../../assets/how-it-works-3.png";
@@ -14,7 +17,7 @@ const HowItWorks = () => {
       {
         id: 1,
         title: "List & Discover Products",
-        image: HowItWorks1,
+        image: marketplace1,
         description: "Buy and sell locally with confidence. Browse verified listings or post your own products for free. No listing fees. No hidden charges. Anyone can post and sell.",
         cta: "Start exploring",
         url: "/marketplace"
@@ -22,7 +25,7 @@ const HowItWorks = () => {
       {
         id: 2,
         title: "Pay Safely with Escrow",
-        image: HowItWorks2,
+        image: marketplace2,
         description: "Your money is protected. Funds are held securely until you confirm delivery. Sellers get paid only when buyers are satisfied.",
         cta: "Explore",
         url: "/marketplace"
@@ -30,7 +33,7 @@ const HowItWorks = () => {
       {
         id: 3,
         title: "Receive, Inspect, Confirm",
-        image: HowItWorks3,
+        image: marketplace3,
         description: "Confirm before funds are released. Inspect items on delivery. If there’s an issue, open a dispute. If all is good, confirm and escrow releases payment.",
         cta: "Get started",
         url: "/marketplace"

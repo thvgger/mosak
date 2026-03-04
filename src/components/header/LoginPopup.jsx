@@ -40,7 +40,7 @@ const LoginPopup = ({ onClose, onCreateAccountClick, onSuccess }) => {
   };
 
   return (
-    <div className="bg-white rounded-md p-8 max-h-[90vh] max-w-md w-full shadow-xl overflow-y-auto">
+    <div className="bg-white rounded-xl p-6 md:p-8 max-h-[90vh] max-w-md w-full shadow-xl overflow-y-auto scrollbar-hide">
       <h2 className="text-xl font-semibold tracking-normal text-center mb-6">Sign in to your account</h2>
       
       {error && (
@@ -111,7 +111,7 @@ const LoginPopup = ({ onClose, onCreateAccountClick, onSuccess }) => {
       <div className="text-center mt-6 flex flex-col gap-4 relative">
         <div className="relative">
           <hr className="border-gray-300" />
-          <span className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-white px-4 text-dark/60 text-sm">
+          <span className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-white px-4 text-dark/60 text-sm text-nowrap">
             Don't have an account
           </span>
         </div>

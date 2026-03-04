@@ -64,7 +64,7 @@ const SignupPopup = ({ onClose, onSignInClick, selectedRole, onSuccess }) => {
   };
 
   return (
-    <div className="bg-white rounded-md p-6 md:p-8 max-w-md w-full shadow-xl">
+    <div className="bg-white rounded-xl p-6 md:p-8 max-h-[90vh] max-w-md w-full shadow-xl overflow-y-auto scrollbar-hide">
       {selectedRole && (
         <div className="mb-4 py-2 px-3 bg-primary/10 rounded-lg text-center">
           <span className="text-sm">Creating account as a: </span>

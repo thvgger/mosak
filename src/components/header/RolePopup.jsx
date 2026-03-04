@@ -44,7 +44,7 @@ const RolePopup = ({ onContinue, onSignInClick }) => {
   };
 
   return (
-    <div className="bg-white rounded-md p-6 md:p-8 max-w-md w-full shadow-xl">
+    <div className="bg-white rounded-xl p-6 md:p-8 max-h-[90vh] max-w-md w-full shadow-xl overflow-y-auto scrollbar-hide">
       <h2 className="text-xl font-semibold text-center mb-0.5">Create Your Account</h2>
       <p className="text-gray-600 text-xs text-center mb-4">Choose your role and get started</p>
       
