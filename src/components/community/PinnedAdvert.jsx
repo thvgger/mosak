@@ -15,7 +15,7 @@ const PinnedAdvert = () => {
       badge: "Gold",
       role: "Seller",
       message: "Good morning everyone! Just launched my new collection on the marketplace. Would love your feedback! 👇",
-      link: "https://mosalak.com/invite/abc123xyzsz"
+      link: "https://mosak.com/invite/abc123xyzsz"
     },
     {
       id: 2,
@@ -25,7 +25,7 @@ const PinnedAdvert = () => {
       badge: "Gold",
       role: "Seller",
       message: "Good morning everyone! Just launched my new collection on the marketplace. Would love your feedback! 👇",
-      link: "https://mosalak.com/invite/abc123xyzsz"
+      link: "https://mosak.com/invite/abc123xyzsz"
     },
     {
       id: 3,
@@ -35,7 +35,7 @@ const PinnedAdvert = () => {
       badge: "Silver",
       role: "Seller",
       message: "Flash sale this weekend! 30% off on all electronics. Don't miss out! 🔥",
-      link: "https://mosalak.com/invite/def456xyz"
+      link: "https://mosak.com/invite/def456xyz"
     },
     {
       id: 4,
@@ -45,7 +45,7 @@ const PinnedAdvert = () => {
       badge: "Platinum",
       role: "Designer",
       message: "New African print collection now available. Limited stock available! 🎨",
-      link: "https://mosalak.com/invite/ghi789xyz"
+      link: "https://mosak.com/invite/ghi789xyz"
     },
     {
       id: 5,
@@ -55,7 +55,7 @@ const PinnedAdvert = () => {
       badge: "Gold",
       role: "Seller",
       message: "Weekend special: Buy 2 get 1 free on all fashion items. Shop now! 👗",
-      link: "https://mosalak.com/invite/jkl012xyz"
+      link: "https://mosak.com/invite/jkl012xyz"
     },
     {
       id: 6,
@@ -65,7 +65,7 @@ const PinnedAdvert = () => {
       badge: "Gold",
       role: "Seller",
       message: "Weekend special: Buy 2 get 1 free on all fashion items. Shop now! 👗",
-      link: "https://mosalak.com/invite/jkl012xyz"
+      link: "https://mosak.com/invite/jkl012xyz"
     },
     {
       id: 7,
@@ -75,7 +75,7 @@ const PinnedAdvert = () => {
       badge: "Gold",
       role: "Seller",
       message: "Weekend special: Buy 2 get 1 free on all fashion items. Shop now! 👗",
-      link: "https://mosalak.com/invite/jkl012xyz"
+      link: "https://mosak.com/invite/jkl012xyz"
     },
   ];
 

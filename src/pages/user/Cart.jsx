@@ -364,7 +364,7 @@ const Cart = () => {
                 <div>
                   <h3 className="font-bold text-lg mb-2">Escrow Protection</h3>
                   <p className="text-gray-700 mb-3">
-                    All purchases on Mosalak Hub are protected by our Escrow system. Your payment is held securely until you confirm receipt of your items.
+                    All purchases on Mosak Hub are protected by our Escrow system. Your payment is held securely until you confirm receipt of your items.
                   </p>
                   <ul className="space-y-2 text-sm text-gray-600">
                     <li className="flex items-center gap-2">

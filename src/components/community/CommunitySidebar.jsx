@@ -213,7 +213,7 @@ const CommunitySidebar = ({ isOpen, onClose }) => {
 
         <div className="flex-1 h-full overflow-y-auto">
           {/* <Link to="/" className="w-full h-14 px-4 flex items-center justify-start border-b border-gray-200">
-            <img src={Logo} alt="Mosalak Hub Logo" className="w-32 md:w-38 h-auto mr-auto object-cover" />
+            <img src={Logo} alt="Mosak Hub Logo" className="w-32 md:w-38 h-auto mr-auto object-cover" />
           </Link> */}
           {/* Channels by Group */}
           <div className="space-y-4 p-3">

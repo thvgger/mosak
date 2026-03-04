@@ -414,7 +414,7 @@ const ProductDetailPage = () => {
                   <span className='flex flex-col w-full'>
                     <p className='font-semibold'> Inspection Safety: </p>
                     <small className='leading-tight text-xs text-dark/80'> 
-                      Keep your transaction safe, all payments should stay in Mosalak Hub for fraud protection and support.
+                      Keep your transaction safe, all payments should stay in Mosak Hub for fraud protection and support.
                     </small>
                   </span>
                 </div>

@@ -11,7 +11,7 @@ const Hero = () => {
         <div className="text-start text-white">
           <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold mb-2 leading-tight">
             <span className="block">Buy. Sell. Hire. Earn. </span>
-            <span className="block">All in Mosalak Hub.</span>
+            <span className="block">All in Mosak Hub.</span>
           </h1>
           
           <p className="text-sm mb-6.5 max-w-lg">

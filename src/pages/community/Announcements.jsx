@@ -9,7 +9,7 @@ const Announcements = () => {
     {
       id: 1,
       title: "🎉 New Platform Features Released!",
-      author: "Mosalak Team",
+      author: "Mosak Team",
       avatar: "MT",
       date: "2 hours ago",
       pinned: true,

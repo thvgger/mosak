@@ -6,7 +6,7 @@ const Footer = () => {
   const [openDropdown, setOpenDropdown] = useState(null);
 
   const footerLinks = {
-    'About Mosalak': [
+    'About Mosak': [
       { label: 'About Us', url: '/about' },
       { label: 'How it Works', url: '#' },
       { label: 'Trust & Safety', url: '#' },
@@ -62,7 +62,7 @@ const Footer = () => {
       <div className="container mx-auto px-4">
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-8 mb-12">
           <div className="w-fit whitespace-nowrap">
-            <img src={logo} alt="MosalakHub Logo" className="w-32 mb-6" />
+            <img src={logo} alt="MosakHub Logo" className="w-32 mb-6" />
             <p className="text-sm">
               One Hub Ecosystem
             </p>
@@ -135,7 +135,7 @@ const Footer = () => {
         <div className="border-t border-dark/20 pt-10">
           <div className="flex flex-col md:flex-row justify-between items-center">
             <p className="">
-              ©2025 MosalakHub. All rights reserved.
+              ©2025 MosakHub. All rights reserved.
             </p>
             
             <div className="text-center md:text-left">

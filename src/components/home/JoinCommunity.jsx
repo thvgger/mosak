@@ -13,7 +13,7 @@ const JoinCommunity = () => {
           }}></div>
         <div className='absolute -z-1 inset-0 bg-primary'></div>
         <div className='space-y-2 z-4'>
-          <h2 className='section-title'> Join the Mosalak Community </h2>
+          <h2 className='section-title'> Join the Mosak Community </h2>
           <p> Earn points on every transaction. Unlock exclusive rewards and badges. </p>
           <h4 className='font-semibold text-2xl'> Up to 25% OFF </h4>
           <div className='flex items-center gap-3 md:mt-6'>

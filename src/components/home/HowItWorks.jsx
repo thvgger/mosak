@@ -57,7 +57,7 @@ const HowItWorks = () => {
         id: 3,
         title: "Get Paid Securely",
         image: HowItWorks3,
-        description: "Payment released only when work is approved. Client funds are held securely. Once the job is completed and approved, payment is released to you. If there’s an issue, Mosalak steps in to resolve it fairly.",
+        description: "Payment released only when work is approved. Client funds are held securely. Once the job is completed and approved, payment is released to you. If there’s an issue, Mosak steps in to resolve it fairly.",
         cta: "Set up payments",
         url: "/freelancers"
       }
@@ -67,7 +67,7 @@ const HowItWorks = () => {
         id: 1,
         title: "Join the Live Community",
         image: HowItWorks1,
-        description: "Connect with real users. Engage in a shared space where buyers, sellers, and freelancers interact openly within Mosalak.",
+        description: "Connect with real users. Engage in a shared space where buyers, sellers, and freelancers interact openly within Mosak.",
         cta: "Sign up",
         url: "/community"
 

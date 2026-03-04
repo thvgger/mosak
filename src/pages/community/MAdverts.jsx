@@ -32,7 +32,7 @@ const MAdverts = () => {
     {
       id: 1,
       title: "🎉 Limited Offer: 50% Off on Premium Services!",
-      author: "Mosalak Promotions",
+      author: "Mosak Promotions",
       avatar: "MP",
       badge: "Gold",
       role: "Official",
@@ -112,7 +112,7 @@ const MAdverts = () => {
     {
       id: 5,
       title: "🏆 Seller of the Month: Ngozi Okonkwo",
-      author: "Mosalak Team",
+      author: "Mosak Team",
       avatar: "MT",
       badge: "Platinum",
       role: "Official",

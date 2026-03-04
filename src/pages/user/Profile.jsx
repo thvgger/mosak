@@ -21,7 +21,7 @@ const Profile = () => {
     email: user?.email || 'dorcas.samuel@example.com',
     phone: '+234 801 234 5678',
     location: 'Lagos, Nigeria',
-    bio: 'Passionate buyer and seller on MosalakHub. Love discovering new products and connecting with sellers.',
+    bio: 'Passionate buyer and seller on MosakHub. Love discovering new products and connecting with sellers.',
     memberSince: 'Jan 2026'
   });
 

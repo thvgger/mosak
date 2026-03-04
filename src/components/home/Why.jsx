@@ -10,7 +10,7 @@ const Why = () => {
     <section className='py-8 md:py-12 px-4 md:px-10'>
       <div className='container flex flex-col md:flex-row items-start md:items-center gap-6 md:gap-4 bg-primary/10 p-4 md:p-8 md:py-16 rounded-xl md:rounded-2xl'>
         <div className='max-w-130 flex flex-col items-start'>
-          {/* <h2 className='section-title'> Why Mosalak? </h2>    */}
+          {/* <h2 className='section-title'> Why Mosak? </h2>    */}
           <p className='text-xl lg:text-[40px] font-semibold leading-tight mb-4'>
           We are known for high quality work and money back guarantee
           </p>   
