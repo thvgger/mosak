@@ -3,6 +3,7 @@ import useEmblaCarousel from "embla-carousel-react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { useMarketplace } from '../../contexts/MarketplaceContext';
+import car from "../../assets/car.png";
 
 const Categories = () => {
   const navigate = useNavigate();
@@ -90,7 +91,9 @@ const Categories = () => {
                     <span className="text-base font-semibold">
                       {category.name}
                     </span>
-                    <div className={`bg-linear-to-r ${category.color} flex w-full h-36 rounded-md`}></div>
+                    <div className={`bg-linear-to-r ${category.color} flex items-center justify-center w-full h-36 rounded-md`}>
+                      <img src={category.img || ""} alt="" className="h-fit w-30 mx-auto object-cover" />
+                    </div>
                   </div>
                 </div>
               </div>

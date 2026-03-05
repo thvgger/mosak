@@ -1,5 +1,5 @@
 import React from 'react';
-import { House, ShoppingCart, FileText, Plus, Trophy, MessagesSquare } from 'lucide-react';
+import { House, ShoppingCart, FileText, Plus, Trophy, MessagesSquare, BriefcaseBusiness } from 'lucide-react';
 import freelanceIcon from '../assets/bottomNav/freelance-icon.svg';
 import communityIcon from '../assets/bottomNav/community-icon.svg';
 import leaderboardIcon from '../assets/bottomNav/leaderboard-icon.svg';
@@ -14,7 +14,7 @@ const BottomNav = () => {
   const navList = [
     { name: 'Home', icon: House, to: '/' },
     { name: 'Market', icon: ShoppingCart, to: '/marketplace' },
-    { name: 'Freelance', icon: null, to: '/freelance' },
+    { name: 'Freelance', icon: BriefcaseBusiness, to: '/freelance' },
     { name: 'Sell', icon: Plus, to: '/sell', target: true},
     { name: 'Community', icon: MessagesSquare, to: '/community' },
     { name: 'Postings', icon: FileText, to: '/postings' },
@@ -22,7 +22,7 @@ const BottomNav = () => {
   ];
 
   return (
-    <nav className="w-full max-w-lg mx-auto flex items-center justify-center sm:hidden fixed left-1/2 -translate-x-1/2 z-50 bottom-0 border-t border-white/50 bg-[#E3EDF7]/70 backdrop-blur-lg p-4 text-center rounded-t-2xl">
+    <nav className="w-full max-w-lg mx-auto flex items-center justify-center sm:hidden fixed left-1/2 -translate-x-1/2 z-50 bottom-0 border-t border-white/50 bg-[#E3EDF7]/70 backdrop-blur-lg p-4.5 text-center rounded-t-2xl">
       <ul className="w-full flex items-center gap-1.5 justify-between text-[10px]">
         {navList.map((item, index) => {
           const Icon = item.icon;
@@ -34,10 +34,14 @@ const BottomNav = () => {
               className={navlink}
               title={item.name}
             >
-              {Icon && <Icon size={20} className={item.target ? "bg-primary text-white p-2 rounded-full w-10 h-10" : ""} />}
-              {!Icon && item.name === 'Freelance' && (
+              {Icon && <Icon size={20} className={item.target ? "bg-primary text-white p-4 rounded-full w-14 h-14 -mt-11" : ""} />}
+              {/* <span>
+                {item.name}
+              </span> */}
+
+              {/* {!Icon && item.name === 'Freelance' && (
                 <img src={freelanceIcon} alt="Freelance Icon" className="w-6 h-6" />
-              )}
+              )} */}
               {/* {!Icon && item.name === 'Community' && (
                 <img src={communityIcon} alt="Community Icon" className="w-6 h-6" />
               )} */}

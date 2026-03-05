@@ -4,17 +4,24 @@ import { ChevronLeft, ChevronRight } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 // import { useMarketplace } from '../../contexts/MarketplaceContext';
 
+import webdev from "../../assets/freelance/webdev.png";
+import graphics from "../../assets/freelance/graphics.png";
+import content from "../../assets/freelance/content.png";
+import digital from "../../assets/freelance/digital.png";
+import video from "../../assets/freelance/video.png";
+import mobile from "../../assets/freelance/mobile.png";
+
 const Categories = () => {
   const navigate = useNavigate();
   // const { categories } = useMarketplace();
 
   const categories = [
-    { id: 1, name: "Web Development", color: "from-blue-700 to-blue-500" },
-    { id: 2, name: "Graphic Design", color: "from-pink-700 to-pink-500" },
-    { id: 3, name: "Content Writing", color: "from-green-700 to-green-500" },
-    { id: 4, name: "Digital Marketing", color: "from-purple-700 to-purple-500" },
-    { id: 5, name: "Video Editing", color: "from-yellow-700 to-yellow-500" },
-    { id: 6, name: "Mobile App Development", color: "from-red-700 to-red-500" },    
+    { id: 1, name: "Web Development", color: "from-blue-700 to-blue-500", img: webdev },
+    { id: 2, name: "Graphic Design", color: "from-pink-700 to-pink-500", img: graphics },
+    { id: 3, name: "Content Writing", color: "from-green-700 to-green-500", img: content },
+    { id: 4, name: "Digital Marketing", color: "from-purple-700 to-purple-500", img: digital },
+    { id: 5, name: "Video Editing", color: "from-yellow-700 to-yellow-500", img: video },
+    { id: 6, name: "Mobile App Development", color: "from-red-700 to-red-500", img: mobile },    
   ]
 
   const handleCategoryClick = (categoryId) => {
@@ -99,7 +106,9 @@ const Categories = () => {
                     <span className="text-base font-semibold text-nowrap whitespace-nowrap">
                       {category.name}
                     </span>
-                    <div className={`bg-linear-to-r ${category.color} flex w-full h-36 rounded-md`}></div>
+                    <div className={`bg-linear-to-r ${category.color} flex items-center justify-center w-full h-36 rounded-md`}>
+                      <img src={category.img} alt="" className="w-30 h-fit mx-auto object-cover" />
+                    </div>
                   </div>
                 </div>
               </div>

@@ -165,6 +165,13 @@
   //   },
   // ],
 
+import automobiles from "../assets/categories/automobiles.png";
+import phones from "../assets/categories/phones.png";
+import fashion from "../assets/categories/fashion.png";
+import homes from "../assets/categories/homes.png";
+import electronics from "../assets/categories/electronics.png";
+// import agriculture from "../assets/categories/agriculture.png";
+
 export const marketplaceData = {
   categories: [
     {
@@ -172,6 +179,7 @@ export const marketplaceData = {
       name: 'Automobiles',
       icon: '🚗',
       color: "from-[#FE7309] to-[#C55500]",
+      img: automobiles,
       subcategories: [
         { 
           id: 'cars', name: 'Cars',
@@ -187,6 +195,7 @@ export const marketplaceData = {
       name: 'Phones & Tablets',
       icon: '📱',
       color: "from-[#82F69B] to-[#396E45]",
+      img: phones,
       subcategories: ['Samsung', 'Iphone', 'Realme', 'Xiaomi', 'Oppo', 'Vivo', 'Huawei', 'Infinix', 'Tecno']
     },
     {
@@ -194,6 +203,7 @@ export const marketplaceData = {
       name: 'Fashion',
       icon: '👕',
       color: "from-[#24589B] to-[#0C1E35]",
+      img: fashion,
       subcategories: ['men', 'women', 'kids', 'accessories']
     },
     {
@@ -201,6 +211,7 @@ export const marketplaceData = {
       name: 'Homes & Living',
       icon: '🏠',
       color: "from-[#CC8CA6] to-[#6F4556]",
+      img: homes,
       subcategories: ['furniture', 'appliances', 'decor', 'kitchen']
     },
     {
@@ -208,6 +219,7 @@ export const marketplaceData = {
       name: 'Electronics',
       icon: '🔌',
       color: "from-[#004B14] to-[#00B12F]",
+      img: electronics,
       subcategories: [ 'laptops', 'gas-cooker', 'audio', 'gaming']
     },
     // {
@@ -222,6 +234,7 @@ export const marketplaceData = {
       name: 'Agriculture',
       icon: '🚜',
       color: "from-[#ADBF81] to-[#51593C]",
+      // img: agriculture,
       subcategories: ['equipment', 'supplies', 'livestock', 'produce']
     }
   ],
