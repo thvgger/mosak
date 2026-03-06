@@ -62,7 +62,7 @@ const TrendingSales = () => {
   }
 
   return (
-    <section className="py-8 md:py-12 bg-white">
+    <section className="py-8 md:py-12 bg-white" id="trending-products">
       <div className="container">
         {/* Header */}
         <div className="flex items-center justify-between mb-8">

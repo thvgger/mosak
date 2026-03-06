@@ -21,7 +21,8 @@ import {
   Package,
   TrendingUp,
   Briefcase,
-  Building2
+  Building2,
+  House
 } from 'lucide-react';
 import { useAuth } from '../../contexts/AuthContext';
 
@@ -40,7 +41,7 @@ const DashboardSidebar = () => {
 
   // Menu items for different dashboards
   const buyerMenuItems = [
-    { path: '/account', icon: LayoutDashboard, label: 'Dashboard', end: true },
+    { path: '/account', icon: House, label: 'Dashboard', end: true },
     { path: '/account/orders', icon: ShoppingBag, label: 'Orders' },
     { path: '/account/messages', icon: MessageSquare, label: 'Messages' },
     { path: '/account/wallet', icon: Wallet, label: 'Wallet & Earnings' },
@@ -157,7 +158,7 @@ const DashboardSidebar = () => {
       {/* Mobile Menu Toggle Button */}
       <button
         onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-        className="lg:hidden fixed top-16 md:top-20 left-0 z-50 p-2 bg-white rounded-lg shadow-md"
+        className="lg:hidden fixed top-16 md:top-20 left-0 z-40 p-2 bg-white rounded-lg shadow-md"
       >
         {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
       </button>

@@ -8,16 +8,16 @@ const Footer = () => {
   const footerLinks = {
     'About Mosak': [
       { label: 'About Us', url: '/about' },
-      { label: 'How it Works', url: '#' },
+      { label: 'How it Works', url: '#how-it-works' },
       { label: 'Trust & Safety', url: '#' },
       { label: 'Escrow Protection', url: '#' },
-      { label: 'Careers', url: '#' },
-      { label: 'Press', url: '#' },
+      { label: 'Careers', url: '/careers' },
+      { label: 'Press', url: '/press' },
     ],
     'Buy': [
       { label: 'All Categories', url: '#' },
-      { label: 'Trending Products', url: '#' },
-      { label: 'Hot Deals', url: '#' },
+      { label: 'Trending Products', url: '/marketplace#trending-products' },
+      { label: 'Hot Deals', url: '/marketplace#hot-deals' },
       { label: 'New Arrivals', url: '#' },
       { label: 'Nearby Products', url: '#' },
       { label: 'Track Order', url: '#' },

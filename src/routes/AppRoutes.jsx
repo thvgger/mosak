@@ -20,7 +20,6 @@ import DashboardLayout from "../layouts/DashboardLayout";
 
 // Dashboard Pages
 import DashboardPage from '../pages/user/DashboardPage';
-import SellerDashboard from '../pages/user/SellerDashboard';
 import FreelancerDashboard from '../pages/user/FreelancerDashboard';
 import EmployerDashboard from '../pages/user/EmployerDashboard';
 
@@ -40,6 +39,7 @@ import Security from '../pages/user/Security';
 import Preferences from '../pages/user/Preferences';
 
 // Seller Pages
+import SellerDashboard from '../pages/seller/SellerDashboard.jsx';
 import SellerProducts from '../pages/seller/SellerProducts.jsx';
 import SellerOrders from '../pages/seller/SellerOrders.jsx';
 import SellerEarnings from '../pages/seller/SellerEarnings.jsx';
@@ -64,6 +64,7 @@ import ProtectedRoute from '../components/ProtectedRoute';
 // import RoleBasedRoute from '../components/RoleBasedRoute';
 
 import Checkout from '../pages/user/Checkout.jsx';
+import OrderTracking from '../pages/user/OrderTracking.jsx';
 
 
 
@@ -115,6 +116,7 @@ const AppRoutes = () => {
         <Route index element={<DashboardPage />} />
         <Route path="dashboard" element={<DashboardPage />} />
         <Route path="orders" element={<Orders />} />
+        <Route path="orders/:orderId" element={<OrderTracking />} />
         <Route path="messages" element={<Messages />} />
         <Route path="wallet" element={<Wallet />} />
         <Route path="disputes" element={<Disputes />} />

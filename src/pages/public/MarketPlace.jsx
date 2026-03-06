@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import SearchBar from '../../components/marketplace/SearchBar';
 import CategoriesBar from '../../components/marketplace/CategoriesBar';
 import FlashSale from "../../components/marketplace/FlashSale";
@@ -7,8 +7,19 @@ import TodayDeals from '../../components/marketplace/TodayDeals';
 import TrendingSales from '../../components/marketplace/TrendingSales';
 import HireTrusted from '../../components/marketplace/HireTrusted';
 import JoinCommunity from '../../components/home/JoinCommunity';
+import { useLocation } from 'react-router-dom';
 
 const MarketPlace = () => {
+  const { hash } = useLocation(); 
+  useEffect(() => { 
+    if (hash) { 
+      const element = document.querySelector(hash); 
+      if (element) {
+        element.scrollIntoView({ behavior: "smooth" }); 
+      } 
+    } 
+  }, [hash]);
+
   return (
     <section className=''>
       <div className='bg-[#eaeaea]'>

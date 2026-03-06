@@ -16,7 +16,7 @@ const TodayDeals = () => {
   }
 
   return (
-    <section className='py-8 md:py-12 bg-white'>
+    <section className='py-8 md:py-12 bg-white' id='hot-deals'>
       <div className='container'>
         <div className='flex items-center justify-between mb-4 md:mb-6'>
           <div className="flex items-center gap-4">

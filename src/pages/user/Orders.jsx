@@ -10,16 +10,21 @@ import {
   Truck,
   Package,
   XCircle,
-  AlertCircle
+  AlertCircle,
+  Download,
+  ShoppingBag
 } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 
 const Orders = () => {
   const { user } = useOutletContext();
   const [searchTerm, setSearchTerm] = useState('');
   const [statusFilter, setStatusFilter] = useState('all');
+  const navigate = useNavigate();
+  
 
   // Sample orders data based on the image
-  const orders = [
+  const initialOrders = [
     {
       id: 'ORD-2024-1547',
       product: 'iPhone 15 Pro Max 256GB',
@@ -110,13 +115,29 @@ const Orders = () => {
     return 'bg-gray-100 text-gray-800';
   };
 
+
+  
+  const [orders, setOrders] = useState(initialOrders);
+  
+  const toggleOrders = () => {
+    if (orders.length > 0) {
+      setOrders([]);
+    } else {
+      setOrders(initialOrders);
+    }
+  };
+
   return (
-    <div className="space-y-6 overflow-x-hidden">
+    <div className="space-y-6">
       {/* Header */}
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
         <div>
           <h1 className="text-2xl font-bold text-gray-800">My Orders</h1>
           <p className="text-sm text-gray-500 mt-1">Manage and track all your purchases</p>
+
+          <button className='btn text-xs' onClick={toggleOrders}>
+            {orders.length > 0 ? "Hide Orders" : "Show Orders"}
+          </button>
         </div>
       </div>
 
@@ -129,7 +150,7 @@ const Orders = () => {
             placeholder="Search orders by ID, product, or seller..."
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
-            className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"
+            className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:border-primary"
           />
         </div>
         <div className="flex gap-2">
@@ -148,13 +169,17 @@ const Orders = () => {
             </select>
             <ChevronDown className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400" size={16} />
           </div>
-          <button className="p-2 border border-gray-300 rounded-lg hover:bg-gray-50">
+          <button className="p-2 px-2.5 border border-gray-300 rounded-lg hover:bg-gray-50" title='Filter'>
             <Filter size={20} className="text-gray-600" />
+          </button>
+          <button className="p-2 px-2.5 border border-gray-300 rounded-lg hover:bg-gray-50" title='Export'>
+            <Download size={20} className="text-gray-600" />
           </button>
         </div>
       </div>
 
       {/* Orders Table */}
+      {orders.length > 0 ? (
       <div className="bg-white rounded-xl border border-gray-200 shadow-sm overflow-hidden">
         <div className="overflow-x-auto">
           <table className="w-full">
@@ -198,7 +223,14 @@ const Orders = () => {
                     <span className="text-sm font-semibold text-gray-900">{order.amount}</span>
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap">
-                    <button className="flex items-center space-x-1 px-3 py-1.5 bg-gray-100 hover:bg-gray-200 rounded-lg transition-colors text-sm text-gray-700">
+                    {/* <button className="flex items-center space-x-1 px-3 py-1.5 bg-gray-100 hover:bg-gray-200 rounded-lg transition-colors text-sm text-gray-700">
+                      <Eye size={16} />
+                      <span>View</span>
+                    </button> */}
+                    <button
+                      onClick={() => navigate(`/account/orders/${order.id}`)}
+                      className="flex items-center space-x-1 px-3 py-1.5 bg-gray-100 hover:bg-gray-200 rounded-lg transition-colors text-sm text-gray-700"
+                    >
                       <Eye size={16} />
                       <span>View</span>
                     </button>
@@ -241,9 +273,26 @@ const Orders = () => {
           </div>
         </div>
       </div>
+      ) : (
+        <div className="text-center py-16 border border-gray-200 rounded-lg">
+          <span className='bg-primary/10 p-3 rounded-full flex w-fit mx-auto'>
+            <ShoppingBag size={30} className="" />
+          </span>
+          <h3 className="mt-4 text-lg font-semibold text-gray-800">
+            No Orders Summary Yet
+          </h3>
+          <p className="text-sm text-gray-500 mt-1">
+            Your orders activity will appear here once you make orders
+          </p>
+
+          <button className="mt-4 px-4 py-2 bg-primary text-white rounded-lg">
+            Go to Marketplace
+          </button>
+        </div>
+      )}
 
       {/* Quick Stats */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+      {/* <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
         <div className="bg-white p-4 rounded-lg border border-gray-200">
           <div className="flex items-center justify-between">
             <div>
@@ -280,7 +329,7 @@ const Orders = () => {
             <AlertCircle className="text-blue-500" size={24} />
           </div>
         </div>
-      </div>
+      </div> */}
     </div>
   );
 };
