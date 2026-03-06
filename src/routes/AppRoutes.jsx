@@ -12,7 +12,7 @@ import Postings from '../pages/public/Postings';
 import HelpCenter from '../pages/public/HelpCenter';
 import Faqs from "../pages/public/Faqs.jsx";
 import Contact from '../pages/public/Contact.jsx';
-import Leaderboards from '../pages/public/Leaderboards.jsx';
+import Leaderboards from '../pages/community/Leaderboards.jsx';
 import About from '../pages/public/About.jsx';
 
 // Dashboard Layout

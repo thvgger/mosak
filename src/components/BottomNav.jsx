@@ -14,15 +14,15 @@ const BottomNav = () => {
   const navList = [
     { name: 'Home', icon: House, to: '/' },
     { name: 'Market', icon: ShoppingCart, to: '/marketplace' },
-    { name: 'Freelance', icon: BriefcaseBusiness, to: '/freelance' },
+    // { name: 'Freelance', icon: BriefcaseBusiness, to: '/freelance' },
     { name: 'Sell', icon: Plus, to: '/sell', target: true},
     { name: 'Community', icon: MessagesSquare, to: '/community' },
     { name: 'Postings', icon: FileText, to: '/postings' },
-    { name: 'Leaderboards', icon: Trophy, to: '/leaderboards' }
+    // { name: 'Leaderboards', icon: Trophy, to: '/leaderboards' }
   ];
 
   return (
-    <nav className="w-full max-w-lg mx-auto flex items-center justify-center sm:hidden fixed left-1/2 -translate-x-1/2 z-50 bottom-0 border-t border-white/50 bg-[#E3EDF7]/70 backdrop-blur-lg p-4.5 text-center rounded-t-2xl">
+    <nav className="w-full max-w-lg mx-auto flex items-center justify-center sm:hidden fixed left-1/2 -translate-x-1/2 z-50 bottom-0 border-t border-white/50 bg-[#E3EDF7]/70 backdrop-blur-lg p-4.5 px-6 text-center rounded-t-2xl">
       <ul className="w-full flex items-center gap-1.5 justify-between text-[10px]">
         {navList.map((item, index) => {
           const Icon = item.icon;
@@ -34,7 +34,7 @@ const BottomNav = () => {
               className={navlink}
               title={item.name}
             >
-              {Icon && <Icon size={20} className={item.target ? "bg-primary text-white p-4 rounded-full w-14 h-14 -mt-11" : ""} />}
+              {Icon && <Icon size={23} className={item.target ? "bg-primary text-white p-4 rounded-full w-14 h-14 -mt-11" : ""} />}
               {/* <span>
                 {item.name}
               </span> */}

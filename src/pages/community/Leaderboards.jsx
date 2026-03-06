@@ -1,6 +1,9 @@
 import React from 'react';
+import { PanelRightOpen, PanelLeftOpen } from 'lucide-react';
+import { useOutletContext } from 'react-router-dom';
 
 const Leaderboards = () => {
+  const { setIsSidebarOpen, isSidebarOpen } = useOutletContext();
 
   const rankings = [
     { id: 1, userName: "John Doe", rank: "Gold", points: 1500 },
@@ -17,8 +20,36 @@ const Leaderboards = () => {
 
 
   return (
-    <section className='container py-4'>
-      <div className='flex flex-col gap-4 w-full'>
+    <section className='h-full flex-1 flex flex-col min-w-0'>
+      {/* Header */}
+      <div className="min-h-14 border-b border-gray-200 flex items-center justify-between gap-3 px-4 bg-white">
+        <div className="flex items-center">
+          {!isSidebarOpen ? (
+            <button
+              onClick={() => setIsSidebarOpen(prev => !prev)}
+              className="rounded hover:bg-gray-50"
+            >
+              <PanelLeftOpen size={20} className='text-gray-400' />
+            </button>
+          ) : (
+            <button
+              onClick={() => setIsSidebarOpen(prev => !prev)}
+              className="rounded hover:bg-gray-50"
+            >
+              <PanelRightOpen size={20} className='text-gray-400' />
+            </button>
+          )}
+        </div>
+
+        <div className="w-full flex items-center justify-between flex-wrap gap-1.5">
+          <h2 className="font-semibold text-base"> Leaderboards </h2>
+          <p className="text-xs md:text-sm text-gray-600">Stay updated with the latest news</p>
+        </div>
+      </div>
+
+
+      {/* Leaderboard Rankings */}
+      <div className='flex flex-col gap-4 w-full p-4 overflow-y-auto'>
         {rankings.map((user) => (
           <div key={user.id} className='flex items-center justify-between p-4 bg-primary/10 border border-primary/80 rounded-lg'>
             <div className='flex items-center gap-3'>

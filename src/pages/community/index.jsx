@@ -3,6 +3,7 @@ import { Route, Routes, Navigate } from 'react-router-dom';
 import CommunityLayout from '../../layouts/CommunityLayout';
 
 // Community Pages
+import Leaderboards from './Leaderboards';
 import ChannelChat from './ChannelChat';
 import Announcements from './Announcements';
 import MAdverts from './MAdverts';
@@ -19,6 +20,7 @@ const CommunityRoutes = () => {
         <Route path="channel/:channelId" element={<ChannelChat />} />
         
         {/* Other community pages */}
+        <Route path="leaderboards" element={<Leaderboards />} />
         <Route path="m-adverts" element={<MAdverts />} />
         <Route path="all-m-adverts" element={<All_M_Adverts />} />
         <Route path="announcements" element={<Announcements />} />

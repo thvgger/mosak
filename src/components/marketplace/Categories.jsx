@@ -92,7 +92,7 @@ const Categories = () => {
                       {category.name}
                     </span>
                     <div className={`bg-linear-to-r ${category.color} flex items-center justify-center w-full h-36 rounded-md`}>
-                      <img src={category.img || ""} alt="" className="h-fit w-30 mx-auto object-cover" />
+                      <img src={category.img || ""} alt="" className="h-full w-30 mx-auto object-cover" />
                     </div>
                   </div>
                 </div>

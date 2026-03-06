@@ -24,7 +24,8 @@ import {
   Volume2,
   Settings,
   Map,
-  Star
+  Star,
+  Trophy
 } from 'lucide-react';
 // import Logo from "../../assets/mosalak-logo.png";
 import CreateChannelModal from './CreateChannelModal';
@@ -49,6 +50,19 @@ const CommunitySidebar = ({ isOpen, onClose }) => {
   };
 
   const channelGroups = [
+     {
+      id: 'leaderboards',
+      title: "LEADERBOARDS",
+      icon: Trophy,
+      channels: [
+        { 
+          path: '/community/leaderboards', 
+          name: 'Leaderboards', 
+          icon: Trophy,
+          members: 1250 
+        }
+      ]
+    },
     {
       id: 'announcements',
       title: 'ANNOUNCEMENTS',
