@@ -43,7 +43,7 @@ const Leaderboards = () => {
 
         <div className="w-full flex items-center justify-between flex-wrap gap-1.5">
           <h2 className="font-semibold text-base"> Leaderboards </h2>
-          <p className="text-xs md:text-sm text-gray-600">Stay updated with the latest news</p>
+          <p className="text-xs md:text-sm text-gray-600"> Current top ranked users </p>
         </div>
       </div>
 

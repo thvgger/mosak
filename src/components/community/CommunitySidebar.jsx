@@ -57,9 +57,9 @@ const CommunitySidebar = ({ isOpen, onClose }) => {
       channels: [
         { 
           path: '/community/leaderboards', 
-          name: 'Leaderboards', 
+          name: 'Top Rankings', 
           icon: Trophy,
-          members: 1250 
+          // members: 1250 
         }
       ]
     },
@@ -80,7 +80,7 @@ const CommunitySidebar = ({ isOpen, onClose }) => {
           name: 'M-Adverts', 
           icon: ShoppingBag, 
           locked: true, 
-          badge: '12' 
+          badge: '2' 
         }
       ]
     },

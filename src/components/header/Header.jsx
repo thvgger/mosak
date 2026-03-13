@@ -1,3 +1,4 @@
+// components/header/Header.jsx (updated section)
 import { useState, useRef, useEffect } from "react";
 import { Link, NavLink, useNavigate } from "react-router-dom";
 import Logo from "../../assets/mosalak-logo.png";
@@ -25,33 +26,26 @@ const Header = ({ isAccount, isCommunity }) => {
     "text-primary font-medium text-sm text-gray-700 hover:text-primary underline" : 
     "font-medium text-sm text-gray-700 hover:text-primary";
 
-
   const handleLogout = () => {
     logout();
     setAccountPopup(false);
     navigate('/');
   };
 
-
   // Close account popup when clicking outside
   useEffect(() => {
     const handleClickOutside = (event) => {
-      // Check if accountPopup is open and click is outside the accountRef
       if (accountPopup && accountRef.current && !accountRef.current.contains(event.target)) {
         setAccountPopup(false);
       }
     };
 
-    // Add event listener
     document.addEventListener('mousedown', handleClickOutside);
-    
-    // Cleanup
     return () => {
       document.removeEventListener('mousedown', handleClickOutside);
     };
   }, [accountPopup]); 
 
-  
   useEffect(() => {
     if (isMenuOpen) {
       setAccountPopup(false);
@@ -133,13 +127,13 @@ const Header = ({ isAccount, isCommunity }) => {
                 <div className="space-x-2.5 flex">
                   <button 
                     className="btn btn-text border border-primary text-primary px-4"
-                    onClick={() => openModal("login")} // Use global modal
+                    onClick={() => openModal("login")}
                   >
                     Login
                   </button>
                   <button 
                     className="btn"
-                    onClick={() => openModal("role")} // Use global modal
+                    onClick={() => openModal("role")}
                   >
                     Sign Up
                   </button>
@@ -169,7 +163,7 @@ const Header = ({ isAccount, isCommunity }) => {
                     className="btn btn-tertiary"
                     onClick={() => {
                       setIsMenuOpen(false);
-                      openModal("login"); // Use global modal
+                      openModal("login");
                     }}
                   >
                     Login
@@ -178,7 +172,7 @@ const Header = ({ isAccount, isCommunity }) => {
                     className="btn"
                     onClick={() => {
                       setIsMenuOpen(false);
-                      openModal("role"); // Use global modal
+                      openModal("role");
                     }}
                   >
                     Sign Up

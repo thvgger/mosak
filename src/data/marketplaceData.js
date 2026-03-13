@@ -170,7 +170,7 @@ import phones from "../assets/categories/phones.png";
 import fashion from "../assets/categories/fashion.png";
 import homes from "../assets/categories/homes.png";
 import electronics from "../assets/categories/electronics.png";
-// import agriculture from "../assets/categories/agriculture.png";
+import agriculture from "../assets/categories/agriculture.png";
 
 export const marketplaceData = {
   categories: [
@@ -234,7 +234,7 @@ export const marketplaceData = {
       name: 'Agriculture',
       icon: '🚜',
       color: "from-[#ADBF81] to-[#51593C]",
-      // img: agriculture,
+      img: agriculture,
       subcategories: ['equipment', 'supplies', 'livestock', 'produce']
     }
   ],

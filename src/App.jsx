@@ -4,7 +4,8 @@ import { MarketplaceProvider } from './contexts/MarketplaceContext';
 import { AuthProvider } from './contexts/AuthContext';
 import { AuthModalProvider } from './contexts/AuthModalContext';
 import { ShoppingProvider } from './contexts/ShoppingContext';
-import GlobalAuthModal from "./components/common/GlobalAuthModal";
+// import GlobalAuthModal from "./components/common/GlobalAuthModal";
+import AuthModal from "./components/auth/AuthModal";
 
 function App() {
   return (
@@ -13,7 +14,7 @@ function App() {
         <AuthProvider>
           <ShoppingProvider>
             <MarketplaceProvider>
-              <GlobalAuthModal />
+              <AuthModal />
               <AppRoutes />
             </MarketplaceProvider>
           </ShoppingProvider>

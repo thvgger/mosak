@@ -256,7 +256,7 @@ const SellerDashboard = () => {
                     <span className="font-medium">2 of 3 Levels</span>
                   </div>
                   <div className="h-2 bg-gray-200 rounded-full overflow-hidden">
-                    <div className="h-full bg-gradient-to-r from-green-600 to-green-400 rounded-full" style={{ width: '66%' }}></div>
+                    <div className="h-full bg-linear-to-r from-green-600 to-green-400 rounded-full" style={{ width: '66%' }}></div>
                   </div>
                   <button className="w-full py-2 bg-green-600 text-white text-sm font-medium rounded-lg hover:bg-green-700 transition-colors">
                     Upgrade to Level 3
@@ -269,162 +269,160 @@ const SellerDashboard = () => {
 
           {/* Current Plan */}
           <div className='flex items-start gap-4'>
+            <div className="w-[60%] bg-primary text-white! rounded-xl p-6 border border-gray-200 shadow-sm">
+              <div className="flex items-center justify-between mb-4">
+                <h3 className="font-semibold ">Current Plan</h3>
+                <Gift size={20} className="text-gray-400" />
+              </div>
+              
+              <div className="flex items-start justify-between">
+                <div>
+                  <p className="font-medium">Pro Verified</p>
+                  <ul className="mt-2 space-y-1">
+                    <li className="text-sm flex items-center gap-2">
+                      <CheckCircle size={14} className="text-green-500" />
+                      25% search ranking boost
+                    </li>
+                    <li className="text-sm flex items-center gap-2">
+                      <CheckCircle size={14} className="text-green-500" />
+                      Priority support
+                    </li>
+                  </ul>
+                </div>
+                <div className="text-right">
+                  <p className="text-lg font-bold">₦4,000</p>
+                  <p className="text-xs">/month</p>
+                </div>
+              </div>
 
-          <div className="w-[60%] bg-primary text-white! rounded-xl p-6 border border-gray-200 shadow-sm">
-            <div className="flex items-center justify-between mb-4">
-              <h3 className="font-semibold ">Current Plan</h3>
-              <Gift size={20} className="text-gray-400" />
+              <div className="mt-4 pt-4 border-t border-gray-100">
+                <div className="flex items-center justify-between">
+                  <span className="text-sm">Available Points</span>
+                  <span className="font-semibold">3,450</span>
+                </div>
+              </div>
+            </div>
+
+          <div className="w-[40%] h-full bg-white rounded-xl p-6 border border-gray-200 shadow-sm">
+            <div className='flex items-center gap-3 mb-4'>
+              <span className='bg-yellow-100 p-3 rounded-full'>
+                <Star size={20} strokeWidth={2} className='text-yellow-500' />
+              </span>
+              <h3 className="text-xs font-normal text-gray-500"> 
+                Available Points 
+                <span className='text-xl text-dark font-bold flex'> 3,450 </span>
+              </h3>
             </div>
             
-            <div className="flex items-start justify-between">
-              <div>
-                <p className="font-medium">Pro Verified</p>
-                <ul className="mt-2 space-y-1">
-                  <li className="text-sm flex items-center gap-2">
-                    <CheckCircle size={14} className="text-green-500" />
-                    25% search ranking boost
-                  </li>
-                  <li className="text-sm flex items-center gap-2">
-                    <CheckCircle size={14} className="text-green-500" />
-                    Priority support
-                  </li>
-                </ul>
-              </div>
-              <div className="text-right">
-                <p className="text-lg font-bold">₦4,000</p>
-                <p className="text-xs">/month</p>
-              </div>
+            <div className='flex items-center flex-wrap justify-between gap-4 text-sm text-gray-500'>
+              <span> 
+                Ways to earn points
+              </span>    
+              <span className='flex items-center gap-2 hover:underline cursor-pointer'>
+                View Activities
+                <ChevronRight size={16} />
+              </span>
             </div>
-
-            <div className="mt-4 pt-4 border-t border-gray-100">
-              <div className="flex items-center justify-between">
-                <span className="text-sm">Available Points</span>
-                <span className="font-semibold">3,450</span>
-              </div>
             </div>
           </div>
-
-          <div className="w-[40%] bg-white rounded-xl p-6 border border-gray-200 shadow-sm">
-                  <div className='flex items-center gap-3 mb-4'>
-                    <span className='bg-yellow-100 p-3 rounded-full'>
-                      <Star size={20} strokeWidth={2} className='text-yellow-500' />
-                    </span>
-                    <h3 className="text-xs font-normal text-gray-500"> 
-                      Available Points 
-                      <span className='text-xl text-dark font-bold flex'> 3,450 </span>
-                    </h3>
-                  </div>
-                  
-                  <div className='flex items-center flex-wrap justify-between gap-4 text-sm text-gray-500'>
-                    <span> 
-                      Ways to earn points
-                    </span>
-          
-          
-                    <span className='flex items-center gap-2 hover:underline cursor-pointer'>
-                      View Activities
-                      <ChevronRight size={16} />
-                    </span>
-          
-                  </div>
-                </div>
-                </div>
         </div>
 
      
         {/* Gold Member Card */}
-          <div className="bg-gradient-to-br from-amber-400 to-yellow-500 rounded-xl p-6 shadow-sm">
-            <div className="flex items-start justify-between mb-4">
-              <div className="flex items-center gap-3">
-                <Award size={32} className="text-white" />
-                <div>
-                  <h3 className="font-semibold text-white">Gold Member</h3>
-                  <p className="text-sm text-white/80">Member since Jan 2026</p>
-                </div>
-              </div>
-              <ChevronRight size={20} className="text-white" />
-            </div>
-
-            <div className="grid grid-cols-2 gap-4 mb-4">
+        <div className="bg-linear-to-br from-amber-400 to-yellow-600 rounded-xl p-6 shadow-sm">
+          <div className="flex items-start justify-between mb-4">
+            <div className="flex items-center gap-3">
+              <Award size={32} className="text-white" />
               <div>
-                <p className="text-sm text-white/80">Current Points</p>
-                <p className="text-2xl font-bold text-white">3,450</p>
-              </div>
-              <div>
-                <p className="text-sm text-white/80">Points to Next Level</p>
-                <p className="text-lg font-semibold text-white">1,550</p>
+                <h3 className="font-semibold text-white">Gold Member</h3>
+                <p className="text-sm text-white/80">Member since Jan 2026</p>
               </div>
             </div>
-
-            <div className="space-y-2">
-              <div className="flex justify-between text-sm text-white/80">
-                <span>Progress to Platinum</span>
-                <span>60%</span>
-              </div>
-              <div className="h-2 bg-white/30 rounded-full overflow-hidden">
-                <div className="h-full bg-white rounded-full" style={{ width: '60%' }}></div>
-              </div>
-            </div>
-
-            <button className="w-full mt-4 py-2 bg-white/20 hover:bg-white/30 text-white text-sm font-medium rounded-lg transition-colors">
-              View Badge Details
-            </button>
+            <ChevronRight size={20} className="text-white" />
           </div>
+
+          <div className="grid grid-cols-2 gap-4 mb-4">
+            <div>
+              <p className="text-sm text-white/80">Current Points</p>
+              <p className="text-2xl font-bold text-white">3,450</p>
+            </div>
+            <div>
+              <p className="text-sm text-white/80">Points to Next Level</p>
+              <p className="text-lg font-semibold text-white">1,550</p>
+            </div>
+          </div>
+
+          <div className="space-y-2">
+            <div className="flex justify-between text-sm text-white/80">
+              <span>Progress to Platinum</span>
+              <span>60%</span>
+            </div>
+            <div className="h-2 bg-white/30 rounded-full overflow-hidden">
+              <div className="h-full bg-white rounded-full" style={{ width: '60%' }}></div>
+            </div>
+          </div>
+
+          <button className="w-full mt-4 py-2 bg-white hover:bg-white/30 text-yellow-500 text-sm font-medium rounded-lg transition-colors">
+            View Badge Details
+          </button>
+        </div>
       </div>
 
         {/* Right Column - Escrow Snapshot & Quick Actions */}
-      <div className="space-y-6">
-          {/* Escrow Snapshot */}
-          <div className="bg-white rounded-xl p-6 border border-gray-200 shadow-sm">
-            <h3 className="font-semibold text-gray-800 mb-4">Escrow Snapshot</h3>
-            
-            <div className="space-y-4">
-              <div className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
-                <div className="flex items-center gap-3">
-                  <Shield size={20} className="text-yellow-600" />
-                  <span className="text-sm text-gray-600">Held in Escrow</span>
-                </div>
-                <span className="font-semibold text-gray-800">N850,000</span>
+      <div className="w-full flex flex-wrap md:flex-nowrap items-start justify-between gap-4">
+        {/* Escrow Snapshot */}
+        <div className="w-full bg-white rounded-xl border border-gray-200 shadow-sm overflow-hidden">
+          <h3 className="font-semibold text-gray-800 bg-primary/20 p-6">Escrow Snapshot</h3>
+          
+          <div className="space-y-4 p-6">
+            <div className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
+              <div className="flex items-center gap-3">
+                <Shield size={20} className="text-yellow-600" />
+                <span className="text-sm text-gray-600">Held in Escrow</span>
               </div>
-              
-              <div className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
-                <div className="flex items-center gap-3">
-                  <CheckCircle size={20} className="text-green-600" />
-                  <span className="text-sm text-gray-600">Released (7 days)</span>
-                </div>
-                <span className="font-semibold text-gray-800">N1,680,000</span>
-              </div>
-              
-              <div className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
-                <div className="flex items-center gap-3">
-                  <AlertCircle size={20} className="text-red-600" />
-                  <span className="text-sm text-gray-600">In Dispute</span>
-                </div>
-                <span className="font-semibold text-gray-800">N0</span>
-              </div>
+              <span className="font-semibold text-gray-800">N850,000</span>
             </div>
-          </div>
-
-          {/* Quick Actions */}
-          <div className="bg-white rounded-xl p-6 border border-gray-200 shadow-sm">
-            <h3 className="font-semibold text-gray-800 mb-4">Quick Actions</h3>
             
-            <div className="grid grid-cols-2 gap-3">
-              {quickActions.map((action, index) => {
-                const Icon = action.icon;
-                return (
-                  <button key={index} className="p-4 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors text-left group">
-                    <div className={`w-10 h-10 ${action.color} bg-opacity-20 rounded-lg flex items-center justify-center mb-2 group-hover:scale-110 transition-transform`}>
-                      <Icon size={20} className={action.color.replace('bg-', 'text-')} />
-                    </div>
-                    <p className="text-sm font-medium text-gray-800">{action.label}</p>
-                    <p className="text-xs text-gray-500">{action.description}</p>
-                  </button>
-                );
-              })}
+            <div className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
+              <div className="flex items-center gap-3">
+                <CheckCircle size={20} className="text-green-600" />
+                <span className="text-sm text-gray-600">Released (7 days)</span>
+              </div>
+              <span className="font-semibold text-gray-800">N1,680,000</span>
+            </div>
+            
+            <div className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
+              <div className="flex items-center gap-3">
+                <AlertCircle size={20} className="text-red-600" />
+                <span className="text-sm text-gray-600">In Dispute</span>
+              </div>
+              <span className="font-semibold text-gray-800">N0</span>
             </div>
           </div>
         </div>
+
+        {/* Quick Actions */}
+        <div className="w-full bg-white rounded-xl border border-gray-200 shadow-sm overflow-hidden">
+          <h3 className="font-semibold text-gray-800 bg-primary/20 p-6">Quick Actions</h3>
+          
+          <div className="grid grid-cols-1 gap-2 p-2">
+            {quickActions.map((action, index) => {
+              const Icon = action.icon;
+              return (
+                <button key={index} className="p-2 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors text-left group flex gap-2 border border-gray-300">
+                  <div className={`w-10 h-10 ${action.color} bg-opacity-20 rounded-lg flex items-center justify-center group-hover:scale-110 transition-transform`}>
+                    <Icon size={20} className={action.color.replace('bg-', 'text-')} />
+                  </div>
+                  <div className='flex flex-col gap-1'>
+                    <p className="text-sm font-medium text-gray-800">{action.label}</p>
+                    <p className="text-xs text-gray-500">{action.description}</p>
+                  </div>
+                </button>
+              );
+            })}
+          </div>
+        </div>
+      </div>
 
       {/* Active Orders */}
       <div className="bg-white rounded-xl border border-gray-200 shadow-sm overflow-hidden">
