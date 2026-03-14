@@ -1,0 +1,124 @@
+:root{
+  /* --clr: #222327; */
+  --clr: #fff;
+}
+
+.navbar{
+  width: 100%;
+  /* max-width: 640px; */
+  /* margin-inline: auto; */
+  /* height: 40px; */
+  background: #E3EDF7;
+  backdrop-filter: blur(10px);
+  position: fixed;
+  bottom: 0;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  padding: 0px 12px;
+  border-top: 10px solid white;
+}
+
+.navbar ul{
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.navbar ul li{
+  width: 70px;
+  height: 70px;
+  position: relative;
+}
+
+.navbar ul li a{
+  text-align: center;
+  padding: 5px;
+  font-size: 12px;
+
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+}
+
+.navbar ul li a .icon{
+  /* background: var(--color-primary); */
+  position: relative;
+  display: flex;
+  line-height: 75px;
+  font-size: 1.5em;
+  text-align: center;
+  transition: 0.5s;
+  /* color: var(--color-dark); */
+  /* color: var(--clr); */
+}
+
+.navbar ul li.active a .icon{
+  transform: translateY(-20px);
+  z-index: 2;
+}
+
+.navbar ul li a .text{
+  position: absolute;
+  /* top: 20px; */
+  z-index: 2;
+  /* color: var(--clr); */
+  font-weight: 400;
+  font-size: 0.75em;
+  letter-spacing: 0.05em;
+  transition: 0.5s;
+  /* opacity: 0; */
+  transform: translateY(20px);
+}
+.navbar ul li.active a .text{
+  opacity: 1;
+  transform: translateY(30px);
+}
+
+
+
+.navbar .indicator {
+  position: absolute;
+  top: -50%;
+  width: var(--indicator-size, 70px); /* fallback */
+  height: var(--indicator-size, 70px);
+  background: var(--color-primary);
+  border-radius: 50%;
+  border: 6px solid var(--clr);
+  transition: transform 0.5s ease;
+}
+
+
+.navbar .indicator::before{
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: -22px;
+  width: 20px;
+  height: 20px;
+  background: transparent;
+  border-top-right-radius: 20px;
+  box-shadow: 0px -10px 0 0 var(--clr);
+}
+.navbar .indicator::after{
+  content: "";
+  position: absolute;
+  top: 50%;
+  right: -22px;
+  width: 20px;
+  height: 20px;
+  background: transparent;
+  border-top-left-radius: 20px;
+  box-shadow: 0px -10px 0 0 var(--clr);
+}
+
+
+/* .navbar ul li:nth-child(1).active ~ .indicator{
+  transform: translateX(calc(70px * 0));
+}
+.navbar ul li:nth-child(2).active ~ .indicator{
+  transform: translateX(calc(70px * 1));
+} */

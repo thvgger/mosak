@@ -7,7 +7,8 @@ import PinnedAdvert from "../../components/community/PinnedAdvert";
 import { Menu, X } from "lucide-react";
 
 const Community = () => {
-  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  // Set Default Siderbar Open
+  const [isSidebarOpen, setIsSidebarOpen] = useState(true);
 
   return (
     <div className="min-h-screen flex bg-gray-100">

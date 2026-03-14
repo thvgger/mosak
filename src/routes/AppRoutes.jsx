@@ -42,6 +42,8 @@ import Preferences from '../pages/user/Preferences';
 import SellerDashboard from '../pages/seller/SellerDashboard.jsx';
 import SellerProducts from '../pages/seller/SellerProducts.jsx';
 import SellerOrders from '../pages/seller/SellerOrders.jsx';
+import SellerPromotions from '../pages/seller/SellerPromotions.jsx';
+import SellerEscrow from '../pages/seller/SellerEscrow.jsx';
 import SellerEarnings from '../pages/seller/SellerEarnings.jsx';
 import SellerAnalytics from '../pages/seller/SellerAnalytics.jsx';
 import SellerStore from '../pages/seller/SellerStore.jsx';
@@ -80,14 +82,14 @@ const AppRoutes = () => {
           <Route path=":category/:subCategory" element={<MarketplacePage />} />
         </Route>
         <Route path="/product/:id" element={<ProductDetailPage />} />
-        <Route path="/freelance" element={<Freelance />} />
-        <Route path="/freelance/:category" element={<Freelance />} />
+        {/* <Route path="/freelance" element={<Freelance />} /> */}
+        {/* <Route path="/freelance/:category" element={<Freelance />} /> */}
         
         {/* Updated Community Route - Now uses nested routes */}
         <Route path="/community/*" element={<CommunityRoutes />} />
         
         <Route path="/postings" element={<Postings />} />
-        <Route path="/leaderboards" element={<Leaderboards />} />
+        {/* <Route path="/leaderboards" element={<Leaderboards />} /> */}
         <Route path="/help-center" element={<HelpCenter />} />
         <Route path="/faqs" element={<Faqs />} />
         <Route path="/contact" element={<Contact />} />
@@ -138,6 +140,8 @@ const AppRoutes = () => {
         <Route index element={<SellerDashboard />} />
         <Route path="products" element={<SellerProducts />} />
         <Route path="orders" element={<SellerOrders />} />
+        <Route path="promotions" element={<SellerPromotions />} />
+        <Route path="escrow" element={<SellerEscrow />} />
         <Route path="earnings" element={<SellerEarnings />} />
         <Route path="analytics" element={<SellerAnalytics />} />
         <Route path="messages" element={<Messages />} />

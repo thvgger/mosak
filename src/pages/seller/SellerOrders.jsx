@@ -112,10 +112,10 @@ const SellerOrders = () => {
   };
 
   return (
-    <div className="p-6">
+    <div className="">
       {/* Breadcrumb */}
       <div className="text-sm text-gray-500 mb-6">
-        Dashboard
+        Dashboard &raquo; Orders
       </div>
 
       {/* Page Title */}

@@ -57,21 +57,23 @@ const Header = ({ isAccount, isCommunity }) => {
     <>
       <header className={`${isCommunity ? "relative" : "sticky"}  top-0 z-60 bg-white md:bg-white/60 backdrop-blur-md shadow h-16 md:h-20`}>
         <div className="container w-full h-full flex items-center justify-between gap-6 relative z-60">
-          <Link to="/" className="w-fit h-fit " onClick={()=> { setIsMenuOpen(false); }}>
-            <img src={Logo} alt="Mosak Hub Logo" className="w-20 md:w-26 object-cover" />
-          </Link>
+          <div className="w-full h-full flex items-center">
+            <Link to="/" className="w-fit h-fit " onClick={()=> { setIsMenuOpen(false); }}>
+              <img src={Logo} alt="Mosak Hub Logo" className="w-20 md:w-26 object-cover" />
+            </Link>
+          </div>
 
           {/* Navigation */}
-          <nav className="hidden lg:flex items-center justify-center gap-6 w-fit mx-auto flex-1">
+          <nav className="hidden lg:flex items-center justify-center gap-6 w-full mx-auto text-nowrap">
             <NavLink to="/marketplace" className={navlink}> Market Place </NavLink>
-            <NavLink to="/freelance" className={navlink}> Freelance </NavLink>
+            {/* <NavLink to="/freelance" className={navlink}> Freelance </NavLink> */}
             <NavLink to="/community" className={navlink}> Community </NavLink>
             <NavLink to="/postings" className={navlink}> Postings </NavLink>
-            <NavLink to="/leaderboards" className={navlink}> Leaderboards </NavLink>
+            {/* <NavLink to="/leaderboards" className={navlink}> Leaderboards </NavLink> */}
           </nav>
 
           {/* User Actions */}
-          <div className="w-fit flex items-center justify-end gap-2.5">
+          <div className="w-full flex items-center justify-end gap-2.5">
             {isAuthenticated ? (
               <div className="flex items-center gap-4">
                 {!isAccount && (
@@ -152,10 +154,10 @@ const Header = ({ isAccount, isCommunity }) => {
           <div className={`lg:hidden flex fixed left-0 top-16 md:top-20 w-[68vh] h-screen bg-white z-60 py-6 transition-all duration-400 ${isMenuOpen ? "translate-x-0" : "-translate-x-full" }`}>
             <div className="container flex flex-col gap-6 items-start">
               <NavLink to="/marketplace" className={navlink} onClick={()=> { setIsMenuOpen(false); }}> Market Place </NavLink>
-              <NavLink to="/freelance" className={navlink} onClick={()=> { setIsMenuOpen(false); }}> Freelance </NavLink>
+              {/* <NavLink to="/freelance" className={navlink} onClick={()=> { setIsMenuOpen(false); }}> Freelance </NavLink> */}
               <NavLink to="/community" className={navlink} onClick={()=> { setIsMenuOpen(false); }}> Community </NavLink>
               <NavLink to="/postings" className={navlink} onClick={()=> { setIsMenuOpen(false); }}> Postings </NavLink>
-              <NavLink to="/leaderboards" className={navlink} onClick={()=> { setIsMenuOpen(false); }}> Leaderboards </NavLink>
+              {/* <NavLink to="/leaderboards" className={navlink} onClick={()=> { setIsMenuOpen(false); }}> Leaderboards </NavLink> */}
               
               {!isAuthenticated && (
                 <div className="space-x-2.5 flex md:hidden">

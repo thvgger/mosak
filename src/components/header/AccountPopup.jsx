@@ -16,8 +16,8 @@ const AccountPopup = ({ isAccount, user, onLogout, onClose }) => {
   const allDashboards = [
     { role: 'buyer', icon: User, label: 'Buyer Dashboard', path: '/account', color: 'text-blue-600' },
     { role: 'seller', icon: Store, label: 'Seller Dashboard', path: '/seller', color: 'text-green-600' },
-    { role: 'freelancer', icon: Briefcase, label: 'Freelancer Dashboard', path: '/freelancer', color: 'text-purple-600' },
-    { role: 'employer', icon: Building2, label: 'Employer Dashboard', path: '/employer', color: 'text-orange-600' }
+    // { role: 'freelancer', icon: Briefcase, label: 'Freelancer Dashboard', path: '/freelancer', color: 'text-purple-600' },
+    // { role: 'employer', icon: Building2, label: 'Employer Dashboard', path: '/employer', color: 'text-orange-600' }
   ];
 
   // Get user's current roles (if any)

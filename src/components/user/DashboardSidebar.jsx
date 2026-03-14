@@ -22,7 +22,9 @@ import {
   TrendingUp,
   Briefcase,
   Building2,
-  House
+  House,
+  BellElectric,
+  Zap
 } from 'lucide-react';
 import { useAuth } from '../../contexts/AuthContext';
 
@@ -54,10 +56,12 @@ const DashboardSidebar = () => {
     { path: '/seller', icon: LayoutDashboard, label: 'Dashboard', end: true },
     { path: '/seller/products', icon: Package, label: 'Products' },
     { path: '/seller/orders', icon: ShoppingBag, label: 'Orders' },
+    { path: '/seller/promotions', icon: Zap, label: 'Promotions / Boost' },
+    { path: '/seller/escrow', icon: Shield, label: 'Escrow & Payments' },
+    { path: '/seller/earnings', icon: Wallet, label: 'Wallet & Earnings' },
     { path: '/seller/messages', icon: MessageSquare, label: 'Messages' },
-    { path: '/seller/earnings', icon: Wallet, label: 'Earnings' },
-    { path: '/seller/analytics', icon: TrendingUp, label: 'Analytics' },
     { path: '/seller/disputes', icon: AlertCircle, label: 'Disputes' },
+    { path: '/seller/analytics', icon: TrendingUp, label: 'Analytics' },
     { path: '/seller/notifications', icon: Bell, label: 'Notifications' },
     { path: '/seller/help', icon: HelpCircle, label: 'Help & Support' },
   ];
