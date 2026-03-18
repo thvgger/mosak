@@ -172,7 +172,7 @@
 
 
 
-
+// components/auth/SignupPopup.jsx
 import { useState } from "react";
 import { useAuth } from '../../contexts/AuthContext';
 
@@ -323,9 +323,9 @@ const SignupPopup = ({ onClose, onSignInClick, selectedRole, onSuccess }) => {
         <button 
           type="submit"
           className="w-full btn"
-          // disabled={loading}
+          disabled={loading}
         >
-          CREATE ACCOUNT →
+          {loading ? 'CREATING ACCOUNT...' : 'CREATE ACCOUNT →'}
         </button>
       </form>
       
@@ -334,7 +334,7 @@ const SignupPopup = ({ onClose, onSignInClick, selectedRole, onSuccess }) => {
         <button 
           className="text-primary font-semibold hover:underline"
           onClick={onSignInClick}
-          // disabled={loading}
+          disabled={loading}
         >
           Sign In
         </button>

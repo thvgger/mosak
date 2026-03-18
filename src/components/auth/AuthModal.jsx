@@ -26,10 +26,24 @@ const AuthModal = () => {
 
   if (!activeModal) return null;
 
+  
+
   // Handle OTP verification
+  // const handleVerify = async (email, otp) => {
+  //   const result = await verifyEmail(email, otp);
+  //   if (result.success) {
+  //     handleModalSuccess();
+  //   }
+  //   return result;
+  // };
+
+  // In AuthModal.jsx
   const handleVerify = async (email, otp) => {
+    console.log('Verifying:', { email, otp });
     const result = await verifyEmail(email, otp);
+    console.log('Verification result:', result);
     if (result.success) {
+      console.log('Verification successful, user:', result.user);
       handleModalSuccess();
     }
     return result;
@@ -54,6 +68,7 @@ const AuthModal = () => {
     }
     return result;
   };
+
 
   const renderModalContent = () => {
     switch (activeModal) {

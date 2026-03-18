@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
-import { House, ShoppingCart, FileText, Plus, Trophy, MessagesSquare, BriefcaseBusiness } from 'lucide-react';
+import { House, Store, ShoppingCart, FileText, Plus, Trophy, MessagesSquare, BriefcaseBusiness, SquarePen } from 'lucide-react';
 import freelanceIcon from '../assets/bottomNav/freelance-icon.svg';
 import communityIcon from '../assets/bottomNav/community-icon.svg';
 import leaderboardIcon from '../assets/bottomNav/leaderboard-icon.svg';
@@ -27,23 +27,16 @@ const BottomNav = () => {
   const navRef = useRef(null);
 
   const navItems = [
-    { to: "/", icon: <House className="icon" />, label: "Home" },
-    { to: "/marketplace", icon: <ShoppingCart className="icon" />, label: "Market Place" },
-    { to: "/seller/products", icon: <Plus className="icon" />, label: "Sell" },
-    { to: "/community", icon: <MessagesSquare className="icon" />, label: "Community" },
-    { to: "/postings", icon: <FileText className="icon" />, label: "Postings" },
+    { to: "/", icon: <House className="icon" size={22} />, label: "Home" },
+    { to: "/marketplace", icon: <Store  className="icon" size={22} />, label: "Market Place" },
+    { to: "/seller/products", icon: <Plus className="icon" size={22} />, label: "Sell" },
+    { to: "/community", icon: <MessagesSquare className="icon" size={22} />, label: "Community" },
+    { to: "/postings", icon: <SquarePen className="icon" size={22} />, label: "Postings" },
   ];
 
+ 
   useEffect(() => {
-    if (navRef.current) {
-      const firstItem = navRef.current.querySelector("li");
-      if (firstItem) {
-        setItemWidth(firstItem.offsetWidth);
-      }
-    }
-
-    // Update on window resize
-    const handleResize = () => {
+    const updateWidth = () => {
       if (navRef.current) {
         const firstItem = navRef.current.querySelector("li");
         if (firstItem) {
@@ -51,13 +44,15 @@ const BottomNav = () => {
         }
       }
     };
-    window.addEventListener("resize", handleResize);
-    return () => window.removeEventListener("resize", handleResize);
+    updateWidth();
+    window.addEventListener("resize", updateWidth);
+    return () => window.removeEventListener("resize", updateWidth);
   }, []);
+
 
   return (
     <>
-      <nav className="w-full max-w-lg mx-auto items-center justify-center hidden fixed left-1/2 -translate-x-1/2 z-50 bottom-0 border-t border-white/50 bg-[#E3EDF7]/70 backdrop-blur-lg p-4.5 px-6 text-center rounded-t-2xl">
+      {/* <nav className="w-full max-w-lg mx-auto items-center justify-center hidden fixed left-1/2 -translate-x-1/2 z-50 bottom-0 border-t border-white/50 bg-[#E3EDF7]/70 backdrop-blur-lg p-4.5 px-6 text-center rounded-t-2xl">
         <ul className="w-full flex items-center gap-1.5 justify-between text-[10px]">
           {navList.map((item, index) => {
             const Icon = item.icon;
@@ -65,6 +60,7 @@ const BottomNav = () => {
               <NavLink
                 onClick={() => scrollTo(0, 0)}
                 to={item.to}
+                end
                 key={index}
                 className={navlink}
                 title={item.name}
@@ -80,27 +76,14 @@ const BottomNav = () => {
                     {item.name}
                   </span>
                 )}
-
-
-
-
-                {/* {!Icon && item.name === 'Freelance' && (
-                  <img src={freelanceIcon} alt="Freelance Icon" className="w-6 h-6" />
-                  )} */}
-                {/* {!Icon && item.name === 'Community' && (
-                  <img src={communityIcon} alt="Community Icon" className="w-6 h-6" />
-                  )} */}
-                {/* {!Icon && item.name === 'Leaderboards' && (
-                  <img src={leaderboardIcon} alt="Leaderboards Icon" className="w-6 h-6" />
-                  )} */}
               </NavLink>
             );
           })}
         </ul>
       </nav>
+ */}
 
-
-      <nav className="navbar">
+      <nav className="navbar lg:hidden!">
         <ul ref={navRef}>
           {navItems.map((item, index) => (
             <li
@@ -108,7 +91,7 @@ const BottomNav = () => {
               className={activeIndex === index ? "active" : ""}
               onClick={() => setActiveIndex(index)}
             >
-              <NavLink to={item.to}>
+              <NavLink to={item.to} end className="text-dark/80">
                 {item.icon}
                 <span className="text">{item.label}</span>
               </NavLink>
@@ -116,7 +99,9 @@ const BottomNav = () => {
           ))}
           <span
             className="indicator"
-            style={{ transform: `translateX(${activeIndex * itemWidth}px)` }}
+            style={{
+              transform: `translateX(${activeIndex * itemWidth + (itemWidth / 2 - 35.5)}px)`
+            }}
           ></span>
         </ul>
       </nav>

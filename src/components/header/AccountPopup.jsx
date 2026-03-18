@@ -1,8 +1,7 @@
 // components/header/AccountPopup.jsx
 import React from 'react';
-import { Store, User, LogOut, Settings, MessageSquare, Briefcase, Building2, PlusCircle } from 'lucide-react';
+import { Store, User, LogOut, Settings, MessageSquare, Briefcase, Building2 } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
-import { useAuth } from '../../contexts/AuthContext';
 
 const AccountPopup = ({ isAccount, user, onLogout, onClose }) => {
   const navigate = useNavigate();
@@ -14,14 +13,14 @@ const AccountPopup = ({ isAccount, user, onLogout, onClose }) => {
 
   // All available dashboard types
   const allDashboards = [
-    { role: 'buyer', icon: User, label: 'Buyer Dashboard', path: '/account', color: 'text-blue-600' },
-    { role: 'seller', icon: Store, label: 'Seller Dashboard', path: '/seller', color: 'text-green-600' },
-    // { role: 'freelancer', icon: Briefcase, label: 'Freelancer Dashboard', path: '/freelancer', color: 'text-purple-600' },
-    // { role: 'employer', icon: Building2, label: 'Employer Dashboard', path: '/employer', color: 'text-orange-600' }
+    { role: 'BUYER', icon: User, label: 'Buyer Dashboard', path: '/account', color: 'text-blue-600' },
+    { role: 'SELLER', icon: Store, label: 'Seller Dashboard', path: '/seller', color: 'text-green-600' },
+    { role: 'FREELANCER', icon: Briefcase, label: 'Freelancer Dashboard', path: '/freelancer', color: 'text-purple-600' },
+    { role: 'MARKETER', icon: Building2, label: 'Marketer Dashboard', path: '/marketer', color: 'text-orange-600' }
   ];
 
-  // Get user's current roles (if any)
-  const userRoles = user?.roles || (user?.role ? [user.role] : []);
+  // Get user's current roles from the backend response
+  const userRoles = user?.roles || [];
 
   return (
     <div className='absolute z-70 mt-4 border border-dark/10 top-full right-0 w-72 rounded-xl shadow-md bg-white p-4 text-sm text-dark'>
@@ -31,36 +30,46 @@ const AccountPopup = ({ isAccount, user, onLogout, onClose }) => {
           <div className='mb-2 pb-4 border-b border-gray-200'>
             <div className='flex items-center gap-3'>
               {user.avatar ? (
-                <img src={user.avatar} alt={user.name} className='w-10 h-10 rounded-full object-cover' />
+                <img src={user.avatar} alt={user.full_name} className='w-10 h-10 rounded-full object-cover' />
               ) : (
                 <div className='w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center'>
                   <span className='text-primary font-semibold'>
-                    {user.name?.charAt(0) || 'U'}
+                    {user.full_name?.charAt(0) || 'U'}
                   </span>
                 </div>
               )}
               <div>
-                <p className='font-semibold'>{user.name}</p>
+                <p className='font-semibold'>{user.full_name}</p>
                 <p className='text-xs text-gray-500'>{user.email}</p>
+                {user.kyc_status && (
+                  <p className='text-xs mt-1'>
+                    <span className={`px-2 py-0.5 rounded-full ${
+                      user.kyc_status === 'VERIFIED' ? 'bg-green-100 text-green-700' : 
+                      user.kyc_status === 'PENDING_REVIEW' ? 'bg-yellow-100 text-yellow-700' : 
+                      'bg-gray-100 text-gray-700'
+                    }`}>
+                      {user.kyc_status}
+                    </span>
+                  </p>
+                )}
               </div>
             </div>
           </div>
           
           <div className='space-y-2'>
-            {/* All Dashboards Section */}
+            {/* Available Dashboards Section */}
             <div className="">
-              {/* <p className="text-xs font-semibold text-gray-400 uppercase tracking-wider px-2 mb-2">
-                Your Dashboards
-              </p> */}
-              
               {allDashboards.map((dashboard) => {
                 const Icon = dashboard.icon;
                 const hasAccess = userRoles.includes(dashboard.role);
                 const isCurrentPath = 
-                  (dashboard.role === 'buyer' && window.location.pathname.startsWith('/account')) ||
-                  (dashboard.role === 'seller' && window.location.pathname.startsWith('/seller')) ||
-                  (dashboard.role === 'freelancer' && window.location.pathname.startsWith('/freelancer')) ||
-                  (dashboard.role === 'employer' && window.location.pathname.startsWith('/employer'));
+                  (dashboard.role === 'BUYER' && window.location.pathname.startsWith('/account')) ||
+                  (dashboard.role === 'SELLER' && window.location.pathname.startsWith('/seller')) ||
+                  (dashboard.role === 'FREELANCER' && window.location.pathname.startsWith('/freelancer')) ||
+                  (dashboard.role === 'MARKETER' && window.location.pathname.startsWith('/marketer'));
+
+                // Only show dashboards the user has access to
+                if (!hasAccess) return null;
 
                 return (
                   <button
@@ -69,26 +78,17 @@ const AccountPopup = ({ isAccount, user, onLogout, onClose }) => {
                     className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-lg transition-all ${
                       isCurrentPath 
                         ? 'bg-primary/10 text-primary' 
-                        : hasAccess
-                          ? 'hover:bg-gray-50 text-gray-700'
-                          : 'hover:bg-gray-50 text-gray-500'
+                        : 'hover:bg-gray-50 text-gray-700'
                     }`}
                   >
                     <Icon size={18} strokeWidth={1.5} />
                     <span className="flex-1 text-left">{dashboard.label}</span>
                     
-                    {/* Status indicators */}
-                    {/* {isCurrentPath && (
+                    {isCurrentPath && (
                       <span className="text-xs bg-primary text-white px-2 py-0.5 rounded-full">
                         Active
                       </span>
                     )}
-                    {!hasAccess && !isCurrentPath && (
-                      <span className="text-xs flex items-center gap-1 text-gray-400">
-                        <PlusCircle size={12} />
-                        <span>Setup</span>
-                      </span>
-                    )} */}
                   </button>
                 );
               })}
@@ -98,26 +98,6 @@ const AccountPopup = ({ isAccount, user, onLogout, onClose }) => {
 
             {/* Quick Links */}
             <div className="space-y-1">
-              {/* <p className="text-xs font-semibold text-gray-400 uppercase tracking-wider px-2 mb-2">
-                Quick Links
-              </p> */}
-
-              {/* Messages link - only if not on account page */}
-              {/* {!isAccount && (
-                <button 
-                  onClick={() => handleNavigation('/account/messages')}
-                  className='flex items-center gap-3 w-full px-3 py-2.5 hover:bg-gray-50 rounded-lg transition-colors text-gray-700'
-                >
-                  <MessageSquare size={18} strokeWidth={1.5} />
-                  <span className="flex-1 text-left">Messages</span>
-                  {user?.unreadMessages > 0 && (
-                    <span className="bg-red-500 text-white text-xs px-2 py-0.5 rounded-full">
-                      {user.unreadMessages}
-                    </span>
-                  )}
-                </button>
-              )} */}
-              
               <button 
                 onClick={() => handleNavigation('/account/profile')}
                 className='flex items-center gap-3 w-full px-3 py-2.5 hover:bg-gray-50 rounded-lg transition-colors text-gray-700'
@@ -134,10 +114,6 @@ const AccountPopup = ({ isAccount, user, onLogout, onClose }) => {
                 <span>Logout</span>
               </button>
             </div>
-            
-            {/* <hr className='border-gray-200' /> */}
-            
-            {/* Logout button */}
           </div>
         </>
       ) : (
@@ -145,7 +121,8 @@ const AccountPopup = ({ isAccount, user, onLogout, onClose }) => {
           <button 
             onClick={() => {
               onClose();
-              navigate('/login');
+              // Open login modal instead of navigating
+              // You'll need to pass this function from parent
             }}
             className='btn w-full'
           >
@@ -154,7 +131,7 @@ const AccountPopup = ({ isAccount, user, onLogout, onClose }) => {
           <button 
             onClick={() => {
               onClose();
-              navigate('/signup');
+              // Open signup modal
             }}
             className='btn btn-text w-full'
           >

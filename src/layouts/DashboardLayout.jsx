@@ -4,6 +4,7 @@ import { Outlet, useLocation } from 'react-router-dom';
 import Header from '../components/header/Header';
 import DashboardSidebar from '../components/user/DashboardSidebar'; // Your existing sidebar
 import { useAuth } from "../contexts/AuthContext";
+import BottomNav from '../components/BottomNav';
 
 const DashboardLayout = () => {
   const location = useLocation();
@@ -18,7 +19,7 @@ const DashboardLayout = () => {
   const isDashboard = isAccount || isSeller || isFreelancer || isEmployer;
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-gray-50 pb-0">
       <Header isAccount={isDashboard} />
       
       <div className="flex">
@@ -38,6 +39,7 @@ const DashboardLayout = () => {
           </div>
         </main>
       </div>
+      {/* <BottomNav /> */}
     </div>
   );
 };

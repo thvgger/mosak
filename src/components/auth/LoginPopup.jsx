@@ -211,7 +211,7 @@ const LoginPopup = ({ onClose, onCreateAccountClick, onSuccess, onForgotPassword
               className="absolute top-1/2 right-4 -translate-y-1/2 text-dark/40 cursor-pointer"
               onClick={toggleShowPassword}
             > 
-              {!showPassword ? <Eye /> : <EyeClosed />}
+              {showPassword ? <Eye /> : <EyeClosed />}
             </button>
           </div>
         </div>
@@ -239,9 +239,9 @@ const LoginPopup = ({ onClose, onCreateAccountClick, onSuccess, onForgotPassword
         <button 
           type="submit"
           className="w-full btn mt-2"
-          // disabled={loading}
+          disabled={loading}
         >
-          LOGIN
+          {loading ? 'LOGGING IN...' : 'LOGIN'}
         </button>
       </form>
       
@@ -255,7 +255,7 @@ const LoginPopup = ({ onClose, onCreateAccountClick, onSuccess, onForgotPassword
         <button 
           className="btn btn-tertiary"
           onClick={onCreateAccountClick}
-          // disabled={loading}
+          disabled={loading}
         >
           CREATE ACCOUNT
         </button>

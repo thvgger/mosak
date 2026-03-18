@@ -11,6 +11,7 @@ import {
   User, 
   LogOut,
   Menu,
+  PanelRightClose,
   X,
   Settings,
   ChevronDown,
@@ -164,7 +165,7 @@ const DashboardSidebar = () => {
         onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
         className="lg:hidden fixed top-16 md:top-20 left-0 z-40 p-2 bg-white rounded-lg shadow-md"
       >
-        {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
+        {isMobileMenuOpen ? <X size={24} /> : <PanelRightClose size={24} />}
       </button>
 
       {/* Overlay for mobile */}
