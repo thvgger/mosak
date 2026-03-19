@@ -17,18 +17,18 @@ const RolePopup = ({ onContinue, onSignInClick }) => {
       description: "List and sell your products",
       image: <Store />
     },
-    {
-      id: "freelancer",
-      title: "FREELANCER",
-      description: "Offer your services",
-      image: <ShieldUser />
-    },
-    {
-      id: "employer",
-      title: "EMPLOYER",
-      description: "Find, hire, and work with trusted talent",
-      image: <BriefcaseBusiness />
-    }
+    // {
+    //   id: "freelancer",
+    //   title: "FREELANCER",
+    //   description: "Offer your services",
+    //   image: <ShieldUser />
+    // },
+    // {
+    //   id: "employer",
+    //   title: "EMPLOYER",
+    //   description: "Find, hire, and work with trusted talent",
+    //   image: <BriefcaseBusiness />
+    // }
   ];
 
   const handleRoleSelect = (roleId) => {

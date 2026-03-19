@@ -3,10 +3,12 @@ import { House, Store, ShoppingCart, FileText, Plus, Trophy, MessagesSquare, Bri
 import freelanceIcon from '../assets/bottomNav/freelance-icon.svg';
 import communityIcon from '../assets/bottomNav/community-icon.svg';
 import leaderboardIcon from '../assets/bottomNav/leaderboard-icon.svg';
-import { NavLink } from 'react-router-dom';
+import { NavLink, useLocation } from 'react-router-dom';
 import "./BottomNav.css";
 
 const BottomNav = () => {
+  const location = useLocation();
+
   const navlink = ({ isActive }) =>
     isActive
       ? "relative text-primary flex flex-col items-center after:content-[''] after:w-1.5 after:h-1.5 after:rounded-full after:bg-primary after:absolute after:-bottom-1 after:left-1/2 after:-translate-x-1/2 after:translate-y-2 transition-all duration-300 -translate-y-1.5"
@@ -48,6 +50,14 @@ const BottomNav = () => {
     window.addEventListener("resize", updateWidth);
     return () => window.removeEventListener("resize", updateWidth);
   }, []);
+
+  useEffect(() => {
+    const currentIndex = navItems.findIndex(item => item.to === location.pathname);
+    if (currentIndex !== -1) {
+      setActiveIndex(currentIndex);
+    }
+  }, [location.pathname]);
+
 
 
   return (

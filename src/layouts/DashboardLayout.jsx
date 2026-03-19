@@ -3,12 +3,12 @@ import React from 'react';
 import { Outlet, useLocation } from 'react-router-dom';
 import Header from '../components/header/Header';
 import DashboardSidebar from '../components/user/DashboardSidebar'; // Your existing sidebar
-import { useAuth } from "../contexts/AuthContext";
+// import { useAuth } from "../contexts/AuthContext";
 import BottomNav from '../components/BottomNav';
 
 const DashboardLayout = () => {
   const location = useLocation();
-  const { user } = useAuth();
+  // const { user } = useAuth();
   
   // Determine which dashboard area we're in
   const isAccount = location.pathname.startsWith('/account');
@@ -35,7 +35,7 @@ const DashboardLayout = () => {
           overflow-x-hidden
         ">
           <div className="w-full max-w-7xl mx-auto overflow-x-hidden">
-            <Outlet context={{ user }} />
+            <Outlet />
           </div>
         </main>
       </div>

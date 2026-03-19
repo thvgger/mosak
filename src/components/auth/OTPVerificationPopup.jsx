@@ -1,7 +1,7 @@
 // components/auth/OTPVerificationPopup.jsx
 import { useState, useEffect } from "react";
 
-const OTPVerificationPopup = ({ email, onVerify, onClose, onResend }) => {
+const OTPVerificationPopup = ({ email, onVerify, onClose, onResend, onStartOver }) => {
   const [otp, setOtp] = useState(['', '', '', '', '', '']);
   const [timer, setTimer] = useState(60);
   const [canResend, setCanResend] = useState(false);
@@ -21,14 +21,13 @@ const OTPVerificationPopup = ({ email, onVerify, onClose, onResend }) => {
   }, [timer]);
 
   const handleOtpChange = (index, value) => {
-    if (value.length > 1) return; // Only allow single digit
+    if (value.length > 1) return;
     
     const newOtp = [...otp];
     newOtp[index] = value;
     setOtp(newOtp);
     setError('');
 
-    // Auto-focus next input
     if (value && index < 5) {
       const nextInput = document.getElementById(`otp-${index + 1}`);
       if (nextInput) nextInput.focus();
@@ -36,7 +35,6 @@ const OTPVerificationPopup = ({ email, onVerify, onClose, onResend }) => {
   };
 
   const handleKeyDown = (index, e) => {
-    // Handle backspace
     if (e.key === 'Backspace' && !otp[index] && index > 0) {
       const prevInput = document.getElementById(`otp-${index - 1}`);
       if (prevInput) prevInput.focus();
@@ -58,15 +56,28 @@ const OTPVerificationPopup = ({ email, onVerify, onClose, onResend }) => {
     
     if (!result.success) {
       setError(result.error);
+      // Clear OTP fields on error
+      setOtp(['', '', '', '', '', '']);
+      // Focus first input
+      document.getElementById('otp-0')?.focus();
     }
   };
 
   const handleResend = async () => {
     setLoading(true);
-    await onResend(email);
-    setTimer(60);
-    setCanResend(false);
+    const result = await onResend(email);
     setLoading(false);
+    
+    if (result.success) {
+      setTimer(60);
+      setCanResend(false);
+      setError('');
+      // Show success message
+      setError('New code sent successfully!');
+      setTimeout(() => setError(''), 3000);
+    } else {
+      setError(result.error || 'Failed to resend code');
+    }
   };
 
   return (
@@ -77,7 +88,11 @@ const OTPVerificationPopup = ({ email, onVerify, onClose, onResend }) => {
       </p>
       
       {error && (
-        <div className="mb-4 p-3 bg-red-50 text-red-600 rounded text-sm">
+        <div className={`mb-4 p-3 rounded text-sm ${
+          error.includes('success') 
+            ? 'bg-green-50 text-green-600 border border-green-200' 
+            : 'bg-red-50 text-red-600 border border-red-200'
+        }`}>
           {error}
         </div>
       )}
@@ -92,11 +107,13 @@ const OTPVerificationPopup = ({ email, onVerify, onClose, onResend }) => {
               inputMode="numeric"
               pattern="[0-9]*"
               maxLength="1"
+              autoComplete="text"
               value={digit}
               onChange={(e) => handleOtpChange(index, e.target.value)}
               onKeyDown={(e) => handleKeyDown(index, e)}
               className="w-12 h-12 text-center text-xl font-semibold border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
               required
+              disabled={loading}
             />
           ))}
         </div>
@@ -106,11 +123,11 @@ const OTPVerificationPopup = ({ email, onVerify, onClose, onResend }) => {
           className="w-full btn mb-4"
           disabled={loading}
         >
-          {loading ? 'Verifying...' : 'VERIFY EMAIL'}
+          {loading ? 'VERIFYING...' : 'VERIFY EMAIL'}
         </button>
       </form>
       
-      <div className="text-center">
+      <div className="text-center space-y-3">
         {!canResend ? (
           <p className="text-sm text-gray-500">
             Resend code in <span className="font-semibold">{timer}s</span>
@@ -124,15 +141,26 @@ const OTPVerificationPopup = ({ email, onVerify, onClose, onResend }) => {
             Resend Code
           </button>
         )}
-      </div>
-      
-      <div className="text-center mt-4">
-        <button 
-          className="text-gray-500 hover:text-gray-700 text-sm"
-          onClick={onClose}
-        >
-          Back to Login
-        </button>
+        
+        <div className="flex items-center justify-center gap-4 pt-2">
+          <button 
+            className="text-gray-500 hover:text-gray-700 text-sm"
+            onClick={onClose}
+            disabled={loading}
+          >
+            Back to Login
+          </button>
+          
+          <span className="text-gray-300">|</span>
+          
+          <button 
+            className="text-gray-500 hover:text-gray-700 text-sm"
+            onClick={onStartOver}
+            disabled={loading}
+          >
+            Start Over
+          </button>
+        </div>
       </div>
     </div>
   );

@@ -14,6 +14,10 @@ const Header = ({ isAccount, isCommunity }) => {
   const { user, logout, isAuthenticated } = useAuth();
   const { cartItemCount, wishlist } = useShopping();
   const { openModal } = useAuthModal();
+
+   // Debug: Log user data
+  // console.log('Header - user:', user);
+  // console.log('Header - isAuthenticated:', isAuthenticated);
   
   const [accountPopup, setAccountPopup] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);

@@ -2,17 +2,19 @@ import React from 'react';
 import { useOutletContext } from 'react-router-dom';
 import { TrendingUp, ChevronRight, Shield, Star, Award, Handbag, Wallet, ShieldCheck, BadgeCheck, CircleCheckBig } from 'lucide-react';
 import silver from "../../assets/badges/silver.png";
+import { useAuth } from '../../contexts/AuthContext';
 
 const DashboardPage = () => {
+  const { user, loading, isAuthenticated } = useAuth();
 
-   const { user } = useOutletContext();
+  //  const { user } = useOutletContext();
 
 
   return (
     <div className="space-y-8">
       {/* Welcome Section */}
       <div className="bg-primary rounded-lg p-6 flex flex-col items-start flex-wrap justify-between">
-        <h1 className="text-xl font-semibold text-white">Welcome back, <span className=""> {user.name} </span></h1>
+        <h1 className="text-xl font-semibold text-white">Welcome back, <span className=""> {user.full_name} </span></h1>
         <div className="flex items-center space-x-2 mt-4">
           <span className="px-3 py-1.5 bg-gray-200 text-xs text-gray-500 font-medium rounded-md flex items-center gap-1">
             <img src={silver} alt='' className='object-cover w-5 mx-auto h-fit' />

@@ -1,5 +1,5 @@
 // components/auth/AuthModal.jsx
-import React from 'react';
+import React, { useEffect } from 'react';
 import { X } from 'lucide-react';
 import { useAuthModal } from '../../contexts/AuthModalContext';
 import { useAuth } from '../../contexts/AuthContext';
@@ -22,22 +22,18 @@ const AuthModal = () => {
     handleModalSuccess 
   } = useAuthModal();
   
-  const { verifyEmail, forgotPassword, resetPassword } = useAuth();
+  const { verifyEmail, forgotPassword, resetPassword, resendOtp, pendingVerification, clearPendingVerification } = useAuth();
+
+  // Check for pending verification on mount
+  useEffect(() => {
+    if (pendingVerification.isPending && !activeModal) {
+      setPendingEmail(pendingVerification.email);
+      openModal('verify');
+    }
+  }, [pendingVerification, activeModal, setPendingEmail, openModal]);
 
   if (!activeModal) return null;
 
-  
-
-  // Handle OTP verification
-  // const handleVerify = async (email, otp) => {
-  //   const result = await verifyEmail(email, otp);
-  //   if (result.success) {
-  //     handleModalSuccess();
-  //   }
-  //   return result;
-  // };
-
-  // In AuthModal.jsx
   const handleVerify = async (email, otp) => {
     console.log('Verifying:', { email, otp });
     const result = await verifyEmail(email, otp);
@@ -45,11 +41,11 @@ const AuthModal = () => {
     if (result.success) {
       console.log('Verification successful, user:', result.user);
       handleModalSuccess();
+      closeModal();
     }
     return result;
   };
 
-  // Handle forgot password request
   const handleForgotPassword = async (email) => {
     const result = await forgotPassword(email);
     if (result.success) {
@@ -59,16 +55,24 @@ const AuthModal = () => {
     return result;
   };
 
-  // Handle password reset
   const handleResetPassword = async (email, otp, newPassword) => {
     const result = await resetPassword(email, otp, newPassword);
     if (result.success) {
       handleModalSuccess();
-      openModal('login'); // Redirect to login after successful reset
+      openModal('login');
     }
     return result;
   };
 
+  const handleResendOtp = async (email) => {
+    const result = await resendOtp(email);
+    return result;
+  };
+
+  const handleStartOver = () => {
+    clearPendingVerification();
+    openModal('role');
+  };
 
   const renderModalContent = () => {
     switch (activeModal) {
@@ -77,15 +81,15 @@ const AuthModal = () => {
           <LoginPopup
             onClose={closeModal}
             onCreateAccountClick={() => {
-              openModal('role'); // Open role selection modal
+              openModal('role');
             }}
             onSuccess={() => {
               handleModalSuccess();
               closeModal();
             }}
             onForgotPassword={(email) => {
-              closeModal(); // Close login modal
-              handleForgotPassword(email); // This will open forgot-password modal
+              closeModal();
+              handleForgotPassword(email);
             }}
           />
         );
@@ -95,7 +99,7 @@ const AuthModal = () => {
           <RolePopup
             onContinue={(role) => handleRoleSelect(role)}
             onSignInClick={() => {
-              openModal('login'); // Switch to login modal
+              openModal('login');
             }}
           />
         );
@@ -105,11 +109,10 @@ const AuthModal = () => {
           <SignupPopup
             onClose={closeModal}
             onSignInClick={() => {
-              openModal('login'); // Switch to login modal
+              openModal('login');
             }}
             selectedRole={selectedRole}
             onSuccess={(email) => {
-              // After successful signup, show verification modal
               setPendingEmail(email);
               openModal('verify');
             }}
@@ -122,12 +125,11 @@ const AuthModal = () => {
             email={pendingEmail}
             onVerify={handleVerify}
             onClose={() => {
-              openModal('login'); // Go back to login
+              clearPendingVerification();
+              openModal('login');
             }}
-            onResend={(email) => {
-              // Resend OTP (reuse forgot password endpoint or separate resend endpoint)
-              return handleForgotPassword(email);
-            }}
+            onResend={handleResendOtp}
+            onStartOver={handleStartOver}
           />
         );
       
@@ -136,10 +138,10 @@ const AuthModal = () => {
           <ForgotPasswordPopup
             onSubmit={handleForgotPassword}
             onClose={() => {
-              openModal('login'); // Back to login
+              openModal('login');
             }}
             onBackToLogin={() => {
-              openModal('login'); // Back to login
+              openModal('login');
             }}
           />
         );
@@ -150,10 +152,10 @@ const AuthModal = () => {
             email={pendingEmail}
             onSubmit={handleResetPassword}
             onClose={() => {
-              openModal('login'); // Back to login
+              openModal('login');
             }}
             onBackToLogin={() => {
-              openModal('login'); // Back to login
+              openModal('login');
             }}
           />
         );

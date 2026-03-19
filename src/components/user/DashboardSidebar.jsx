@@ -274,7 +274,7 @@ const DashboardSidebar = () => {
                 />
                 <div className="flex flex-col gap-px overflow-hidden">
                   <span className="text-sm md:text-base font-medium truncate">
-                    {user?.name || 'User'}
+                    {user?.full_name || 'User'}
                   </span>
                   <div className="flex items-center gap-1">
                     <small className="text-xs md:text-sm text-gray-500">
