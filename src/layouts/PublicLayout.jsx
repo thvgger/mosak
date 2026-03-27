@@ -5,7 +5,7 @@ import Footer from "../components/Footer";
 import TopNav from '../components/header/TopNav';
 import BottomNav from '../components/BottomNav';
 
-const PublicLayout = () => {
+const PublicLayout = ({ isMobileMenuOpen, setIsMobileMenuOpen }) => {
   const location = useLocation();
 
   // Check if current path is home or any other route you consider "home"
@@ -16,10 +16,15 @@ const PublicLayout = () => {
   // const isCommunity = [ '/community' ].includes(location.pathname);
   
   return (
-    <div className='relative pb-20'>
+    <div className='relative pb-18 md:pb-0'>
       {isHome && !isCommunity && <TopBanner />}
       {!isHome && !isCommunity && <TopNav />}
-      <Header isCommunity={isCommunity} /> 
+      <Header 
+        isCommunity={isCommunity} 
+        isDashboard={false}
+        isMobileMenuOpen={isMobileMenuOpen} 
+        setIsMobileMenuOpen={setIsMobileMenuOpen}
+      /> 
       <Outlet context={{ isCommunity }} />
       {!isCommunity && <BottomNav />}
       {!isCommunity && <Footer />}

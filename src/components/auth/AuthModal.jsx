@@ -9,6 +9,7 @@ import RolePopup from './RolePopup';
 import OTPVerificationPopup from './OTPVerificationPopup';
 import ForgotPasswordPopup from './ForgotPasswordPopup';
 import ResetPasswordPopup from './ResetPasswordPopup';
+import BecomeSellerPopup from './BecomeSellerPopup';
 
 const AuthModal = () => {
   const { 
@@ -22,7 +23,17 @@ const AuthModal = () => {
     handleModalSuccess 
   } = useAuthModal();
   
-  const { verifyEmail, forgotPassword, resetPassword, resendOtp, pendingVerification, clearPendingVerification } = useAuth();
+  const { 
+    verifyEmail, 
+    forgotPassword, 
+    resetPassword, 
+    resendOtp, 
+    pendingVerification, 
+    clearPendingVerification, 
+    addSellerRole,
+    loading,
+    user
+  } = useAuth();
 
   // Check for pending verification on mount
   useEffect(() => {
@@ -72,6 +83,15 @@ const AuthModal = () => {
   const handleStartOver = () => {
     clearPendingVerification();
     openModal('role');
+  };
+
+    // Handler for become seller
+  const handleBecomeSeller = async (businessData) => {
+    const result = await addSellerRole(businessData);
+    if (result.success) {
+      handleModalSuccess();
+    }
+    return result;
   };
 
   const renderModalContent = () => {
@@ -159,7 +179,18 @@ const AuthModal = () => {
             }}
           />
         );
-      
+        
+      // Add the become-seller case
+      case 'become-seller':
+        return (
+          <BecomeSellerPopup
+            onClose={closeModal}
+            onSubmit={handleBecomeSeller}
+            loading={loading}
+            user={user}
+          />
+        );
+
       default:
         return null;
     }

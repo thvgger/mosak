@@ -186,6 +186,7 @@ const SignupPopup = ({ onClose, onSignInClick, selectedRole, onSuccess }) => {
   
   const [formData, setFormData] = useState({
     fullName: "",
+    username: "",
     email: "",
     password: "",
     confirmPassword: "",
@@ -242,7 +243,7 @@ const SignupPopup = ({ onClose, onSignInClick, selectedRole, onSuccess }) => {
   // Validate all fields before submission
   const validateForm = () => {
     // Check if all required fields are filled
-    if (!formData.fullName || !formData.email || !formData.password || !formData.confirmPassword) {
+    if (!formData.fullName || !formData.username || !formData.email || !formData.password || !formData.confirmPassword) {
       setError('All fields are required');
       return false;
     }
@@ -288,6 +289,7 @@ const SignupPopup = ({ onClose, onSignInClick, selectedRole, onSuccess }) => {
     
     const userData = {
       name: formData.fullName,
+      username: formData.username,
       email: formData.email,
       password: formData.password,
       phone: formData.phone,
@@ -351,6 +353,22 @@ const SignupPopup = ({ onClose, onSignInClick, selectedRole, onSuccess }) => {
             required
           />
         </div>
+
+        {/* Username */}
+        <div>
+          <label className="block text-sm font-medium text-gray-700 mb-1">
+            Username <span className="text-red-500">*</span>
+          </label>
+          <input 
+            type="text" 
+            name="username"
+            value={formData.username}
+            onChange={handleChange}
+            className="w-full border border-gray-300 rounded px-4 py-3 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
+            placeholder="username"
+            // required
+          />
+        </div>
         
         {/* Email */}
         <div>
@@ -371,7 +389,8 @@ const SignupPopup = ({ onClose, onSignInClick, selectedRole, onSuccess }) => {
         {/* Phone (Optional) */}
         <div>
           <label className="block text-sm font-medium text-gray-700 mb-1">
-            Phone Number <span className="text-gray-400">(optional)</span>
+            Phone Number <span className="text-red-500">*</span>
+            {/* <span className="text-gray-400">(optional)</span> */}
           </label>
           <input 
             type="tel" 
@@ -380,6 +399,7 @@ const SignupPopup = ({ onClose, onSignInClick, selectedRole, onSuccess }) => {
             onChange={handleChange}
             className="w-full border border-gray-300 rounded px-4 py-3 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
             placeholder="+2348012345678"
+            required
           />
         </div>
         

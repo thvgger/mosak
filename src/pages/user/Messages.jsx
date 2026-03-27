@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import { useOutletContext } from 'react-router-dom';
 import { 
   Search,
   MoreVertical,
@@ -18,9 +17,11 @@ import {
   ArrowLeft
 } from 'lucide-react';
 import car from "../../assets/car.png";
+import { useAuth } from '../../contexts/AuthContext';
 
 const Messages = () => {
-  const { user } = useOutletContext();
+  const { user, loading, isAuthenticated } = useAuth();
+  
   const [selectedChat, setSelectedChat] = useState(null);
   const [messageInput, setMessageInput] = useState('');
   const [showEmojiPicker, setShowEmojiPicker] = useState(false);
@@ -169,32 +170,38 @@ const Messages = () => {
   };
 
   return (
-    <div className="h-[calc(100vh-120px)] flex flex-col">
+    <div className="md:h-[calc(100vh-150px)] flex flex-col md:-pb-40! overflow-y-hidden -p-4!">
       {/* Header - Only show on desktop or when no chat is selected on mobile */}
       {/* <div className={`mb-4 ${showMobileChat ? 'hidden md:block' : 'block'}`}>
         <h1 className="text-2xl font-bold text-gray-800">Messages</h1>
       </div> */}
 
       {/* Messages Container */}
-      <div className="flex-1 bg-white rounded-xl border border-gray-200 shadow-sm overflow-hidden flex flex-col md:flex-row">
+      <div className="flex-1 border border-gray-200 rounded-xl overflow-hidden flex flex-col md:flex-row">
         {/* Conversations List - Left Side */}
         <div 
           className={`
-            w-full md:w-80 border-r border-gray-200 flex flex-col bg-white
+            w-full md:w-80 p-4 border-r border-gray-200 flex flex-col bg-white
             transition-all duration-300 ease-in-out
             ${showMobileChat ? 'hidden md:flex' : 'flex'}
             ${!selectedChat ? 'md:flex' : ''}
           `}
         >
           {/* Search */}
-          <div className="p-4 border-b border-gray-200">
-            <div className="relative">
+          <div className="mb-4">
+            <div className="relative mb-4">
               <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" size={18} />
               <input
                 type="text"
                 placeholder="Search messages..."
                 className="w-full pl-9 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent text-sm"
               />
+            </div>
+
+            <div className='flex items-center gap-2 bg-gray-200 p-2 rounded-lg'>
+              <button className='bg-white text-gray-500 text-sm px-4 py-1 rounded-md w-full'> All </button>
+              <button className='bg-gray-50/50 text-gray-500 text-sm px-4 py-1 rounded-md w-full'> Unread </button>
+              <button className='bg-gray-50/50 text-gray-500 text-sm px-4 py-1 rounded-md w-full'> Newest </button>
             </div>
           </div>
 
@@ -205,16 +212,16 @@ const Messages = () => {
                 key={chat.id}
                 onClick={() => handleSelectChat(chat)}
                 className={`
-                  w-full p-4 flex items-start space-x-3 hover:bg-gray-50 transition-colors 
+                  w-full p-4 flex items-start space-x-3 hover:bg-gray-100 transition-colors 
                   border-b border-gray-100 last:border-b-0
-                  ${selectedChat?.id === chat.id ? 'bg-primary/5 md:bg-primary/5' : ''}
+                  ${selectedChat?.id === chat.id ? 'bg-primary/15 hover:bg-primary/15' : ''}
                 `}
               >
                 <div className="relative shrink-0">
                   <img
                     src={chat?.avatar || car}
-                    alt={chat.name}
-                    className="w-12 h-12 rounded-full object-cover"
+                    // alt={chat.name}
+                    className="w-10 h-10 rounded-full object-cover bg-primary/10"
                   />
                   {chat.online && (
                     <span className="absolute bottom-0 right-0 w-3 h-3 bg-green-500 border-2 border-white rounded-full"></span>
@@ -222,10 +229,10 @@ const Messages = () => {
                 </div>
                 <div className="flex-1 min-w-0">
                   <div className="flex justify-between items-start">
-                    <h3 className="font-medium text-gray-900 truncate">{chat.name}</h3>
+                    <h3 className="font-semibold text-gray-900 text-sm truncate">{chat.name}</h3>
                     <span className="text-xs text-gray-500 whitespace-nowrap ml-2">{chat.time}</span>
                   </div>
-                  <p className="text-sm text-gray-500 truncate flex items-center gap-1">
+                  <p className="text-xs text-gray-500 truncate flex items-center gap-1">
                     {chat.lastMessage}
 
                     {chat.unread > 0 && (
@@ -234,7 +241,7 @@ const Messages = () => {
                       </span>
                     )}
                   </p>
-                  <div className="flex items-center justify-between mt-1">
+                  {/* <div className="flex items-center justify-between mt-1">
                     <span className={`text-xs px-2 py-0.5 rounded-full ${
                       chat.status === 'seller' ? 'bg-blue-100 text-blue-700' :
                       chat.status === 'buyer' ? 'bg-green-100 text-green-700' :
@@ -242,8 +249,7 @@ const Messages = () => {
                     }`}>
                       {chat.status}
                     </span>
-                    
-                  </div>
+                  </div> */}
                 </div>
               </button>
             ))}
@@ -254,56 +260,56 @@ const Messages = () => {
         {selectedChat ? (
           <div 
             className={`
-              flex-1 flex flex-col bg-white
+              h-full flex-1 flex flex-col bg-white
               transition-all duration-300 ease-in-out
               ${showMobileChat ? 'flex' : 'hidden md:flex'}
             `}
           >
             {/* Chat Header */}
-            <div className="p-4 border-b border-gray-200 flex items-center justify-between">
+            <div className="p-4 bg-primary text-white flex items-center justify-between">
               <div className="flex items-center space-x-3">
                 {/* Back button for mobile */}
                 <button 
                   onClick={handleBack}
-                  className="md:hidden p-1 hover:bg-gray-100 rounded-full transition-colors"
+                  className="md:hidden p-1 hover:bg-gray-50/10 rounded-full transition-colors"
                 >
-                  <ArrowLeft size={20} className="text-gray-600" />
+                  <ArrowLeft size={20} className="" />
                 </button>
                 <div className="relative">
                   <img
                     src={selectedChat.avatar || car}
-                    alt={selectedChat.name}
-                    className="w-10 h-10 rounded-full object-cover"
+                    // alt={selectedChat.name}
+                    className="w-10 h-10 rounded-full object-cover border border-white"
                   />
                   {selectedChat.online && (
                     <span className="absolute bottom-0 right-0 w-2.5 h-2.5 bg-green-500 border-2 border-white rounded-full"></span>
                   )}
                 </div>
                 <div>
-                  <h2 className="font-semibold text-gray-900">{selectedChat.name}</h2>
-                  <p className="text-xs text-gray-500">
-                    {selectedChat.online ? 'Online' : 'Offline'}
+                  <h2 className="font-semibold ">{selectedChat.name}</h2>
+                  <p className="text-xs ">
+                    {selectedChat.online ? 'Active Now' : 'Offline'}
                   </p>
                 </div>
               </div>
               <div className="flex items-center space-x-2">
-                <button className="p-2 hover:bg-gray-100 rounded-full transition-colors hidden sm:block">
-                  <Phone size={18} className="text-gray-600" />
+                <button className="p-2 hover:bg-gray-50/10 rounded-full transition-colors hidden sm:block">
+                  <Video size={18} className="" />
                 </button>
-                <button className="p-2 hover:bg-gray-100 rounded-full transition-colors hidden sm:block">
-                  <Video size={18} className="text-gray-600" />
+                <button className="p-2 hover:bg-gray-50/10 rounded-full transition-colors hidden sm:block">
+                  <Phone size={18} className="" />
                 </button>
-                <button className="p-2 hover:bg-gray-100 rounded-full transition-colors">
-                  <Info size={18} className="text-gray-600" />
-                </button>
-                <button className="p-2 hover:bg-gray-100 rounded-full transition-colors">
-                  <MoreVertical size={18} className="text-gray-600" />
+                {/* <button className="p-2 hover:bg-gray-100 rounded-full transition-colors">
+                  <Info size={18} className="" />
+                </button> */}
+                <button className="p-2 hover:bg-gray-50/10 rounded-full transition-colors">
+                  <MoreVertical size={18} className="" />
                 </button>
               </div>
             </div>
 
             {/* Messages */}
-            <div className="flex-1 overflow-y-auto p-4 space-y-4">
+            <div className="flex-1 overflow-y-auto p-4 space-y-4 pb-20">
               {messages.map((message) => (
                 <div
                   key={message.id}
@@ -315,8 +321,8 @@ const Messages = () => {
                     {message.sender === 'them' && (
                       <img
                         src={selectedChat.avatar}
-                        alt={selectedChat.name}
-                        className="w-6 h-6 sm:w-8 sm:h-8 rounded-full object-cover shrink-0"
+                        // alt={selectedChat.name}
+                        className="w-6 h-6 sm:w-8 sm:h-8 rounded-full object-cover shrink-0 bg-primary/10"
                       />
                     )}
                     <div>
@@ -342,10 +348,10 @@ const Messages = () => {
             </div>
 
             {/* Message Input */}
-            <div className="p-3 sm:p-4 border-t border-gray-200">
+            <div className="p-3 sm:p-4 border-t border-gray-200 bg-white z-10 fixed left-0 md:relative w-full pb-10 bottom-15 md:bottom-0">
               {/* Attachment Preview */}
               {showAttachments && (
-                <div className="mb-3 flex items-center space-x-2 overflow-x-auto pb-2">
+                <div className="mb-0 flex items-center space-x-2 overflow-x-auto pb-2">
                   <div className="relative shrink-0">
                     <div className="w-14 h-14 sm:w-16 sm:h-16 bg-gray-100 rounded-lg flex items-center justify-center">
                       <ImageIcon size={20} className="text-gray-400" />
@@ -371,15 +377,15 @@ const Messages = () => {
                 </div>
               )}
 
-              <form onSubmit={handleSendMessage} className="flex items-end space-x-2">
-                <div className="flex-1 relative">
+              <form onSubmit={handleSendMessage} className="w-full h flex items-center space-x-2">
+                <div className="flex-1 h-full relative">
                   <textarea
                     value={messageInput}
                     onChange={(e) => setMessageInput(e.target.value)}
                     placeholder="Type your message..."
                     rows="1"
-                    className="w-full px-3 sm:px-4 py-2 sm:py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent resize-none text-sm sm:text-base"
-                    style={{ minHeight: '40px', maxHeight: '100px' }}
+                    className="w-full px-3 sm:px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent resize-none text-sm sm:text-base max-h-10 scrollbar-hide"
+                    // style={{ minHeight: '40px', maxHeight: '40px' }}
                     onInput={(e) => {
                       e.target.style.height = 'auto';
                       e.target.style.height = Math.min(e.target.scrollHeight, 100) + 'px';
@@ -387,20 +393,20 @@ const Messages = () => {
                   />
                 </div>
                 <div className="flex items-center space-x-1">
-                  <button
+                  {/* <button
                     type="button"
                     onClick={() => setShowAttachments(!showAttachments)}
                     className="p-1.5 sm:p-2 hover:bg-gray-100 rounded-lg transition-colors"
                   >
                     <Paperclip size={18} className="text-gray-600" />
-                  </button>
-                  <button
+                  </button> */}
+                  {/* <button
                     type="button"
                     onClick={() => setShowEmojiPicker(!showEmojiPicker)}
                     className="p-1.5 sm:p-2 hover:bg-gray-100 rounded-lg transition-colors hidden sm:block"
                   >
                     <Smile size={18} className="text-gray-600" />
-                  </button>
+                  </button> */}
                   <button
                     type="submit"
                     disabled={!messageInput.trim()}

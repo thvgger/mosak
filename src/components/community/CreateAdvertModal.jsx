@@ -6,8 +6,8 @@ const Modal = ({ isOpen, onClose, children }) => {
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 z-500 flex items-center justify-center p-4">
-      <div className="absolute inset-0 bg-black/70" onClick={onClose} />
+    <div className="fixed inset-0 z-5000 flex items-center justify-center p-4">
+      <div className="absolute inset-0 bg-black/70 z-4999" onClick={onClose} />
       <div className="relative bg-white rounded-lg w-full max-w-2xl max-h-[90vh] overflow-y-auto mx-4 z-50 scrollbar-hide">
         {children}
       </div>
@@ -444,7 +444,7 @@ const CreateAdvertModal = ({ isOpen, onClose }) => {
           </div>
 
           {/* Action Buttons */}
-          <div className="flex gap-3 mt-6 pt-4 border-t border-gray-200">
+          <div className="flex flex-wrap gap-3 mt-6 pt-4 border-t border-gray-200">
             <button
               onClick={onClose}
               className="flex-1 px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-50"

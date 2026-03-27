@@ -5,9 +5,15 @@ import communityIcon from '../assets/bottomNav/community-icon.svg';
 import leaderboardIcon from '../assets/bottomNav/leaderboard-icon.svg';
 import { NavLink, useLocation } from 'react-router-dom';
 import "./BottomNav.css";
+import { useAuth } from '../contexts/AuthContext';
+import { useAuthModal } from '../contexts/AuthModalContext';
+import Community from "../assets/bottomNav/community-icon.svg";
 
-const BottomNav = () => {
+const BottomNav = ({ isDashboard }) => {
+  const { user, loading, isAuthenticated } = useAuth();
   const location = useLocation();
+  const { openModal } = useAuthModal();
+
 
   const navlink = ({ isActive }) =>
     isActive
@@ -18,7 +24,7 @@ const BottomNav = () => {
     { name: 'Home', icon: House, to: '/' },
     { name: 'Market Place', icon: ShoppingCart, to: '/marketplace' },
     // { name: 'Freelance', icon: BriefcaseBusiness, to: '/freelance' },
-    { name: 'Sell', to: '/seller/products', target: true},
+    // { name: 'Sell', to: '/seller/products', target: true},
     { name: 'Community', icon: MessagesSquare, to: '/community' },
     { name: 'Postings', icon: FileText, to: '/postings' },
     // { name: 'Leaderboards', icon: Trophy, to: '/leaderboards' }
@@ -31,7 +37,7 @@ const BottomNav = () => {
   const navItems = [
     { to: "/", icon: <House className="icon" size={22} />, label: "Home" },
     { to: "/marketplace", icon: <Store  className="icon" size={22} />, label: "Market Place" },
-    { to: "/seller/products", icon: <Plus className="icon" size={22} />, label: "Sell" },
+    { to: "/sell", icon: <Plus className="icon" size={22} />, label: "Sell" },
     { to: "/community", icon: <MessagesSquare className="icon" size={22} />, label: "Community" },
     { to: "/postings", icon: <SquarePen className="icon" size={22} />, label: "Postings" },
   ];
@@ -56,7 +62,17 @@ const BottomNav = () => {
     if (currentIndex !== -1) {
       setActiveIndex(currentIndex);
     }
+
   }, [location.pathname]);
+
+  const handleSellClick = (e) => {
+    if (!isAuthenticated) {
+      e.preventDefault(); // stop navigation
+      openModal('login'); // show login modal
+    }
+  };
+
+
 
 
 
@@ -98,17 +114,35 @@ const BottomNav = () => {
           {navItems.map((item, index) => (
             <li
               key={index}
-              className={activeIndex === index ? "active" : ""}
-              onClick={() => setActiveIndex(index)}
+              className={!isDashboard ? activeIndex === index ? "active" : "" : ""}
+              onClick={() => { setActiveIndex(index); scrollTo(0,0); }}
             >
-              <NavLink to={item.to} end className="text-dark/80">
-                {item.icon}
+              <NavLink
+                to={item.to}
+                end
+                className='text-dark/80'
+                // onClick={(e) => {
+                //   if (item.label === "Sell") {
+                //     handleSellClick(e);
+                //   }
+                // }}
+              >
+                {isDashboard ? (
+                  <i className={`${item.label === "Sell" ? "-translate-y-4.5 text-white z-20!" : ""}`}>
+                    {item.icon}
+                  </i>
+                ) : item.label === "Community" ? ( 
+                  <img src={Community} alt="" className="w-5.5 h-5.5 object-cover brightness-20 opacity-80" />
+                ) : (
+                  <i>{item.icon}</i>
+                )}
                 <span className="text">{item.label}</span>
               </NavLink>
             </li>
           ))}
+
           <span
-            className="indicator"
+            className={`indicator ${isDashboard ? "-translate-x-[calc(1/2 +35.5px)]!" : ""}`}
             style={{
               transform: `translateX(${activeIndex * itemWidth + (itemWidth / 2 - 35.5)}px)`
             }}

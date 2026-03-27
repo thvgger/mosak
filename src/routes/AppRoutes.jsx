@@ -1,5 +1,5 @@
-import React from 'react';
-import { Route, Routes } from 'react-router-dom';
+import React, { useEffect, useState } from 'react';
+import { Route, Routes, useLocation } from 'react-router-dom';
 
 // Public Routes
 import PublicLayout from '../layouts/PublicLayout';
@@ -7,6 +7,7 @@ import Home from "../pages/public/Home";
 import MarketPlace from '../pages/public/MarketPlace';
 import MarketplacePage from '../pages/public/MarketplacePage';
 import ProductDetailPage from '../pages/public/ProductDetailPage';
+import Sell from '../pages/public/Sell.jsx';
 import Freelance from '../pages/public/Freelance';
 import Postings from '../pages/public/Postings';
 import HelpCenter from '../pages/public/HelpCenter';
@@ -14,6 +15,10 @@ import Faqs from "../pages/public/Faqs.jsx";
 import Contact from '../pages/public/Contact.jsx';
 import Leaderboards from '../pages/community/Leaderboards.jsx';
 import About from '../pages/public/About.jsx';
+import HowItWorks from '../pages/public/HowItWorks.jsx';
+import DisputeResolution from '../pages/public/DisputeResolution.jsx';
+import EscrowProtection from '../pages/public/EscrowProtection.jsx';
+import TrustSafety from '../pages/public/TrustSafety.jsx';
 
 // Dashboard Layout
 import DashboardLayout from "../layouts/DashboardLayout";
@@ -32,11 +37,11 @@ import Wallet from '../pages/user/Wallet';
 import Disputes from '../pages/user/Disputes';
 import Notifications from '../pages/user/Notifications';
 import AccountHelp from '../pages/user/AccountHelp';
-import Profile from '../pages/user/Profile';
-import Badges from '../pages/user/Badges';
-import Verifications from '../pages/user/Verifications';
-import Security from '../pages/user/Security';
-import Preferences from '../pages/user/Preferences';
+import Profile from '../pages/user/settings/Profile';
+import Verifications from '../pages/user/settings/Verifications';
+import Badges from '../pages/user/settings/Badges';
+import Settings from '../pages/user/settings/Settings.jsx';
+import Preferences from '../pages/user/settings/Preferences';
 
 // Seller Pages
 import SellerDashboard from '../pages/seller/SellerDashboard.jsx';
@@ -71,6 +76,31 @@ import OrderTracking from '../pages/user/OrderTracking.jsx';
 
 
 const AppRoutes = () => {
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);  
+  const location = useLocation();
+
+
+    
+  // Close mobile menu when route changes
+  useEffect(() => {
+    setIsMobileMenuOpen(false);
+  }, [location.pathname]);
+
+    // Prevent body scroll when mobile menu is open
+  useEffect(() => {
+    if (isMobileMenuOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = 'unset';
+    }
+    return () => {
+      document.body.style.overflow = 'unset';
+    };
+  }, [isMobileMenuOpen]);
+
+
+
+
   return (
     <Routes>
       {/* Public Routes */}
@@ -84,6 +114,7 @@ const AppRoutes = () => {
         <Route path="/product/:id" element={<ProductDetailPage />} />
         {/* <Route path="/freelance" element={<Freelance />} /> */}
         {/* <Route path="/freelance/:category" element={<Freelance />} /> */}
+        <Route path='/sell' element={<Sell />} />
         
         {/* Updated Community Route - Now uses nested routes */}
         <Route path="/community/*" element={<CommunityRoutes />} />
@@ -94,6 +125,11 @@ const AppRoutes = () => {
         <Route path="/faqs" element={<Faqs />} />
         <Route path="/contact" element={<Contact />} />
         <Route path="/about" element={<About />} />
+        <Route path='/how-it-works' element={<HowItWorks />} />
+        <Route path='/dispute-resolution' element={<DisputeResolution />} />
+        <Route path='/escrow-protection' element={<EscrowProtection />} />
+        <Route path='/trust-safety' element={<TrustSafety />} />
+        
         
         <Route path="/cart" element={
           <ProtectedRoute>
@@ -112,7 +148,10 @@ const AppRoutes = () => {
       {/* Buyer Dashboard Routes */}
       <Route path="/account" element={
         <ProtectedRoute>
-          <DashboardLayout />
+          <DashboardLayout 
+            isMobileMenuOpen={isMobileMenuOpen} 
+            setIsMobileMenuOpen={setIsMobileMenuOpen}
+          />
         </ProtectedRoute>
       }>
         <Route index element={<DashboardPage />} />
@@ -123,18 +162,21 @@ const AppRoutes = () => {
         <Route path="wallet" element={<Wallet />} />
         <Route path="disputes" element={<Disputes />} />
         <Route path="notifications" element={<Notifications />} />
-        <Route path="profile" element={<Profile />} />
-        <Route path="badges" element={<Badges />} />
-        <Route path="verifications" element={<Verifications />} />
-        <Route path="security" element={<Security />} />
-        <Route path="preferences" element={<Preferences />} />
         <Route path="help" element={<AccountHelp />} />
+        <Route path="profile" element={<Profile />} />
+        <Route path="verifications" element={<Verifications />} />
+        <Route path="badges" element={<Badges />} />
+        <Route path="settings" element={<Settings />} />
+        <Route path="preferences" element={<Preferences />} />
       </Route>
 
       {/* Seller Dashboard Routes */}
       <Route path="/seller" element={
         <ProtectedRoute>
-          <DashboardLayout />
+          <DashboardLayout 
+            isMobileMenuOpen={isMobileMenuOpen} 
+            setIsMobileMenuOpen={setIsMobileMenuOpen} 
+          />
         </ProtectedRoute>
       }>
         <Route index element={<SellerDashboard />} />
@@ -147,18 +189,21 @@ const AppRoutes = () => {
         <Route path="messages" element={<Messages />} />
         <Route path="disputes" element={<Disputes />} />
         <Route path="notifications" element={<Notifications />} />
+        <Route path="help" element={<AccountHelp />} />
         <Route path="profile" element={<Profile />} />
         <Route path="badges" element={<Badges />} />
         <Route path="verifications" element={<Verifications />} />
-        <Route path="security" element={<Security />} />
+        <Route path="settings" element={<Settings />} />
         <Route path="preferences" element={<Preferences />} />
-        <Route path="help" element={<AccountHelp />} />
       </Route>
 
       {/* Freelancer Dashboard Routes */}
       <Route path="/freelancer" element={
         <ProtectedRoute>
-          <DashboardLayout />
+          <DashboardLayout 
+            isMobileMenuOpen={isMobileMenuOpen} 
+            setIsMobileMenuOpen={setIsMobileMenuOpen} 
+          />
         </ProtectedRoute>
       }>
         <Route index element={<FreelancerDashboard />} />
@@ -171,7 +216,6 @@ const AppRoutes = () => {
         <Route path="profile" element={<Profile />} />
         <Route path="badges" element={<Badges />} />
         <Route path="verifications" element={<Verifications />} />
-        <Route path="security" element={<Security />} />
         <Route path="preferences" element={<Preferences />} />
         <Route path="help" element={<AccountHelp />} />
       </Route>
@@ -179,7 +223,10 @@ const AppRoutes = () => {
       {/* Employer Dashboard Routes */}
       <Route path="/employer" element={
         <ProtectedRoute>
-          <DashboardLayout />
+          <DashboardLayout 
+            isMobileMenuOpen={isMobileMenuOpen} 
+            setIsMobileMenuOpen={setIsMobileMenuOpen} 
+          />
         </ProtectedRoute>
       }>
         <Route index element={<EmployerDashboard />} />
@@ -192,7 +239,6 @@ const AppRoutes = () => {
         <Route path="profile" element={<Profile />} />
         <Route path="badges" element={<Badges />} />
         <Route path="verifications" element={<Verifications />} />
-        <Route path="security" element={<Security />} />
         <Route path="preferences" element={<Preferences />} />
         <Route path="help" element={<AccountHelp />} />
       </Route>

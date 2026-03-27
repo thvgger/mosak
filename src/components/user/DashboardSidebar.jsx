@@ -25,12 +25,13 @@ import {
   Building2,
   House,
   BellElectric,
-  Zap
+  Zap,
+  UserRound
 } from 'lucide-react';
 import { useAuth } from '../../contexts/AuthContext';
 
-const DashboardSidebar = () => {
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+const DashboardSidebar = ({ isMobileMenuOpen, setIsMobileMenuOpen }) => {
+  // const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isSettingsOpen, setIsSettingsOpen] = useState(false);
   const { user, logout } = useAuth();
   const navigate = useNavigate();
@@ -55,7 +56,7 @@ const DashboardSidebar = () => {
 
   const sellerMenuItems = [
     { path: '/seller', icon: LayoutDashboard, label: 'Dashboard', end: true },
-    { path: '/seller/products', icon: Package, label: 'Products' },
+    { path: '/seller/products', icon: Package, label: 'Products Overview' },
     { path: '/seller/orders', icon: ShoppingBag, label: 'Orders' },
     { path: '/seller/promotions', icon: Zap, label: 'Promotions / Boost' },
     { path: '/seller/escrow', icon: Shield, label: 'Escrow & Payments' },
@@ -95,10 +96,10 @@ const DashboardSidebar = () => {
     
     return [
       { path: `${basePath}/profile`, icon: User, label: 'Profile' },
-      { path: `${basePath}/badges`, icon: Award, label: 'Badges & Achievements' },
       { path: `${basePath}/verifications`, icon: Shield, label: 'Verifications' },
-      { path: `${basePath}/security`, icon: Shield, label: 'Security' },
-      { path: `${basePath}/preferences`, icon: Settings, label: 'Preferences' },
+      { path: `${basePath}/badges`, icon: Award, label: 'Badges' },
+      { path: `${basePath}/settings`, icon: Shield, label: 'Settings' },
+      // { path: `${basePath}/preferences`, icon: Settings, label: 'Preferences' },
     ];
   };
 
@@ -132,22 +133,7 @@ const DashboardSidebar = () => {
     navigate('/');
   };
 
-  // Close mobile menu when route changes
-  useEffect(() => {
-    setIsMobileMenuOpen(false);
-  }, [location.pathname]);
 
-  // Prevent body scroll when mobile menu is open
-  useEffect(() => {
-    if (isMobileMenuOpen) {
-      document.body.style.overflow = 'hidden';
-    } else {
-      document.body.style.overflow = 'unset';
-    }
-    return () => {
-      document.body.style.overflow = 'unset';
-    };
-  }, [isMobileMenuOpen]);
 
   // Get dashboard title
   const getDashboardTitle = () => {
@@ -161,17 +147,17 @@ const DashboardSidebar = () => {
   return (
     <>
       {/* Mobile Menu Toggle Button */}
-      <button
+      {/* <button
         onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
         className="lg:hidden fixed top-16 md:top-20 left-0 z-40 p-2 bg-white rounded-lg shadow-md"
       >
         {isMobileMenuOpen ? <X size={24} /> : <PanelRightClose size={24} />}
-      </button>
+      </button> */}
 
       {/* Overlay for mobile */}
       {isMobileMenuOpen && (
         <div
-          className="lg:hidden fixed inset-0 bg-black/50 z-30"
+          className="lg:hidden fixed inset-0 bg-black/50 z-300"
           onClick={() => setIsMobileMenuOpen(false)}
         />
       )}
@@ -180,7 +166,7 @@ const DashboardSidebar = () => {
       <aside
         className={`
           fixed left-0 top-0 h-full w-64 bg-white border-r border-gray-200 
-          transition-all duration-300 ease-in-out z-40
+          transition-all duration-300 ease-in-out z-400
           ${isMobileMenuOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'}
           pt-10.5 md:pt-14.5
         `}
@@ -226,8 +212,8 @@ const DashboardSidebar = () => {
                   }`}
                 >
                   <div className="flex items-center space-x-3">
-                    <Settings size={20} />
-                    <span className="text-sm md:text-base">Settings</span>
+                    <UserRound size={20} />
+                    <span className="text-sm md:text-base">Account</span>
                   </div>
                   {isSettingsOpen ? (
                     <ChevronUp size={18} />
@@ -252,7 +238,7 @@ const DashboardSidebar = () => {
                           }
                           onClick={() => setIsMobileMenuOpen(false)}
                         >
-                          <item.icon size={16} />
+                          {/* <item.icon size={16} /> */}
                           <span>{item.label}</span>
                         </NavLink>
                       </li>

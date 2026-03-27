@@ -172,7 +172,7 @@ const SellerOrders = () => {
 
       {/* Orders Table */}
       <div className="bg-white rounded-lg border border-gray-200 overflow-hidden">
-        <table className="w-full">
+        <table className="w-full overflow-x-auto">
           <thead className="bg-gray-50 border-b border-gray-200">
             <tr>
               <th className="text-left py-4 px-6 text-sm font-medium text-gray-600">Product</th>
@@ -184,11 +184,11 @@ const SellerOrders = () => {
               <th className="text-left py-4 px-6 text-sm font-medium text-gray-600">Actions</th>
             </tr>
           </thead>
-          <tbody className="divide-y divide-gray-200">
+          <tbody className="w-full divide-y divide-gray-200 overflow-x-auto">
             {paginatedOrders.map((order) => (
               <tr key={order.id} className="hover:bg-gray-50">
-                <td className="py-4 px-6">
-                  <span className="text-sm text-gray-900">{order.product}</span>
+                <td className="py-4 px-6 whitespace-nowrap">
+                  <span className="text-sm text-gray-900 ">{order.product}</span>
                 </td>
                 <td className="py-4 px-6">
                   <span className="text-sm text-gray-900 font-mono">{order.orderId}</span>

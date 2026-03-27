@@ -35,6 +35,7 @@ const CommunitySidebar = ({ isOpen, onClose }) => {
 
   const navigate = useNavigate();
   const [expandedGroups, setExpandedGroups] = useState({
+    leaderboards: true,
     announcements: true,
     general: true,
     lounges: true,

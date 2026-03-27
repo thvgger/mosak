@@ -136,7 +136,7 @@ export const AuthProvider = ({ children }) => {
   const checkAuthStatus = async () => {
     try {
       setLoading(true);
-      console.log('Checking auth status with server...');
+      // console.log('Checking auth status with server...');
       
       const response = await fetch(`${API_URL}/api/auth/me`, {
         method: 'GET',
@@ -146,11 +146,11 @@ export const AuthProvider = ({ children }) => {
         },
       });
 
-      console.log('Auth check response status:', response.status);
+      // console.log('Auth check response status:', response.status);
 
       if (response.ok) {
         const data = await response.json();
-        console.log('Auth check successful - user restored from session');
+        // console.log('Auth check successful - user restored from session');
         
         // Set user from the server response
         const userData = data.user || data;
@@ -256,6 +256,7 @@ export const AuthProvider = ({ children }) => {
     try {
       const requestData = {
         full_name: userData.name || userData.fullName,
+        username: userData.username,
         email: userData.email,
         phone_number: userData.phone,
         password: userData.password,
@@ -433,6 +434,40 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
+
+  // Change Password
+  const changePassword = async (currentPassword, newPassword) => {
+    setError(null);
+    setLoading(true);
+
+    try {
+      const response = await fetch(`${API_URL}/api/auth/change-password`, {
+        method: 'POST',
+        credentials: 'include',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ 
+          current_password: currentPassword, 
+          new_password: newPassword 
+        }),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.message || 'Password change failed');
+      }
+
+      return { success: true, message: data.message };
+    } catch (err) {
+      setError(err.message);
+      return { success: false, error: err.message };
+    } finally {
+      setLoading(false);
+    }
+  };
+
   // Reset password
   const resetPassword = async (email, otp, newPassword) => {
     setError(null);
@@ -477,6 +512,7 @@ export const AuthProvider = ({ children }) => {
       setUser(null);
       localStorage.removeItem('pendingVerification');
       setPendingVerification({ email: null, timestamp: null, isPending: false });
+      checkAuthStatus();
       
       // Stop token refresh
       stopTokenRefresh();
@@ -536,6 +572,39 @@ export const AuthProvider = ({ children }) => {
     return user.roles.some(r => r.toLowerCase() === role.toLowerCase());
   };
 
+
+  const addSellerRole = async (businessData) => {
+    setError(null);
+    setLoading(true);
+
+    try {
+      const response = await fetch(`${API_URL}/api/users/add-seller-role`, {
+        method: 'POST',
+        credentials: 'include',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(businessData),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.message || 'Failed to add seller role');
+      }
+
+      // Update the user state with new role data
+      setUser(data.user);
+      
+      return { success: true, user: data.user };
+    } catch (err) {
+      setError(err.message);
+      return { success: false, error: err.message };
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
     <AuthContext.Provider value={{
       user,
@@ -548,6 +617,7 @@ export const AuthProvider = ({ children }) => {
       signup,
       verifyEmail,
       forgotPassword,
+      changePassword,
       resetPassword,
       refreshToken,
       logout,
@@ -556,6 +626,7 @@ export const AuthProvider = ({ children }) => {
       checkAuthStatus,
       resendOtp,
       clearPendingVerification,
+      addSellerRole, 
     }}>
       {children}
     </AuthContext.Provider>

@@ -30,7 +30,7 @@ const CustomDropdown = ({ value, onChange, options, placeholder }) => {
       {isOpen && (
         <>
           <div
-            className="fixed inset-0 z-10"
+            className="fixed inset-0 z-5000"
             onClick={() => setIsOpen(false)}
           />
 
@@ -88,7 +88,7 @@ const CreatePostModal = ({ isOpen, onClose }) => {
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 z-90 flex items-center justify-center px-4">
+    <div className="fixed inset-0 z-5000 flex items-center justify-center px-4">
       {/* Overlay */}
       <div
         className="absolute inset-0 bg-black/60"

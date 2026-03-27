@@ -21,7 +21,7 @@ const CommunityLayout = () => {
   }, [isCommunity]);
   
   return (
-    <div className="flex h-screen bg-gray-100 overflow-hidden relative container! mx-auto p-0!">
+    <div className="flex h-screen bg-gray-100 overflow-hidden! relative container! mx-auto p-0!">
       {/* Left Sidebar - Channels & Groups */}
       <CommunitySidebar 
         isOpen={isSidebarOpen} 
@@ -29,7 +29,7 @@ const CommunityLayout = () => {
       />
 
       {/* Main Content Area */}
-      <div className="flex-1 flex h-full flex-col min-w-0 w-full relative pb-16 md:pb-20">
+      <div className="flex h-screen flex-col min-w-0 w-full relative pb-18! md:pb-20! overflow-hidden">
         <Outlet context={{ setIsSidebarOpen, isSidebarOpen }} />
       </div>
     </div>

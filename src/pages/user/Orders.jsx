@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { useOutletContext } from 'react-router-dom';
 import { 
   Search, 
   Filter, 
@@ -15,9 +14,10 @@ import {
   ShoppingBag
 } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
+import { useAuth } from '../../contexts/AuthContext';
 
 const Orders = () => {
-  const { user } = useOutletContext();
+  const { user, loading, isAuthenticated } = useAuth();
   const [searchTerm, setSearchTerm] = useState('');
   const [statusFilter, setStatusFilter] = useState('all');
   const navigate = useNavigate();
@@ -133,7 +133,7 @@ const Orders = () => {
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
         <div>
           <h1 className="text-2xl font-bold text-gray-800">My Orders</h1>
-          <p className="text-sm text-gray-500 mt-1">Manage and track all your purchases</p>
+          <p className="text-sm text-gray-500 my-1">Manage and track all your purchases</p>
 
           <button className='btn text-xs' onClick={toggleOrders}>
             {orders.length > 0 ? "Hide Orders" : "Show Orders"}
@@ -194,14 +194,14 @@ const Orders = () => {
                 <th className="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-gray-200">
+            <tbody className="w-full divide-y divide-gray-200 overflow-x-auto">
               {orders.map((order, index) => (
                 <tr key={index} className="hover:bg-gray-50 transition-colors">
                   <td className="px-6 py-4 whitespace-nowrap">
                     <span className="text-sm font-medium text-gray-900">{order.id}</span>
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap">
-                    <span className="text-sm text-gray-900">{order.product}</span>
+                    <span className="text-sm text-gray-900 text-nowrap">{order.product}</span>
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap">
                     <div className="flex items-center">

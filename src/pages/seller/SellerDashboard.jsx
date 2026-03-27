@@ -22,12 +22,16 @@ import {
   BarChart3,
   Download,
   Filter,
-  ShieldCheck
+  ShieldCheck,
+  ShieldBan
 } from 'lucide-react';
 import silver from "../../assets/badges/silver.png";
+import { useAuth } from '../../contexts/AuthContext';
 
 const SellerDashboard = () => {
   const [selectedPeriod, setSelectedPeriod] = useState('month');
+  const { user, loading, isAuthenticated } = useAuth();
+  
 
   // Mock data for stats
   const stats = [
@@ -125,10 +129,10 @@ const SellerDashboard = () => {
 
   // Quick actions
   const quickActions = [
-    { label: 'Add New Product', description: 'List items for sale', icon: Upload, color: 'bg-blue-500' },
-    { label: 'Boost Listing', description: 'Increase visibility', icon: Zap, color: 'bg-purple-500' },
-    { label: 'Verify Account', description: 'Build trust', icon: Shield, color: 'bg-green-500' },
-    { label: 'Withdraw Funds', description: 'Transfer to bank', icon: Wallet, color: 'bg-orange-500' }
+    { label: 'Add New Product', description: 'List items for sale', icon: Plus, color: 'blue-500' },
+    { label: 'Boost Listing', description: 'Increase visibility', icon: Zap, color: 'red-500' },
+    { label: 'Verify Account', description: 'Build trust', icon: Shield, color: 'green-500' },
+    { label: 'Withdraw Funds', description: 'Transfer to bank', icon: Wallet, color: 'orange-500' }
   ];
 
   return (
@@ -144,7 +148,7 @@ const SellerDashboard = () => {
         {/* Welcome Section */}
         <div className="bg-primary rounded-lg p-6 flex flex-col items-start flex-wrap justify-between">
           <div>
-            <h1 className="text-xl font-semibold text-white">Welcome back, Chioma Adeleke</h1>
+            <h1 className="text-xl font-semibold text-white">Welcome back, {user.full_name}</h1>
             <div className="flex items-center space-x-2 mt-4">
               <span className="px-3 py-1.5 bg-gray-200 text-xs text-gray-500 font-medium rounded-md flex items-center gap-1">
                 <img src={silver} alt='' className='object-cover w-5 mx-auto h-fit' />
@@ -152,7 +156,7 @@ const SellerDashboard = () => {
               </span>
               <span className="px-3 py-2 bg-gray-100 text-primary text-xs font-medium rounded-md flex items-center gap-1">
                 <ShieldCheck size={16} />
-                VERIFIED SELLER
+                {user.kyc_status} SELLER
               </span>
             </div>
           </div>
@@ -331,7 +335,7 @@ const SellerDashboard = () => {
         {/* Gold Member Card */}
         <div className="bg-linear-to-br from-amber-400 to-yellow-600 rounded-xl p-6 shadow-sm">
           <div className="flex items-start justify-between mb-4">
-            <div className="flex items-center gap-3">
+            <div className="flex flex-col items-start gap-3">
               <Award size={32} className="text-white" />
               <div>
                 <h3 className="font-semibold text-white">Gold Member</h3>
@@ -341,28 +345,28 @@ const SellerDashboard = () => {
             <ChevronRight size={20} className="text-white" />
           </div>
 
-          <div className="grid grid-cols-2 gap-4 mb-4">
-            <div>
+          <div className="grid grid-cols-1 gap-4 mb-4">
+            <div className='flex items-center justify-between gap-2'>
               <p className="text-sm text-white/80">Current Points</p>
-              <p className="text-2xl font-bold text-white">3,450</p>
-            </div>
-            <div>
-              <p className="text-sm text-white/80">Points to Next Level</p>
-              <p className="text-lg font-semibold text-white">1,550</p>
+              <p className="text-sm font-bold text-white">3,450</p>
             </div>
           </div>
 
-          <div className="space-y-2">
-            <div className="flex justify-between text-sm text-white/80">
+          <div className="space-y-2 mt-8">
+            <div className="flex justify-between text-xs text-white/80">
               <span>Progress to Platinum</span>
               <span>60%</span>
             </div>
             <div className="h-2 bg-white/30 rounded-full overflow-hidden">
               <div className="h-full bg-white rounded-full" style={{ width: '60%' }}></div>
             </div>
+             <div className='flex items-center gap-1'>
+              <p className="text-sm font-semibold text-white">1,550</p>
+              <p className="text-sm text-white/80">Points to Next Level</p>
+            </div>
           </div>
 
-          <button className="w-full mt-4 py-2 bg-white hover:bg-white/30 text-yellow-500 text-sm font-medium rounded-lg transition-colors">
+          <button className="w-full mt-8 py-2 bg-white hover:bg-white/30 text-yellow-500 text-sm font-medium rounded-lg transition-colors">
             View Badge Details
           </button>
         </div>
@@ -374,7 +378,7 @@ const SellerDashboard = () => {
         <div className="w-full bg-white rounded-xl border border-gray-200 shadow-sm overflow-hidden">
           <h3 className="font-semibold text-gray-800 bg-primary/20 p-6">Escrow Snapshot</h3>
           
-          <div className="space-y-4 p-6">
+          <div className="space-y-2 p-4">
             <div className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
               <div className="flex items-center gap-3">
                 <Shield size={20} className="text-yellow-600" />
@@ -398,6 +402,18 @@ const SellerDashboard = () => {
               </div>
               <span className="font-semibold text-gray-800">N0</span>
             </div>
+
+            <hr className='my-2.5 w-full h-px border-0 bg-gray-200' />
+
+            <div className='p-4 bg-primary/20 rounded-md'>
+              <div className='flex items-center gap-2 mb-2'>
+                <ShieldBan size={14} />
+                <p className='text-sm font-semibold'> Escrow Protection Active Funds </p>
+              </div>
+              <small className='text-xs'>
+                Funds are released 24 hours after buyer confirms delivery
+              </small>
+            </div>
           </div>
         </div>
 
@@ -405,13 +421,14 @@ const SellerDashboard = () => {
         <div className="w-full bg-white rounded-xl border border-gray-200 shadow-sm overflow-hidden">
           <h3 className="font-semibold text-gray-800 bg-primary/20 p-6">Quick Actions</h3>
           
-          <div className="grid grid-cols-1 gap-2 p-2">
+          <div className="grid grid-cols-1 gap-4 p-2">
             {quickActions.map((action, index) => {
               const Icon = action.icon;
               return (
-                <button key={index} className="p-2 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors text-left group flex gap-2 border border-gray-300">
-                  <div className={`w-10 h-10 ${action.color} bg-opacity-20 rounded-lg flex items-center justify-center group-hover:scale-110 transition-transform`}>
-                    <Icon size={20} className={action.color.replace('bg-', 'text-')} />
+                <button key={index} className="p-2 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors text-left group flex gap-2 border border-gray-200">
+                  <div className={`w-10 h-10 bg-primary/5 bg-opacity-20 rounded-lg flex items-center justify-center group-hover:scale-110 transition-transform`}>
+                    {/* <Icon size={20} className={action.color.replace('text-', '')} /> */}
+                    <Icon size={20} className={`text-${action.color}`} />
                   </div>
                   <div className='flex flex-col gap-1'>
                     <p className="text-sm font-medium text-gray-800">{action.label}</p>
@@ -465,7 +482,7 @@ const SellerDashboard = () => {
                     </td>
                     <td className="px-6 py-4">
                       <div className="flex items-center gap-2">
-                        <div className="w-8 h-8 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full flex items-center justify-center text-white text-sm font-medium">
+                        <div className="w-8 h-8 bg-linear-to-r from-purple-500 to-pink-500 rounded-full flex items-center justify-center text-white text-sm font-medium">
                           {order.buyer.charAt(0)}
                         </div>
                         <span className="text-sm text-gray-700">{order.buyer}</span>

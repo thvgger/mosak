@@ -7,6 +7,12 @@ import { useAuth } from '../../contexts/AuthContext';
 const DashboardPage = () => {
   const { user, loading, isAuthenticated } = useAuth();
 
+
+  const statusIcon = {
+    VERIFIED: <BadgeCheck size={16} className="text-primary" />,
+    UNVERIFIED: <Shield size={16} className="text-gray-500" />,
+  };
+
   //  const { user } = useOutletContext();
 
 
@@ -20,9 +26,17 @@ const DashboardPage = () => {
             <img src={silver} alt='' className='object-cover w-5 mx-auto h-fit' />
             SILVER
           </span>
-          <span className="px-3 py-2 bg-gray-100 text-primary text-xs font-medium rounded-md flex items-center gap-1">
-            <BadgeCheck size={16} className="text-primary" />
-            VERIFIED
+          {/* <span className={`px-3 py-2 bg-gray-100  text-xs font-medium rounded-md flex items-center gap-1 ${user.kyc_status === "UNVERIFIED" ? "text-gray-500" : "text-primary"}`}>
+            {user.kyc_status === "VERIFIED" ? (
+              <BadgeCheck size={16} className="text-primary" />
+            ) : user.kyc_status === "UNVERIFIED" ? (
+              <Shield size={16} className="text-gray-500" />
+            ) : null}
+            {user.kyc_status}
+          </span> */}
+          <span className="px-3 py-2 bg-gray-100 text-gray-500 text-xs font-medium rounded-md flex items-center gap-1">
+            {statusIcon[user.kyc_status]}
+            {user.kyc_status}
           </span>
         </div>
       </div>

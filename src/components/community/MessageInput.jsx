@@ -1,53 +1,156 @@
-// import { CalendarRange, Link, Smile, Paperclip, Send } from "lucide-react";
+// import { CalendarRange, Link, Paperclip, Send, X, Reply } from "lucide-react";
+// import React, { useState, useRef, useEffect } from "react";
 
-// const MessageInput = () => {
+// const MessageInput = ({ channelId, onSendMessage, replyingTo, onCancelReply }) => {
+//   const [message, setMessage] = useState('');
+//   const [isTyping, setIsTyping] = useState(false);
+//   const inputRef = useRef(null);
+
+//   // Focus input when replying to a message
+//   useEffect(() => {
+//     if (replyingTo) {
+//       inputRef.current?.focus();
+//     }
+//   }, [replyingTo]);
+
+//   const handleSubmit = (e) => {
+//     e.preventDefault();
+    
+//     if (!message.trim()) return;
+
+//     const messageData = {
+//       content: message.trim(),
+//       channelId,
+//       ...(replyingTo && { parentId: replyingTo.id })
+//     };
+
+//     onSendMessage(messageData);
+//     setMessage('');
+//   };
+
+//   const handleKeyPress = (e) => {
+//     if (e.key === 'Enter' && !e.shiftKey) {
+//       e.preventDefault();
+//       handleSubmit(e);
+//     }
+//   };
+
 //   return (
-//     <div className="w-full container bg-white p-3 md:p-4 flex items-start justify-start border-t border-gray-300 fixed bottom-0">
-//       <div className="w-full flex items-center justify-center gap-2 md:gap-4 relative!">
-//         <button className=""> 
-//           <Link size={16} className="text-gray-400" /> 
-//         </button>
-//         <button className="">
-//           <Paperclip size={16} className="text-gray-400" />
-//         </button>
-        
-//         <button className=""> 
-//           <CalendarRange size={18} className="text-gray-400" /> 
-//         </button>
+//     <div className="w-full bg-white p-3 md:p-4 border-t border-gray-300 fixed md:static bottom-0 left-0 right-0">
+//       <form onSubmit={handleSubmit} className="max-w-4xl mx-auto">
+//         {/* Reply preview */}
+//         {replyingTo && (
+//           <div className="mb-2 p-2 bg-gray-50 rounded-lg border-l-4 border-primary flex items-center justify-between">
+//             <div className="flex items-center gap-2 flex-1 min-w-0">
+//               <Reply size={14} className="text-gray-500 rotate-180" />
+//               <div className="flex-1 min-w-0">
+//                 <span className="text-xs font-medium text-gray-700">
+//                   Replying to {replyingTo.name}
+//                 </span>
+//                 <p className="text-xs text-gray-500 truncate">
+//                   {replyingTo.content}
+//                 </p>
+//               </div>
+//             </div>
+//             <button
+//               type="button"
+//               onClick={onCancelReply}
+//               className="p-1 hover:bg-gray-200 rounded-full transition-colors"
+//             >
+//               <X size={14} className="text-gray-500" />
+//             </button>
+//           </div>
+//         )}
 
-//         <input
-//           type="text"
-//           placeholder="Type your message..."
-//           className="flex-1 border border-gray-300 rounded-lg px-3 md:px-4 py-2 focus:outline-none focus:border-primary text-base"
-//         />
+//         {/* Input area */}
+//         <div className="flex items-center gap-2 md:gap-4">
+//           {/* <button type="button" className="p-2 hover:bg-gray-100 rounded-lg transition-colors"> 
+//             <Link size={16} className="text-gray-400" /> 
+//           </button> */}
+          
+//           <button type="button" className="p-2 hover:bg-gray-100 rounded-lg transition-colors">
+//             <Paperclip size={16} className="text-gray-400" />
+//           </button>
+          
+//           {/* <button type="button" className="p-2 hover:bg-gray-100 rounded-lg transition-colors"> 
+//             <CalendarRange size={18} className="text-gray-400" /> 
+//           </button> */}
 
-//         <button className="bg-primary text-white p-2 md:px-4 md:py-2 rounded-lg">
-//           <span className="">
-//             <Send />
-//           </span>
-//         </button>
+//           <input
+//             ref={inputRef}
+//             type="text"
+//             value={message}
+//             onChange={(e) => setMessage(e.target.value)}
+//             onKeyPress={handleKeyPress}
+//             placeholder={replyingTo ? "Write your reply..." : "Type your message..."}
+//             className="flex-1 w-full border border-gray-300 rounded-lg px-3 md:px-4 py-2 focus:outline-none focus:border-primary text-base"
+//           />
 
-//       </div>
+//           <button
+//             type="submit"
+//             disabled={!message.trim()}
+//             className={`p-2 md:px-4 md:py-2 rounded-lg transition-colors ${
+//               message.trim() 
+//                 ? 'bg-primary text-white hover:bg-primary-dark' 
+//                 : 'bg-gray-200 text-gray-400 cursor-not-allowed'
+//             }`}
+//           >
+//             <Send size={18} />
+//           </button>
+//         </div>
+
+//         {/* Typing indicator */}
+//         {isTyping && (
+//           <div className="mt-1 text-xs text-gray-400">
+//             Someone is typing...
+//           </div>
+//         )}
+//       </form>
 //     </div>
 //   );
 // };
 
 // export default MessageInput;
 
-import { CalendarRange, Link, Paperclip, Send, X, Reply } from "lucide-react";
+
+
+
+// components/community/MessageInput.jsx (updated with typing)
+import { Paperclip, Send, Reply, X } from "lucide-react";
 import React, { useState, useRef, useEffect } from "react";
 
-const MessageInput = ({ channelId, onSendMessage, replyingTo, onCancelReply }) => {
+const MessageInput = ({ channelId, onSendMessage, onTyping, replyingTo, onCancelReply }) => {
   const [message, setMessage] = useState('');
   const [isTyping, setIsTyping] = useState(false);
   const inputRef = useRef(null);
+  const typingTimeoutRef = useRef(null);
 
-  // Focus input when replying to a message
   useEffect(() => {
     if (replyingTo) {
       inputRef.current?.focus();
     }
   }, [replyingTo]);
+
+  const handleTyping = (e) => {
+    setMessage(e.target.value);
+    
+    if (!isTyping && e.target.value.trim()) {
+      setIsTyping(true);
+      onTyping?.();
+    }
+    
+    if (typingTimeoutRef.current) {
+      clearTimeout(typingTimeoutRef.current);
+    }
+    
+    if (e.target.value.trim()) {
+      typingTimeoutRef.current = setTimeout(() => {
+        setIsTyping(false);
+      }, 2000);
+    } else {
+      setIsTyping(false);
+    }
+  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -62,6 +165,11 @@ const MessageInput = ({ channelId, onSendMessage, replyingTo, onCancelReply }) =
 
     onSendMessage(messageData);
     setMessage('');
+    setIsTyping(false);
+    
+    if (typingTimeoutRef.current) {
+      clearTimeout(typingTimeoutRef.current);
+    }
   };
 
   const handleKeyPress = (e) => {
@@ -72,7 +180,7 @@ const MessageInput = ({ channelId, onSendMessage, replyingTo, onCancelReply }) =
   };
 
   return (
-    <div className="w-full bg-white p-3 md:p-4 border-t border-gray-300 fixed md:static bottom-0 left-0 right-0">
+    <div className="w-full bg-white p-3 md:p-4 border-t border-gray-200">
       <form onSubmit={handleSubmit} className="max-w-4xl mx-auto">
         {/* Reply preview */}
         {replyingTo && (
@@ -81,7 +189,7 @@ const MessageInput = ({ channelId, onSendMessage, replyingTo, onCancelReply }) =
               <Reply size={14} className="text-gray-500 rotate-180" />
               <div className="flex-1 min-w-0">
                 <span className="text-xs font-medium text-gray-700">
-                  Replying to {replyingTo.name}
+                  Replying to {replyingTo.user?.name || replyingTo.name}
                 </span>
                 <p className="text-xs text-gray-500 truncate">
                   {replyingTo.content}
@@ -100,23 +208,15 @@ const MessageInput = ({ channelId, onSendMessage, replyingTo, onCancelReply }) =
 
         {/* Input area */}
         <div className="flex items-center gap-2 md:gap-4">
-          {/* <button type="button" className="p-2 hover:bg-gray-100 rounded-lg transition-colors"> 
-            <Link size={16} className="text-gray-400" /> 
-          </button> */}
-          
           <button type="button" className="p-2 hover:bg-gray-100 rounded-lg transition-colors">
             <Paperclip size={16} className="text-gray-400" />
           </button>
-          
-          {/* <button type="button" className="p-2 hover:bg-gray-100 rounded-lg transition-colors"> 
-            <CalendarRange size={18} className="text-gray-400" /> 
-          </button> */}
 
           <input
             ref={inputRef}
             type="text"
             value={message}
-            onChange={(e) => setMessage(e.target.value)}
+            onChange={handleTyping}
             onKeyPress={handleKeyPress}
             placeholder={replyingTo ? "Write your reply..." : "Type your message..."}
             className="flex-1 w-full border border-gray-300 rounded-lg px-3 md:px-4 py-2 focus:outline-none focus:border-primary text-base"
@@ -134,13 +234,6 @@ const MessageInput = ({ channelId, onSendMessage, replyingTo, onCancelReply }) =
             <Send size={18} />
           </button>
         </div>
-
-        {/* Typing indicator */}
-        {isTyping && (
-          <div className="mt-1 text-xs text-gray-400">
-            Someone is typing...
-          </div>
-        )}
       </form>
     </div>
   );

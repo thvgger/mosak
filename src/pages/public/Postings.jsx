@@ -17,7 +17,7 @@ const Postings = () => {
 
 
   return (
-    <div className="bg-gray-50 min-h-screen container mx-auto py-4">
+    <div className="container mx-auto py-4">
       <button
         className="btn mb-6"
         onClick={() => setOpenModal(true)}

@@ -6,7 +6,7 @@ import DashboardSidebar from '../components/user/DashboardSidebar'; // Your exis
 // import { useAuth } from "../contexts/AuthContext";
 import BottomNav from '../components/BottomNav';
 
-const DashboardLayout = () => {
+const DashboardLayout = ({ isMobileMenuOpen, setIsMobileMenuOpen }) => {
   const location = useLocation();
   // const { user } = useAuth();
   
@@ -19,11 +19,19 @@ const DashboardLayout = () => {
   const isDashboard = isAccount || isSeller || isFreelancer || isEmployer;
 
   return (
-    <div className="min-h-screen bg-gray-50 pb-0">
-      <Header isAccount={isDashboard} />
+    <div className="min-h-screen bg-gray-50 pb-20 md:pb-0">
+      <Header 
+        isAccount={isDashboard} 
+        isDashboard={true}  
+        isMobileMenuOpen={isMobileMenuOpen} 
+        setIsMobileMenuOpen={setIsMobileMenuOpen}
+      />
       
       <div className="flex">
-        <DashboardSidebar />
+        <DashboardSidebar 
+          isMobileMenuOpen={isMobileMenuOpen} 
+          setIsMobileMenuOpen={setIsMobileMenuOpen} 
+        />
         
         {/* Main Content - Responsive padding and margin */}
         <main className="
@@ -31,15 +39,14 @@ const DashboardLayout = () => {
           transition-all duration-300
           py-4 md:py-8 px-4 sm:px-6 lg:px-8
           lg:ml-64
-          min-h-screen
           overflow-x-hidden
         ">
-          <div className="w-full max-w-7xl mx-auto overflow-x-hidden">
+          <div className="w-full h-full max-w-7xl mx-auto overflow-x-hidden">
             <Outlet />
           </div>
         </main>
       </div>
-      {/* <BottomNav /> */}
+      <BottomNav isDashboard={isDashboard} />
     </div>
   );
 };

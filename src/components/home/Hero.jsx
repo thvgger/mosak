@@ -19,7 +19,7 @@ const Hero = () => {
             how easy it is to find the perfect freelancer for your project.
           </p>
 
-          <div className="relative max-w-lg bg-[#D9D9D9] rounded-lg shadow-lg border border-gray-300 focus:ring-1 focus:ring-primary text-sm flex items-center px-1.5 py-1">
+          <div className="relative max-w-xl bg-[#D9D9D9] rounded-xl shadow-lg border border-gray-300 focus:ring-1 focus:ring-primary text-sm flex items-center px-1.5 py-1 overflow-x-auto">
             <span className="absolute z-2 left-3 top-1/2 transform -translate-y-1/2 text-gray-500 text-sm font-bold">
               {/* <IoIosSearch /> */}
               {/* <Search /> */}

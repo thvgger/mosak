@@ -12,7 +12,7 @@
   backdrop-filter: blur(10px);
   position: fixed;
   bottom: 0;
-  z-index: 1000;
+  z-index: 200;
   display: flex;
   align-items: center;
   padding: 0 10px;
@@ -24,6 +24,7 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
+  position: relative;
 }
 .navbar ul li {
   flex: 1;             
@@ -59,7 +60,7 @@
 
 .navbar ul li.active a .icon{
   transform: translateY(-20px);
-  z-index: 2;
+  z-index: 20;
   color: white;
 }
 
@@ -95,6 +96,7 @@
 } */
 .navbar .indicator {
   position: absolute;
+  z-index: -1;
   top: -50%;
   width: 70px;   /* fixed size */
   height: 70px;  /* fixed size */

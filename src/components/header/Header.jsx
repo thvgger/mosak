@@ -4,13 +4,13 @@ import { Link, NavLink, useNavigate } from "react-router-dom";
 import Logo from "../../assets/mosalak-logo.png";
 import avatar from "../../assets/avatar.png";
 import { X, Menu, MessageSquare, Bell } from 'lucide-react';
-import { ShoppingCart, Heart, ChevronDown } from 'lucide-react';
+import { ShoppingCart, Heart, ChevronDown, PanelRightClose } from 'lucide-react';
 import AccountPopup from "./AccountPopup";
 import { useAuth } from "../../contexts/AuthContext";
 import { useShopping } from "../../contexts/ShoppingContext";
 import { useAuthModal } from "../../contexts/AuthModalContext"; 
 
-const Header = ({ isAccount, isCommunity }) => {
+const Header = ({ isCommunity, isMobileMenuOpen, setIsMobileMenuOpen, isDashboard  }) => {
   const { user, logout, isAuthenticated } = useAuth();
   const { cartItemCount, wishlist } = useShopping();
   const { openModal } = useAuthModal();
@@ -21,6 +21,7 @@ const Header = ({ isAccount, isCommunity }) => {
   
   const [accountPopup, setAccountPopup] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  
   
   const navigate = useNavigate();
   const accountRef = useRef();
@@ -55,12 +56,26 @@ const Header = ({ isAccount, isCommunity }) => {
       setAccountPopup(false);
     }
   }, [isMenuOpen]);
+
+
+  // const toggleSidebar = () => {
+  //   setIsMobileMenuOpen(!isMobileMenuOpen);
+  // }
   
 
   return (
     <>
-      <header className={`${isCommunity ? "relative" : "sticky"}  top-0 z-60 bg-white md:bg-white/60 backdrop-blur-md shadow h-16 md:h-20`}>
-        <div className="container w-full h-full flex items-center justify-between gap-6 relative z-60">
+      <header className={`${isCommunity ? "relative" : "sticky"}  top-0 z-600 bg-white md:bg-white/60 backdrop-blur-md shadow h-16 md:h-20`}>
+        <div className="container w-full h-full flex items-center justify-between gap-0 relative z-60">
+          {/* Mobile Menu Toggle Button */}
+          {isDashboard && (
+            <button
+              onClick={() => {setIsMobileMenuOpen(!isMobileMenuOpen); }}
+              className="lg:hidden md:top-20 left-0 z-40 p-2 bg-white hover:bg-gray-100 rounded-lg w-fit"
+            >
+              {isMobileMenuOpen ? <X size={24} className="text-gray-500" /> : <PanelRightClose className="text-gray-500" size={24} />}
+            </button>
+          )}
           <div className="w-full h-full flex items-center">
             <Link to="/" className="w-fit h-fit " onClick={()=> { setIsMenuOpen(false); }}>
               <img src={Logo} alt="Mosak Hub Logo" className="w-20 md:w-26 object-cover" />
@@ -69,18 +84,17 @@ const Header = ({ isAccount, isCommunity }) => {
 
           {/* Navigation */}
           <nav className="hidden lg:flex items-center justify-center gap-6 w-full mx-auto text-nowrap">
+            <NavLink to="/" className={navlink}> Home </NavLink>
             <NavLink to="/marketplace" className={navlink}> Market Place </NavLink>
-            {/* <NavLink to="/freelance" className={navlink}> Freelance </NavLink> */}
+            {/* <NavLink to="/sell" className={`bg-primary text-white px-4 py-2 rounded-lg`}> Sell </NavLink> */}
             <NavLink to="/community" className={navlink}> Community </NavLink>
             <NavLink to="/postings" className={navlink}> Postings </NavLink>
-            {/* <NavLink to="/leaderboards" className={navlink}> Leaderboards </NavLink> */}
           </nav>
 
           {/* User Actions */}
           <div className="w-full flex items-center justify-end gap-2.5">
             {isAuthenticated ? (
               <div className="flex items-center gap-4">
-                {!isAccount && (
                   <div className="space-x-4 flex">
                     <Link to="/cart" className="relative"> 
                       <ShoppingCart size={22} strokeWidth={1.5} className="text-primary" />
@@ -105,13 +119,18 @@ const Header = ({ isAccount, isCommunity }) => {
                       <Bell size={20} strokeWidth={1.5} className="text-primary" />
                     </Link>
                   </div>
-                )}
-                  <div ref={accountRef} className="text-sm text-dark/80 cursor-pointer relative"> 
+                  <div ref={accountRef} className="text-sm text-dark/80 relative"> 
                     <button 
                       onClick={() => setAccountPopup(!accountPopup)} 
                       className="flex items-center gap-0.5 cursor-pointer"
                     >
-                      <img src={user?.avatar || avatar} alt={user?.name || 'User'} className="w-7 h-7 rounded-full object-cover" />
+                      {user.avatar ? (
+                        <img src={user?.avatar || avatar} alt={user?.name || 'User'} className="w-7 h-7 rounded-full object-cover" />
+                      ) : (
+                        <span className="bg-primary text-white w-8 h-8 flex items-center justify-center rounded-full">
+                          {user?.full_name.charAt(0)}
+                        </span>
+                      )}
                       <ChevronDown 
                         size={16} 
                         strokeWidth={1.5} 
@@ -120,7 +139,6 @@ const Header = ({ isAccount, isCommunity }) => {
                     </button>
                     {accountPopup && (
                       <AccountPopup 
-                        isAccount={isAccount}
                         user={user}
                         onLogout={handleLogout}
                         onClose={() => setAccountPopup(false)}
@@ -157,6 +175,7 @@ const Header = ({ isAccount, isCommunity }) => {
           {/* Mobile Menu */}
           <div className={`lg:hidden flex fixed left-0 top-16 md:top-20 w-[68vh] h-screen bg-white z-60 py-6 transition-all duration-400 ${isMenuOpen ? "translate-x-0" : "-translate-x-full" }`}>
             <div className="container flex flex-col gap-6 items-start">
+              <NavLink to="/" className={navlink} onClick={()=> { setIsMenuOpen(false); }}> Home </NavLink>
               <NavLink to="/marketplace" className={navlink} onClick={()=> { setIsMenuOpen(false); }}> Market Place </NavLink>
               {/* <NavLink to="/freelance" className={navlink} onClick={()=> { setIsMenuOpen(false); }}> Freelance </NavLink> */}
               <NavLink to="/community" className={navlink} onClick={()=> { setIsMenuOpen(false); }}> Community </NavLink>
@@ -185,8 +204,15 @@ const Header = ({ isAccount, isCommunity }) => {
                   </button>
                 </div>
               )}
+
             </div>
           </div>
+
+          {user && (
+            <Link to="/sell" className="hidden md:flex btn ml-2.5 uppercase">
+              Sell
+            </Link>
+          )}
         </div>
       </header>
 

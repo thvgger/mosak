@@ -1,5 +1,5 @@
 import React from "react";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import {
   ShieldCheck,
   Truck,
@@ -15,6 +15,11 @@ const OrderTracking = () => {
 
   return (
     <div className="space-y-6">
+      <ul className="flex items-center gap-2 text-gray-500">
+        <Link to="/account/orders"> Orders </Link>
+        &gt;
+        <Link to=""> Orders Tracking </Link>
+      </ul>
 
       {/* Page Header */}
       <div>

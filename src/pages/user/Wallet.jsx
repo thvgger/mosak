@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { useOutletContext } from 'react-router-dom';
 import { 
   Eye, 
   EyeOff, 
@@ -18,14 +17,21 @@ import {
   TrendingUp,
   Shield,
   CreditCard,
-  History
+  History,
+  ShieldBan,
+  Plus,
+  ArrowDownRight,
+  CardSim,
+  CardSimIcon
 } from 'lucide-react';
+import { useAuth } from '../../contexts/AuthContext';
 
 const Wallet = () => {
-  const { user } = useOutletContext();
+  const { user, loading, isAuthenticated } = useAuth();
   const [showBalance, setShowBalance] = useState(true);
   const [activeTab, setActiveTab] = useState('wallet'); // 'wallet' or 'earnings'
   const [transactionFilter, setTransactionFilter] = useState('all');
+  const [showAddFunds, setShowAddFunds] = useState(false);
   
   // Sample wallet data
   const walletData = {
@@ -144,23 +150,9 @@ const Wallet = () => {
 
   return (
     <div className="space-y-6">
-      {/* Header with Balance Toggle */}
-      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
-        <div>
-          <h1 className="text-2xl font-bold text-gray-800">Wallet & Earnings</h1>
-          <p className="text-sm text-gray-500 mt-1">Manage your funds and track your earnings</p>
-        </div>
-        <button 
-          onClick={() => setShowBalance(!showBalance)}
-          className="flex items-center gap-2 px-4 py-2 bg-gray-100 rounded-lg hover:bg-gray-200 transition"
-        >
-          {showBalance ? <Eye size={18} /> : <EyeOff size={18} />}
-          <span className="text-sm font-medium">{showBalance ? 'Hide' : 'Show'} Balance</span>
-        </button>
-      </div>
-
+      
       {/* Wallet/Earnings Toggle */}
-      <div className="bg-white p-1 rounded-lg inline-flex border border-gray-200">
+      <div className="bg-white p-1 rounded-lg flex items-center w-fit ml-auto border border-gray-200">
         <button
           onClick={() => setActiveTab('wallet')}
           className={`px-6 py-2 rounded-lg text-sm font-medium transition ${
@@ -183,68 +175,85 @@ const Wallet = () => {
         </button>
       </div>
 
+      {/* Header with Balance Toggle */}
+      <div className="flex flex-col justify-between items-start bg-primary text-white p-4 rounded-xl">
+        <h1 className="text-sm font-normal flex items-center gap-2 mb-4">
+          <ShieldBan size={16} />
+          Secured Wallet
+        </h1>
+        <small className='text-xs text-gray-300'> Available Balance </small>
+        <p className='flex items-center gap-2 mb-4 text-xl font-bold'>
+          ₦45,750.00
+          <Eye size={18} className='text-white/80' />
+        </p>
+
+        <div className='flex items-center gap-2'>
+          <button className='btn btn-secondary px-4'>
+            <Plus size={18} />
+            Add Funds
+          </button>
+          <button className='btn btn-secondary bg-white/80 px-4'>
+            <ArrowUpRight size={20} />
+            Withdraw
+          </button>
+          <button className='btn btn-secondary bg-white/80 px-4'>
+            <ArrowDownRight size={20} />
+            Transfer Funds
+          </button>
+        </div>
+          {/* <p className="text-sm text-gray-500 mt-1">Manage your funds and track your earnings</p> */}
+
+        {/* <button 
+          onClick={() => setShowBalance(!showBalance)}
+          className="flex items-center gap-2 px-4 py-2 bg-gray-300 text-primary rounded-lg hover:bg-gray-200 transition"
+        >
+          {showBalance ? <Eye size={18} /> : <EyeOff size={18} />}
+          <span className="text-sm font-medium">{showBalance ? 'Hide' : 'Show'} Balance</span>
+        </button> */}
+      </div>
+
+
       {/* Balance Cards */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-        {/* Available Balance */}
-        <div className="bg-white rounded-xl p-6 border border-gray-200 shadow-sm">
-          <div className="flex items-center justify-between mb-4">
-            <div className="p-2 bg-green-100 rounded-lg">
-              <WalletIcon size={20} className="text-green-600" />
-            </div>
-            <span className="text-xs text-gray-400">Available</span>
-          </div>
+        {/* Total Spent */}
+        <div className="bg-white rounded-xl p-6 border border-gray-200 shadow-sm space-y-4">
+          <p className='text-sm text-gray-600 flex items-center gap-2 justify-between'>
+            Total Spent
+            <ArrowUpRight size={20} className='text-red-400' />
+          </p>
           <h3 className="text-2xl font-bold mb-1">
             {showBalance ? formatCurrency(walletData.availableBalance) : '••••••'}
           </h3>
-          <p className="text-sm text-gray-500 mb-4">Available Balance</p>
-          <div className="flex items-center gap-2">
-            <button className="flex-1 flex items-center justify-center gap-2 px-3 py-2 bg-primary text-white rounded-lg hover:bg-primary/90 text-sm">
-              <Upload size={16} />
-              Add Funds
-            </button>
-            <button className="flex-1 flex items-center justify-center gap-2 px-3 py-2 border border-gray-300 rounded-lg hover:bg-gray-50 text-sm">
-              <Download size={16} />
-              Withdraw
-            </button>
-          </div>
+          <p className="text-xs text-gray-500">This month</p>
         </div>
 
-        {/* Pending Balance */}
-        <div className="bg-white rounded-xl p-6 border border-gray-200 shadow-sm">
-          <div className="flex items-center justify-between mb-4">
-            <div className="p-2 bg-yellow-100 rounded-lg">
-              <Clock size={20} className="text-yellow-600" />
-            </div>
-            <span className="text-xs text-gray-400">Pending</span>
-          </div>
+        {/* Total Added */}
+        <div className="bg-white rounded-xl p-6 border border-gray-200 shadow-sm space-y-4">
+          <p className='text-sm text-gray-600 flex items-center gap-2 justify-between'>
+            Total Added           
+            <ArrowDownRight size={20} className='text-green-400' /> 
+          </p>
           <h3 className="text-2xl font-bold mb-1">
             {showBalance ? formatCurrency(walletData.pendingBalance) : '••••••'}
           </h3>
-          <p className="text-sm text-gray-500">Pending Clearance</p>
-          <p className="text-xs text-gray-400 mt-2">Expected clearance: Dec 28, 2024</p>
+          <p className="text-xs text-gray-500">This month</p>
         </div>
 
-        {/* Total Earnings */}
-        <div className="bg-white rounded-xl p-6 border border-gray-200 shadow-sm">
-          <div className="flex items-center justify-between mb-4">
-            <div className="p-2 bg-blue-100 rounded-lg">
-              <TrendingUp size={20} className="text-blue-600" />
-            </div>
-            <span className="text-xs text-gray-400">Lifetime</span>
-          </div>
+        {/* Total Transactions */}
+        <div className="bg-white rounded-xl p-6 border border-gray-200 shadow-sm space-y-4">
+          <p className='text-sm text-gray-600 flex items-center gap-2 justify-between'>
+            Transactions
+            <CreditCard size={20} className='text-orange-500' />
+          </p>
           <h3 className="text-2xl font-bold mb-1">
             {showBalance ? formatCurrency(walletData.lifetimeEarnings) : '••••••'}
           </h3>
-          <p className="text-sm text-gray-500">Total Earnings</p>
-          <div className="flex items-center gap-1 mt-2 text-xs text-green-600">
-            <ArrowUpRight size={14} />
-            <span>+12.5% from last month</span>
-          </div>
+          <p className="text-xs text-gray-500">This month</p>
         </div>
       </div>
 
       {/* Quick Actions */}
-      <div className="bg-white rounded-xl p-6 border border-gray-200 shadow-sm">
+      {/* <div className="bg-white rounded-xl p-6 border border-gray-200 shadow-sm">
         <h3 className="font-semibold text-gray-800 mb-4">Quick Actions</h3>
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
           <button className="flex flex-col items-center gap-2 p-4 bg-gray-50 rounded-lg hover:bg-gray-100 transition">
@@ -272,11 +281,11 @@ const Wallet = () => {
             <span className="text-sm font-medium">Transaction History</span>
           </button>
         </div>
-      </div>
+      </div> */}
 
       {/* Recent Transactions */}
       <div className="bg-white rounded-xl border border-gray-200 shadow-sm overflow-hidden">
-        <div className="p-6 border-b border-gray-200">
+        <div className="p-4 border-b border-gray-200">
           <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
             <h3 className="font-semibold text-gray-800">Recent Transactions</h3>
             <div className="flex items-center gap-2">
@@ -305,13 +314,13 @@ const Wallet = () => {
           <table className="w-full">
             <thead className="bg-gray-50">
               <tr>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Transaction ID</th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Date</th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Type</th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Description</th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Amount</th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 text-nowrap">Transaction ID</th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 text-nowrap">Date</th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 text-nowrap">Type</th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 text-nowrap">Description</th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 text-nowrap">Amount</th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 text-nowrap">Status</th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 text-nowrap">Actions</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-gray-200">
