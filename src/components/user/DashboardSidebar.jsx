@@ -26,13 +26,18 @@ import {
   House,
   BellElectric,
   Zap,
-  UserRound
+  UserRound,
+  List,
+  PlusCircle,
+  TrendingUp as BoostIcon,
+  Sparkles
 } from 'lucide-react';
 import { useAuth } from '../../contexts/AuthContext';
 
 const DashboardSidebar = ({ isMobileMenuOpen, setIsMobileMenuOpen }) => {
-  // const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isSettingsOpen, setIsSettingsOpen] = useState(false);
+  const [isProductsOpen, setIsProductsOpen] = useState(false);
+  const [isPromotionsOpen, setIsPromotionsOpen] = useState(false);
   const { user, logout } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
@@ -54,11 +59,39 @@ const DashboardSidebar = ({ isMobileMenuOpen, setIsMobileMenuOpen }) => {
     { path: '/account/help', icon: HelpCircle, label: 'Help & Support' },
   ];
 
+  // Products dropdown items
+  const productsDropdownItems = [
+    { path: '/seller/products', icon: List, label: 'All Products' },
+    { path: '/seller/products/add', icon: PlusCircle, label: 'Add New Product' },
+    { path: '/seller/products/categories', icon: Package, label: 'Categories' },
+  ];
+
+  // Promotions dropdown items
+  const promotionsDropdownItems = [
+    { path: '/seller/promotions', icon: BoostIcon, label: 'Active Promotions' },
+    { path: '/seller/promotions/boost', icon: Sparkles, label: 'Boost Products' },
+    { path: '/seller/promotions/history', icon: TrendingUp, label: 'Promotion History' },
+  ];
+
   const sellerMenuItems = [
     { path: '/seller', icon: LayoutDashboard, label: 'Dashboard', end: true },
-    { path: '/seller/products', icon: Package, label: 'Products Overview' },
+    { 
+      type: 'dropdown',
+      icon: Package, 
+      label: 'Products Overview',
+      isOpen: isProductsOpen,
+      setIsOpen: setIsProductsOpen,
+      items: productsDropdownItems
+    },
     { path: '/seller/orders', icon: ShoppingBag, label: 'Orders' },
-    { path: '/seller/promotions', icon: Zap, label: 'Promotions / Boost' },
+    { 
+      type: 'dropdown',
+      icon: Zap, 
+      label: 'Promotions / Boost',
+      isOpen: isPromotionsOpen,
+      setIsOpen: setIsPromotionsOpen,
+      items: promotionsDropdownItems
+    },
     { path: '/seller/escrow', icon: Shield, label: 'Escrow & Payments' },
     { path: '/seller/earnings', icon: Wallet, label: 'Wallet & Earnings' },
     { path: '/seller/messages', icon: MessageSquare, label: 'Messages' },
@@ -96,14 +129,33 @@ const DashboardSidebar = ({ isMobileMenuOpen, setIsMobileMenuOpen }) => {
     
     return [
       { path: `${basePath}/profile`, icon: User, label: 'Profile' },
-      { path: `${basePath}/verifications`, icon: Shield, label: 'Verifications' },
+      { path: `${basePath}/verification`, icon: Shield, label: 'Verification' },
       { path: `${basePath}/badges`, icon: Award, label: 'Badges' },
       { path: `${basePath}/settings`, icon: Shield, label: 'Settings' },
-      // { path: `${basePath}/preferences`, icon: Settings, label: 'Preferences' },
     ];
   };
 
   const settingsItems = getSettingsItems();
+
+  // Check if any product dropdown route is active
+  const isProductsActive = isSellerDashboard && productsDropdownItems.some(item => 
+    location.pathname === item.path || location.pathname.startsWith(item.path + '/')
+  );
+
+  // Check if any promotion dropdown route is active
+  const isPromotionsActive = isSellerDashboard && promotionsDropdownItems.some(item => 
+    location.pathname === item.path || location.pathname.startsWith(item.path + '/')
+  );
+
+  // Auto-open dropdowns if on their pages
+  useEffect(() => {
+    if (isProductsActive) {
+      setIsProductsOpen(true);
+    }
+    if (isPromotionsActive) {
+      setIsPromotionsOpen(true);
+    }
+  }, [isProductsActive, isPromotionsActive]);
 
   // Get current menu items based on dashboard type
   const getCurrentMenuItems = () => {
@@ -133,8 +185,6 @@ const DashboardSidebar = ({ isMobileMenuOpen, setIsMobileMenuOpen }) => {
     navigate('/');
   };
 
-
-
   // Get dashboard title
   const getDashboardTitle = () => {
     if (isBuyerDashboard) return 'Buyer Dashboard';
@@ -142,6 +192,83 @@ const DashboardSidebar = ({ isMobileMenuOpen, setIsMobileMenuOpen }) => {
     if (isFreelancerDashboard) return 'Freelancer Dashboard';
     if (isEmployerDashboard) return 'Employer Dashboard';
     return 'Dashboard';
+  };
+
+  // Render menu item (regular or dropdown)
+  const renderMenuItem = (item, index) => {
+    if (item.type === 'dropdown') {
+      const isActive = item.items.some(subItem => 
+        location.pathname === subItem.path || location.pathname.startsWith(subItem.path + '/')
+      );
+      
+      return (
+        <li key={index}>
+          <button
+            onClick={() => item.setIsOpen(!item.isOpen)}
+            className={`w-full flex items-center justify-between p-3 rounded-lg transition-colors ${
+              isActive
+                ? 'bg-primary/10 text-primary'
+                : 'text-gray-700 hover:bg-gray-100'
+            }`}
+          >
+            <div className="flex items-center space-x-3">
+              <item.icon size={20} />
+              <span className="text-sm">{item.label}</span>
+            </div>
+            {item.isOpen ? (
+              <ChevronUp size={18} />
+            ) : (
+              <ChevronDown size={18} />
+            )}
+          </button>
+
+          {/* Dropdown Items */}
+          {item.isOpen && (
+            <ul className="mt-1 ml-6 space-y-1 border-l-2 border-gray-200 pl-3">
+              {item.items.map((subItem) => (
+                <li key={subItem.path}>
+                  <NavLink
+                    to={subItem.path}
+                    className={({ isActive: isSubActive }) =>
+                      `flex items-center space-x-3 p-2.5 rounded-lg transition-colors text-sm ${
+                        isSubActive
+                          ? 'bg-primary text-white'
+                          : 'text-gray-600 hover:bg-gray-100'
+                      }`
+                    }
+                    onClick={() => setIsMobileMenuOpen(false)}
+                  >
+                    <subItem.icon size={16} />
+                    <span>{subItem.label}</span>
+                  </NavLink>
+                </li>
+              ))}
+            </ul>
+          )}
+        </li>
+      );
+    }
+    
+    // Regular menu item
+    return (
+      <li key={item.path}>
+        <NavLink
+          to={item.path}
+          end={item.end}
+          className={({ isActive }) =>
+            `flex items-center space-x-3 p-3 rounded-lg transition-colors ${
+              isActive
+                ? 'bg-primary text-white'
+                : 'text-gray-700 hover:bg-gray-100'
+            }`
+          }
+          onClick={() => setIsMobileMenuOpen(false)}
+        >
+          <item.icon size={20} />
+          <span className="text-sm">{item.label}</span>
+        </NavLink>
+      </li>
+    );
   };
 
   return (
@@ -178,34 +305,16 @@ const DashboardSidebar = ({ isMobileMenuOpen, setIsMobileMenuOpen }) => {
           </div>
 
           {/* Menu Items */}
-          <div className="flex-1 py-4 overflow-y-auto">
-            <ul className="space-y-1.5 px-4">
+          <div className="flex-1 py-3 overflow-y-auto">
+            <ul className="space-y-1.5 px-3">
               {/* Main Menu Items */}
-              {currentMenuItems.map((item) => (
-                <li key={item.path}>
-                  <NavLink
-                    to={item.path}
-                    end={item.end}
-                    className={({ isActive }) =>
-                      `flex items-center space-x-3 px-4 py-3 rounded-lg transition-colors ${
-                        isActive
-                          ? 'bg-primary text-white'
-                          : 'text-gray-700 hover:bg-gray-100'
-                      }`
-                    }
-                    onClick={() => setIsMobileMenuOpen(false)}
-                  >
-                    <item.icon size={20} />
-                    <span className="text-sm md:text-base">{item.label}</span>
-                  </NavLink>
-                </li>
-              ))}
+              {currentMenuItems.map((item, index) => renderMenuItem(item, index))}
 
               {/* Settings Dropdown */}
               <li>
                 <button
                   onClick={() => setIsSettingsOpen(!isSettingsOpen)}
-                  className={`w-full flex items-center justify-between px-4 py-3 rounded-lg transition-colors ${
+                  className={`w-full flex items-center justify-between p-3 rounded-lg transition-colors ${
                     isSettingsActive
                       ? 'bg-primary/10 text-primary'
                       : 'text-gray-700 hover:bg-gray-100'
@@ -213,7 +322,7 @@ const DashboardSidebar = ({ isMobileMenuOpen, setIsMobileMenuOpen }) => {
                 >
                   <div className="flex items-center space-x-3">
                     <UserRound size={20} />
-                    <span className="text-sm md:text-base">Account</span>
+                    <span className="text-sm">Account</span>
                   </div>
                   {isSettingsOpen ? (
                     <ChevronUp size={18} />
@@ -230,7 +339,7 @@ const DashboardSidebar = ({ isMobileMenuOpen, setIsMobileMenuOpen }) => {
                         <NavLink
                           to={item.path}
                           className={({ isActive }) =>
-                            `flex items-center space-x-3 px-4 py-2.5 rounded-lg transition-colors text-sm ${
+                            `flex items-center space-x-3 p-2.5 rounded-lg transition-colors text-sm ${
                               isActive
                                 ? 'bg-primary text-white'
                                 : 'text-gray-600 hover:bg-gray-100'
@@ -238,7 +347,7 @@ const DashboardSidebar = ({ isMobileMenuOpen, setIsMobileMenuOpen }) => {
                           }
                           onClick={() => setIsMobileMenuOpen(false)}
                         >
-                          {/* <item.icon size={16} /> */}
+                          <item.icon size={16} />
                           <span>{item.label}</span>
                         </NavLink>
                       </li>
@@ -275,7 +384,7 @@ const DashboardSidebar = ({ isMobileMenuOpen, setIsMobileMenuOpen }) => {
 
               <button
                 onClick={handleLogout}
-                className="w-full flex items-center justify-center gap-2 px-4 py-3 bg-gray-100 hover:bg-gray-200 rounded-lg transition-colors text-gray-700"
+                className="w-full flex items-center justify-center gap-2 p-3 bg-gray-100 hover:bg-gray-200 rounded-lg transition-colors text-gray-700"
               >
                 <LogOut size={16} />
                 <span className="text-sm md:text-base">Logout</span>

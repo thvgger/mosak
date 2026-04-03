@@ -22,7 +22,15 @@ import {
   Plus,
   ArrowDownRight,
   CardSim,
-  CardSimIcon
+  CardSimIcon,
+  X,
+  Package,
+  Zap,
+  Smartphone,
+  Building2,
+  Landmark,
+  Copy,
+  Check
 } from 'lucide-react';
 import { useAuth } from '../../contexts/AuthContext';
 
@@ -32,6 +40,15 @@ const Wallet = () => {
   const [activeTab, setActiveTab] = useState('wallet'); // 'wallet' or 'earnings'
   const [transactionFilter, setTransactionFilter] = useState('all');
   const [showAddFunds, setShowAddFunds] = useState(false);
+  const [manualAmount, setManualAmount] = useState('');
+  const [copied, setCopied] = useState(false);
+  
+  // Virtual account details
+  const virtualAccount = {
+    accountNumber: '1234567890',
+    bankName: 'Providus Bank',
+    accountName: 'Mosalak Ltd'
+  };
   
   // Sample wallet data
   const walletData = {
@@ -148,9 +165,40 @@ const Wallet = () => {
     }
   };
 
+  const handleAddFunds = () => {
+    setShowAddFunds(true);
+    setManualAmount('');
+    setCopied(false);
+  };
+
+  const handleCopyAccountNumber = () => {
+    navigator.clipboard.writeText(virtualAccount.accountNumber);
+    setCopied(true);
+    setTimeout(() => setCopied(false), 2000);
+  };
+
+  const handleManualAmountChange = (e) => {
+    const value = e.target.value;
+    // Only allow numbers
+    if (value === '' || /^\d*$/.test(value)) {
+      setManualAmount(value);
+    }
+  };
+
+  const handleDone = () => {
+    // Here you would typically save the manual amount for record keeping
+    console.log('Manual amount recorded:', manualAmount);
+    setShowAddFunds(false);
+    setManualAmount('');
+  };
+
+  const handleCancel = () => {
+    setShowAddFunds(false);
+    setManualAmount('');
+  };
+
   return (
     <div className="space-y-6">
-      
       {/* Wallet/Earnings Toggle */}
       <div className="bg-white p-1 rounded-lg flex items-center w-fit ml-auto border border-gray-200">
         <button
@@ -184,11 +232,13 @@ const Wallet = () => {
         <small className='text-xs text-gray-300'> Available Balance </small>
         <p className='flex items-center gap-2 mb-4 text-xl font-bold'>
           ₦45,750.00
-          <Eye size={18} className='text-white/80' />
+          <button onClick={() => setShowBalance(!showBalance)}>
+            {showBalance ? <Eye size={18} className='text-white/80' /> : <EyeOff size={18} className='text-white/80' />}
+          </button>
         </p>
 
         <div className='flex items-center gap-2'>
-          <button className='btn btn-secondary px-4'>
+          <button onClick={handleAddFunds} className='btn btn-secondary px-4'>
             <Plus size={18} />
             Add Funds
           </button>
@@ -201,17 +251,7 @@ const Wallet = () => {
             Transfer Funds
           </button>
         </div>
-          {/* <p className="text-sm text-gray-500 mt-1">Manage your funds and track your earnings</p> */}
-
-        {/* <button 
-          onClick={() => setShowBalance(!showBalance)}
-          className="flex items-center gap-2 px-4 py-2 bg-gray-300 text-primary rounded-lg hover:bg-gray-200 transition"
-        >
-          {showBalance ? <Eye size={18} /> : <EyeOff size={18} />}
-          <span className="text-sm font-medium">{showBalance ? 'Hide' : 'Show'} Balance</span>
-        </button> */}
       </div>
-
 
       {/* Balance Cards */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
@@ -252,37 +292,6 @@ const Wallet = () => {
         </div>
       </div>
 
-      {/* Quick Actions */}
-      {/* <div className="bg-white rounded-xl p-6 border border-gray-200 shadow-sm">
-        <h3 className="font-semibold text-gray-800 mb-4">Quick Actions</h3>
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-          <button className="flex flex-col items-center gap-2 p-4 bg-gray-50 rounded-lg hover:bg-gray-100 transition">
-            <div className="p-3 bg-primary/10 rounded-full">
-              <Upload size={20} className="text-primary" />
-            </div>
-            <span className="text-sm font-medium">Add Funds</span>
-          </button>
-          <button className="flex flex-col items-center gap-2 p-4 bg-gray-50 rounded-lg hover:bg-gray-100 transition">
-            <div className="p-3 bg-primary/10 rounded-full">
-              <Download size={20} className="text-primary" />
-            </div>
-            <span className="text-sm font-medium">Withdraw</span>
-          </button>
-          <button className="flex flex-col items-center gap-2 p-4 bg-gray-50 rounded-lg hover:bg-gray-100 transition">
-            <div className="p-3 bg-primary/10 rounded-full">
-              <RefreshCw size={20} className="text-primary" />
-            </div>
-            <span className="text-sm font-medium">Transfer</span>
-          </button>
-          <button className="flex flex-col items-center gap-2 p-4 bg-gray-50 rounded-lg hover:bg-gray-100 transition">
-            <div className="p-3 bg-primary/10 rounded-full">
-              <History size={20} className="text-primary" />
-            </div>
-            <span className="text-sm font-medium">Transaction History</span>
-          </button>
-        </div>
-      </div> */}
-
       {/* Recent Transactions */}
       <div className="bg-white rounded-xl border border-gray-200 shadow-sm overflow-hidden">
         <div className="p-4 border-b border-gray-200">
@@ -321,7 +330,7 @@ const Wallet = () => {
                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 text-nowrap">Amount</th>
                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 text-nowrap">Status</th>
                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 text-nowrap">Actions</th>
-              </tr>
+               </tr>
             </thead>
             <tbody className="divide-y divide-gray-200">
               {filteredTransactions.map((tx) => (
@@ -394,16 +403,98 @@ const Wallet = () => {
         </div>
       </div>
 
-      {/* Security Notice */}
-      <div className="bg-blue-50 rounded-xl p-4 border border-blue-200 flex items-start gap-3">
-        <Shield size={20} className="text-blue-600 mt-0.5" />
-        <div>
-          <h4 className="text-sm font-semibold text-blue-900">Secure Transactions</h4>
-          <p className="text-xs text-blue-700 mt-1">
-            All transactions are protected by our escrow service. Funds are only released when both parties are satisfied.
-          </p>
+      {/* Add Funds Modal - Virtual Account Transfer */}
+      {showAddFunds && (
+        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-5000 p-4">
+          <div className="bg-white rounded-xl w-full max-w-md max-h-[90vh] overflow-y-auto scrollbar-hide">
+            {/* Modal Header */}
+            <div className="border-b border-gray-200 p-6">
+              <div className="flex justify-between items-center">
+                <h2 className="text-xl font-bold text-gray-800">Add Funds</h2>
+                <button 
+                  onClick={handleCancel}
+                  className="p-1 hover:bg-gray-100 rounded-lg transition"
+                >
+                  <X size={20} />
+                </button>
+              </div>
+            </div>
+
+            {/* Modal Content */}
+            <div className="p-6 space-y-6">
+              {/* Virtual Account Transfer Section */}
+              <div>
+                <h3 className="font-semibold text-gray-800 mb-4">Virtual Account Transfer</h3>
+                <p className="text-sm text-gray-500 mb-4">
+                  Transfer to your dedicated virtual account number below
+                </p>
+                
+                {/* Account Number Box */}
+                <div className="bg-gray-50 rounded-lg p-4 mb-3">
+                  <div className="flex justify-between items-center mb-2">
+                    <span className="text-sm text-gray-500">Account Number</span>
+                    <button 
+                      onClick={handleCopyAccountNumber}
+                      className="flex items-center gap-1 text-sm text-primary hover:text-primary/80"
+                    >
+                      {copied ? <Check size={14} /> : <Copy size={14} />}
+                      {copied ? 'Copied!' : 'Copy'}
+                    </button>
+                  </div>
+                  <div className="text-2xl font-mono font-bold tracking-wider mb-2">
+                    {virtualAccount.accountNumber}
+                  </div>
+                  <div className="text-sm text-gray-600">
+                    {virtualAccount.bankName} - {virtualAccount.accountName}
+                  </div>
+                </div>
+                
+                <div className="bg-blue-50 rounded-lg p-3 border border-blue-200">
+                  <p className="text-xs text-blue-800">
+                    Funds usually reflect within 5-10 minutes. Please contact support if delayed beyond 30 minutes.
+                  </p>
+                </div>
+              </div>
+
+              {/* Manual Amount Entry */}
+              <div className="border-t border-gray-200 pt-4">
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  Or enter amount manually
+                </label>
+                <div className="relative">
+                  <span className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500">₦</span>
+                  <input
+                    type="text"
+                    value={manualAmount}
+                    onChange={handleManualAmountChange}
+                    placeholder="Enter amount"
+                    className="w-full pl-8 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"
+                  />
+                </div>
+                <p className="text-xs text-gray-400 mt-2">
+                  For record keeping purposes only
+                </p>
+              </div>
+            </div>
+
+            {/* Modal Footer */}
+            <div className="border-t border-gray-200 p-6 flex justify-end gap-3">
+              <button
+                onClick={handleCancel}
+                className="px-6 py-2 border border-gray-300 rounded-lg hover:bg-gray-50 transition"
+              >
+                Cancel
+              </button>
+              <button
+                onClick={handleDone}
+                className="px-6 py-2 bg-primary text-white rounded-lg hover:bg-primary/90 transition"
+              >
+                Done
+              </button>
+            </div>
+          </div>
         </div>
-      </div>
+      )}
     </div>
   );
 };

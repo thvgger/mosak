@@ -19,6 +19,7 @@ import HowItWorks from '../pages/public/HowItWorks.jsx';
 import DisputeResolution from '../pages/public/DisputeResolution.jsx';
 import EscrowProtection from '../pages/public/EscrowProtection.jsx';
 import TrustSafety from '../pages/public/TrustSafety.jsx';
+import ReturnsRefunds from '../pages/public/ReturnsRefunds.jsx';
 
 // Dashboard Layout
 import DashboardLayout from "../layouts/DashboardLayout";
@@ -38,7 +39,7 @@ import Disputes from '../pages/user/Disputes';
 import Notifications from '../pages/user/Notifications';
 import AccountHelp from '../pages/user/AccountHelp';
 import Profile from '../pages/user/settings/Profile';
-import Verifications from '../pages/user/settings/Verifications';
+import Verification from '../pages/user/settings/Verification';
 import Badges from '../pages/user/settings/Badges';
 import Settings from '../pages/user/settings/Settings.jsx';
 import Preferences from '../pages/user/settings/Preferences';
@@ -80,12 +81,7 @@ const AppRoutes = () => {
   const location = useLocation();
 
 
-    
-  // Close mobile menu when route changes
-  useEffect(() => {
-    setIsMobileMenuOpen(false);
-  }, [location.pathname]);
-
+  
     // Prevent body scroll when mobile menu is open
   useEffect(() => {
     if (isMobileMenuOpen) {
@@ -98,6 +94,11 @@ const AppRoutes = () => {
     };
   }, [isMobileMenuOpen]);
 
+
+    // Close mobile menu when route changes
+  useEffect(() => {
+    setIsMobileMenuOpen(false);
+  }, [location.pathname]);
 
 
 
@@ -129,6 +130,7 @@ const AppRoutes = () => {
         <Route path='/dispute-resolution' element={<DisputeResolution />} />
         <Route path='/escrow-protection' element={<EscrowProtection />} />
         <Route path='/trust-safety' element={<TrustSafety />} />
+        <Route path='/returns-refunds' element={<ReturnsRefunds />} />
         
         
         <Route path="/cart" element={
@@ -164,7 +166,7 @@ const AppRoutes = () => {
         <Route path="notifications" element={<Notifications />} />
         <Route path="help" element={<AccountHelp />} />
         <Route path="profile" element={<Profile />} />
-        <Route path="verifications" element={<Verifications />} />
+        <Route path="verification" element={<Verification />} />
         <Route path="badges" element={<Badges />} />
         <Route path="settings" element={<Settings />} />
         <Route path="preferences" element={<Preferences />} />
@@ -192,7 +194,7 @@ const AppRoutes = () => {
         <Route path="help" element={<AccountHelp />} />
         <Route path="profile" element={<Profile />} />
         <Route path="badges" element={<Badges />} />
-        <Route path="verifications" element={<Verifications />} />
+        <Route path="verification" element={<Verification />} />
         <Route path="settings" element={<Settings />} />
         <Route path="preferences" element={<Preferences />} />
       </Route>
@@ -215,7 +217,7 @@ const AppRoutes = () => {
         <Route path="notifications" element={<Notifications />} />
         <Route path="profile" element={<Profile />} />
         <Route path="badges" element={<Badges />} />
-        <Route path="verifications" element={<Verifications />} />
+        <Route path="verification" element={<Verification />} />
         <Route path="preferences" element={<Preferences />} />
         <Route path="help" element={<AccountHelp />} />
       </Route>
@@ -238,7 +240,7 @@ const AppRoutes = () => {
         <Route path="notifications" element={<Notifications />} />
         <Route path="profile" element={<Profile />} />
         <Route path="badges" element={<Badges />} />
-        <Route path="verifications" element={<Verifications />} />
+        <Route path="verification" element={<Verification />} />
         <Route path="preferences" element={<Preferences />} />
         <Route path="help" element={<AccountHelp />} />
       </Route>

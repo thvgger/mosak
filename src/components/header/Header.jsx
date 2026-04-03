@@ -51,11 +51,11 @@ const Header = ({ isCommunity, isMobileMenuOpen, setIsMobileMenuOpen, isDashboar
     };
   }, [accountPopup]); 
 
-  useEffect(() => {
-    if (isMenuOpen) {
-      setAccountPopup(false);
-    }
-  }, [isMenuOpen]);
+  // useEffect(() => {
+  //   if (isMenuOpen) {
+  //     setAccountPopup(false);
+  //   }
+  // }, [isMenuOpen]);
 
 
   // const toggleSidebar = () => {
@@ -77,8 +77,8 @@ const Header = ({ isCommunity, isMobileMenuOpen, setIsMobileMenuOpen, isDashboar
             </button>
           )}
           <div className="w-full h-full flex items-center">
-            <Link to="/" className="w-fit h-fit " onClick={()=> { setIsMenuOpen(false); }}>
-              <img src={Logo} alt="Mosak Hub Logo" className="w-20 md:w-26 object-cover" />
+            <Link to="/" className="w-fit h-fit" onClick={()=> { setIsMenuOpen(false); }}>
+              <img src={Logo} alt="Mosak Hub Logo" className="w-20 md:w-26 -ml-1 object-cover" />
             </Link>
           </div>
 
@@ -97,26 +97,26 @@ const Header = ({ isCommunity, isMobileMenuOpen, setIsMobileMenuOpen, isDashboar
               <div className="flex items-center gap-4">
                   <div className="space-x-4 flex">
                     <Link to="/cart" className="relative"> 
-                      <ShoppingCart size={22} strokeWidth={1.5} className="text-primary" />
+                      <ShoppingCart size={21} strokeWidth={1.5} className="" />
                       {cartItemCount > 0 && (
-                        <span className="absolute -right-1.5 -top-1 w-4 h-4 flex items-center justify-center rounded-full bg-white border border-[#1B6392]/70 text-[9px] text-[#1B6392]/70 font-medium">
+                        <span className="absolute -right-1.5 -top-1 w-4 h-4 flex items-center justify-center rounded-full bg-[#EF4444] text-[9px] text-white font-medium">
                           {cartItemCount}
                         </span>
                       )}
                     </Link>
                     <Link to="/wishlist" className="relative"> 
-                      <Heart size={22} strokeWidth={1.5} className="text-primary" />
+                      <Heart size={21} strokeWidth={1.5} className="" />
                       {wishlist.length > 0 && (
-                        <span className="absolute -right-1.5 -top-1 w-4 h-4 flex items-center justify-center rounded-full bg-white border border-[#1B6392]/70 text-[9px] text-[#1B6392]/70 font-medium">
+                        <span className="absolute -right-1.5 -top-1 w-4 h-4 flex items-center justify-center rounded-full bg-[#EF4444] text-[9px] text-white font-medium">
                           {wishlist.length}
                         </span>
                       )}
                     </Link>
                     <Link to="/account/messages" className="relative">
-                      <MessageSquare size={19} strokeWidth={1.5} className="text-primary" />
+                      <MessageSquare size={19} strokeWidth={1.5} className="" />
                     </Link>
                     <Link to="/account/notifications" className="relative">
-                      <Bell size={20} strokeWidth={1.5} className="text-primary" />
+                      <Bell size={20} strokeWidth={1.5} className="" />
                     </Link>
                   </div>
                   <div ref={accountRef} className="text-sm text-dark/80 relative"> 
@@ -170,6 +170,12 @@ const Header = ({ isCommunity, isMobileMenuOpen, setIsMobileMenuOpen, isDashboar
                 {isMenuOpen ? <X /> : <Menu />}
               </button>
             )}
+
+            {user && (
+              <Link to="/sell" className="hidden md:flex btn uppercase">
+                Sell
+              </Link>
+            )}
           </div>
 
           {/* Mobile Menu */}
@@ -207,12 +213,6 @@ const Header = ({ isCommunity, isMobileMenuOpen, setIsMobileMenuOpen, isDashboar
 
             </div>
           </div>
-
-          {user && (
-            <Link to="/sell" className="hidden md:flex btn ml-2.5 uppercase">
-              Sell
-            </Link>
-          )}
         </div>
       </header>
 

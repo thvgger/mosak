@@ -108,7 +108,7 @@ const HowItWorks = () => {
         </p>
 
         {/* Card 1 */}
-        <div className="bg-blue-700 text-white p-6 rounded-xl mb-4">
+        <div className="bg-primary text-white p-6 rounded-xl mb-6">
           <p className="font-semibold">Week 1 Onboarding Challenge</p>
           <p className="text-sm opacity-80 mb-4">
             Complete 5 actions this week
@@ -125,7 +125,7 @@ const HowItWorks = () => {
         </div>
 
         {/* Card 2 */}
-        <div className="bg-blue-700 text-white p-6 rounded-xl">
+        <div className="bg-primary text-white p-6 rounded-xl">
           <p className="font-semibold">Community Star</p>
           <p className="text-sm opacity-80 mb-4">
             Get 3 five-star reviews
@@ -143,13 +143,13 @@ const HowItWorks = () => {
           </div>
         </div>
 
-        <button className="mt-4 text-sm text-blue-600">
+        <button className="mt-6 btn font-normal">
           View All Active Challenges
         </button>
       </div>
 
       {/* Use Points */}
-      <div className="border rounded-xl p-6">
+      <div className="border border-gray-300 rounded-xl p-6">
         <h3 className="font-semibold text-gray-900 mb-1">
           How to Use Your Points
         </h3>
@@ -187,7 +187,7 @@ const HowItWorks = () => {
 
 const Card = ({ title, desc, points, disabled }) => (
   <div
-    className={`border rounded-lg p-5 ${
+    className={`border border-gray-300 rounded-lg p-5 ${
       disabled ? "opacity-50" : "hover:shadow-sm"
     }`}
   >

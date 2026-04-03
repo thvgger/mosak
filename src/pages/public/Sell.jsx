@@ -1,9 +1,10 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { useAuth } from '../../contexts/AuthContext';
 import { useAuthModal } from '../../contexts/AuthModalContext';
+import SellBg from "../../assets/sell-bg.png";
 
 const Sell = () => {
-  const { user, isAuthenticated } = useAuth();
+  const { isAuthenticated } = useAuth();
   const { openModal } = useAuthModal();
   const [showAddModal, setShowAddModal] = useState(false);
 
@@ -24,7 +25,7 @@ const Sell = () => {
     setShowAddModal(false);
   };
 
-  const handleSellClick = (e) => {
+  const handleSellClick = () => {
     if (!isAuthenticated) {
       // e.preventDefault();
       openModal('login');
@@ -36,11 +37,26 @@ const Sell = () => {
 
   return (
     <div className='container min-h-100 py-16 mx-auto'>
-      <div className='text-center flex flex-col gap-4 items-center justify-center'>
-        <h1> Sell </h1>
+      <div className='text-center flex flex-col gap-2 md:gap-4 items-center justify-center'>
+        <h1 className='text-2xl md:text-4xl text-center font-semibold'> 
+          Start Selling on 
+          <span className='text-primary font-bold ml-1'>MosakHub</span> 
+        </h1>
+        {!isAuthenticated ? (
+          <p className='text-sm text-gray-500'>
+            Please log in to add your products.
+          </p>
+        ) : (
+          <p className='text-sm text-gray-500'>
+            Turn your products into income with secure transactions.
+          </p>
+        )}
         <button className='btn px-4' onClick={() => {handleSellClick()}}>
-          Add New Product
+          {isAuthenticated ? 'Add New Product' : 'Become a Seller'}
         </button>
+
+
+        <img src={SellBg} alt="Sell on MosakHub" className='w-full max-w-md -mt-20 -z-1' />
       </div>
 
 

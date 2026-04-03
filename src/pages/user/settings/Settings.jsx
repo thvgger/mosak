@@ -95,7 +95,7 @@ const Settings = () => {
 
       <h1 className="text-2xl font-bold text-gray-800 mb-2"> Notifications </h1>
       <div className="bg-white p-6 rounded-xl border border-gray-200">
-        <div className="space-y-3">
+        <div className="space-y-6">
           {Object.entries(notifications.email).map(([key, item]) => (
             <div key={key} className="flex items-center justify-between">
               
