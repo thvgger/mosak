@@ -66,23 +66,23 @@ const rules = [
 const faqs = [
   {
     q: "What if the client disappears?",
-    a: "If a client doesn't respond within 5 days, funds are automatically released to you.",
+    a: "If a client doesn't respond within 5 days of delivery, funds are automatically released to you. Your payment is protected even if the client becomes unresponsive.",
   },
   {
     q: "What if the freelancer delays?",
-    a: "You can request a refund if work hasn't started or open a dispute if deadlines are missed.",
+    a: "You can communicate via chat or request a refund if work hasn't started. Once work begins, milestone deadlines are tracked and you can open a dispute if agreed timelines aren't met.",
   },
   {
     q: "What happens during dispute?",
-    a: "Both parties submit evidence and a decision is made within 3–5 business days.",
+    a: "Both parties submit evidence through the platform. Mosalak's dispute team reviews all information within 3-5 business days and makes a fair decision based on the original contract terms and submitted work.",
   },
   {
     q: "Can I cancel escrow?",
-    a: "Before work starts: yes. After work starts: only via dispute resolution.",
+    a: "Before work starts: Yes, with mutual agreement between both parties. After work starts: Only through the dispute resolution process to ensure fairness for both parties.",
   },
   {
     q: "Are there escrow fees?",
-    a: "No hidden fees. Escrow protection is included in platform service fees.",
+    a: "No additional fees for escrow protection. It's included in Mosalak's standard service fee, ensuring secure payments without any hidden costs.",
   },
 ];
 
@@ -90,44 +90,44 @@ const EscrowProtection = () => {
   const [openIndex, setOpenIndex] = useState(null);
 
   return (
-    <div className="max-w-6xl mx-auto px-4 py-10">
+    <div className="container  mx-auto px-6 py-16">
       {/* Header */}
-      <div className="flex justify-between items-center mb-8">
+      <div className="mb-10 flex flex-col md:flex-row md:items-start md:justify-between gap-4">
         <div>
           <h2 className="text-2xl font-bold text-gray-900">
             How Escrow Works
           </h2>
-          <p className="text-gray-500">
+          <p className="text-gray-500 text-sm">
             Secure payments for both clients and freelancers
           </p>
         </div>
 
-        <button className="bg-blue-600 text-white px-4 py-2 rounded-lg text-sm">
+        <button className="btn px-4">
           Invite Friends & Earn Points
         </button>
       </div>
 
       {/* Timeline */}
-      <div className="bg-gray-100 rounded-xl p-6 mb-10">
+      <div className="bg-gray-200 rounded-xl p-6 mb-10">
         <h3 className="text-center font-semibold mb-8">
           The Escrow Process
         </h3>
 
         <div className="flex justify-between items-start relative">
           {/* Line */}
-          <div className="absolute top-6 left-0 right-0 h-0.5 bg-blue-300"></div>
+          <div className="absolute top-6 left-0 right-0 h-px bg-primary"></div>
 
           {steps.map((step, i) => (
             <div key={i} className="relative text-center w-1/5">
               {/* Circle */}
-              <div className="w-12 h-12 mx-auto bg-white border-4 border-blue-500 rounded-full flex items-center justify-center font-bold text-blue-600 relative z-10">
+              <div className="w-12 h-12 bg-white border border-primary rounded-full flex items-center justify-center font-bold text-blue-600 relative z-10">
                 {i + 1}
               </div>
 
-              <h4 className="mt-4 font-semibold text-gray-900 text-sm">
+              <h4 className="mt-4 font-semibold text-gray-900 text-sm text-start">
                 {step.title}
               </h4>
-              <p className="text-xs text-gray-500 mt-2 px-2">
+              <p className="text-start text-xs text-gray-500 mt-2">
                 {step.desc}
               </p>
             </div>
@@ -136,16 +136,16 @@ const EscrowProtection = () => {
       </div>
 
       {/* Rules */}
-      <div className="bg-gray-100 rounded-xl p-6 mb-10">
+      <div className="bg-gray-200 rounded-xl p-6 mb-10">
         <h3 className="text-center font-semibold mb-6">
           Escrow Rules
         </h3>
 
-        <div className="grid md:grid-cols-4 gap-4">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-4">
           {rules.map((rule, i) => (
             <div
               key={i}
-              className="bg-white rounded-lg p-5 shadow-sm border"
+              className="bg-white rounded-md p-5 shadow-sm border border-gray-200"
             >
               <div className="w-8 h-8 bg-blue-600 text-white rounded-md flex items-center justify-center mb-3 text-sm font-bold">
                 {i + 1}
@@ -166,22 +166,22 @@ const EscrowProtection = () => {
       </div>
 
       {/* FAQ */}
-      <div className="bg-gray-100 rounded-xl p-6">
+      <div className="bg-gray-200 rounded-xl p-6 mb-10">
         <h3 className="text-center font-semibold mb-6">
           Frequently Asked Questions
         </h3>
 
-        <div className="space-y-3 max-w-3xl mx-auto">
+        <div className="space-y-0 max-w-3xl mx-auto bg-white rounded-lg border border-gray-300 p-4">
           {faqs.map((faq, i) => (
             <div
               key={i}
-              className="bg-white rounded-lg border overflow-hidden"
+              className="overflow-hidden border-b last:border-0 border-gray-300"
             >
               <button
                 onClick={() =>
                   setOpenIndex(openIndex === i ? null : i)
                 }
-                className="w-full flex justify-between items-center p-4 text-left"
+                className="w-full flex justify-between items-center text-left py-5"
               >
                 <span className="font-medium text-gray-900">
                   {faq.q}
@@ -194,7 +194,7 @@ const EscrowProtection = () => {
               </button>
 
               {openIndex === i && (
-                <div className="px-4 pb-4 text-sm text-gray-600">
+                <div className="px-0 pb-4 text-sm text-gray-600">
                   {faq.a}
                 </div>
               )}

@@ -117,7 +117,8 @@ const DisputeResolution = () => {
               This policy outlines when disputes are appropriate, how they're handled, and what outcomes you can expect. Understanding this process helps you protect your interests and maintain professional relationships on our platform.
             </p>
 
-            <p className="text-gray-800 font-medium mb-2"> Key Principles </p>
+            {/* <p className="text-gray-800 font-medium mb-2"> Key Principles </p> */}
+            <h3 className="text-sm font-semibold mb-2">Key Principles</h3>
             <ul className="pl-5 text-sm text-gray-600 space-y-2">
               <li className="list-disc!">Evidence-based decisions</li>
               <li className="list-disc!">Neutral third-party review</li>
@@ -255,20 +256,16 @@ const DisputeResolution = () => {
               <li className="list-disc!"><b>Need for additional information:</b> If initial evidence is unclear, we may request more details</li>
             </ul>
 
-            <div className="text-sm text-gray-600 space-y-2">
-              <p><strong>Initial review:</strong> 1–2 days</p>
-              <p><strong>Evidence submission:</strong> 3–5 days</p>
-              <p><strong>Final decision:</strong> Up to 10 days</p>
-            </div>
-
-            <div className="border border-red-200 bg-red-50 p-4 rounded-lg flex gap-3 mt-5">
-              <Clock className="text-red-600" size={20} />
+            <div className="border border-yellow-300 bg-yellow-50 p-4 rounded-lg flex gap-3 mt-5">
+              <span className="bg-yellow-700 rounded-md h-fit p-1">
+                <Clock className="text-white" size={18} />
+              </span>
               <div>
-                <p className="text-sm font-medium text-red-700">
-                  Deadline Notice
+                <p className="text-sm font-medium text-yellow-700">
+                  Time Sensitive
                 </p>
-                <p className="text-sm text-gray-600">
-                  Submit evidence within 48 hours or risk case closure.
+                <p className="text-sm text-gray-600 mt-1">
+                  You have 48 hours to submit your initial evidence after a dispute is opened. Late submissions may weaken your case or result in decisions based solely on available information.
                 </p>
               </div>
             </div>
@@ -277,7 +274,7 @@ const DisputeResolution = () => {
           {/* EVIDENCE */}
           <section id="evidence" className="scroll-mt-28">
             <h2 className="text-xl font-semibold mb-3">
-              Evidence Requirements
+              5. Evidence Requirements
             </h2>
             <hr className="bg-gray-300 h-px border-0 my-4" />
 
@@ -292,7 +289,7 @@ const DisputeResolution = () => {
           {/* OUTCOMES */}
           <section id="outcomes" className="scroll-mt-28">
             <h2 className="text-xl font-semibold mb-3">
-              Possible Outcomes
+              6. Possible Outcomes
             </h2>
             <hr className="bg-gray-300 h-px border-0 my-4" />
 
@@ -307,7 +304,7 @@ const DisputeResolution = () => {
           {/* APPEALS */}
           <section id="appeals" className="scroll-mt-28">
             <h2 className="text-xl font-semibold mb-3">
-              Appeals Process
+              7. Appeals Process
             </h2>
             <hr className="bg-gray-300 h-px border-0 my-4" />
 
