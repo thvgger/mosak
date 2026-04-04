@@ -21,16 +21,21 @@ const ProtectedRoute = ({ children }) => {
     return <Navigate to="/" replace />;
   }
 
+  if (isAuthenticated && !hasRole('seller')) {
+    openModal('become-seller');
+    return <Navigate to="/" replace />;
+  }
+
   // Logged in but NOT a seller → show popup
-  // if (!hasRole('seller')) {
-  //   return (
-  //     <>
-  //       <Navigate to="/" replace />;
-  //       {openModal('become-seller')}
-  //     </>
-  //   );
-  //   // return null; 
-  // }
+  if (!hasRole('seller')) {
+    return (
+      <>
+        <Navigate to="/" replace />;
+        {openModal('become-seller')}
+      </>
+    );
+    // return null; 
+  }
 
 
   return children;

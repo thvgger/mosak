@@ -42,7 +42,7 @@ const DashboardPage = () => {
       </div>
 
       {/* Stats Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
         {/* Active Orders */}
         <div className="bg-white rounded-xl p-6 border border-gray-200 shadow-sm flex flex-col items-start gap-1">
           <span className='bg-primary/10 p-3 rounded-md text-primary mb-2'> 

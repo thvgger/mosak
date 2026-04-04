@@ -75,7 +75,7 @@ const TrustSafety = () => {
           </div>
         </div>
 
-        <button className="btn">
+        <button className="btn px-4">
           Invite Friends & Earn Points
         </button>
       </div>

@@ -62,15 +62,15 @@ const DashboardSidebar = ({ isMobileMenuOpen, setIsMobileMenuOpen }) => {
   // Products dropdown items
   const productsDropdownItems = [
     { path: '/seller/products', icon: List, label: 'All Products' },
-    { path: '/seller/products/add', icon: PlusCircle, label: 'Add New Product' },
-    { path: '/seller/products/categories', icon: Package, label: 'Categories' },
+    { path: '/seller/add-products', icon: PlusCircle, label: 'Add New Product' },
+    { path: '/seller/categories', icon: Package, label: 'Categories' },
   ];
 
   // Promotions dropdown items
   const promotionsDropdownItems = [
     { path: '/seller/promotions', icon: BoostIcon, label: 'Active Promotions' },
-    { path: '/seller/promotions/boost', icon: Sparkles, label: 'Boost Products' },
-    { path: '/seller/promotions/history', icon: TrendingUp, label: 'Promotion History' },
+    { path: '/seller/boost', icon: Sparkles, label: 'Boost Products' },
+    { path: '/seller/history', icon: TrendingUp, label: 'Promotion History' },
   ];
 
   const sellerMenuItems = [

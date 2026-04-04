@@ -20,6 +20,9 @@ import DisputeResolution from '../pages/public/DisputeResolution.jsx';
 import EscrowProtection from '../pages/public/EscrowProtection.jsx';
 import TrustSafety from '../pages/public/TrustSafety.jsx';
 import ReturnsRefunds from '../pages/public/ReturnsRefunds.jsx';
+import Terms from '../pages/public/Terms.jsx';
+import Privacy from '../pages/public/Privacy.jsx';
+import Cookies from '../pages/public/Cookies.jsx';
 
 // Dashboard Layout
 import DashboardLayout from "../layouts/DashboardLayout";
@@ -46,9 +49,14 @@ import Preferences from '../pages/user/settings/Preferences';
 
 // Seller Pages
 import SellerDashboard from '../pages/seller/SellerDashboard.jsx';
-import SellerProducts from '../pages/seller/SellerProducts.jsx';
+import SellerProducts from '../pages/seller/products/SellerProducts.jsx';
+import SellerAddProducts from '../pages/seller/products/SellerAddProducts.jsx';
+import SellerProductCategories from '../pages/seller/products/SellerProductCategories.jsx';
+import ProductSubmitted from '../pages/seller/products/ProductSubmitted.jsx';
 import SellerOrders from '../pages/seller/SellerOrders.jsx';
-import SellerPromotions from '../pages/seller/SellerPromotions.jsx';
+import SellerPromotions from '../pages/seller/promotions/SellerPromotions.jsx';
+import SellerBoost from '../pages/seller/promotions/SellerBoost.jsx';
+import SellerPromotionHistory from '../pages/seller/promotions/SellerPromotionHistory.jsx';
 import SellerEscrow from '../pages/seller/SellerEscrow.jsx';
 import SellerEarnings from '../pages/seller/SellerEarnings.jsx';
 import SellerAnalytics from '../pages/seller/SellerAnalytics.jsx';
@@ -115,7 +123,9 @@ const AppRoutes = () => {
         <Route path="/product/:id" element={<ProductDetailPage />} />
         {/* <Route path="/freelance" element={<Freelance />} /> */}
         {/* <Route path="/freelance/:category" element={<Freelance />} /> */}
-        <Route path='/sell' element={<Sell />} />
+        <Route element={<ProtectedRoute/>}>
+          <Route path='/sell' element={<Sell />} />
+        </Route>
         
         {/* Updated Community Route - Now uses nested routes */}
         <Route path="/community/*" element={<CommunityRoutes />} />
@@ -131,6 +141,9 @@ const AppRoutes = () => {
         <Route path='/escrow-protection' element={<EscrowProtection />} />
         <Route path='/trust-safety' element={<TrustSafety />} />
         <Route path='/returns-refunds' element={<ReturnsRefunds />} />
+        <Route path="/terms" element={<Terms />} />
+        <Route path="/privacy" element={<Privacy />} />
+        <Route path="/cookies" element={<Cookies />} />
         
         
         <Route path="/cart" element={
@@ -183,8 +196,13 @@ const AppRoutes = () => {
       }>
         <Route index element={<SellerDashboard />} />
         <Route path="products" element={<SellerProducts />} />
+        <Route path="add-products" element={<SellerAddProducts />} />
+        <Route path="products/submitted" element={<ProductSubmitted />} />
+        <Route path="categories" element={<SellerProductCategories />} />
         <Route path="orders" element={<SellerOrders />} />
         <Route path="promotions" element={<SellerPromotions />} />
+        <Route path="boost" element={<SellerBoost />} />
+        <Route path="history" element={<SellerPromotionHistory />} />
         <Route path="escrow" element={<SellerEscrow />} />
         <Route path="earnings" element={<SellerEarnings />} />
         <Route path="analytics" element={<SellerAnalytics />} />

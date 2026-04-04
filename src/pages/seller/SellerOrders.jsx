@@ -11,6 +11,7 @@ import {
   CheckCircle,
   AlertCircle
 } from 'lucide-react';
+import { Link } from 'react-router-dom';
 
 const SellerOrders = () => {
   const [searchTerm, setSearchTerm] = useState('');
@@ -114,9 +115,11 @@ const SellerOrders = () => {
   return (
     <div className="">
       {/* Breadcrumb */}
-      <div className="text-sm text-gray-500 mb-6">
-        Dashboard &raquo; Orders
-      </div>
+      <ul className="text-sm text-gray-500 mb-6 flex items-center gap-1.5">
+        <Link to="/seller"> Dashboard </Link>
+        <ChevronRight size={16} className="flex" />
+        <Link to="/seller/orders"> Orders </Link>
+      </ul>
 
       {/* Page Title */}
       <h1 className="text-2xl font-semibold mb-6">Order</h1>

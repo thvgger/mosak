@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { ChevronDown, ChevronUp } from "lucide-react";
 import logo from "../assets/mosalak-logo.png";
+import { Link } from "react-router-dom";
 
 const Footer = () => {
   const [openDropdown, setOpenDropdown] = useState(null);
@@ -76,12 +77,12 @@ const Footer = () => {
                 <ul className="space-y-2">
                   {links.map((link, index) => (
                     <li key={index}>
-                      <a 
-                        href={link.url} 
+                      <Link
+                        to={link.url} 
                         className="hover:text-primary/80 transition text-sm"
                       >
                         {link.label}
-                      </a>
+                      </Link>
                     </li>
                   ))}
                 </ul>
@@ -140,9 +141,9 @@ const Footer = () => {
             
             <div className="text-center md:text-left">
               <div className="flex items-center justify-center md:justify-start space-x-4 mt-2">
-                <a href="#" className="text-sm">Privacy Policy</a>
-                <a href="#" className="text-sm">Terms of Service</a>
-                <a href="#" className="text-sm">Cookie Policy</a>
+                <Link to="/privacy" className="text-sm">Privacy Policy</Link>
+                <Link to="/terms" className="text-sm">Terms of Service</Link>
+                <Link to="/cookies" className="text-sm">Cookie Policy</Link>
               </div>
             </div>
           </div>

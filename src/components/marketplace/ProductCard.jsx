@@ -146,7 +146,7 @@ const ProductCard = ({ product, showBadge = true }) => {
   // Remove all the popup handlers and JSX from the component
 
   return (
-    <div className="bg-white rounded-xl shadow-sm hover:shadow-lg transition-shadow duration-300 overflow-hidden! group relative">
+    <div className="bg-white rounded-xl shadow-sm hover:shadow-lg transition-shadow duration-300 overflow-hidden! group! relative">
       {/* Product Image */}
       <div className="relative overflow-hidden bg-gray-100">
         <div className="aspect-4/3 w-full">
@@ -223,7 +223,7 @@ const ProductCard = ({ product, showBadge = true }) => {
 
         {/* Desktop Hover Actions */}
         <div 
-          className="hidden md:flex absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 gap-2 z-20 transition-all duration-500 opacity-0 group-hover:opacity-100 pointer-events-none group-hover:pointer-events-auto"
+          className="hidden md:flex absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 gap-2 z-20 transition-all duration-500 opacity-0 group-hover:opacity-100! pointer-events-none group-hover:pointer-events-auto"
           onClick={(e) => e.stopPropagation()}
         >
           <button 
@@ -258,7 +258,7 @@ const ProductCard = ({ product, showBadge = true }) => {
         </div>
 
         {/* Condition Badge */}
-        <div className="absolute bottom-3 left-3 bg-black/70 text-white px-2 py-1 rounded text-xs">
+        <div className="absolute bottom-3 left-3 bg-black/60 backdrop-blur-xs text-white px-2 py-1 rounded text-xs">
           {product.condition}
         </div>
       </div>

@@ -15,7 +15,8 @@ const TopNav = () => {
 
       <div className='w-full hidden md:flex items-center justify-center gap-4 py-3 relative'>
         <p className='text-sm z-2'> Buy. Sell. Hire. Earn. All in one platform. </p>
-        <Link to="/freelancers" className='btn btn-secondary z-2'> Hire A Freelancer </Link>
+        {/* <Link to="/freelancers" className='btn btn-secondary z-2'> Hire A Freelancer </Link> */}
+        <Link to="/community" className='btn btn-secondary z-2'> Join Community </Link>
 
         <div className='absolute inset-0 bg-cover bg-center opacity-15'
           style={{

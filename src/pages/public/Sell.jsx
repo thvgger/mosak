@@ -42,17 +42,18 @@ const Sell = () => {
           Start Selling on 
           <span className='text-primary font-bold ml-1'>MosakHub</span> 
         </h1>
-        {!isAuthenticated ? (
+        {/* {!isAuthenticated ? (
           <p className='text-sm text-gray-500'>
             Please log in to add your products.
           </p>
-        ) : (
+        ) : ( */}
           <p className='text-sm text-gray-500'>
             Turn your products into income with secure transactions.
           </p>
-        )}
+        {/* )} */}
         <button className='btn px-4' onClick={() => {handleSellClick()}}>
-          {isAuthenticated ? 'Add New Product' : 'Become a Seller'}
+          {/* {isAuthenticated ? 'Add New Product' : 'Become a Seller'} */}
+          Add New Product
         </button>
 
 

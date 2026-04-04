@@ -1,5 +1,6 @@
 // contexts/AuthContext.jsx
 import React, { createContext, useState, useContext, useEffect, useCallback, useRef } from 'react';
+import { useAuthModal } from './AuthModalContext';
 
 const AuthContext = createContext();
 
@@ -10,6 +11,7 @@ const TOKEN_REFRESH_INTERVAL = 14 * 60 * 1000; // 14 minutes (slightly less than
 let refreshInterval = null;
 
 export const AuthProvider = ({ children }) => {
+  const { openModal } = useAuthModal();
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true); // Start with loading true
   const [error, setError] = useState(null);
@@ -573,12 +575,12 @@ export const AuthProvider = ({ children }) => {
   };
 
 
-  const addSellerRole = async (businessData) => {
+  const addRole = async (businessData) => {
     setError(null);
     setLoading(true);
 
     try {
-      const response = await fetch(`${API_URL}/api/users/add-seller-role`, {
+      const response = await fetch(`${API_URL}/api/users/add-role`, {
         method: 'POST',
         credentials: 'include',
         headers: {
@@ -590,11 +592,12 @@ export const AuthProvider = ({ children }) => {
       const data = await response.json();
 
       if (!response.ok) {
-        throw new Error(data.message || 'Failed to add seller role');
+        throw new Error(data.message || 'Failed to add role');
       }
 
       // Update the user state with new role data
       setUser(data.user);
+      openModal('become-seller');
       
       return { success: true, user: data.user };
     } catch (err) {
@@ -626,7 +629,7 @@ export const AuthProvider = ({ children }) => {
       checkAuthStatus,
       resendOtp,
       clearPendingVerification,
-      addSellerRole, 
+      addRole, 
     }}>
       {children}
     </AuthContext.Provider>

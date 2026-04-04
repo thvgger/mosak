@@ -96,9 +96,9 @@ const SellerProducts = () => {
   return (
     <div className="">
       {/* Breadcrumb */}
-      <ul className="text-sm text-gray-500 mb-6">
+      <ul className="text-sm text-gray-500 mb-6 flex items-center gap-1.5">
         <Link to="/seller"> Dashboard </Link>
-        &gt;
+        <ChevronRight size={16} className="flex" />
         <Link to="/seller/products"> My Products </Link>
       </ul>
 

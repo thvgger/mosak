@@ -4,7 +4,7 @@ import { Outlet, useLocation } from 'react-router-dom';
 import Header from '../components/header/Header';
 import DashboardSidebar from '../components/user/DashboardSidebar'; // Your existing sidebar
 // import { useAuth } from "../contexts/AuthContext";
-import BottomNav from '../components/BottomNav';
+// import BottomNav from '../components/BottomNav';
 
 const DashboardLayout = ({ isMobileMenuOpen, setIsMobileMenuOpen }) => {
   const location = useLocation();
@@ -46,7 +46,7 @@ const DashboardLayout = ({ isMobileMenuOpen, setIsMobileMenuOpen }) => {
           </div>
         </main>
       </div>
-      <BottomNav isDashboard={isDashboard} />
+      {/* <BottomNav isDashboard={isDashboard} /> */}
     </div>
   );
 };

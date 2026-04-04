@@ -3,8 +3,10 @@ import React from 'react';
 import { Store, User, LogOut, Settings } from 'lucide-react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuthModal } from '../../contexts/AuthModalContext';
+import { useAuth } from '../../contexts/AuthContext';
 
 const AccountPopup = ({ user, onLogout, onClose }) => {
+  const { addRole, loading } = useAuth();
   const navigate = useNavigate();
   const { openModal } = useAuthModal();
 
@@ -86,6 +88,7 @@ const AccountPopup = ({ user, onLogout, onClose }) => {
           if (!hasAccess) return null;
 
           return (
+            <>
             <button
               key={dashboard.role}
               onClick={() => handleNavigation(dashboard.path)}
@@ -101,18 +104,28 @@ const AccountPopup = ({ user, onLogout, onClose }) => {
                 </span>
               )}
             </button>
+            <hr className='border border-gray-200' />
+            </>
           );
         })}
 
-        <hr className='border-gray-200' />
+        {/* <hr className='border border-gray-200' /> */}
 
         {/* Become a Seller Button - Show only if user doesn't have seller role */}
         {!userRoles.includes('SELLER') && (
+          loading ? (
+            <div className='w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-gray-400'>
+              <Store size={18} strokeWidth={1.5} className="animate-pulse" />
+              <span className="flex-1 text-left animate-pulse">Loading...</span>
+            </div>
+          ) : ( 
           <>
+          {/* Add Role on Click */}
             <button 
               onClick={() => {
                 onClose();
-                openModal('become-seller');
+                addRole({ role: 'SELLER' })
+                // openModal('become-seller');
               }}
               className='w-full flex items-center gap-3 px-3 py-2.5 hover:bg-gray-50 rounded-lg text-gray-700 transition-colors group'
             >
@@ -122,9 +135,9 @@ const AccountPopup = ({ user, onLogout, onClose }) => {
                 New
               </span>
             </button>
-            <hr className='border-gray-200' />
+            <hr className='border border-gray-200' />
           </>
-        )}
+        ))}
 
         {/* {!user.role === "SELLER" ? ( */}
           {/* <button className='w-full flex items-center gap-3 px-3 py-2.5 hover:bg-gray-50 rounded-lg text-gray-700'>
@@ -149,6 +162,8 @@ const AccountPopup = ({ user, onLogout, onClose }) => {
           <Settings size={18} strokeWidth={1.5} />
           <span className="flex-1 text-left">Settings</span>
         </button>
+
+        {/* <hr className='border border-gray-200' /> */}
 
         <button 
           onClick={onLogout}
