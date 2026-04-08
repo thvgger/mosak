@@ -148,7 +148,7 @@ const Header = ({ isCommunity, isMobileMenuOpen, setIsMobileMenuOpen, isDashboar
                 </div>
             ) : (
               !isCommunity && (
-                <div className="space-x-2.5 flex">
+                <div className="space-x-2.5 hidden md:flex">
                   <button 
                     className="btn btn-text border border-primary text-primary px-4"
                     onClick={() => openModal("login")}
@@ -165,7 +165,7 @@ const Header = ({ isCommunity, isMobileMenuOpen, setIsMobileMenuOpen, isDashboar
               )
             )}
             
-            {isCommunity && (
+            {!isDashboard && (
               <button className="lg:hidden text-2xl cursor-pointer" onClick={() => setIsMenuOpen(prev => !prev)}>
                 {isMenuOpen ? <X /> : <Menu />}
               </button>
@@ -179,7 +179,7 @@ const Header = ({ isCommunity, isMobileMenuOpen, setIsMobileMenuOpen, isDashboar
           </div>
 
           {/* Mobile Menu */}
-          <div className={`lg:hidden flex fixed left-0 top-16 md:top-20 w-[68vh] h-screen bg-white z-60 py-6 transition-all duration-400 ${isMenuOpen ? "translate-x-0" : "-translate-x-full" }`}>
+          <div className={`lg:hidden flex fixed left-0 top-16 md:top-20 w-[75vw] sm:w-[50vw] h-screen bg-white z-60 py-6 transition-all duration-400 ${isMenuOpen ? "translate-x-0" : "-translate-x-full" }`}>
             <div className="container flex flex-col gap-6 items-start">
               <NavLink to="/" className={navlink} onClick={()=> { setIsMenuOpen(false); }}> Home </NavLink>
               <NavLink to="/marketplace" className={navlink} onClick={()=> { setIsMenuOpen(false); }}> Market Place </NavLink>
