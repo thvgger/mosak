@@ -100,8 +100,8 @@ const AuthModal = () => {
   };
 
   // Handler for become buyer
-  const handleBecomeBuyer = async () => {
-    const result = await becomeBuyer();
+  const handleBecomeBuyer = async (buyerData) => {
+    const result = await becomeBuyer(buyerData);
     if (result.success) {
       handleModalSuccess();
     }
@@ -207,11 +207,12 @@ const AuthModal = () => {
       //   );
         
       // Add the become-buyer case
+      // Make sure the become-buyer case is properly set up:
       case 'become-buyer':
         return (
           <BecomeBuyerPopup
             onClose={closeModal}
-            onSubmit={handleBecomeSeller}
+            onSubmit={handleBecomeBuyer}
             loading={loading}
             user={user}
           />

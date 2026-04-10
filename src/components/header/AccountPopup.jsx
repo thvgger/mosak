@@ -127,7 +127,7 @@ const AccountPopup = ({ user, onLogout, onClose }) => {
 
         {/* <hr className='border border-gray-200' /> */}
 
-        {/* Become a Buyer Button - Show only if user doesn't have seller role */}
+        {/* Become a Buyer Button - Show only if user doesn't have buyer role */}
         {!userRoles.includes('BUYER') ? (
           loading ? (
             <div className='w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-gray-400'>
@@ -135,33 +135,32 @@ const AccountPopup = ({ user, onLogout, onClose }) => {
               <span className="flex-1 text-left animate-pulse">Loading...</span>
             </div>
           ) : ( 
-          <>
-            {/* Add Role on Click */}
-            <button 
-              onClick={() => {
-                onClose();
-                // addRole({ role: 'BUYER' })
-                // openModal('become-seller');
-              }}
-              className='w-full flex items-center gap-3 px-3 py-2.5 hover:bg-gray-50 rounded-lg text-gray-700 transition-colors group'
-            >
-              <User size={18} strokeWidth={1.5} className="group-hover:text-primary transition-colors" />
-              <span className="flex-1 text-left">Become a Buyer</span>
-              <span className="text-xs bg-primary/10 text-primary px-2 py-0.5 rounded-full">
-                New
-              </span>
-            </button>
-            <hr className='border border-gray-200' />
-          </>
-          )) : (
-          <>
-              <Link to="/account" className='w-full flex items-center gap-3 px-3 py-2.5 hover:bg-gray-50 rounded-lg text-gray-700'>
-                <User size={18} strokeWidth={1.5} />
-                Buyer Dashboard
-              </Link>
+            <>
+              <button 
+                onClick={() => {
+                  onClose();
+                  openModal('become-buyer'); // Open buyer modal instead of seller
+                }}
+                className='w-full flex items-center gap-3 px-3 py-2.5 hover:bg-gray-50 rounded-lg text-gray-700 transition-colors group'
+              >
+                <User size={18} strokeWidth={1.5} className="group-hover:text-primary transition-colors" />
+                <span className="flex-1 text-left">Become a Buyer</span>
+                <span className="text-xs bg-primary/10 text-primary px-2 py-0.5 rounded-full">
+                  New
+                </span>
+              </button>
               <hr className='border border-gray-200' />
             </>
-          )}
+          )
+        ) : (
+          <>
+            <Link to="/account" className='w-full flex items-center gap-3 px-3 py-2.5 hover:bg-gray-50 rounded-lg text-gray-700'>
+              <User size={18} strokeWidth={1.5} />
+              Buyer Dashboard
+            </Link>
+            <hr className='border border-gray-200' />
+          </>
+        )}
 
         {/* Become a Seller Button - Show only if user doesn't have seller role */}
         {/* // For Seller button */}
@@ -180,23 +179,6 @@ const AccountPopup = ({ user, onLogout, onClose }) => {
             <span className="flex-1 text-left">Become a Seller</span>
             <span className="text-xs bg-primary/10 text-primary px-2 py-0.5 rounded-full">
               New
-            </span>
-          </button>
-        ) : !user?.business_profile?.business_name || 
-            !user?.business_profile?.business_address || 
-            !user?.business_profile?.business_description ? (
-          // Show Complete Store Setup if profile is incomplete
-          <button 
-            onClick={() => {
-              onClose();
-              openModal('become-seller');
-            }}
-            className='w-full flex items-center gap-3 px-3 py-2.5 hover:bg-gray-50 rounded-lg text-gray-700 transition-colors group'
-          >
-            <Store size={18} strokeWidth={1.5} className="group-hover:text-primary transition-colors" />
-            <span className="flex-1 text-left">Complete Store Setup</span>
-            <span className="text-xs bg-yellow-100 text-yellow-700 px-2 py-0.5 rounded-full">
-              Required
             </span>
           </button>
         ) : (

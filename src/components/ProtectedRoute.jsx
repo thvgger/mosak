@@ -7,6 +7,13 @@ const ProtectedRoute = ({ children }) => {
   const { openModal } = useAuthModal();
   const { user, isAuthenticated, loading, hasRole } = useAuth();
 
+  useEffect(() => {
+    // If logged in but not a seller → show popup
+    if (isAuthenticated && user && !hasRole('seller')) {
+      openModal('become-seller');
+    }
+  }, [isAuthenticated, user, hasRole, openModal]);
+
   if (loading) {
     return (
       <div className='h-screen flex flex-col gap-4 items-center justify-center text-sm'>
@@ -21,11 +28,8 @@ const ProtectedRoute = ({ children }) => {
     return <Navigate to="/" replace />;
   }
 
-  // Logged in but not a seller → redirect and show popup
+  // Logged in but not a seller → redirect
   if (!hasRole('seller')) {
-    useEffect(() => {
-      openModal('become-seller');
-    }, [openModal]);
     return <Navigate to="/" replace />;
   }
 
