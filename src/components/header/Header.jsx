@@ -77,18 +77,18 @@ const Header = ({ isCommunity, isMobileMenuOpen, setIsMobileMenuOpen, isDashboar
             </button>
           )}
           <div className="w-full h-full flex items-center">
-            <Link to="/" className="w-fit h-fit" onClick={()=> { setIsMenuOpen(false); }}>
+            <Link to="/" className="w-fit h-fit" onClick={()=> { setIsMenuOpen(false); scrollTo(0,0); }}>
               <img src={Logo} alt="Mosak Hub Logo" className="w-20 md:w-26 -ml-1 object-cover" />
             </Link>
           </div>
 
           {/* Navigation */}
           <nav className="hidden lg:flex items-center justify-center gap-6 w-full mx-auto text-nowrap">
-            <NavLink to="/" className={navlink}> Home </NavLink>
-            <NavLink to="/marketplace" className={navlink}> Market Place </NavLink>
+            <NavLink to="/" onClick={() => { scrollTo(0,0); }} className={navlink}> Home </NavLink>
+            <NavLink to="/marketplace" onClick={() => { scrollTo(0,0); }} className={navlink}> Market Place </NavLink>
             {/* <NavLink to="/sell" className={`bg-primary text-white px-4 py-2 rounded-lg`}> Sell </NavLink> */}
-            <NavLink to="/community" className={navlink}> Community </NavLink>
-            <NavLink to="/postings" className={navlink}> Postings </NavLink>
+            <NavLink to="/community" onClick={() => { scrollTo(0,0); }} className={navlink}> Community </NavLink>
+            <NavLink to="/postings" onClick={() => { scrollTo(0,0); }} className={navlink}> Postings </NavLink>
           </nav>
 
           {/* User Actions */}
