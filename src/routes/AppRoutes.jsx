@@ -59,6 +59,7 @@ import SellerBoost from '../pages/seller/promotions/SellerBoost.jsx';
 import SellerPromotionHistory from '../pages/seller/promotions/SellerPromotionHistory.jsx';
 import SellerEscrow from '../pages/seller/SellerEscrow.jsx';
 import SellerEarnings from '../pages/seller/SellerEarnings.jsx';
+import SellerMWallet from '../pages/seller/SellerMWallet.jsx';
 import SellerAnalytics from '../pages/seller/SellerAnalytics.jsx';
 import SellerStore from '../pages/seller/SellerStore.jsx';
 
@@ -205,6 +206,7 @@ const AppRoutes = () => {
         <Route path="history" element={<SellerPromotionHistory />} />
         <Route path="escrow" element={<SellerEscrow />} />
         <Route path="earnings" element={<SellerEarnings />} />
+        <Route path="m-wallet" element={<SellerMWallet />} />
         <Route path="analytics" element={<SellerAnalytics />} />
         <Route path="messages" element={<Messages />} />
         <Route path="disputes" element={<Disputes />} />
