@@ -128,7 +128,55 @@ const AccountPopup = ({ user, onLogout, onClose }) => {
         {/* <hr className='border border-gray-200' /> */}
 
         {/* Become a Buyer Button - Show only if user doesn't have buyer role */}
-        {!userRoles.includes('BUYER') ? (
+        {userRoles.includes('BUYER') ? (
+          <>
+            <Link 
+              to="/account" 
+              className='w-full flex items-center gap-3 px-3 py-2.5 hover:bg-gray-50 rounded-lg text-gray-700'
+            >
+              <User size={18} strokeWidth={1.5} />
+              Buyer Dashboard
+            </Link>
+            <hr className='border border-gray-200' />
+          </>
+        ) : (
+          <button 
+            onClick={() => {
+              onClose();
+              openModal('become-buyer');
+            }}
+            className='w-full flex items-center gap-3 px-3 py-2.5 hover:bg-gray-50 rounded-lg text-gray-700'
+          >
+            <User size={18} strokeWidth={1.5} />
+            Become a Buyer
+          </button>
+        )}
+
+
+        {/* Seller Section */}
+        {/* {userRoles.includes('SELLER') ? (
+          <Link 
+            to="/seller" 
+            className='w-full flex items-center gap-3 px-3 py-2.5 hover:bg-gray-50 rounded-lg text-gray-700'
+          >
+            <Store size={18} strokeWidth={1.5} />
+            Seller Dashboard
+          </Link>
+        ) : (
+          <button 
+            onClick={() => {
+              onClose();
+              openModal('become-seller');
+            }}
+            className='w-full flex items-center gap-3 px-3 py-2.5 hover:bg-gray-50 rounded-lg text-gray-700'
+          >
+            <Store size={18} strokeWidth={1.5} />
+            Become a Seller
+          </button>
+        )} */}
+
+
+        {/* {!userRoles.includes('BUYER') ? (
           loading ? (
             <div className='w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-gray-400'>
               <User size={18} strokeWidth={1.5} className="animate-pulse" />
@@ -160,7 +208,7 @@ const AccountPopup = ({ user, onLogout, onClose }) => {
             </Link>
             <hr className='border border-gray-200' />
           </>
-        )}
+        )} */}
 
         {/* Become a Seller Button - Show only if user doesn't have seller role */}
         {/* // For Seller button */}
@@ -181,13 +229,30 @@ const AccountPopup = ({ user, onLogout, onClose }) => {
               New
             </span>
           </button>
-        ) : (
-          // Show Seller Dashboard link
-          <Link to="/seller" className='w-full flex items-center gap-3 px-3 py-2.5 hover:bg-gray-50 rounded-lg text-gray-700'>
-            <Store size={18} strokeWidth={1.5} />
-            Seller Dashboard
-          </Link>
-        )}
+        ) : !user?.business_profile?.business_name || 
+          !user?.business_profile?.business_address || 
+          !user?.business_profile?.business_description ? (
+        // Show Complete Store Setup if profile is incomplete
+        <button 
+          onClick={() => {
+            onClose();
+            openModal('become-seller');
+          }}
+          className='w-full flex items-center gap-3 px-3 py-2.5 hover:bg-gray-50 rounded-lg text-gray-700 transition-colors group'
+        >
+          <Store size={18} strokeWidth={1.5} className="group-hover:text-primary transition-colors" />
+          <span className="flex-1 text-left">Complete Store Setup</span>
+          <span className="text-xs bg-yellow-100 text-yellow-700 px-2 py-0.5 rounded-full">
+            Required
+          </span>
+        </button>
+      ) : (
+        // Show Seller Dashboard link
+        <Link to="/seller" className='w-full flex items-center gap-3 px-3 py-2.5 hover:bg-gray-50 rounded-lg text-gray-700'>
+          <Store size={18} strokeWidth={1.5} />
+          Seller Dashboard
+        </Link>
+      )}
 
         {/* {!user.role === "SELLER" ? (
           <button className='w-full flex items-center gap-3 px-3 py-2.5 hover:bg-gray-50 rounded-lg text-gray-700'>

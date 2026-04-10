@@ -127,7 +127,7 @@ const AppRoutes = () => {
         <Route 
           path="/sell" 
           element={
-            <ProtectedRoute>
+            <ProtectedRoute requiredRole="seller">
               <Sell />
             </ProtectedRoute>
           }
@@ -169,7 +169,7 @@ const AppRoutes = () => {
 
       {/* Buyer Dashboard Routes */}
       <Route path="/account" element={
-        <ProtectedRoute>
+        <ProtectedRoute requiredRole="buyer">
           <DashboardLayout 
             isMobileMenuOpen={isMobileMenuOpen} 
             setIsMobileMenuOpen={setIsMobileMenuOpen}
@@ -194,7 +194,7 @@ const AppRoutes = () => {
 
       {/* Seller Dashboard Routes */}
       <Route path="/seller" element={
-        <ProtectedRoute>
+        <ProtectedRoute requiredRole="seller">
           <DashboardLayout 
             isMobileMenuOpen={isMobileMenuOpen} 
             setIsMobileMenuOpen={setIsMobileMenuOpen} 
