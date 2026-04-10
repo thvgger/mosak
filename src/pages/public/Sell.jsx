@@ -4,7 +4,8 @@ import { useAuthModal } from '../../contexts/AuthModalContext';
 import SellBg from "../../assets/sell-bg.png";
 
 const Sell = () => {
-  const { isAuthenticated } = useAuth();
+  // const { isAuthenticated } = useAuth();
+  const { hasCompleteSellerProfile } = useAuth();
   const { openModal } = useAuthModal();
   const [showAddModal, setShowAddModal] = useState(false);
 
@@ -26,7 +27,7 @@ const Sell = () => {
   };
 
   const handleSellClick = () => {
-    if (!isAuthenticated) {
+    if (!hasCompleteSellerProfile) {
       // e.preventDefault();
       openModal('login');
     } else {

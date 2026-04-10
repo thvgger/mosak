@@ -124,9 +124,15 @@ const AppRoutes = () => {
         <Route path="/product/:id" element={<ProductDetailPage />} />
         {/* <Route path="/freelance" element={<Freelance />} /> */}
         {/* <Route path="/freelance/:category" element={<Freelance />} /> */}
-        <Route element={<ProtectedRoute/>}>
-          <Route path='/sell' element={<Sell />} />
-        </Route>
+        <Route 
+          path="/sell" 
+          element={
+            <ProtectedRoute>
+              <Sell />
+            </ProtectedRoute>
+          }
+        />
+
         
         {/* Updated Community Route - Now uses nested routes */}
         <Route path="/community/*" element={<CommunityRoutes />} />
