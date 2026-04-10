@@ -11,7 +11,8 @@ import {
   Users,
   Star,
   ChevronDown,
-  Eye as EyeIcon
+  Eye as EyeIcon,
+  EyeOff as EyeOffIcon
 } from 'lucide-react';
 import TransferPointsModal from '../../components/seller/TransferPointsModal';
 
@@ -19,6 +20,14 @@ const SellerEarnings = () => {
   const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState('earnings');
   const [isTransferModalOpen, setIsTransferModalOpen] = useState(false);
+  const [showBalance, setShowBalance] = useState(() => {
+    const saved = localStorage.getItem('mosak_show_balance');
+    return saved !== null ? JSON.parse(saved) : true;
+  });
+
+  React.useEffect(() => {
+    localStorage.setItem('mosak_show_balance', JSON.stringify(showBalance));
+  }, [showBalance]);
 
   const breakdownData = [
     { id: 1, title: 'Completed Orders', points: '2,450 M-pts', cash: '₦2,450', icon: ShoppingBag, colorClass: 'bg-blue-50 text-blue-600' },
@@ -53,7 +62,7 @@ const SellerEarnings = () => {
           <span className="text-gray-900 font-medium">Wallet & Earnings</span>
         </div>
         
-        <div className="flex items-center gap-4 hidden sm:flex">
+        <div className="flex items-center gap-4">
           <div className="flex items-center bg-white rounded-lg p-1 border border-gray-200 shadow-sm">
             <span className="text-sm font-medium text-gray-700 px-3">Switch:</span>
             <button 
@@ -76,53 +85,68 @@ const SellerEarnings = () => {
       </div>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-        <div className="bg-primary rounded-xl p-6 text-white shadow-sm flex flex-col justify-between h-40">
+        <div className="bg-primary rounded-xl p-6 text-white shadow-sm flex flex-col justify-between h-full min-h-[160px]">
           <div className="flex justify-between items-start mb-4">
             <div className="bg-white text-primary p-2 rounded-lg">
                <Wallet size={24} />
             </div>
-            <div className="w-8 h-8 rounded-full border-2 border-white/30 flex items-center justify-center">
-              <EyeIcon size={16} />
-            </div>
+            <button 
+              onClick={() => setShowBalance(!showBalance)}
+              className="w-8 h-8 rounded-full bg-white/80 flex items-center justify-center hover:bg-white transition-colors"
+            >
+              {showBalance ? (
+                <EyeIcon size={16} className='text-black' />
+              ) : (
+                <EyeOffIcon size={16} className='text-black' />
+              )}
+            </button>
           </div>
-          <div className="mt-auto">
-            <h2 className="text-3xl font-bold mb-1">4,850</h2>
+          <div className="mt-auto pt-4">
+            <h2 className="text-2xl font-bold mb-1">
+              {showBalance ? "4,850" : "****"}
+            </h2>
             <p className="text-white/80 text-sm font-medium">Total Points Balance</p>
           </div>
         </div>
 
-        <div className="bg-white border border-gray-200 rounded-xl p-6 shadow-sm flex flex-col justify-between h-40">
+        <div className="bg-white border border-gray-200 rounded-xl p-6 shadow-sm flex flex-col justify-between h-full min-h-[160px]">
            <div className="mb-4">
              <div className="bg-green-50 text-green-600 p-2.5 rounded-lg w-fit">
                <TrendingUp size={24} />
              </div>
            </div>
-           <div className="mt-auto">
-             <h2 className="text-3xl font-bold text-gray-900 mb-1">₦4,850</h2>
+           <div className="mt-auto pt-4">
+              <h2 className="text-2xl font-bold text-gray-900 mb-1">
+                {showBalance ? "₦4,850" : "₦****"}
+              </h2>
              <p className="text-gray-500 text-sm font-medium">Estimated Wallet Value</p>
            </div>
         </div>
 
-        <div className="bg-white border border-gray-200 rounded-xl p-6 shadow-sm flex flex-col justify-between h-40">
+        <div className="bg-white border border-gray-200 rounded-xl p-6 shadow-sm flex flex-col justify-between h-full min-h-[160px]">
            <div className="mb-4">
              <div className="bg-purple-50 text-purple-600 p-2.5 rounded-lg w-fit">
                <Calendar size={24} />
              </div>
            </div>
-           <div className="mt-auto">
-             <h2 className="text-3xl font-bold text-gray-900 mb-1">C.E: 1,200</h2>
+           <div className="mt-auto pt-4">
+              <h2 className="text-2xl font-bold text-gray-900 mb-1 break-words">
+                {showBalance ? "C.E: 1,200" : "C.E: ****"}
+              </h2>
              <p className="text-gray-500 text-sm font-medium">Earned This Month</p>
            </div>
         </div>
 
-        <div className="bg-white border border-gray-200 rounded-xl p-6 shadow-sm flex flex-col justify-between h-40">
+        <div className="bg-white border border-gray-200 rounded-xl p-6 shadow-sm flex flex-col justify-between h-full min-h-[160px]">
            <div className="mb-4">
              <div className="bg-orange-50 text-orange-600 p-2.5 rounded-lg w-fit">
                <Gift size={24} />
              </div>
            </div>
-           <div className="mt-auto">
-             <h2 className="text-3xl font-bold text-gray-900 mb-1">12,340</h2>
+           <div className="mt-auto pt-4">
+              <h2 className="text-2xl font-bold text-gray-900 mb-1">
+                {showBalance ? "12,340" : "****"}
+              </h2>
              <p className="text-gray-500 text-sm font-medium">Lifetime Earnings</p>
            </div>
         </div>

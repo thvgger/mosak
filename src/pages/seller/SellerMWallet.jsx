@@ -13,6 +13,7 @@ import {
   ChevronDown,
   Lock,
   Eye as EyeIcon,
+  EyeOff as EyeOffIcon,
   CircleCheckBig
 } from 'lucide-react';
 import WithdrawalModal from '../../components/seller/WithdrawalModal';
@@ -21,6 +22,14 @@ const SellerMWallet = () => {
   const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState('m-wallet');
   const [isWithdrawModalOpen, setIsWithdrawModalOpen] = useState(false);
+  const [showBalance, setShowBalance] = useState(() => {
+    const saved = localStorage.getItem('mosak_show_balance');
+    return saved !== null ? JSON.parse(saved) : true;
+  });
+
+  React.useEffect(() => {
+    localStorage.setItem('mosak_show_balance', JSON.stringify(showBalance));
+  }, [showBalance]);
 
   const recentWithdrawals = [
     { amount: '₦950,000', date: '2026-01-01', status: 'completed' },
@@ -45,7 +54,7 @@ const SellerMWallet = () => {
           <span className="text-gray-900 font-medium">Wallet & Earnings</span>
         </div>
         
-        <div className="flex items-center gap-4 hidden sm:flex">
+        <div className="flex items-center gap-4">
           <div className="flex items-center bg-gray-100 rounded-lg p-1 border border-gray-200">
             <span className="text-sm font-medium text-gray-600 px-3">Switch:</span>
             <button 
@@ -82,13 +91,22 @@ const SellerMWallet = () => {
               </div>
               <span className="text-white/90 font-medium">Available Balance</span>
             </div>
-            <div className="w-8 h-8 bg-white/80 rounded-full flex items-center justify-center">
-              <EyeIcon color="#000" size={24} strokeWidth={1.5} />
-            </div>
+            <button 
+              onClick={() => setShowBalance(!showBalance)}
+              className="w-8 h-8 bg-white/80 rounded-full flex items-center justify-center hover:bg-white transition-colors"
+            >
+              {showBalance ? (
+                <EyeIcon color="#000" size={24} strokeWidth={1.5} />
+              ) : (
+                <EyeOffIcon color="#000" size={24} strokeWidth={1.5} />
+              )}
+            </button>
           </div>
           
           <div className="mt-4">
-            <h2 className="text-4xl md:text-5xl font-semibold mb-2">₦1,245,000</h2>
+            <h2 className="text-3xl lg:text-4xl font-semibold mb-2 truncate" title={showBalance ? "₦1,245,000" : "****"}>
+              {showBalance ? "₦1,245,000" : "₦****"}
+            </h2>
             <div className="flex items-center justify-between mt-6">
               <span className="text-white/80 text-sm">Ready to withdraw</span>
               <span className="bg-white text-primary text-xs font-semibold px-2 py-1 rounded-full flex items-center gap-1">
@@ -113,7 +131,9 @@ const SellerMWallet = () => {
             <span className="text-gray-600 font-medium">Pending Balance</span>
           </div>
           
-          <h2 className="text-3xl lg:text-4xl font-bold text-gray-900 mb-2">₦850,000</h2>
+          <h2 className="text-2xl lg:text-3xl font-bold text-gray-900 mb-2">
+            {showBalance ? "₦850,000" : "₦****"}
+          </h2>
           <p className="text-gray-500 text-sm">Funds in Escrow</p>
           
           <div className="mt-auto pt-6 flex items-center gap-2 text-sm text-gray-500">
@@ -130,7 +150,9 @@ const SellerMWallet = () => {
             <span className="text-gray-600 font-medium">Total Withdrawn</span>
           </div>
           
-          <h2 className="text-3xl lg:text-4xl font-bold text-gray-900 mb-2">₦850,000</h2>
+          <h2 className="text-2xl lg:text-3xl font-bold text-gray-900 mb-2">
+            {showBalance ? "₦850,000" : "₦****"}
+          </h2>
           <p className="text-gray-500 text-sm">Lifetime earnings</p>
           
           <div className="mt-auto pt-6 flex items-center gap-2 text-sm text-gray-500">

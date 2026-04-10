@@ -32,7 +32,7 @@ const SellerSidebar = () => {
     { path: '/seller', icon: LayoutDashboard, label: 'Dashboard', end: true },
     { path: '/seller/products', icon: Package, label: 'Products' },
     { path: '/seller/orders', icon: ShoppingBag, label: 'Orders' },
-    { path: '/seller/earnings', icon: Wallet, label: 'Earnings' },
+    { path: '/seller/m-wallet', icon: Wallet, label: 'Wallet' },
     { path: '/seller/analytics', icon: TrendingUp, label: 'Analytics' },
     { path: '/seller/disputes', icon: AlertCircle, label: 'Disputes' },
     { path: '/seller/notifications', icon: Bell, label: 'Notifications' },
