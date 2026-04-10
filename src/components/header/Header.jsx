@@ -165,7 +165,7 @@ const Header = ({ isCommunity, isMobileMenuOpen, setIsMobileMenuOpen, isDashboar
               )
             )}
             
-            {!isDashboard && (
+            {!isDashboard && isCommunity && (
               <button className="lg:hidden text-2xl cursor-pointer" onClick={() => setIsMenuOpen(prev => !prev)}>
                 {isMenuOpen ? <X /> : <Menu />}
               </button>
@@ -217,7 +217,7 @@ const Header = ({ isCommunity, isMobileMenuOpen, setIsMobileMenuOpen, isDashboar
       </header>
 
       {isMenuOpen && (
-        <div className="flex lg:hidden fixed inset-0 top-16 md:top-20 left-0 z-20 w-full h-full bg-black/70 cursor-pointer" onClick={() => { setIsMenuOpen(false)}}></div>
+        <div className="flex lg:hidden fixed inset-0 top-0 md:top-20 left-0 z-20 w-full h-full bg-black/70 cursor-pointer" onClick={() => { setIsMenuOpen(false)}}></div>
       )}
     </>
   );

@@ -7,8 +7,8 @@ import {
   Clock,
   Box
 } from 'lucide-react';
-import { ResponsiveLine } from '@nivo/line';
-import { ResponsiveBar } from '@nivo/bar';
+// import { ResponsiveLine } from '@nivo/line';
+// import { ResponsiveBar } from '@nivo/bar';
 
 const SellerAnalytics = () => {
   const navigate = useNavigate();

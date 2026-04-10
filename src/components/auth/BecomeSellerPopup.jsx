@@ -1,6 +1,6 @@
 // components/auth/BecomeSellerPopup.jsx
 import { useState } from 'react';
-import { X, Store, Building2, MapPin, FileText, Phone, Mail } from 'lucide-react';
+import { X, Store, Building2, MapPin, FileText, Phone, Mail, CheckCircle } from 'lucide-react';
 
 const BecomeSellerPopup = ({ onClose, onSubmit, loading, user }) => {
   const [formData, setFormData] = useState({

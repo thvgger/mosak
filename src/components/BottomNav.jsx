@@ -1,8 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import { House, Store, ShoppingCart, FileText, Plus, Trophy, MessagesSquare, BriefcaseBusiness, SquarePen } from 'lucide-react';
-import freelanceIcon from '../assets/bottomNav/freelance-icon.svg';
-import communityIcon from '../assets/bottomNav/community-icon.svg';
-import leaderboardIcon from '../assets/bottomNav/leaderboard-icon.svg';
+
 import { NavLink, useLocation } from 'react-router-dom';
 import "./BottomNav.css";
 import { useAuth } from '../contexts/AuthContext';
