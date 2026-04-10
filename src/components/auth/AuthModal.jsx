@@ -9,7 +9,7 @@ import RolePopup from './RolePopup';
 import OTPVerificationPopup from './OTPVerificationPopup';
 import ForgotPasswordPopup from './ForgotPasswordPopup';
 import ResetPasswordPopup from './ResetPasswordPopup';
-// import BecomeSellerPopup from './BecomeSellerPopup';
+import BecomeSellerPopup from './BecomeSellerPopup';
 import MultiStepBecomeSeller from './MultiStepBecomeSeller';
 
 const AuthModal = () => {
@@ -195,26 +195,27 @@ const AuthModal = () => {
         );
         
       // Add the become-seller case
-      // case 'become-seller':
-      //   return (
-      //     <BecomeSellerPopup
-      //       onClose={closeModal}
-      //       onSubmit={handleBecomeSeller}
-      //       loading={loading}
-      //       user={user}
-      //     />
-      //   );
-
-      // Update the case in renderModalContent
       case 'become-seller':
         return (
-          <MultiStepBecomeSeller
+          <BecomeSellerPopup
             onClose={closeModal}
             onSubmit={handleBecomeSeller}
             loading={loading}
             user={user}
           />
         );
+
+      // Update the case in renderModalContent
+      // Test MultiStep Format
+      // case 'become-seller':
+      //   return (
+      //     <MultiStepBecomeSeller
+      //       onClose={closeModal}
+      //       onSubmit={handleBecomeSeller}
+      //       loading={loading}
+      //       user={user}
+      //     />
+      //   );
 
       default:
         return null;
