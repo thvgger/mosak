@@ -9,7 +9,8 @@ import RolePopup from './RolePopup';
 import OTPVerificationPopup from './OTPVerificationPopup';
 import ForgotPasswordPopup from './ForgotPasswordPopup';
 import ResetPasswordPopup from './ResetPasswordPopup';
-import BecomeSellerPopup from './BecomeSellerPopup';
+// import BecomeSellerPopup from './BecomeSellerPopup';
+import MultiStepBecomeSeller from './MultiStepBecomeSeller';
 
 const AuthModal = () => {
   const { 
@@ -30,7 +31,9 @@ const AuthModal = () => {
     resendOtp, 
     pendingVerification, 
     clearPendingVerification, 
-    addSellerRole,
+    // addSellerRole,
+    becomeSeller,
+    becomeBuyer,
     loading,
     user
   } = useAuth();
@@ -85,14 +88,25 @@ const AuthModal = () => {
     openModal('role');
   };
 
-    // Handler for become seller
+
+  // Handler for become seller
   const handleBecomeSeller = async (businessData) => {
-    const result = await addSellerRole(businessData);
+    const result = await becomeSeller(businessData);
     if (result.success) {
       handleModalSuccess();
     }
     return result;
   };
+
+  // Handler for become buyer
+  const handleBecomeBuyer = async () => {
+    const result = await becomeBuyer();
+    if (result.success) {
+      handleModalSuccess();
+    }
+    return result;
+  };
+
 
   const renderModalContent = () => {
     switch (activeModal) {
@@ -181,9 +195,20 @@ const AuthModal = () => {
         );
         
       // Add the become-seller case
+      // case 'become-seller':
+      //   return (
+      //     <BecomeSellerPopup
+      //       onClose={closeModal}
+      //       onSubmit={handleBecomeSeller}
+      //       loading={loading}
+      //       user={user}
+      //     />
+      //   );
+
+      // Update the case in renderModalContent
       case 'become-seller':
         return (
-          <BecomeSellerPopup
+          <MultiStepBecomeSeller
             onClose={closeModal}
             onSubmit={handleBecomeSeller}
             loading={loading}
@@ -197,7 +222,7 @@ const AuthModal = () => {
   };
 
   return (
-    <div className="fixed inset-0 bg-black/70 backdrop-blur-xs z-999999 flex items-center justify-center p-4">
+    <div className="fixed inset-0 bg-black/70  z-999999 flex items-center justify-center p-4">
       <div className="relative w-full h-full flex items-center justify-center">
         <button
           onClick={closeModal}
