@@ -532,6 +532,34 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
+  // Add this new function to force refresh user data
+  const refreshUserData = async () => {
+    try {
+      console.log('Refreshing user data...');
+      const response = await fetch(`${API_URL}/api/auth/me`, {
+        method: 'GET',
+        credentials: 'include',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        const userData = data.user || data;
+        console.log('User data refreshed:', userData);
+        console.log('Business profile:', userData.business_profile);
+        setUser(userData);
+        return userData;
+      } else {
+        console.error('Failed to refresh user data:', response.status);
+      }
+    } catch (err) {
+      console.error('Failed to refresh user data:', err);
+    }
+    return null;
+  };
+
   // Clear pending verification
   const clearPendingVerification = () => {
     localStorage.removeItem('pendingVerification');
@@ -575,7 +603,10 @@ export const AuthProvider = ({ children }) => {
   };
 
 
-  const addRole = async (businessData) => {
+  // Replace addSellerRole with this comprehensive function
+  // Add these functions to your AuthContext
+
+  const addRole = async (roleData) => {
     setError(null);
     setLoading(true);
 
@@ -586,7 +617,7 @@ export const AuthProvider = ({ children }) => {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify(businessData),
+        body: JSON.stringify(roleData),
       });
 
       const data = await response.json();
@@ -596,16 +627,211 @@ export const AuthProvider = ({ children }) => {
       }
 
       // Update the user state with new role data
-      setUser(data.user);
-      openModal('become-seller');
+      setUser(prevUser => ({
+        ...prevUser,
+        roles: data.roles || prevUser?.roles
+      }));
       
-      return { success: true, user: data.user };
+      return { success: true, roles: data.roles };
     } catch (err) {
       setError(err.message);
       return { success: false, error: err.message };
     } finally {
       setLoading(false);
     }
+  };
+
+  const createBusinessProfile = async (profileData) => {
+    setError(null);
+    setLoading(true);
+
+    try {
+      console.log('Sending profile data:', profileData);
+      
+      const response = await fetch(`${API_URL}/api/users/profile?type=business`, {
+        method: 'POST',
+        credentials: 'include',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(profileData),
+      });
+
+      const data = await response.json();
+      console.log('Profile creation response:', { status: response.status, data });
+
+      if (!response.ok) {
+        // If profile already exists, try to update it instead
+        if (response.status === 400 && data.message?.includes('already exists')) {
+          console.log('Profile already exists, attempting to update...');
+          // Try PUT request for update if your API supports it
+          const updateResponse = await fetch(`${API_URL}/api/users/profile?type=business`, {
+            method: 'PUT', // or PATCH, depending on your API
+            credentials: 'include',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(profileData),
+          });
+          
+          if (updateResponse.ok) {
+            const updateData = await updateResponse.json();
+            await refreshUserData();
+            return { success: true, profile: updateData.profile };
+          }
+        }
+        throw new Error(data.message || 'Failed to create business profile');
+      }
+
+      // Force refresh user data to get the new profile
+      await refreshUserData();
+      
+      return { success: true, profile: data.profile };
+    } catch (err) {
+      console.error('Create business profile error:', err);
+      setError(err.message);
+      return { success: false, error: err.message };
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  // Complete seller onboarding - handles both steps atomically
+  // In AuthContext.jsx, update the becomeSeller function:
+  const becomeSeller = async (businessData) => {
+    setError(null);
+    
+    try {
+      let hasSellerRole = false;
+      
+      // Step 1: Check if user already has SELLER role
+      if (user?.roles?.includes('SELLER')) {
+        hasSellerRole = true;
+        console.log('User already has SELLER role, skipping role addition');
+      } else {
+        // Try to add SELLER role
+        const roleResult = await addRole({ role: 'SELLER' });
+        
+        if (!roleResult.success) {
+          // If error is not "already assigned", throw it
+          if (!roleResult.error?.includes('already assigned') && !roleResult.error?.includes('already has this role')) {
+            throw new Error(roleResult.error);
+          }
+          // If role already exists, that's fine
+          hasSellerRole = true;
+        } else {
+          hasSellerRole = true;
+        }
+      }
+      
+      // Step 2: Check if business profile already exists
+      const existingProfile = user?.business_profile;
+      if (existingProfile?.business_name && existingProfile?.business_address && existingProfile?.business_description) {
+        console.log('Business profile already exists, no need to create');
+        return { success: true, user, message: 'Profile already exists' };
+      }
+      
+      // Step 3: Create or update business profile
+      console.log('Creating business profile with data:', businessData);
+      const profileResult = await createBusinessProfile({
+        business_name: businessData.business_name,
+        business_address: businessData.business_address,
+        business_description: businessData.business_description,
+      });
+      
+      if (!profileResult.success) {
+        throw new Error(profileResult.error);
+      }
+      
+      // Step 4: Force refresh user data
+      await refreshUserData();
+      
+      return { success: true, user: profileResult.user };
+    } catch (err) {
+      console.error('Become seller error:', err);
+      setError(err.message);
+      return { success: false, error: err.message };
+    }
+  };
+
+  // For buyer role (might need address and date_of_birth)
+  const becomeBuyer = async (buyerData = null) => {
+    setError(null);
+    setLoading(true);
+
+    try {
+      // Step 1: Add BUYER role
+      const roleResult = await addRole({ role: 'BUYER' });
+      
+      if (!roleResult.success && !roleResult.error?.includes('already assigned')) {
+        throw new Error(roleResult.error);
+      }
+      
+      // Step 2: If buyer data provided, create buyer profile
+      if (buyerData && (buyerData.address || buyerData.date_of_birth)) {
+        const profileResponse = await fetch(`${API_URL}/api/users/profile?type=buyer`, {
+          method: 'POST',
+          credentials: 'include',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            address: buyerData.address,
+            date_of_birth: buyerData.date_of_birth
+          }),
+        });
+        
+        if (!profileResponse.ok) {
+          const profileData = await profileResponse.json();
+          throw new Error(profileData.message || 'Failed to create buyer profile');
+        }
+      }
+      
+      await checkAuthStatus();
+      return { success: true };
+    } catch (err) {
+      setError(err.message);
+      return { success: false, error: err.message };
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  // Check if seller has complete profile
+  const hasCompleteSellerProfile = () => {
+    if (!user) {
+      console.log('No user object');
+      return false;
+    }
+    
+    const hasSellerRole = user.roles?.includes('SELLER');
+    console.log('Has seller role:', hasSellerRole);
+    
+    if (!hasSellerRole) {
+      console.log('User does not have SELLER role');
+      return false;
+    }
+    
+    const businessProfile = user.business_profile;
+    console.log('Business profile object:', businessProfile);
+    
+    if (!businessProfile) {
+      console.log('No business_profile found in user object');
+      return false;
+    }
+    
+    const { business_name, business_address, business_description } = businessProfile;
+    const isComplete = !!(business_name && business_address && business_description);
+    
+    console.log('Profile fields:', { business_name, business_address, business_description });
+    console.log('Is profile complete?', isComplete);
+    
+    return isComplete;
+  };
+
+  // Get seller profile data if it exists
+  const getSellerProfile = () => {
+    return user?.business_profile || user?.seller_profile || null;
   };
 
   return (
@@ -629,7 +855,13 @@ export const AuthProvider = ({ children }) => {
       checkAuthStatus,
       resendOtp,
       clearPendingVerification,
-      addRole, 
+      becomeBuyer, 
+      becomeSeller, 
+      hasCompleteSellerProfile,
+      addRole,
+      createBusinessProfile,
+      getSellerProfile,
+      refreshUserData,
     }}>
       {children}
     </AuthContext.Provider>

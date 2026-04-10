@@ -79,6 +79,7 @@ const Footer = () => {
                     <li key={index}>
                       <Link
                         to={link.url} 
+                        onClick={() => { scrollTo(0,0); }}
                         className="hover:text-primary/80 transition text-sm"
                       >
                         {link.label}
@@ -119,6 +120,7 @@ const Footer = () => {
                     <li key={index}>
                       <a 
                         href={link.url} 
+                        onClick={() => { scrollTo(0,0); }}
                         className="hover:text-primary/80 transition text-sm block py-1"
                       >
                         {link.label}
