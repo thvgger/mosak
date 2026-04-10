@@ -1,5 +1,4 @@
 import { useState } from "react";
-
 import marketplace1 from "../../assets/how-it-works/marketplace/img-01.PNG";
 import marketplace2 from "../../assets/how-it-works/marketplace/img-02.PNG";
 import marketplace3 from "../../assets/how-it-works/marketplace/img-03.PNG";

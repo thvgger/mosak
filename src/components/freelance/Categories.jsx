@@ -4,12 +4,12 @@ import { ChevronLeft, ChevronRight } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 // import { useMarketplace } from '../../contexts/MarketplaceContext';
 
-import webdev from "../../assets/freelance/webdev.png";
-import graphics from "../../assets/freelance/graphics.png";
-import content from "../../assets/freelance/content.png";
-import digital from "../../assets/freelance/digital.png";
-import video from "../../assets/freelance/video.png";
-import mobile from "../../assets/freelance/mobile.png";
+import webdev from "../../assets/freelance/webdev.PNG";
+import graphics from "../../assets/freelance/graphics.PNG";
+import content from "../../assets/freelance/content.PNG";
+import digital from "../../assets/freelance/digital.PNG";
+import video from "../../assets/freelance/video.PNG";
+import mobile from "../../assets/freelance/mobile.PNG";
 
 const Categories = () => {
   const navigate = useNavigate();
