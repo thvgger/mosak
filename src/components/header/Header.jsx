@@ -148,7 +148,7 @@ const Header = ({ isCommunity, isMobileMenuOpen, setIsMobileMenuOpen, isDashboar
                 </div>
             ) : (
               !isCommunity && (
-                <div className="space-x-2.5 hidden md:flex">
+                <div className="space-x-2.5 flex">
                   <button 
                     className="btn btn-text border border-primary text-primary px-4"
                     onClick={() => openModal("login")}
