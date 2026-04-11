@@ -1,5 +1,6 @@
 // pages/seller/SellerDashboard.jsx
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { 
   TrendingUp, 
   ChevronRight, 
@@ -29,7 +30,7 @@ import silver from "../../assets/badges/silver.png";
 import { useAuth } from '../../contexts/AuthContext';
 
 const SellerDashboard = () => {
-  const [selectedPeriod, setSelectedPeriod] = useState('month');
+  const navigate = useNavigate();
   const { user, loading, isAuthenticated } = useAuth();
   
 
@@ -129,10 +130,10 @@ const SellerDashboard = () => {
 
   // Quick actions
   const quickActions = [
-    { label: 'Add New Product', description: 'List items for sale', icon: Plus, color: 'blue-500' },
-    { label: 'Boost Listing', description: 'Increase visibility', icon: Zap, color: 'red-500' },
-    { label: 'Verify Account', description: 'Build trust', icon: Shield, color: 'green-500' },
-    { label: 'Withdraw Funds', description: 'Transfer to bank', icon: Wallet, color: 'orange-500' }
+    { label: 'Add New Product', description: 'List items for sale', icon: Plus, color: 'blue-500', path: '/seller/add-products' },
+    { label: 'Boost Listing', description: 'Increase visibility', icon: Zap, color: 'red-500', path: '/seller/promotions' },
+    { label: 'Verify Account', description: 'Build trust', icon: Shield, color: 'green-500', path: '/seller/verification' },
+    { label: 'Withdraw Funds', description: 'Transfer to bank', icon: Wallet, color: 'orange-500', path: '/seller/m-wallet' }
   ];
 
   return (
@@ -262,7 +263,10 @@ const SellerDashboard = () => {
                   <div className="h-2 bg-gray-200 rounded-full overflow-hidden">
                     <div className="h-full bg-linear-to-r from-green-600 to-green-400 rounded-full" style={{ width: '66%' }}></div>
                   </div>
-                  <button className="w-full py-2 bg-green-600 text-white text-sm font-medium rounded-lg hover:bg-green-700 transition-colors">
+                  <button 
+                    onClick={() => navigate('/seller/verification')}
+                    className="w-full py-2 bg-green-600 text-white text-sm font-medium rounded-lg hover:bg-green-700 transition-colors"
+                  >
                     Upgrade to Level 3
                   </button>
                 </div>
@@ -322,7 +326,10 @@ const SellerDashboard = () => {
               <span> 
                 Ways to earn points
               </span>    
-              <span className='flex items-center gap-2 hover:underline cursor-pointer'>
+              <span 
+                onClick={() => navigate('/seller/earnings')}
+                className='flex items-center gap-2 hover:underline cursor-pointer'
+              >
                 View Activities
                 <ChevronRight size={16} />
               </span>
@@ -366,7 +373,10 @@ const SellerDashboard = () => {
             </div>
           </div>
 
-          <button className="w-full mt-8 py-2 bg-white hover:bg-white/30 text-yellow-500 text-sm font-medium rounded-lg transition-colors">
+          <button 
+            onClick={() => navigate('/seller/badges')}
+            className="w-full mt-8 py-2 bg-white hover:bg-white/30 text-yellow-500 text-sm font-medium rounded-lg transition-colors"
+          >
             View Badge Details
           </button>
         </div>
@@ -425,7 +435,11 @@ const SellerDashboard = () => {
             {quickActions.map((action, index) => {
               const Icon = action.icon;
               return (
-                <button key={index} className="p-2 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors text-left group flex gap-2 border border-gray-200">
+                <button 
+                  key={index} 
+                  onClick={() => navigate(action.path)}
+                  className="p-2 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors text-left group flex gap-2 border border-gray-200"
+                >
                   <div className={`w-10 h-10 bg-primary/5 bg-opacity-20 rounded-lg flex items-center justify-center group-hover:scale-110 transition-transform`}>
                     {/* <Icon size={20} className={action.color.replace('text-', '')} /> */}
                     <Icon size={20} className={`text-${action.color}`} />

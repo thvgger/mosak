@@ -528,31 +528,40 @@ const MAdvertCard = ({ advert }) => {
             />
 
             {showMenu && (
-              <div className="absolute right-0 mt-2 w-64 bg-white rounded shadow-lg border border-gray-200 z-40">
-                <button 
-                  onClick={handlePromoteGeneral}
-                  className="flex items-center gap-3 w-full px-4 py-3 text-sm hover:bg-gray-100"
-                >
-                  <TrendingUp size={18} className="text-gray-600"/>
-                  Promote to General Feed
-                </button>
+              <>
+                {/* Mobile Backdrop Overlay */}
+                <div 
+                  className="fixed inset-0 z-30 md:hidden" 
+                  onClick={() => setShowMenu(false)}
+                />
+              <div className="absolute right-0 mt-2 w-48 sm:w-64 bg-white rounded shadow-lg border border-gray-200 z-40">
+                  <button 
+                    onClick={handlePromoteGeneral}
+                    className="flex items-center gap-2.5 sm:gap-3 w-full px-3 sm:px-4 py-2.5 sm:py-3 text-[13px] sm:text-sm hover:bg-gray-50 text-gray-700 transition-colors"
+                  >
+                    <TrendingUp size={16} className="text-gray-400 sm:w-[18px] sm:h-[18px]"/>
+                    <span>Promote to General</span>
+                  </button>
 
-                <button 
-                  onClick={handlePromoteCategory}
-                  className="flex items-center gap-3 w-full px-4 py-3 text-sm hover:bg-gray-100"
-                >
-                  <Tag size={18} className="text-gray-600"/>
-                  Promote to Category Feed
-                </button>
+                  <button 
+                    onClick={handlePromoteCategory}
+                    className="flex items-center gap-2.5 sm:gap-3 w-full px-3 sm:px-4 py-2.5 sm:py-3 text-[13px] sm:text-sm hover:bg-gray-50 text-gray-700 transition-colors"
+                  >
+                    <Tag size={16} className="text-gray-400 sm:w-[18px] sm:h-[18px]"/>
+                    <span>Promote to Category</span>
+                  </button>
 
-                <button 
-                  onClick={handleDelete}
-                  className="flex items-center gap-3 w-full px-4 py-3 text-sm hover:bg-gray-100 text-red-500"
-                >
-                  <Trash2 size={18}/>
-                  Delete
-                </button>
-              </div>
+                  <div className="h-px bg-gray-100 my-1" />
+  
+                  <button 
+                    onClick={handleDelete}
+                    className="flex items-center gap-2.5 sm:gap-3 w-full px-3 sm:px-4 py-2.5 sm:py-3 text-[13px] sm:text-sm hover:bg-red-50 text-red-600 transition-colors"
+                  >
+                    <Trash2 size={16} className="sm:w-[18px] sm:h-[18px]"/>
+                    <span>Delete Advert</span>
+                  </button>
+                </div>
+              </>
             )}
           </div>
         </div>
