@@ -1,6 +1,6 @@
-// pages/seller/SellerDashboard.jsx
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import OrderDetailsModal from '../../components/seller/OrderDetailsModal';
 import { 
   TrendingUp, 
   ChevronRight, 
@@ -32,6 +32,13 @@ import { useAuth } from '../../contexts/AuthContext';
 const SellerDashboard = () => {
   const navigate = useNavigate();
   const { user, loading, isAuthenticated } = useAuth();
+  const [isOrderModalOpen, setIsOrderModalOpen] = useState(false);
+  const [selectedOrder, setSelectedOrder] = useState(null);
+
+  const handleViewOrder = (order) => {
+    setSelectedOrder(order);
+    setIsOrderModalOpen(true);
+  };
   
 
   // Mock data for stats
@@ -512,7 +519,10 @@ const SellerDashboard = () => {
                       </span>
                     </td>
                     <td className="px-6 py-4">
-                      <button className="text-primary hover:text-primary/80 text-sm font-medium flex items-center gap-1">
+                      <button 
+                        onClick={() => handleViewOrder(order)}
+                        className="text-primary hover:text-primary/80 text-sm font-medium flex items-center gap-1"
+                      >
                         View
                         <Eye size={14} />
                       </button>
@@ -524,6 +534,13 @@ const SellerDashboard = () => {
           </table>
         </div>
       </div>
+
+      {/* Order Details Modal */}
+      <OrderDetailsModal 
+        isOpen={isOrderModalOpen}
+        onClose={() => setIsOrderModalOpen(false)}
+        order={selectedOrder}
+      />
     </div>
   );
 };
