@@ -26,3 +26,4 @@ dist-ssr
 *.sw?
 # ./Seller Dashboard 
 src/contexts/AuthContext.jsx
+.gitignore
