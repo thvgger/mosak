@@ -495,24 +495,26 @@ const MAdvertCard = ({ advert }) => {
 
   return (
     <>
-      <div className="lg:max-w-full max-w-md">
+      <div className="w-full">
         <div className="flex items-center justify-between mb-2">
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-1.5 sm:gap-2">
             {/* Avatar */}
-            <div className="w-9 h-9 rounded-full bg-blue-600 flex items-center justify-center text-white text-sm font-semibold">
+            <div className="w-6 h-6 sm:w-9 sm:h-9 rounded-full bg-blue-600 flex items-center justify-center text-white text-[10px] sm:text-sm font-semibold shrink-0">
               {advert.avatar}
             </div>
 
             <div className="flex flex-col leading-tight">
-              <div className="flex items-center gap-2">
-                <span className="font-semibold text-sm">{advert.author}</span>
-                <span className="w-2 h-2 bg-blue-500 rounded-full"></span>
-                <span className="bg-yellow-200 text-yellow-800 text-[10px] px-2 py-0.5 rounded-full">
-                  {advert.badge}
-                </span>
-                <span className="bg-gray-200 text-gray-700 text-[10px] px-2 py-0.5 rounded-full">
-                  {advert.role}
-                </span>
+              <div className="flex items-center flex-wrap gap-1 sm:gap-2">
+                <span className="font-semibold text-[11px] sm:text-sm truncate max-w-[60px] sm:max-w-none">{advert.author}</span>
+                <span className="w-1.5 h-1.5 bg-blue-500 rounded-full hidden sm:block"></span>
+                <div className="hidden sm:flex items-center gap-1">
+                  <span className="bg-yellow-200 text-yellow-800 text-[8px] sm:text-[10px] px-1.5 sm:px-2 py-0.5 rounded-full">
+                    {advert.badge}
+                  </span>
+                  <span className="bg-gray-200 text-gray-700 text-[8px] sm:text-[10px] px-1.5 sm:px-2 py-0.5 rounded-full">
+                    {advert.role}
+                  </span>
+                </div>
               </div>
               <span className="text-xs text-gray-500">{advert.time}</span>
             </div>
@@ -556,49 +558,50 @@ const MAdvertCard = ({ advert }) => {
         </div>
 
         {/* IMAGE */}
-        <div className="bg-[#cfd3ff] rounded-b-2xl rounded-tr-2xl p-3 shadow-sm">
+        <div className="bg-white border border-[#cfd3ff] rounded-b-2xl rounded-tr-2xl p-2 sm:p-3 shadow-xs">
           <div className="rounded-t-xl overflow-hidden">
             <img
               src={advert?.image || car}
               alt=""
-              className="w-full h-56 object-cover"
+              className="w-full h-32 sm:h-56 object-cover"
             />
           </div>
 
           {/* PRODUCT PREVIEW */}
-          <div className="bg-white rounded-b-lg p-3 mb-3">
-            <p className="text-xs text-gray-500">{advert.productTitle}</p>
-            <div className="flex items-center gap-2 mt-1">
-              <span className="text-blue-600 font-bold text-sm">{advert.price}</span>
+          <div className="bg-gray-50/50 border border-gray-100 rounded-b-lg p-2 sm:p-3 mb-3">
+            <p className="text-[10px] sm:text-xs text-gray-600 line-clamp-2 min-h-[2.5rem] sm:min-h-0">{advert.productTitle}</p>
+            <div className="flex flex-col sm:flex-row sm:items-center gap-0.5 sm:gap-2 mt-1">
+              <span className="text-blue-600 font-bold text-xs sm:text-sm">{advert.price}</span>
               {advert.oldPrice && (
-                <span className="text-xs text-gray-400 line-through">{advert.oldPrice}</span>
+                <span className="text-[9px] sm:text-xs text-gray-400 line-through">{advert.oldPrice}</span>
               )}
             </div>
-            <p className="text-xs text-gray-400 mt-1">{advert.description}</p>
-            <div className="flex items-center gap-1 mt-1 text-xs text-blue-500">
-              <MapPin size={12} />
-              {advert.location}
+            {/* Hide description on mobile to save space */}
+            <p className="hidden sm:block text-xs text-gray-400 mt-1">{advert.description}</p>
+            <div className="flex items-center gap-1 mt-1 text-[10px] sm:text-xs text-blue-500 truncate">
+              <MapPin size={10} className="sm:w-3 sm:h-3" />
+              <span className="truncate">{advert.location}</span>
             </div>
           </div>
 
           {/* POST TEXT */}
-          <p className="text-sm text-gray-700 mb-2">{advert.postText}</p>
-          <a href={advert.link} className="text-sm text-blue-600 underline">
+          <p className="text-[11px] sm:text-sm text-gray-700 mb-2 line-clamp-2">{advert.postText}</p>
+          <a href={advert.link} className="text-[10px] sm:text-sm text-blue-600 underline break-all line-clamp-1 block">
             {advert.link}
           </a>
 
           {/* REACTIONS */}
-          <div className="flex items-center gap-3 mt-3">
-            <button className="flex items-center gap-1 bg-blue-600 text-white px-3 py-1 rounded-full text-xs">
-              <ThumbsUp size={12} />
+          <div className="flex items-center flex-wrap gap-1.5 sm:gap-3 mt-3">
+            <button className="flex items-center gap-1 bg-blue-600 text-white px-2 sm:px-3 py-1 rounded-full text-[10px] sm:text-xs">
+              <ThumbsUp size={10} className="sm:w-3 sm:h-3" />
               {advert.likes}
             </button>
-            <button className="flex items-center gap-1 bg-orange-500 text-white px-3 py-1 rounded-full text-xs">
-              <Flame size={12} />
+            <button className="flex items-center gap-1 bg-orange-500 text-white px-2 sm:px-3 py-1 rounded-full text-[10px] sm:text-xs">
+              <Flame size={10} className="sm:w-3 sm:h-3" />
               {advert.fires}
             </button>
             <button className="p-1 rounded-full border border-gray-300">
-              <Smile size={14} />
+              <Smile size={12} className="sm:w-3.5 sm:h-3.5" />
             </button>
           </div>
         </div>

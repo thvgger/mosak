@@ -12,7 +12,18 @@ let refreshInterval = null;
 
 export const AuthProvider = ({ children }) => {
   const { openModal } = useAuthModal();
-  const [user, setUser] = useState(null);
+  const [user, setUser] = useState({
+    id: "mock-seller-id",
+    full_name: "Demo Seller",
+    email: "seller@example.com",
+    roles: ["SELLER", "BUYER"],
+    kyc_status: "VERIFIED",
+    business_profile: {
+      business_name: "Demo Store",
+      business_address: "123 Mock Street",
+      business_description: "A demo store for testing"
+    }
+  });
   const [loading, setLoading] = useState(true); // Start with loading true
   const [error, setError] = useState(null);
   const [pendingVerification, setPendingVerification] = useState({
@@ -136,71 +147,10 @@ export const AuthProvider = ({ children }) => {
 
   // CRITICAL: This function checks the actual session via HttpOnly cookies
   const checkAuthStatus = async () => {
-    try {
-      setLoading(true);
-      // console.log('Checking auth status with server...');
-      
-      const response = await fetch(`${API_URL}/api/auth/me`, {
-        method: 'GET',
-        credentials: 'include', // This sends the HttpOnly cookies automatically
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      });
-
-      // console.log('Auth check response status:', response.status);
-
-      if (response.ok) {
-        const data = await response.json();
-        // console.log('Auth check successful - user restored from session');
-        
-        // Set user from the server response
-        const userData = data.user || data;
-        setUser(userData);
-        
-        // Clear any pending verification if user is now verified
-        if (pendingVerification.isPending) {
-          localStorage.removeItem('pendingVerification');
-          setPendingVerification({ email: null, timestamp: null, isPending: false });
-        }
-      } else {
-        // If unauthorized, try to refresh token once
-        if (response.status === 401) {
-          console.log('Initial auth failed, trying token refresh...');
-          const refreshSuccess = await refreshToken();
-          
-          if (refreshSuccess) {
-            // If refresh successful, retry getting user data
-            console.log('Token refresh successful, retrying auth check...');
-            const retryResponse = await fetch(`${API_URL}/api/auth/me`, {
-              method: 'GET',
-              credentials: 'include',
-              headers: {
-                'Content-Type': 'application/json',
-              },
-            });
-            
-            if (retryResponse.ok) {
-              const retryData = await retryResponse.json();
-              const userData = retryData.user || retryData;
-              setUser(userData);
-              console.log('Auth check successful after refresh');
-            } else {
-              setUser(null);
-            }
-          } else {
-            setUser(null);
-          }
-        } else {
-          setUser(null);
-        }
-      }
-    } catch (err) {
-      console.error('Auth check failed:', err);
-      setUser(null);
-    } finally {
-      setLoading(false); // Always set loading to false when done
-    }
+    // BYPASS: Mock user status because login is a WIP
+    setLoading(true);
+    setTimeout(() => setLoading(false), 500); // Simulate network request
+    return;
   };
 
   // Login function

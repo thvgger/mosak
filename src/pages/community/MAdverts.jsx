@@ -133,7 +133,7 @@ const MAdverts = () => {
         </div>
       </div>
 
-      <div className="p-4 md:p-6 flex flex-col gap-8 lg:grid lg:grid-cols-3 lg:gap-4">
+      <div className="p-2 md:p-6 grid grid-cols-2 gap-2 sm:gap-4 lg:grid-cols-3">
         {adverts.map((advert) => (
           <MAdvertCard key={advert.id} advert={advert} />
         ))}

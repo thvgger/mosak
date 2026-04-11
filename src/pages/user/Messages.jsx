@@ -170,14 +170,14 @@ const Messages = () => {
   };
 
   return (
-    <div className="md:h-[calc(100vh-150px)] flex flex-col md:-pb-40! overflow-y-hidden -p-4!">
+    <div className="h-[calc(100vh-64px)] md:h-[calc(100vh-150px)] flex flex-col -m-4 md:m-0 p-4 md:p-0 overflow-y-hidden">
       {/* Header - Only show on desktop or when no chat is selected on mobile */}
       {/* <div className={`mb-4 ${showMobileChat ? 'hidden md:block' : 'block'}`}>
         <h1 className="text-2xl font-bold text-gray-800">Messages</h1>
       </div> */}
 
       {/* Messages Container */}
-      <div className="flex-1 border border-gray-200 rounded-xl overflow-hidden flex flex-col md:flex-row">
+      <div className="flex-1 border-0 md:border border-gray-200 rounded-lg md:rounded-xl overflow-hidden flex flex-col md:flex-row shadow-none">
         {/* Conversations List - Left Side */}
         <div 
           className={`
@@ -309,7 +309,7 @@ const Messages = () => {
             </div>
 
             {/* Messages */}
-            <div className="flex-1 overflow-y-auto p-4 space-y-4 pb-20">
+            <div className="flex-1 overflow-y-auto p-4 space-y-4 pb-32 md:pb-4">
               {messages.map((message) => (
                 <div
                   key={message.id}
@@ -348,7 +348,7 @@ const Messages = () => {
             </div>
 
             {/* Message Input */}
-            <div className="p-3 sm:p-4 border-t border-gray-200 bg-white z-10 fixed left-0 md:relative w-full pb-10 bottom-15 md:bottom-0">
+            <div className="p-3 sm:p-4 border-t border-gray-200 bg-white z-20 fixed left-0 bottom-0 md:relative w-full">
               {/* Attachment Preview */}
               {showAttachments && (
                 <div className="mb-0 flex items-center space-x-2 overflow-x-auto pb-2">
