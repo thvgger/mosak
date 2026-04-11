@@ -24,6 +24,4 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
-# ./Seller Dashboard 
-src/contexts/AuthContext.jsx
-.gitignore
+# ./Seller Dashboard
