@@ -58,7 +58,7 @@ const Profile = () => {
               value={profileData.fullName}
               disabled={!isEditing}
               onChange={(e) => handleChange("fullName", e.target.value)}
-              className="w-full mt-1 px-4 py-3 border border-gray-200 rounded-lg bg-gray-50 focus:bg-white outline-none"
+              className="w-full mt-1 px-4 py-3 border border-gray-200 rounded-lg bg-gray-50 focus:bg-white outline-none disabled:bg-gray-100 disabled:text-gray-500 disabled:cursor-not-allowed"
             />
           </div>
 
@@ -70,7 +70,7 @@ const Profile = () => {
               value={profileData.username}
               disabled={!isEditing}
               onChange={(e) => handleChange("username", e.target.value)}
-              className="w-full mt-1 px-4 py-3 border border-gray-200 rounded-lg bg-gray-50 focus:bg-white outline-none"
+              className="w-full mt-1 px-4 py-3 border border-gray-200 rounded-lg bg-gray-50 focus:bg-white outline-none disabled:bg-gray-100 disabled:text-gray-500 disabled:cursor-not-allowed"
             />
           </div>
 
@@ -82,7 +82,7 @@ const Profile = () => {
               value={profileData.email}
               disabled={!isEditing}
               onChange={(e) => handleChange("email", e.target.value)}
-              className="w-full mt-1 px-4 py-3 border border-gray-200 rounded-lg bg-gray-50 focus:bg-white outline-none"
+              className="w-full mt-1 px-4 py-3 border border-gray-200 rounded-lg bg-gray-50 focus:bg-white outline-none disabled:bg-gray-100 disabled:text-gray-500 disabled:cursor-not-allowed"
             />
           </div>
 
@@ -94,7 +94,7 @@ const Profile = () => {
               value={profileData.phone}
               disabled={!isEditing}
               onChange={(e) => handleChange("phone", e.target.value)}
-              className="w-full mt-1 px-4 py-3 border border-gray-200 rounded-lg bg-gray-50 focus:bg-white outline-none"
+              className="w-full mt-1 px-4 py-3 border border-gray-200 rounded-lg bg-gray-50 focus:bg-white outline-none disabled:bg-gray-100 disabled:text-gray-500 disabled:cursor-not-allowed"
             />
           </div>
 
@@ -106,7 +106,7 @@ const Profile = () => {
               value={profileData.dob}
               disabled={!isEditing}
               onChange={(e) => handleChange("dob", e.target.value)}
-              className="w-full mt-1 px-4 py-3 border border-gray-200 rounded-lg bg-gray-50 focus:bg-white outline-none"
+              className="w-full mt-1 px-4 py-3 border border-gray-200 rounded-lg bg-gray-50 focus:bg-white outline-none disabled:bg-gray-100 disabled:text-gray-500 disabled:cursor-not-allowed"
             />
           </div>
 
@@ -118,7 +118,7 @@ const Profile = () => {
               value={profileData.address}
               disabled={!isEditing}
               onChange={(e) => handleChange("address", e.target.value)}
-              className="w-full mt-1 px-4 py-3 border border-gray-200 rounded-lg bg-gray-50 focus:bg-white outline-none"
+              className="w-full mt-1 px-4 py-3 border border-gray-200 rounded-lg bg-gray-50 focus:bg-white outline-none disabled:bg-gray-100 disabled:text-gray-500 disabled:cursor-not-allowed"
             />
           </div>
 
