@@ -1,5 +1,5 @@
-import { EllipsisVertical, Reply } from 'lucide-react';
-import React, { useRef, useEffect, useS } from 'react';
+import { EllipsisVertical, Reply, Pencil, Trash2, Flag, Ban } from 'lucide-react';
+import React, { useRef, useEffect, useState } from 'react';
 
 
 const MessageList = ({ onUserSelect }) => {
@@ -138,7 +138,7 @@ const Message = ({ name, badge, role, message, onUserSelect }) => {
   };
 
 
-  const [ menuPopupVisible, setMenuPopupVisible ] = React.useState(false);
+  const [ menuPopupVisible, setMenuPopupVisible ] = useState(false);
 
   const menuPopupOpen = () => {
     setMenuPopupVisible(!menuPopupVisible);
@@ -198,14 +198,34 @@ const Message = ({ name, badge, role, message, onUserSelect }) => {
         </div>
 
       </div>
-        <EllipsisVertical size={18} strokeWidth={1.5} onClick={() => { menuPopupOpen(); }} className="ml-auto rounded-sm cursor-pointer hover:opacity-80 hover:bg-gray-200 transition-all" /> 
+        <button 
+          onClick={() => { menuPopupOpen(); }} 
+          className="ml-auto p-1 rounded-full text-gray-400 hover:text-gray-600 transition-all focus:outline-none"
+        >
+          <EllipsisVertical size={18} strokeWidth={1.5} /> 
+        </button>
+
         {menuPopupVisible && (
-          <div className="absolute bg-white border rounded shadow-md p-2 text-xs text-gray-400 right-4 top-10 z-10" ref={outsideMenuRef}>
-            <button className="w-full text-left px-2 py-1 hover:bg-gray-100 rounded">Edit</button>
-            <button className="w-full text-left px-2 py-1 hover:bg-gray-100 rounded">Delete</button>
-            <button className="w-full text-left px-2 py-1 hover:bg-gray-100 rounded">Report</button>
-            <button className="w-full text-left px-2 py-1 hover:bg-gray-100 rounded">Block</button>
-            {/* <button className="w-full text-left px-2 py-1 hover:bg-gray-100 rounded">Copy Message Link</button> */}
+          <div className="absolute right-4 top-10 z-50 min-w-[140px] bg-white border border-gray-100 rounded-xl shadow-lg p-1 animate-popup-in" ref={outsideMenuRef}>
+            <button className="w-full h-fit flex items-center gap-2 px-3 py-2 text-xs text-gray-700 hover:bg-gray-50 rounded-lg transition-colors group">
+              <Pencil size={14} className="text-gray-400 group-hover:text-primary transition-colors" />
+              <span>Edit</span>
+            </button>
+            <button className="w-full h-fit flex items-center gap-2 px-3 py-2 text-xs text-red-600 hover:bg-red-50 rounded-lg transition-colors group">
+              <Trash2 size={14} className="text-red-400 group-hover:text-red-600 transition-colors" />
+              <span>Delete</span>
+            </button>
+            
+            <div className="my-1 border-t border-gray-100"></div>
+            
+            <button className="w-full h-fit flex items-center gap-2 px-3 py-2 text-xs text-gray-700 hover:bg-gray-50 rounded-lg transition-colors group">
+              <Flag size={14} className="text-gray-400 group-hover:text-orange-500 transition-colors" />
+              <span>Report</span>
+            </button>
+            <button className="w-full h-fit flex items-center gap-2 px-3 py-2 text-xs text-gray-700 hover:bg-gray-50 rounded-lg transition-colors group">
+              <Ban size={14} className="text-gray-400 group-hover:text-red-500 transition-colors" />
+              <span>Block</span>
+            </button>
           </div>
         )}
     </div>

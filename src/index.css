@@ -21,6 +21,20 @@
 
   /* FONT */
   --font-body: 'Inter', sans-serif;
+
+  /* ANIMATIONS */
+  --animate-popup-in: popupIn 0.2s ease-out;
+
+  @keyframes popupIn {
+    from {
+      opacity: 0;
+      transform: scale(0.95) translateY(-5px);
+    }
+    to {
+      opacity: 1;
+      transform: scale(1) translateY(0);
+    }
+  }
 }
 @utility container {
   width: 100%;

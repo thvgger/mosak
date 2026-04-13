@@ -14,7 +14,10 @@ import {
   File,
   X,
   MessageSquare,
-  ArrowLeft
+  ArrowLeft,
+  Box,
+  Clock,
+  AlertCircle
 } from 'lucide-react';
 import car from "../../assets/car.png";
 import { useAuth } from '../../contexts/AuthContext';
@@ -27,6 +30,31 @@ const Messages = () => {
   const [showEmojiPicker, setShowEmojiPicker] = useState(false);
   const [showAttachments, setShowAttachments] = useState(false);
   const [showMobileChat, setShowMobileChat] = useState(false);
+  const [showOptions, setShowOptions] = useState(false);
+  const optionsRef = React.useRef(null);
+
+  // Handle outside click for options menu
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (optionsRef.current && !optionsRef.current.contains(event.target)) {
+        setShowOptions(false);
+      }
+    };
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, []);
+
+  // Handle body scroll lock on mobile
+  useEffect(() => {
+    if (showMobileChat && window.innerWidth < 768) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = '';
+    }
+    return () => {
+      document.body.style.overflow = '';
+    };
+  }, [showMobileChat]);
 
   // Handle mobile view when chat is selected
   useEffect(() => {
@@ -140,6 +168,34 @@ const Messages = () => {
       content: 'Your order #ORD-2024-1547 has been shipped',
       time: '10:30 AM',
       status: 'sent'
+    },
+    {
+      id: 7,
+      sender: 'them',
+      content: 'Your order #ORD-2024-1547 has been shipped',
+      time: '10:30 AM',
+      status: 'sent'
+    },
+    {
+      id: 8,
+      sender: 'them',
+      content: 'Your order #ORD-2024-1547 has been shipped',
+      time: '10:30 AM',
+      status: 'sent'
+    },
+    {
+      id: 9,
+      sender: 'them',
+      content: 'Your order #ORD-2024-1547 has been shipped',
+      time: '10:30 AM',
+      status: 'sent'
+    },
+    {
+      id: 10,
+      sender: 'them',
+      content: 'Your order #ORD-2024-1547 has been shipped',
+      time: '10:30 AM',
+      status: 'sent'
     }
   ];
 
@@ -170,7 +226,7 @@ const Messages = () => {
   };
 
   return (
-    <div className="h-[calc(100vh-64px)] md:h-[calc(100vh-150px)] flex flex-col -m-4 md:m-0 p-4 md:p-0 overflow-y-hidden">
+    <div className="h-[calc(100vh-144px)] md:h-[calc(100vh-150px)] flex flex-col -m-6 md:m-0 p-4 md:p-0 overflow-y-hidden">
       {/* Header - Only show on desktop or when no chat is selected on mobile */}
       {/* <div className={`mb-4 ${showMobileChat ? 'hidden md:block' : 'block'}`}>
         <h1 className="text-2xl font-bold text-gray-800">Messages</h1>
@@ -262,11 +318,14 @@ const Messages = () => {
             className={`
               h-full flex-1 flex flex-col bg-white
               transition-all duration-300 ease-in-out
-              ${showMobileChat ? 'flex' : 'hidden md:flex'}
+              ${showMobileChat 
+                ? 'fixed inset-0 z-[700] flex h-[100dvh] w-screen md:relative md:h-full md:w-auto md:z-0' 
+                : 'hidden md:flex'
+              }
             `}
           >
             {/* Chat Header */}
-            <div className="p-4 bg-primary text-white flex items-center justify-between">
+            <div className="p-4 bg-primary text-white flex items-center justify-between sticky top-0 md:relative z-10">
               <div className="flex items-center space-x-3">
                 {/* Back button for mobile */}
                 <button 
@@ -302,14 +361,44 @@ const Messages = () => {
                 {/* <button className="p-2 hover:bg-gray-100 rounded-full transition-colors">
                   <Info size={18} className="" />
                 </button> */}
-                <button className="p-2 hover:bg-gray-50/10 rounded-full transition-colors">
-                  <MoreVertical size={18} className="" />
-                </button>
+                
+                <div className="relative" ref={optionsRef}>
+                  <button 
+                    onClick={() => setShowOptions(!showOptions)}
+                    className="p-2 hover:bg-gray-50/10 rounded-full transition-colors"
+                  >
+                    <MoreVertical size={18} className="" />
+                  </button>
+
+                  {showOptions && (
+                    <div className="absolute right-0 top-10 mt-2 bg-white rounded-xl shadow-lg border border-gray-100 p-1.5 min-w-[170px] z-50 animate-popup-in">
+                      <button className="flex items-center gap-3 w-full px-3 py-2 text-sm text-gray-700 hover:bg-gray-50 rounded-lg transition-colors group">
+                        <Box size={16} className="text-gray-400 group-hover:text-primary transition-colors" />
+                        <span>View Product</span>
+                      </button>
+                      <button className="flex items-center gap-3 w-full px-3 py-2 text-sm text-gray-700 hover:bg-gray-50 rounded-lg transition-colors group">
+                        <Clock size={16} className="text-gray-400 group-hover:text-primary transition-colors" />
+                        <span>{selectedChat.status === 'seller' ? 'Create Deal' : 'Create Offer'}</span>
+                      </button>
+                      
+                      <div className="my-1 border-t border-gray-100" />
+                      
+                      <button className="flex items-center gap-3 w-full px-3 py-2 text-sm text-red-600 hover:bg-red-50 rounded-lg transition-colors group">
+                        <AlertCircle size={16} className="text-red-400 group-hover:text-red-600 transition-colors" />
+                        <span>Report {selectedChat.status === 'buyer' ? 'Buyer' : selectedChat.status === 'seller' ? 'Seller' : 'User'}</span>
+                      </button>
+                      <button className="flex items-center gap-3 w-full px-3 py-2 text-sm text-red-600 hover:bg-red-50 rounded-lg transition-colors group">
+                        <X size={16} className="text-red-400 group-hover:text-red-600 transition-colors" />
+                        <span>Block {selectedChat.status === 'buyer' ? 'Buyer' : selectedChat.status === 'seller' ? 'Seller' : 'User'}</span>
+                      </button>
+                    </div>
+                  )}
+                </div>
               </div>
             </div>
 
             {/* Messages */}
-            <div className="flex-1 overflow-y-auto p-4 space-y-4 pb-32 md:pb-4">
+            <div className="flex-1 overflow-y-auto p-4 space-y-4 md:pb-4">
               {messages.map((message) => (
                 <div
                   key={message.id}
@@ -348,7 +437,7 @@ const Messages = () => {
             </div>
 
             {/* Message Input */}
-            <div className="p-3 sm:p-4 border-t border-gray-200 bg-white z-20 fixed left-0 bottom-0 md:relative w-full">
+            <div className="p-3 sm:p-4 border-t border-gray-200 bg-white z-20 relative w-full">
               {/* Attachment Preview */}
               {showAttachments && (
                 <div className="mb-0 flex items-center space-x-2 overflow-x-auto pb-2">

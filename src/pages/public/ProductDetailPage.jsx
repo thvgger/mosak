@@ -146,24 +146,36 @@ const ProductDetailPage = () => {
     }
     
     navigate('/checkout');
-    setIsEscrowModalOpen(false);
   };
-
-  // Handle direct checkout without escrow modal
-  const handleDirectCheckout = () => {
+  
+  const handleChatWithSeller = () => {
     if (!isAuthenticated) {
       openModal("login", () => {
         // This callback runs after successful login
-        handleDirectCheckout();
+        handleChatWithSeller();
       });
       return;
     }
     
-    if (!isInCart) {
-      addToShoppingCart(product, quantity);
-    }
-    
-    navigate('/checkout');
+    navigate("/account/messages", { 
+      state: { 
+        product: {
+          id: product.id,
+          name: product.title,
+          image: product.images?.[0] || car,
+          price: product.price,
+          status: 'available',
+          seller: product.seller
+        },
+        seller: {
+          id: `seller_${product.id}`,
+          name: product.seller?.name || 'Seller',
+          avatar: product.seller?.avatar || avatarImg,
+          verified: product.seller?.verified || false,
+          rating: product.seller?.rating || 4.0
+        }
+      }
+    });
   };
 
   return (
@@ -342,6 +354,16 @@ const ProductDetailPage = () => {
                   >
                     <ShoppingCart size={18} strokeWidth={1.5} />
                     {isInCart ? `In Cart (${cartQuantity})` : 'Add to Cart'}
+                  </button>
+
+                  {/* Chat with Seller Button */}
+                  <button
+                    onClick={handleChatWithSeller}
+                    className="btn btn-tertiary px-3 sm:px-4"
+                    title="Chat with seller"
+                  >
+                    <MessageCircle size={18} strokeWidth={1.5} />
+                    <span className="hidden sm:inline"> Chat </span>
                   </button>
                 </div>
 
@@ -620,52 +642,7 @@ const ProductDetailPage = () => {
                   {/* Chat with seller button - now using global modal */}
                   <button 
                     className='btn btn-tertiary' 
-                    onClick={() => {
-                      if (!isAuthenticated) {
-                        openModal("login", () => {
-                          // This callback runs after successful login
-                          navigate("/account/messages", { 
-                            state: { 
-                              product: {
-                                id: product.id,
-                                name: product.title,
-                                image: product.images?.[0] || car,
-                                price: product.price,
-                                status: 'available',
-                                seller: product.seller
-                              },
-                              seller: {
-                                id: `seller_${product.id}`,
-                                name: product.seller?.name || 'Seller',
-                                avatar: product.seller?.avatar || avatarImg,
-                                verified: product.seller?.verified || false,
-                                rating: product.seller?.rating || 4.0
-                              }
-                            }
-                          });
-                        });
-                        return;
-                      }
-                      navigate("/account/messages", { 
-                        state: { 
-                          product: {
-                            id: product.id,
-                            name: product.title,
-                            image: product.images?.[0] || car,
-                            price: product.price,
-                            status: 'available',
-                            seller: product.seller
-                          },
-                          seller: {
-                            id: `seller_${product.id}`,
-                            name: product.seller?.name || 'Seller',
-                            avatar: product.seller?.avatar || avatarImg,
-                            verified: product.seller?.verified || false,
-                            rating: product.seller?.rating || 4.0
-                          }
-                        }
-                      });
-                    }}
+                    onClick={handleChatWithSeller}
                   >
                     <MessageCircle size={16} strokeWidth={1.75} /> Chat with seller
                   </button>

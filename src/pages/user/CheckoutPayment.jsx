@@ -118,7 +118,7 @@ const CheckoutPayment = () => {
                 </div>
 
                 {/* Pay From Wallet */}
-                <div 
+                {/* <div 
                   className={`border rounded-lg p-4 cursor-pointer transition ${paymentMethod === 'wallet' ? 'border-blue-600 bg-blue-50' : 'border-gray-300 hover:border-gray-400'}`}
                   onClick={() => setPaymentMethod('wallet')}
                 >
@@ -127,13 +127,12 @@ const CheckoutPayment = () => {
                       {paymentMethod === 'wallet' && <div className="w-2 h-2 bg-white rounded-full"></div>}
                     </div>
                     <div className="flex items-center gap-2">
-                      {/* <Wallet size={20} /> */}
                       <span className="font-medium">Pay From Wallet</span>
                     </div>
                   </div>
                   <p className="text-sm text-gray-600 mt-2 ml-9">Pay instantly with your wallet balance</p>
                   <p className="text-sm font-medium mt-1 ml-9">Balance: ₦145,000</p>
-                </div>
+                </div> */}
               </div>
 
               {/* Card Payment Form (shown only when card payment is selected) */}
