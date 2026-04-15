@@ -13,9 +13,11 @@ import {
   Clock,
   Zap
 } from 'lucide-react';
+import SellerBoostAnalytics from './SellerBoostAnalytics';
 
 const SellerPromotions = () => {
   const [currentPage, setCurrentPage] = useState(1);
+  const [selectedPromotion, setSelectedPromotion] = useState(null);
   const itemsPerPage = 3;
 
   // Stats data
@@ -41,7 +43,7 @@ const SellerPromotions = () => {
     },
     { 
       label: 'Total Cost Remaining', 
-      value: '₮5,700', 
+      value: '₦5,700', 
       icon: CreditCard, 
       color: 'bg-orange-500' 
     }
@@ -53,7 +55,7 @@ const SellerPromotions = () => {
       id: 1,
       product: 'Wireless Bluetooth Headphones',
       boostType: 'Premium Boost',
-      dailyCost: '₮500',
+      dailyCost: '₦500',
       remainingDays: 5,
       views: 1247,
       clicks: 89,
@@ -65,7 +67,7 @@ const SellerPromotions = () => {
       id: 2,
       product: 'Smart Watch Series 5',
       boostType: 'Premium Boost',
-      dailyCost: '₮1,000',
+      dailyCost: '₦1,000',
       remainingDays: 3,
       views: 2891,
       clicks: 234,
@@ -77,7 +79,7 @@ const SellerPromotions = () => {
       id: 3,
       product: 'Laptop Backpack Pro',
       boostType: 'Basic Boost',
-      dailyCost: '₮200',
+      dailyCost: '₦200',
       remainingDays: 1,
       views: 456,
       clicks: 23,
@@ -89,7 +91,7 @@ const SellerPromotions = () => {
       id: 4,
       product: 'Wireless Bluetooth Headphones',
       boostType: 'Premium Boost',
-      dailyCost: '₮500',
+      dailyCost: '₦500',
       remainingDays: 5,
       views: 1247,
       clicks: 89,
@@ -99,6 +101,15 @@ const SellerPromotions = () => {
     }
   ];
 
+  if (selectedPromotion) {
+    return (
+      <SellerBoostAnalytics 
+        promotion={selectedPromotion} 
+        onBack={() => setSelectedPromotion(null)} 
+      />
+    );
+  }
+
   // Pagination
   const totalPages = Math.ceil(promotions.length / itemsPerPage);
   const startIndex = (currentPage - 1) * itemsPerPage;
@@ -106,17 +117,14 @@ const SellerPromotions = () => {
 
   const handlePause = (promotionId) => {
     console.log('Pause promotion:', promotionId);
-    // Handle pause action
   };
 
   const handleExtend = (promotionId) => {
     console.log('Extend promotion:', promotionId);
-    // Handle extend action
   };
 
-  const handleViewAnalytics = (promotionId) => {
-    console.log('View analytics:', promotionId);
-    // Handle view analytics action
+  const handleViewAnalytics = (promotion) => {
+    setSelectedPromotion(promotion);
   };
 
   const getBoostTypeColor = (type) => {
@@ -134,8 +142,10 @@ const SellerPromotions = () => {
   return (
     <div className="">
       {/* Breadcrumb */}
-      <div className="text-sm text-gray-500 mb-6">
-        Dashbaord &raquo; Promotions &raquo;
+      <div className="text-sm text-gray-500 mb-6 flex items-center gap-2">
+        <span>Dashboard</span>
+        <ChevronRight size={14} />
+        <span className="text-gray-900 font-medium">Promotions</span>
       </div>
 
       {/* Stats Cards */}
@@ -168,7 +178,8 @@ const SellerPromotions = () => {
         {paginatedPromotions.map((promotion) => (
           <div 
             key={promotion.id} 
-            className="bg-white rounded-lg border border-gray-200 p-6 hover:shadow-md transition-shadow"
+            className="bg-white rounded-lg border border-gray-200 p-6 hover:shadow-md transition-shadow cursor-pointer"
+            onClick={() => handleViewAnalytics(promotion)}
           >
             {/* Product Name and Boost Type */}
             <div className="flex items-center justify-between mb-4">
@@ -213,7 +224,7 @@ const SellerPromotions = () => {
                 </span>
               </div>
               
-              <div className="flex items-center gap-3">
+              <div className="flex items-center gap-3" onClick={(e) => e.stopPropagation()}>
                 <button
                   onClick={() => handlePause(promotion.id)}
                   className="flex items-center gap-2 px-4 py-2 border border-gray-300 rounded-lg text-sm hover:bg-gray-50"
@@ -229,7 +240,7 @@ const SellerPromotions = () => {
                   Extend Boost
                 </button>
                 <button
-                  onClick={() => handleViewAnalytics(promotion.id)}
+                  onClick={() => handleViewAnalytics(promotion)}
                   className="flex items-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-lg text-sm hover:bg-blue-700"
                 >
                   <BarChart3 size={14} />
@@ -244,7 +255,7 @@ const SellerPromotions = () => {
       {/* Empty State */}
       {promotions.length === 0 && (
         <div className="text-center py-12 bg-white rounded-lg border border-gray-200">
-          <TrendingUp className="w-12 h-12 text-gray-400 mx-auto mb-3" />
+          <Zap className="w-12 h-12 text-gray-400 mx-auto mb-3" />
           <p className="text-gray-500">No active boosts found</p>
           <button className="mt-4 px-4 py-2 bg-blue-600 text-white rounded-lg text-sm hover:bg-blue-700">
             Start a New Boost
