@@ -154,6 +154,10 @@ const ProductCard = ({ product, showBadge = true }) => {
             src={product.images[0] || car} 
             alt={product.title}
             loading='lazy'
+            onClick={(e) => {
+              e.stopPropagation();
+              handleActionClick();
+            }}
             className="w-full h-full object-cover hover:scale-105 transition-transform duration-300"
           />
         </div>
@@ -173,7 +177,7 @@ const ProductCard = ({ product, showBadge = true }) => {
         )}
 
         {/* Quick Actions Button for Mobile */}
-        <button 
+        {/* <button 
           className="absolute top-3 left-3 p-2 bg-white/80 backdrop-blur-sm rounded-full transition cursor-pointer hover:bg-white flex md:hidden" 
           onClick={(e) => {
             e.stopPropagation();
@@ -181,17 +185,17 @@ const ProductCard = ({ product, showBadge = true }) => {
           }}
         >
           <CircleQuestionMarkIcon size={14} />
-        </button>
+        </button> */}
 
         {/* Mobile Actions Menu */}
         <div 
-          className={`flex md:hidden absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 gap-2 z-20 transition-all duration-500 ${
+          className={`flex absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 gap-2 z-20 transition-all duration-500 ${
             showActions ? "opacity-100 scale-100" : "opacity-0 scale-90 pointer-events-none"
           }`}
           onClick={(e) => e.stopPropagation()}
         >
           <button 
-            className='bg-white rounded-full p-2 cursor-pointer shadow-lg hover:shadow-xl transition-shadow'
+            className='bg-white rounded-full p-2.5 cursor-pointer shadow-lg hover:shadow-xl transition-all hover:scale-105'
             onClick={handleWishlistToggle}
             disabled={isAddingToWishlist}
             title={isProductInWishlist ? 'Remove from wishlist' : 'Add to wishlist'}
@@ -202,7 +206,7 @@ const ProductCard = ({ product, showBadge = true }) => {
             />
           </button>
           <button 
-            className='bg-white rounded-full p-2 cursor-pointer shadow-lg hover:shadow-xl transition-shadow'
+            className='bg-white rounded-full p-2.5 cursor-pointer shadow-lg hover:shadow-xl transition-all hover:scale-105'
             onClick={handleAddToCart}
             disabled={isAddingToCart}
             title={isProductInCart ? 'View in cart' : 'Add to cart'}
@@ -213,7 +217,7 @@ const ProductCard = ({ product, showBadge = true }) => {
             />
           </button>
           <button 
-            className='bg-white rounded-full p-2 cursor-pointer shadow-lg hover:shadow-xl transition-shadow'
+            className='bg-white rounded-full p-2.5 cursor-pointer shadow-lg hover:shadow-xl transition-all hover:scale-105'
             onClick={handleQuickView}
             title="Quick view"
           >
@@ -222,7 +226,7 @@ const ProductCard = ({ product, showBadge = true }) => {
         </div>
 
         {/* Desktop Hover Actions */}
-        <div 
+        {/* <div 
           className="hidden md:flex absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 gap-2 z-20 transition-all duration-500 opacity-100 group-hover:opacity-100! pointer-events-auto group-hover:pointer-events-auto"
           onClick={(e) => e.stopPropagation()}
         >
@@ -255,7 +259,7 @@ const ProductCard = ({ product, showBadge = true }) => {
           >
             <Eye size={18} className="text-gray-700" />
           </button>
-        </div>
+        </div> */}
 
         {/* Condition Badge */}
         <div className="absolute bottom-3 left-3 bg-black/60 backdrop-blur-xs text-white px-2 py-1 rounded text-xs">

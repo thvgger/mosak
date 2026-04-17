@@ -5,9 +5,9 @@ import FlashSale from "../../components/marketplace/FlashSale";
 import Categories from '../../components/marketplace/Categories';
 import TodayDeals from '../../components/marketplace/TodayDeals';
 import TrendingSales from '../../components/marketplace/TrendingSales';
-import HireTrusted from '../../components/marketplace/HireTrusted';
 import JoinCommunity from '../../components/home/JoinCommunity';
 import { useLocation } from 'react-router-dom';
+import TopSellers from '../../components/marketplace/TopSellers';
 
 const MarketPlace = () => {
   const { hash } = useLocation(); 
@@ -37,7 +37,7 @@ const MarketPlace = () => {
         <Categories />
         <TodayDeals />
         <TrendingSales /> 
-        <HireTrusted />
+        <TopSellers />
       </div>
         <JoinCommunity />
     </section>
