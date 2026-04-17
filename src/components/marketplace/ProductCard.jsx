@@ -223,7 +223,7 @@ const ProductCard = ({ product, showBadge = true }) => {
 
         {/* Desktop Hover Actions */}
         <div 
-          className="hidden md:flex absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 gap-2 z-20 transition-all duration-500 opacity-0 group-hover:opacity-100! pointer-events-none group-hover:pointer-events-auto"
+          className="hidden md:flex absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 gap-2 z-20 transition-all duration-500 opacity-100 group-hover:opacity-100! pointer-events-auto group-hover:pointer-events-auto"
           onClick={(e) => e.stopPropagation()}
         >
           <button 

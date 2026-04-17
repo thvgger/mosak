@@ -159,7 +159,7 @@ const SellerDashboard = () => {
             <h1 className="text-xl font-semibold text-white">Welcome back, {user.full_name}</h1>
             <div className="flex items-center space-x-2 mt-4">
               <span className="px-3 py-1.5 bg-gray-200 text-xs text-gray-500 font-medium rounded-md flex items-center gap-1">
-                <img src={silver} alt='' className='object-cover w-5 mx-auto h-fit' />
+                <img src={silver} alt='' className='object-cover w-5 mx-auto h-5' />
                 SILVER
               </span>
               <span className="px-3 py-2 bg-gray-100 text-primary text-xs font-medium rounded-md flex items-center gap-1">
@@ -496,8 +496,8 @@ const SellerDashboard = () => {
                   <tr key={index} className="hover:bg-gray-50 transition-colors">
                     <td className="px-6 py-4">
                       <div>
-                        <p className="font-medium text-gray-800">{order.id}</p>
-                        <p className="text-sm text-gray-500">{order.product}</p>
+                        <p className="font-medium text-gray-800 text-nowrap">{order.id}</p>
+                        <p className="text-sm text-gray-500 text-nowrap">{order.product}</p>
                         <p className="text-xs text-gray-400 mt-1">{order.time}</p>
                       </div>
                     </td>
@@ -513,7 +513,7 @@ const SellerDashboard = () => {
                       <span className="font-medium text-gray-800">{order.amount}</span>
                     </td>
                     <td className="px-6 py-4">
-                      <span className={`inline-flex items-center gap-1 px-3 py-1 rounded-full text-xs font-medium ${order.statusColor}`}>
+                      <span className={`inline-flex items-center gap-1 px-3 py-1 rounded-full text-xs font-medium text-nowrap ${order.statusColor}`}>
                         <StatusIcon size={12} />
                         {order.status}
                       </span>

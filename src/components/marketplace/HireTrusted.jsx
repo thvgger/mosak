@@ -102,7 +102,7 @@ const HireTrusted = () => {
               <div className='flex flex-col sm:flex-row items-start sm:items-center justify-between px-2 mb-4'>
                 <p className='text-lg font-semibold'> {service.userName} </p>
                 <span className={`p-1 px-2 rounded text-xs bg-primary/10 flex items-center gap-1 ${getBadgeColor(service.rank)}`}>
-                  <img src={service.icon} className='object-cover w-4 h-fit'/> 
+                  <img src={service.icon} className='object-cover w-4 h-4'/> 
                   {service.rank} 
                 </span>
               </div>

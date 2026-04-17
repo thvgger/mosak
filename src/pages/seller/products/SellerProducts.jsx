@@ -30,6 +30,7 @@ const SellerProducts = () => {
     {
       id: 1,
       name: 'iPhone 15 Pro Max 256GB',
+      category: "Phones",
       status: 'Active',
       price: '#1,250,000',
       stock: 24,

@@ -8,7 +8,7 @@ import { useAuth } from '../../contexts/AuthContext';
 const AccountPopup = ({ user, onLogout, onClose }) => {
   const { 
     // addRole, 
-    loading, 
+    // loading, 
     hasCompleteSellerProfile, 
   } = useAuth();
 
@@ -31,10 +31,10 @@ const AccountPopup = ({ user, onLogout, onClose }) => {
   };
 
   // All available dashboard types
-  const allDashboards = [
-    { role: 'BUYER', icon: User, label: 'Buyer Dashboard', path: '/account' },
-    { role: 'SELLER', icon: Store, label: 'Seller Dashboard', path: '/seller' },
-  ];
+  // const allDashboards = [
+  //   { role: 'BUYER', icon: User, label: 'Buyer Dashboard', path: '/account' },
+  //   { role: 'SELLER', icon: Store, label: 'Seller Dashboard', path: '/seller' },
+  // ];
 
   // Get user's roles - check from the user object
   const userRoles = user?.roles || [];

@@ -2,7 +2,7 @@
 import { useState } from 'react';
 import { User, MapPin, Calendar, CheckCircle } from 'lucide-react';
 
-const BecomeBuyerPopup = ({ onClose, onSubmit, loading, user }) => {
+const BecomeBuyerPopup = ({ onClose, onSubmit, loading, }) => {
   const [formData, setFormData] = useState({
     address: '',
     date_of_birth: ''
