@@ -319,7 +319,7 @@ const Messages = () => {
               h-full flex-1 flex flex-col bg-white
               transition-all duration-300 ease-in-out
               ${showMobileChat 
-                ? 'fixed inset-0 z-[700] flex h-[100dvh] w-screen md:relative md:h-full md:w-auto md:z-0' 
+                ? 'fixed inset-0 z-[700] flex w-screen md:relative md:h-full md:w-auto md:z-0' 
                 : 'hidden md:flex'
               }
             `}

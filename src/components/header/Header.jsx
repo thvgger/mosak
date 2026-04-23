@@ -1,6 +1,6 @@
 // components/header/Header.jsx (updated section)
 import { useState, useRef, useEffect } from "react";
-import { Link, NavLink, useNavigate } from "react-router-dom";
+import { Link, NavLink, useNavigate, useLocation } from "react-router-dom";
 import Logo from "../../assets/mosalak-logo.png";
 import avatar from "../../assets/avatar.png";
 import { X, Menu, MessageSquare, Bell } from 'lucide-react';
@@ -14,10 +14,12 @@ const Header = ({ isCommunity, isMobileMenuOpen, setIsMobileMenuOpen, isDashboar
   const { user, logout, isAuthenticated } = useAuth();
   const { cartItemCount, wishlist } = useShopping();
   const { openModal } = useAuthModal();
+  const location = useLocation();
 
-   // Debug: Log user data
-  // console.log('Header - user:', user);
-  // console.log('Header - isAuthenticated:', isAuthenticated);
+  const currentDashboardLabel = location.pathname.startsWith('/seller') ? 'Seller' : 
+                                location.pathname.startsWith('/freelancer') ? 'Freelancer' :
+                                location.pathname.startsWith('/employer') ? 'Employer' :
+                                location.pathname.startsWith('/account') ? 'Buyer' : null;
   
   const [accountPopup, setAccountPopup] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -76,7 +78,7 @@ const Header = ({ isCommunity, isMobileMenuOpen, setIsMobileMenuOpen, isDashboar
               {isMobileMenuOpen ? <X size={24} className="text-gray-500" /> : <PanelRightClose className="text-gray-500" size={24} />}
             </button>
           )}
-          <div className="w-full h-full flex items-center">
+          <div className="w-full h-full flex items-center gap-4">
             <Link to="/" className="w-fit h-fit" onClick={()=> { setIsMenuOpen(false); scrollTo(0,0); }}>
               <img src={Logo} alt="Mosak Hub Logo" className="w-20 md:w-26 -ml-1 object-cover" />
             </Link>
@@ -122,19 +124,26 @@ const Header = ({ isCommunity, isMobileMenuOpen, setIsMobileMenuOpen, isDashboar
                   <div ref={accountRef} className="text-sm text-dark/80 relative"> 
                     <button 
                       onClick={() => setAccountPopup(!accountPopup)} 
-                      className="flex items-center gap-0.5 cursor-pointer"
+                      className={`flex items-center gap-2 cursor-pointer transition-all duration-200 ${isDashboard ? "bg-gray-50 hover:bg-gray-100 px-2 py-1 rounded-full border border-gray-200" : ""}`}
                     >
                       {user.avatar ? (
                         <img src={user?.avatar || avatar} alt={user?.name || 'User'} className="w-7 h-7 rounded-full object-cover" />
                       ) : (
-                        <span className="bg-primary text-white w-8 h-8 flex items-center justify-center rounded-full">
+                        <span className="bg-primary text-white w-8 h-8 flex items-center justify-center rounded-full text-[13px] font-bold">
                           {user?.full_name.charAt(0)}
                         </span>
                       )}
+
+                      {isDashboard && currentDashboardLabel && (
+                        <span className="hidden sm:block text-[10px] font-bold text-gray-500 uppercase tracking-widest">
+                          {currentDashboardLabel}
+                        </span>
+                      )}
+
                       <ChevronDown 
                         size={16} 
                         strokeWidth={1.5} 
-                        className={`transition-all duration-200 ${accountPopup ? "rotate-180" : ""}`} 
+                        className={`text-gray-400 transition-all duration-200 ${accountPopup ? "rotate-180" : ""}`} 
                       />
                     </button>
                     {accountPopup && (

@@ -1,18 +1,14 @@
 // components/header/AccountPopup.jsx
-import React, { useEffect } from 'react';
-import { Store, User, LogOut, Settings } from 'lucide-react';
-import { Link, useNavigate } from 'react-router-dom';
+import React from 'react';
+import { Store, User, LogOut, Settings, Check } from 'lucide-react';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { useAuthModal } from '../../contexts/AuthModalContext';
 import { useAuth } from '../../contexts/AuthContext';
 
 const AccountPopup = ({ user, onLogout, onClose }) => {
-  const { 
-    // addRole, 
-    // loading, 
-    hasCompleteSellerProfile, 
-  } = useAuth();
-
+  const { hasCompleteSellerProfile } = useAuth();
   const navigate = useNavigate();
+  const location = useLocation();
   const { openModal } = useAuthModal();
 
   const handleNavigation = (path) => {
@@ -30,30 +26,9 @@ const AccountPopup = ({ user, onLogout, onClose }) => {
     openModal('role');
   };
 
-  // All available dashboard types
-  // const allDashboards = [
-  //   { role: 'BUYER', icon: User, label: 'Buyer Dashboard', path: '/account' },
-  //   { role: 'SELLER', icon: Store, label: 'Seller Dashboard', path: '/seller' },
-  // ];
-
-  // Get user's roles - check from the user object
   const userRoles = user?.roles || [];
-  
-  // console.log('AccountPopup - user:', user);
-  // console.log('AccountPopup - userRoles:', userRoles);
-  // Add this right after the user check
-  console.log('User object:', user);
-  console.log('User roles:', userRoles);
-  console.log('Business profile:', user?.business_profile);
-  console.log('Has complete seller profile:', hasCompleteSellerProfile());
+  const currentPath = location.pathname;
 
-  // In AccountPopup.jsx, add this to debug and track changes
-  useEffect(() => {
-    console.log('AccountPopup - User updated:', user);
-    console.log('Business profile:', user?.business_profile);
-  }, [user]);
-
-  // If no user, show sign in/sign up buttons
   if (!user) {
     return (
       <div className='absolute z-70 mt-4 border border-dark/10 top-full right-0 w-72 rounded-xl shadow-md bg-white p-4 text-sm text-dark'>
@@ -65,227 +40,132 @@ const AccountPopup = ({ user, onLogout, onClose }) => {
     );
   }
 
-  // User is logged in - show dashboard options
+  const dashboardOptions = [
+    { 
+      role: 'BUYER', 
+      icon: User, 
+      label: 'Buyer Dashboard', 
+      path: '/account',
+      isActive: currentPath.startsWith('/account')
+    },
+    { 
+      role: 'SELLER', 
+      icon: Store, 
+      label: 'Seller Dashboard', 
+      path: '/seller',
+      isActive: currentPath.startsWith('/seller')
+    }
+  ];
+
   return (
     <div className='absolute z-70 mt-4 border border-dark/10 top-full right-0 w-72 rounded-xl shadow-md bg-white p-4 text-sm text-dark'>
       {/* User Info Section */}
-      <div className='mb-2 pb-4 border-b border-gray-300'>
+      <div className='mb-2 pb-4 border-b border-gray-100'>
         <div className='flex items-center gap-3'>
           <div className='w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center'>
-            <span className='text-primary font-semibold'>
-              {user.full_name?.charAt(0) || 'U'}
-            </span>
-          </div>
-          <div>
-            <p className='font-semibold flex items-center gap-1 mb-0.5'>
-              {user.full_name} 
-              {user.kyc_status && (
-              <span className={`text-[10px] px-1.5 py-0.5 rounded-full font-light ${
-                user.kyc_status === 'VERIFIED' ? 'bg-primary/10 text-primary' : 
-                'bg-gray-200 text-gray-700'
-              }`}>
-                {user.kyc_status}
+            {user.avatar ? (
+               <img src={user.avatar} alt="" className="w-full h-full rounded-full object-cover" />
+            ) : (
+              <span className='text-primary font-semibold'>
+                {user.full_name?.charAt(0) || 'U'}
               </span>
             )}
+          </div>
+          <div className="overflow-hidden">
+            <p className='font-semibold truncate mb-0.5'>
+              {user.full_name} 
             </p>
-            <p className='text-xs text-gray-500'>{user.email}</p>
+            <p className='text-xs text-gray-500 truncate'>{user.email}</p>
           </div>
         </div>
+        {user.kyc_status && (
+          <div className="mt-2">
+            <span className={`text-[10px] px-2 py-0.5 rounded-full font-medium ${
+              user.kyc_status === 'VERIFIED' ? 'bg-green-100 text-green-700' : 
+              'bg-yellow-100 text-yellow-700'
+            }`}>
+              {user.kyc_status}
+            </span>
+          </div>
+        )}
       </div>
       
-      <div className='space-y-2'>
-        {/* Available Dashboards Section */}
-        {/* {allDashboards.map((dashboard) => {
-          const Icon = dashboard.icon;
-          const hasAccess = userRoles.includes(dashboard.role);
-          const isCurrentPath = window.location.pathname.startsWith(dashboard.path);
-
-          // Only show dashboards the user has access to
-          if (!hasAccess) return null;
-
-          return (
-            <>
-            <button
-              key={dashboard.role}
-              onClick={() => handleNavigation(dashboard.path)}
-              className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-lg transition-all ${
-                isCurrentPath ? 'bg-primary/10 text-primary' : 'hover:bg-gray-50 text-gray-700'
-              }`}
-            >
-              <Icon size={18} strokeWidth={1.5} />
-              <span className="flex-1 text-left">{dashboard.label}</span>
-              {isCurrentPath && (
-                <span className="text-xs bg-primary text-white px-2 py-0.5 rounded-full">
-                  Active
-                </span>
-              )}
-            </button>
-            <hr className='border border-gray-200' />
-            </>
-          );
-        })} */}
-
-        {/* <hr className='border border-gray-200' /> */}
-
-        {/* Become a Buyer Button - Show only if user doesn't have buyer role */}
-        {userRoles.includes('BUYER') ? (
-          <>
-            <Link 
-              to="/account" 
-              className='w-full flex items-center gap-3 px-3 py-2.5 hover:bg-gray-50 rounded-lg text-gray-700'
-            >
-              <User size={18} strokeWidth={1.5} />
-              Buyer Dashboard
-            </Link>
-            <hr className='border border-gray-200' />
-          </>
-        ) : (
-          <button 
-            onClick={() => {
-              onClose();
-              openModal('become-buyer');
-            }}
-            className='w-full flex items-center gap-3 px-3 py-2.5 hover:bg-gray-50 rounded-lg text-gray-700'
-          >
-            <User size={18} strokeWidth={1.5} />
-            Become a Buyer
-          </button>
-        )}
-
-
-        {/* Seller Section */}
-        {/* {userRoles.includes('SELLER') ? (
-          <Link 
-            to="/seller" 
-            className='w-full flex items-center gap-3 px-3 py-2.5 hover:bg-gray-50 rounded-lg text-gray-700'
-          >
-            <Store size={18} strokeWidth={1.5} />
-            Seller Dashboard
-          </Link>
-        ) : (
-          <button 
-            onClick={() => {
-              onClose();
-              openModal('become-seller');
-            }}
-            className='w-full flex items-center gap-3 px-3 py-2.5 hover:bg-gray-50 rounded-lg text-gray-700'
-          >
-            <Store size={18} strokeWidth={1.5} />
-            Become a Seller
-          </button>
-        )} */}
-
-
-        {/* {!userRoles.includes('BUYER') ? (
-          loading ? (
-            <div className='w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-gray-400'>
-              <User size={18} strokeWidth={1.5} className="animate-pulse" />
-              <span className="flex-1 text-left animate-pulse">Loading...</span>
-            </div>
-          ) : ( 
-            <>
+      <div className='space-y-1 py-2'>
+        <p className="px-3 py-1 text-[10px] font-bold text-gray-400 uppercase tracking-widest">Dashboards</p>
+        
+        {dashboardOptions.map((option) => {
+          const hasRole = userRoles.includes(option.role);
+          
+          if (!hasRole) {
+            // Show "Become a ..." button
+            return (
               <button 
+                key={option.role}
                 onClick={() => {
                   onClose();
-                  openModal('become-buyer'); // Open buyer modal instead of seller
+                  openModal(option.role === 'SELLER' ? 'become-seller' : 'become-buyer');
                 }}
                 className='w-full flex items-center gap-3 px-3 py-2.5 hover:bg-gray-50 rounded-lg text-gray-700 transition-colors group'
               >
-                <User size={18} strokeWidth={1.5} className="group-hover:text-primary transition-colors" />
-                <span className="flex-1 text-left">Become a Buyer</span>
-                <span className="text-xs bg-primary/10 text-primary px-2 py-0.5 rounded-full">
-                  New
-                </span>
+                <option.icon size={18} strokeWidth={1.5} className="text-gray-400 group-hover:text-primary" />
+                <span className="flex-1 text-left">Become a {option.role === 'SELLER' ? 'Seller' : 'Buyer'}</span>
+                <span className="text-[10px] bg-primary/10 text-primary px-1.5 py-0.5 rounded-full font-bold">New</span>
               </button>
-              <hr className='border border-gray-200' />
-            </>
-          )
-        ) : (
-          <>
-            <Link to="/account" className='w-full flex items-center gap-3 px-3 py-2.5 hover:bg-gray-50 rounded-lg text-gray-700'>
-              <User size={18} strokeWidth={1.5} />
-              Buyer Dashboard
+            );
+          }
+
+          // Special case for incomplete seller profile
+          if (option.role === 'SELLER' && !hasCompleteSellerProfile()) {
+            return (
+              <button 
+                key={option.role}
+                onClick={() => {
+                  onClose();
+                  openModal('become-seller');
+                }}
+                className='w-full flex items-center gap-3 px-3 py-2.5 hover:bg-gray-50 rounded-lg text-gray-700 transition-colors group'
+              >
+                <option.icon size={18} strokeWidth={1.5} className="text-gray-400 group-hover:text-primary" />
+                <span className="flex-1 text-left">Complete Store Setup</span>
+                <span className="text-[10px] bg-yellow-100 text-yellow-700 px-1.5 py-0.5 rounded-full font-bold">Action</span>
+              </button>
+            );
+          }
+
+          // Standard dashboard link
+          return (
+            <Link 
+              key={option.role}
+              to={option.path}
+              onClick={onClose}
+              className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-lg transition-colors ${
+                option.isActive ? 'bg-primary/10 text-primary font-medium' : 'hover:bg-gray-50 text-gray-700'
+              }`}
+            >
+              <option.icon size={18} strokeWidth={1.5} className={option.isActive ? 'text-primary' : 'text-gray-400'} />
+              <span className="flex-1 text-left">{option.label}</span>
+              {option.isActive && <Check size={14} />}
             </Link>
-            <hr className='border border-gray-200' />
-          </>
-        )} */}
+          );
+        })}
 
-        {/* Become a Seller Button - Show only if user doesn't have seller role */}
-        {/* // For Seller button */}
-        {/* // Then in the button logic: */}
-        {/* // In AccountPopup.jsx, update the condition */}
-        {!userRoles.includes('SELLER') ? (
-          // Show Become a Seller button
-          <button 
-            onClick={() => {
-              onClose();
-              openModal('become-seller');
-            }}
-            className='w-full flex items-center gap-3 px-3 py-2.5 hover:bg-gray-50 rounded-lg text-gray-700 transition-colors group'
-          >
-            <Store size={18} strokeWidth={1.5} className="group-hover:text-primary transition-colors" />
-            <span className="flex-1 text-left">Become a Seller</span>
-            <span className="text-xs bg-primary/10 text-primary px-2 py-0.5 rounded-full">
-              New
-            </span>
-          </button>
-        ) : !user?.business_profile?.business_name || 
-          !user?.business_profile?.business_address || 
-          !user?.business_profile?.business_description ? (
-        // Show Complete Store Setup if profile is incomplete
-        <button 
-          onClick={() => {
-            onClose();
-            openModal('become-seller');
-          }}
-          className='w-full flex items-center gap-3 px-3 py-2.5 hover:bg-gray-50 rounded-lg text-gray-700 transition-colors group'
-        >
-          <Store size={18} strokeWidth={1.5} className="group-hover:text-primary transition-colors" />
-          <span className="flex-1 text-left">Complete Store Setup</span>
-          <span className="text-xs bg-yellow-100 text-yellow-700 px-2 py-0.5 rounded-full">
-            Required
-          </span>
-        </button>
-      ) : (
-        // Show Seller Dashboard link
-        <Link to="/seller" className='w-full flex items-center gap-3 px-3 py-2.5 hover:bg-gray-50 rounded-lg text-gray-700'>
-          <Store size={18} strokeWidth={1.5} />
-          Seller Dashboard
-        </Link>
-      )}
+        <div className="my-2 border-t border-gray-100"></div>
+        <p className="px-3 py-1 text-[10px] font-bold text-gray-400 uppercase tracking-widest">Account</p>
 
-        {/* {!user.role === "SELLER" ? (
-          <button className='w-full flex items-center gap-3 px-3 py-2.5 hover:bg-gray-50 rounded-lg text-gray-700'>
-            <Store size={18} strokeWidth={1.5} />
-            Become a Seller
-          </button>
-        ) : (
-          <Link to="/seller" className='w-full flex items-center gap-3 px-3 py-2.5 hover:bg-gray-50 rounded-lg text-gray-700'>
-            <Store size={18} strokeWidth={1.5} />
-            Seller Dashboard
-          </Link>
-          
-        )} */}
-
-        {/* <hr className='border-gray-200' /> */}
-
-        {/* Settings */}
         <button 
           onClick={() => handleNavigation('/account/profile')}
           className='w-full flex items-center gap-3 px-3 py-2.5 hover:bg-gray-50 rounded-lg text-gray-700'
         >
-          <Settings size={18} strokeWidth={1.5} />
+          <Settings size={18} strokeWidth={1.5} className="text-gray-400" />
           <span className="flex-1 text-left">Settings</span>
         </button>
 
-        {/* <hr className='border border-gray-200' /> */}
-
         <button 
           onClick={onLogout}
-          className='w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-red-600 hover:bg-red-50'
+          className='w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-red-600 hover:bg-red-50 group'
         >
-          <LogOut size={18} />
-          <span>Logout</span>
+          <LogOut size={18} strokeWidth={1.5} className="text-red-400 group-hover:text-red-600" />
+          <span className="font-medium">Logout</span>
         </button>
       </div>
     </div>
