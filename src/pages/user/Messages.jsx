@@ -226,14 +226,14 @@ const Messages = () => {
   };
 
   return (
-    <div className="h-[calc(100vh-144px)] md:h-[calc(100vh-150px)] flex flex-col -m-6 md:m-0 p-4 md:p-0 overflow-y-hidden">
+    <div className="h-[calc(100dvh-144px)] md:h-[calc(100vh-150px)] flex flex-col -m-6 md:m-0 p-4 md:p-0 overflow-hidden relative">
       {/* Header - Only show on desktop or when no chat is selected on mobile */}
       {/* <div className={`mb-4 ${showMobileChat ? 'hidden md:block' : 'block'}`}>
         <h1 className="text-2xl font-bold text-gray-800">Messages</h1>
       </div> */}
 
       {/* Messages Container */}
-      <div className="flex-1 border-0 md:border border-gray-200 rounded-lg md:rounded-xl overflow-hidden flex flex-col md:flex-row shadow-none">
+      <div className="flex-1 border-0 md:border border-gray-200 rounded-lg md:rounded-xl overflow-hidden flex flex-col md:flex-row shadow-none relative">
         {/* Conversations List - Left Side */}
         <div 
           className={`
@@ -325,7 +325,7 @@ const Messages = () => {
             `}
           >
             {/* Chat Header */}
-            <div className="p-4 bg-primary text-white flex items-center justify-between sticky top-0 md:relative z-10">
+            <div className="p-4 bg-primary text-white flex items-center justify-between sticky top-0 md:relative z-10 safe-top">
               <div className="flex items-center space-x-3">
                 {/* Back button for mobile */}
                 <button 
@@ -398,7 +398,7 @@ const Messages = () => {
             </div>
 
             {/* Messages */}
-            <div className="flex-1 overflow-y-auto p-4 space-y-4 md:pb-4">
+            <div className="flex-1 overflow-y-auto p-4 space-y-4 pb-4">
               {messages.map((message) => (
                 <div
                   key={message.id}
@@ -437,7 +437,7 @@ const Messages = () => {
             </div>
 
             {/* Message Input */}
-            <div className="p-3 sm:p-4 border-t border-gray-200 bg-white z-20 relative w-full">
+            <div className="p-3 sm:p-4 border-t border-gray-200 bg-white z-20 relative w-full safe-bottom">
               {/* Attachment Preview */}
               {showAttachments && (
                 <div className="mb-0 flex items-center space-x-2 overflow-x-auto pb-2">
@@ -473,7 +473,7 @@ const Messages = () => {
                     onChange={(e) => setMessageInput(e.target.value)}
                     placeholder="Type your message..."
                     rows="1"
-                    className="w-full px-3 sm:px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent resize-none text-sm sm:text-base max-h-10 scrollbar-hide"
+                    className="w-full px-3 sm:px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent resize-none text-base sm:text-base max-h-10 scrollbar-hide"
                     // style={{ minHeight: '40px', maxHeight: '40px' }}
                     onInput={(e) => {
                       e.target.style.height = 'auto';

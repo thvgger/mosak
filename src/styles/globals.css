@@ -109,5 +109,20 @@
   .card {
     @apply rounded-lg border border-border bg-white shadow-soft;
   }
+
+  /* Utility classes for mobile safe areas and layout */
+  .safe-top {
+    padding-top: env(safe-area-inset-top);
+  }
+  .safe-bottom {
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
+  }
+  .scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
 }
 
