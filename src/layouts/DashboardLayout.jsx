@@ -38,9 +38,8 @@ const DashboardLayout = ({ isMobileMenuOpen, setIsMobileMenuOpen }) => {
           flex-1 
           py-4 md:py-8 px-4 sm:px-6 lg:px-8
           lg:ml-64
-          overflow-x-hidden
         ">
-          <div className="w-full h-full max-w-7xl mx-auto overflow-x-hidden">
+          <div className="w-full h-full max-w-7xl mx-auto">
             <Outlet />
           </div>
         </main>

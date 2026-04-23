@@ -311,76 +311,78 @@ const Messages = () => {
               h-full flex-1 flex flex-col bg-white
               transition-all duration-300 ease-in-out
               ${showMobileChat 
-                ? 'fixed inset-0 z-[9999] flex w-screen h-screen md:relative md:h-full md:w-auto md:z-0' 
+                ? '!fixed !inset-0 !z-[9999] flex !w-screen !h-[100dvh] md:relative md:!h-full md:!w-auto md:!z-0' 
                 : 'hidden md:flex'
               }
             `}
           >
             {/* Chat Header */}
-            <div className="p-4 bg-primary text-white flex items-center justify-between sticky top-0 md:relative z-10 safe-top">
-              <div className="flex items-center space-x-3">
-                {/* Back button for mobile */}
-                <button 
-                  onClick={handleBack}
-                  className="md:hidden p-1 hover:bg-gray-50/10 rounded-full transition-colors"
-                >
-                  <ArrowLeft size={20} className="" />
-                </button>
-                <div className="relative">
-                  <img
-                    src={selectedChat.avatar || car}
-                    className="w-10 h-10 rounded-full object-cover border border-white"
-                  />
-                  {selectedChat.online && (
-                    <span className="absolute bottom-0 right-0 w-2.5 h-2.5 bg-green-500 border-2 border-white rounded-full"></span>
-                  )}
-                </div>
-                <div>
-                  <h2 className="font-semibold ">{selectedChat.name}</h2>
-                  <p className="text-xs ">
-                    {selectedChat.online ? 'Active Now' : 'Offline'}
-                  </p>
-                </div>
-              </div>
-              <div className="flex items-center space-x-2">
-                <button className="p-2 hover:bg-gray-50/10 rounded-full transition-colors hidden sm:block">
-                  <Video size={18} className="" />
-                </button>
-                <button className="p-2 hover:bg-gray-50/10 rounded-full transition-colors hidden sm:block">
-                  <Phone size={18} className="" />
-                </button>
-                
-                <div className="relative" ref={optionsRef}>
+            <div className="bg-primary text-white sticky top-0 md:relative z-10">
+              <div className="p-4 flex items-center justify-between safe-top">
+                <div className="flex items-center space-x-3">
+                  {/* Back button for mobile */}
                   <button 
-                    onClick={() => setShowOptions(!showOptions)}
-                    className="p-2 hover:bg-gray-50/10 rounded-full transition-colors"
+                    onClick={handleBack}
+                    className="md:hidden p-1 hover:bg-gray-50/10 rounded-full transition-colors"
                   >
-                    <MoreVertical size={18} className="" />
+                    <ArrowLeft size={20} className="" />
                   </button>
+                  <div className="relative">
+                    <img
+                      src={selectedChat.avatar || car}
+                      className="w-10 h-10 rounded-full object-cover border border-white"
+                    />
+                    {selectedChat.online && (
+                      <span className="absolute bottom-0 right-0 w-2.5 h-2.5 bg-green-500 border-2 border-white rounded-full"></span>
+                    )}
+                  </div>
+                  <div>
+                    <h2 className="font-semibold ">{selectedChat.name}</h2>
+                    <p className="text-xs ">
+                      {selectedChat.online ? 'Active Now' : 'Offline'}
+                    </p>
+                  </div>
+                </div>
+                <div className="flex items-center space-x-2">
+                  <button className="p-2 hover:bg-gray-50/10 rounded-full transition-colors hidden sm:block">
+                    <Video size={18} className="" />
+                  </button>
+                  <button className="p-2 hover:bg-gray-50/10 rounded-full transition-colors hidden sm:block">
+                    <Phone size={18} className="" />
+                  </button>
+                  
+                  <div className="relative" ref={optionsRef}>
+                    <button 
+                      onClick={() => setShowOptions(!showOptions)}
+                      className="p-2 hover:bg-gray-50/10 rounded-full transition-colors"
+                    >
+                      <MoreVertical size={18} className="" />
+                    </button>
 
-                  {showOptions && (
-                    <div className="absolute right-0 top-10 mt-2 bg-white rounded-xl shadow-lg border border-gray-100 p-1.5 min-w-[170px] z-50 animate-popup-in">
-                      <button className="flex items-center gap-3 w-full px-3 py-2 text-sm text-gray-700 hover:bg-gray-50 rounded-lg transition-colors group">
-                        <Box size={16} className="text-gray-400 group-hover:text-primary transition-colors" />
-                        <span>View Product</span>
-                      </button>
-                      <button className="flex items-center gap-3 w-full px-3 py-2 text-sm text-gray-700 hover:bg-gray-50 rounded-lg transition-colors group">
-                        <Clock size={16} className="text-gray-400 group-hover:text-primary transition-colors" />
-                        <span>{selectedChat.status === 'seller' ? 'Create Deal' : 'Create Offer'}</span>
-                      </button>
-                      
-                      <div className="my-1 border-t border-gray-100" />
-                      
-                      <button className="flex items-center gap-3 w-full px-3 py-2 text-sm text-red-600 hover:bg-red-50 rounded-lg transition-colors group">
-                        <AlertCircle size={16} className="text-red-400 group-hover:text-red-600 transition-colors" />
-                        <span>Report {selectedChat.status === 'buyer' ? 'Buyer' : selectedChat.status === 'seller' ? 'Seller' : 'User'}</span>
-                      </button>
-                      <button className="flex items-center gap-3 w-full px-3 py-2 text-sm text-red-600 hover:bg-red-50 rounded-lg transition-colors group">
-                        <X size={16} className="text-red-400 group-hover:text-red-600 transition-colors" />
-                        <span>Block {selectedChat.status === 'buyer' ? 'Buyer' : selectedChat.status === 'seller' ? 'Seller' : 'User'}</span>
-                      </button>
-                    </div>
-                  )}
+                    {showOptions && (
+                      <div className="absolute right-0 top-10 mt-2 bg-white rounded-xl shadow-lg border border-gray-100 p-1.5 min-w-[170px] z-50 animate-popup-in">
+                        <button className="flex items-center gap-3 w-full px-3 py-2 text-sm text-gray-700 hover:bg-gray-50 rounded-lg transition-colors group">
+                          <Box size={16} className="text-gray-400 group-hover:text-primary transition-colors" />
+                          <span>View Product</span>
+                        </button>
+                        <button className="flex items-center gap-3 w-full px-3 py-2 text-sm text-gray-700 hover:bg-gray-50 rounded-lg transition-colors group">
+                          <Clock size={16} className="text-gray-400 group-hover:text-primary transition-colors" />
+                          <span>{selectedChat.status === 'seller' ? 'Create Deal' : 'Create Offer'}</span>
+                        </button>
+                        
+                        <div className="my-1 border-t border-gray-100" />
+                        
+                        <button className="flex items-center gap-3 w-full px-3 py-2 text-sm text-red-600 hover:bg-red-50 rounded-lg transition-colors group">
+                          <AlertCircle size={16} className="text-red-400 group-hover:text-red-600 transition-colors" />
+                          <span>Report {selectedChat.status === 'buyer' ? 'Buyer' : selectedChat.status === 'seller' ? 'Seller' : 'User'}</span>
+                        </button>
+                        <button className="flex items-center gap-3 w-full px-3 py-2 text-sm text-red-600 hover:bg-red-50 rounded-lg transition-colors group">
+                          <X size={16} className="text-red-400 group-hover:text-red-600 transition-colors" />
+                          <span>Block {selectedChat.status === 'buyer' ? 'Buyer' : selectedChat.status === 'seller' ? 'Seller' : 'User'}</span>
+                        </button>
+                      </div>
+                    )}
+                  </div>
                 </div>
               </div>
             </div>
