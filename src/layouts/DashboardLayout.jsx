@@ -19,7 +19,7 @@ const DashboardLayout = ({ isMobileMenuOpen, setIsMobileMenuOpen }) => {
   const isDashboard = isAccount || isSeller || isFreelancer || isEmployer;
 
   return (
-    <div className="min-h-screen bg-gray-50 pb-20 md:pb-0">
+    <div className="min-h-screen bg-gray-50">
       <Header 
         isAccount={isDashboard} 
         isDashboard={true}  
@@ -36,7 +36,6 @@ const DashboardLayout = ({ isMobileMenuOpen, setIsMobileMenuOpen }) => {
         {/* Main Content - Responsive padding and margin */}
         <main className="
           flex-1 
-          transition-all duration-300
           py-4 md:py-8 px-4 sm:px-6 lg:px-8
           lg:ml-64
           overflow-x-hidden

@@ -48,11 +48,17 @@ const Messages = () => {
   useEffect(() => {
     if (showMobileChat && window.innerWidth < 768) {
       document.body.style.overflow = 'hidden';
+      document.body.style.position = 'fixed';
+      document.body.style.width = '100%';
     } else {
       document.body.style.overflow = '';
+      document.body.style.position = '';
+      document.body.style.width = '';
     }
     return () => {
       document.body.style.overflow = '';
+      document.body.style.position = '';
+      document.body.style.width = '';
     };
   }, [showMobileChat]);
 
@@ -226,12 +232,7 @@ const Messages = () => {
   };
 
   return (
-    <div className="h-[calc(100dvh-144px)] md:h-[calc(100vh-150px)] flex flex-col -m-6 md:m-0 p-4 md:p-0 overflow-hidden relative">
-      {/* Header - Only show on desktop or when no chat is selected on mobile */}
-      {/* <div className={`mb-4 ${showMobileChat ? 'hidden md:block' : 'block'}`}>
-        <h1 className="text-2xl font-bold text-gray-800">Messages</h1>
-      </div> */}
-
+    <div className="flex-1 flex flex-col h-full md:h-[calc(100vh-150px)] overflow-hidden relative">
       {/* Messages Container */}
       <div className="flex-1 border-0 md:border border-gray-200 rounded-lg md:rounded-xl overflow-hidden flex flex-col md:flex-row shadow-none relative">
         {/* Conversations List - Left Side */}
@@ -297,15 +298,6 @@ const Messages = () => {
                       </span>
                     )}
                   </p>
-                  {/* <div className="flex items-center justify-between mt-1">
-                    <span className={`text-xs px-2 py-0.5 rounded-full ${
-                      chat.status === 'seller' ? 'bg-blue-100 text-blue-700' :
-                      chat.status === 'buyer' ? 'bg-green-100 text-green-700' :
-                      'bg-purple-100 text-purple-700'
-                    }`}>
-                      {chat.status}
-                    </span>
-                  </div> */}
                 </div>
               </button>
             ))}
@@ -319,7 +311,7 @@ const Messages = () => {
               h-full flex-1 flex flex-col bg-white
               transition-all duration-300 ease-in-out
               ${showMobileChat 
-                ? 'fixed inset-0 z-[700] flex w-screen md:relative md:h-full md:w-auto md:z-0' 
+                ? 'fixed inset-0 z-[9999] flex w-screen h-screen md:relative md:h-full md:w-auto md:z-0' 
                 : 'hidden md:flex'
               }
             `}
@@ -337,7 +329,6 @@ const Messages = () => {
                 <div className="relative">
                   <img
                     src={selectedChat.avatar || car}
-                    // alt={selectedChat.name}
                     className="w-10 h-10 rounded-full object-cover border border-white"
                   />
                   {selectedChat.online && (
@@ -358,9 +349,6 @@ const Messages = () => {
                 <button className="p-2 hover:bg-gray-50/10 rounded-full transition-colors hidden sm:block">
                   <Phone size={18} className="" />
                 </button>
-                {/* <button className="p-2 hover:bg-gray-100 rounded-full transition-colors">
-                  <Info size={18} className="" />
-                </button> */}
                 
                 <div className="relative" ref={optionsRef}>
                   <button 
@@ -410,7 +398,6 @@ const Messages = () => {
                     {message.sender === 'them' && (
                       <img
                         src={selectedChat.avatar}
-                        // alt={selectedChat.name}
                         className="w-6 h-6 sm:w-8 sm:h-8 rounded-full object-cover shrink-0 bg-primary/10"
                       />
                     )}
@@ -474,7 +461,6 @@ const Messages = () => {
                     placeholder="Type your message..."
                     rows="1"
                     className="w-full px-3 sm:px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent resize-none text-base sm:text-base max-h-10 scrollbar-hide"
-                    // style={{ minHeight: '40px', maxHeight: '40px' }}
                     onInput={(e) => {
                       e.target.style.height = 'auto';
                       e.target.style.height = Math.min(e.target.scrollHeight, 100) + 'px';
@@ -482,20 +468,6 @@ const Messages = () => {
                   />
                 </div>
                 <div className="flex items-center space-x-1">
-                  {/* <button
-                    type="button"
-                    onClick={() => setShowAttachments(!showAttachments)}
-                    className="p-1.5 sm:p-2 hover:bg-gray-100 rounded-lg transition-colors"
-                  >
-                    <Paperclip size={18} className="text-gray-600" />
-                  </button> */}
-                  {/* <button
-                    type="button"
-                    onClick={() => setShowEmojiPicker(!showEmojiPicker)}
-                    className="p-1.5 sm:p-2 hover:bg-gray-100 rounded-lg transition-colors hidden sm:block"
-                  >
-                    <Smile size={18} className="text-gray-600" />
-                  </button> */}
                   <button
                     type="submit"
                     disabled={!messageInput.trim()}
@@ -505,13 +477,6 @@ const Messages = () => {
                   </button>
                 </div>
               </form>
-
-              {/* Emoji Picker Placeholder */}
-              {showEmojiPicker && (
-                <div className="absolute bottom-20 right-4 bg-white border border-gray-200 rounded-lg shadow-lg p-4">
-                  <p className="text-sm text-gray-500">Emoji picker coming soon...</p>
-                </div>
-              )}
             </div>
           </div>
         ) : (
