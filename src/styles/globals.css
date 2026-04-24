@@ -124,5 +124,12 @@
     -ms-overflow-style: none;
     scrollbar-width: none;
   }
+
+  /* Hide header when mobile chat is active - Mobile Only */
+  @media (max-width: 767px) {
+    body.mobile-chat-active header {
+      display: none !important;
+    }
+  }
 }
 
