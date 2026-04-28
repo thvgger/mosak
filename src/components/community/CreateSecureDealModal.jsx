@@ -158,7 +158,7 @@ const CreateSecureDealModal = ({ isOpen, onClose, recipientName }) => {
         </div>
 
         {/* Footer Actions */}
-        <div className="p-6 pt-0 flex gap-3">
+        <div className="p-6 flex gap-3 shrink-0">
           <button 
             onClick={onClose}
             className="flex-1 px-6 py-3 border border-gray-200 text-gray-700 font-semibold rounded-xl hover:bg-gray-50 transition-colors"
