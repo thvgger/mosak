@@ -26,7 +26,7 @@ const Footer = () => {
     'Sell': [
       { label: 'Start Selling', url: '/seller/products' },
       { label: 'Seller Dashboard', url: '/seller' },
-      { label: 'Boost Your Listings', url: '/seller/promotion' },
+      { label: 'Boost Your Listings', url: '/seller/discounts' },
       { label: 'Seller Protection', url: '/seller/escrow' },
       { label: 'Fees & Pricing', url: '/pricing' },
       { label: 'Seller Success Stories', url: '/remarks' },

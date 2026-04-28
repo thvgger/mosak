@@ -506,7 +506,7 @@ const Messages = () => {
           <button
             type="button"
             onClick={() => setIsDealModalOpen(true)}
-            className="px-2 py-1 text-xs font-bold text-primary hover:bg-primary/5 rounded-lg transition-colors shrink-0 whitespace-nowrap uppercase tracking-wider"
+            className="px-2 py-2.5 text-xs font-bold text-white hover:bg-primary/5 bg-primary rounded-lg transition-colors shrink-0 whitespace-nowrap uppercase tracking-wider"
           >
             {location.pathname.startsWith('/seller') || location.pathname.startsWith('/freelancer') 
               ? 'Create Offer' 

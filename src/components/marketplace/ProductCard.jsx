@@ -146,7 +146,11 @@ const ProductCard = ({ product, showBadge = true }) => {
   // Remove all the popup handlers and JSX from the component
 
   return (
-    <div className="bg-white rounded-xl shadow-sm hover:shadow-lg transition-shadow duration-300 overflow-hidden! group! relative">
+    <div 
+      onMouseEnter={() => setShowActions(true)}
+      onMouseLeave={() => setShowActions(false)}
+      className="bg-white rounded-xl shadow-sm hover:shadow-lg transition-shadow duration-300 overflow-hidden! group! relative"
+    >
       {/* Product Image */}
       <div className="relative overflow-hidden bg-gray-100">
         <div className="aspect-4/3 w-full">
@@ -156,9 +160,9 @@ const ProductCard = ({ product, showBadge = true }) => {
             loading='lazy'
             onClick={(e) => {
               e.stopPropagation();
-              handleActionClick();
+              handleProductClick();
             }}
-            className="w-full h-full object-cover hover:scale-105 transition-transform duration-300"
+            className="w-full h-full object-cover hover:scale-105 transition-transform duration-300 cursor-pointer"
           />
         </div>
 

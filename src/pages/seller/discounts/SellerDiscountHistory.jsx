@@ -13,7 +13,7 @@ import {
   Layers
 } from 'lucide-react';
 
-const SellerPromotionHistory = () => {
+const SellerDiscountHistory = () => {
   const [timeFilter, setTimeFilter] = useState('All Time');
   const [productFilter, setProductFilter] = useState('All Products');
   const [typeFilter, setTypeFilter] = useState('All Types');
@@ -28,7 +28,7 @@ const SellerPromotionHistory = () => {
   ];
 
   const timeOptions = ['All Time', 'Last 7 Days', 'Last Month', 'Last 3 Months'];
-  const typeOptions = ['All Types', 'Boost Only', 'Promotions Only'];
+  const typeOptions = ['All Types', 'Boost Only', 'Discounts Only'];
   const productOptions = ['All Products', 'Smart Watch', 'Headphones', 'Laptop'];
 
   const toggleDropdown = (name) => {
@@ -68,7 +68,7 @@ const SellerPromotionHistory = () => {
     {
       id: 3,
       name: 'New Year Sale - Promo',
-      type: 'Promotion',
+      type: 'Discount',
       duration: '30 days',
       spend: '₦3,000',
       views: '-',
@@ -81,7 +81,7 @@ const SellerPromotionHistory = () => {
 
   return (
     <div className="space-y-8 pb-20" onClick={() => setOpenDropdown(null)}>
-      {/* Stats Cards ... */}
+      {/* Stats Cards */}
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
         {stats.map((stat, i) => (
           <div key={i} className="bg-white p-5 sm:p-8 rounded-2xl border border-gray-100 shadow-sm">
@@ -249,4 +249,4 @@ const SellerPromotionHistory = () => {
   );
 };
 
-export default SellerPromotionHistory;
+export default SellerDiscountHistory;

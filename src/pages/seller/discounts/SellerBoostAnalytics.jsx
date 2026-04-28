@@ -1,4 +1,5 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import { 
   ArrowLeft, 
   Eye, 
@@ -31,7 +32,8 @@ import {
   Legend
 } from 'recharts';
 
-const SellerBoostAnalytics = ({ promotion, onBack }) => {
+const SellerBoostAnalytics = ({ discount, onBack }) => {
+  const navigate = useNavigate();
   // Sample data for the chart
   const performanceData = [
     { name: 'Mon', impressions: 85000, clicks: 125000 },
@@ -42,6 +44,7 @@ const SellerBoostAnalytics = ({ promotion, onBack }) => {
     { name: 'Sat', impressions: 81000, clicks: 146000 },
     { name: 'Sun', impressions: 88000, clicks: 152000 },
   ];
+
 
   const engagementBreakdown = [
     { label: 'Marketplace', value: 61, color: 'bg-blue-600', views: '845 views' },
@@ -69,10 +72,10 @@ const SellerBoostAnalytics = ({ promotion, onBack }) => {
         className="flex items-center gap-2 text-gray-500 hover:text-gray-900 transition-colors font-medium text-sm group"
       >
         <ArrowLeft size={18} className="group-hover:-translate-x-1 transition-transform" />
-        Back to Promotions
+        Back to Discounts
       </button>
 
-      {/* Promotion Summary Card */}
+      {/* Discount Summary Card */}
       <div className="bg-white rounded-2xl border border-gray-100 p-6 sm:p-8 shadow-sm relative">
         <div className="flex flex-col md:flex-row justify-between gap-6">
           <div className="flex items-start gap-6">
@@ -133,7 +136,10 @@ const SellerBoostAnalytics = ({ promotion, onBack }) => {
                 <button className="flex-1 py-3 border-2 border-gray-100 rounded-xl text-sm font-bold text-blue-600 hover:bg-gray-50 transition-all">
                   Pause Boost
                 </button>
-                <button className="flex-1 py-3 bg-blue-600 text-white rounded-xl text-sm font-bold hover:bg-blue-700 transition-all shadow-lg shadow-blue-500/25">
+                <button 
+                  onClick={() => navigate('/seller/boost')}
+                  className="flex-1 py-3 bg-blue-600 text-white rounded-xl text-sm font-bold hover:bg-blue-700 transition-all shadow-lg shadow-blue-500/25"
+                >
                   Extend Boost
                 </button>
              </div>
@@ -395,14 +401,17 @@ const SellerBoostAnalytics = ({ promotion, onBack }) => {
             <button className="w-full sm:w-auto px-12 py-4 border-2 border-gray-100 rounded-2xl font-black text-gray-900 hover:bg-gray-50 transition-all">
                Pause
             </button>
-            <button className="w-full sm:w-auto px-16 py-4 bg-blue-600 text-white rounded-2xl font-black text-lg hover:bg-blue-700 transition-all shadow-xl shadow-blue-500/25">
+            <button 
+              onClick={() => navigate('/seller/boost')}
+              className="w-full sm:w-auto px-16 py-4 bg-blue-600 text-white rounded-2xl font-black text-lg hover:bg-blue-700 transition-all shadow-xl shadow-blue-500/25"
+            >
                Extend Boost
             </button>
             <button 
               onClick={onBack}
               className="w-full sm:w-auto px-12 py-4 border-2 border-gray-100 rounded-2xl font-black text-gray-900 hover:bg-gray-50 transition-all"
             >
-               Back to Promotions
+               Back to Discounts
             </button>
          </div>
       </div>

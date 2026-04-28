@@ -1,6 +1,6 @@
 // src/pages/seller/SellerAddProducts.jsx
-import React, { useState, useRef } from 'react';
-import { useNavigate, Link } from 'react-router-dom';
+import React, { useState, useRef, useEffect } from 'react';
+import { useNavigate, Link, useBlocker } from 'react-router-dom';
 import { 
   ArrowLeft, 
   ArrowRight, 
@@ -16,7 +16,8 @@ import {
   Eye,
   ChevronDown,
   Star,
-  ChevronRight
+  ChevronRight,
+  ChevronLeft
 } from 'lucide-react';
 
 const SellerAddProducts = () => {
@@ -24,6 +25,27 @@ const SellerAddProducts = () => {
   const [currentStep, setCurrentStep] = useState(1);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [showPreview, setShowPreview] = useState(false);
+  const [isSaved, setIsSaved] = useState(false);
+  const [showSaveSuccess, setShowSaveSuccess] = useState(false);
+  
+  // Navigation blocker for internal links
+  const blocker = useBlocker(
+    ({ currentLocation, nextLocation }) =>
+      currentStep > 1 && !isSubmitting && !isSaved && currentLocation.pathname !== nextLocation.pathname
+  );
+
+  // Handle native browser navigation (refresh/close)
+  useEffect(() => {
+    const handleBeforeUnload = (e) => {
+      if (currentStep > 1 && !isSubmitting && !isSaved) {
+        e.preventDefault();
+        e.returnValue = '';
+      }
+    };
+
+    window.addEventListener('beforeunload', handleBeforeUnload);
+    return () => window.removeEventListener('beforeunload', handleBeforeUnload);
+  }, [currentStep, isSubmitting, isSaved]);
   
   // Form Data State
   const [formData, setFormData] = useState({
@@ -70,7 +92,8 @@ const SellerAddProducts = () => {
     },
     shippingFeeType: 'flat_rate',
     flatRateFee: '2000',
-    estimatedDelivery: '3 to 7 business days',
+    minDeliveryDays: '3',
+    maxDeliveryDays: '7',
     returnPolicy: '7-day return policy',
     
     // Step 6: Additional Info (from preview)
@@ -307,8 +330,17 @@ const SellerAddProducts = () => {
       // API call to save as draft
       console.log('Saving draft:', formData);
       await new Promise(resolve => setTimeout(resolve, 500));
-      alert('Product saved as draft successfully!');
-      navigate('/seller/products');
+      setIsSaved(true);
+      setShowSaveSuccess(true);
+      
+      // Auto-navigate after a short delay
+      setTimeout(() => {
+        if (blocker.state === "blocked") {
+          blocker.proceed();
+        } else {
+          navigate('/seller/products');
+        }
+      }, 2000);
     } catch (error) {
       console.error('Error saving draft:', error);
       alert('Failed to save draft. Please try again.');
@@ -316,13 +348,13 @@ const SellerAddProducts = () => {
       setIsSubmitting(false);
     }
   };
-  
+
   const handleSubmit = async () => {
     if (currentStep < 6) {
       setCurrentStep(6);
       return;
     }
-    
+
     if (validateStep()) {
       setIsSubmitting(true);
       try {
@@ -334,7 +366,7 @@ const SellerAddProducts = () => {
         };
         console.log('Submitting product:', productData);
         await new Promise(resolve => setTimeout(resolve, 1000));
-        
+        setIsSaved(true);
         // Navigate to confirmation page or show modal
         navigate('/seller/products/submitted', { 
           state: { productName: formData.productName }
@@ -346,8 +378,7 @@ const SellerAddProducts = () => {
         setIsSubmitting(false);
       }
     }
-  };
-  
+  };  
   // Step Components
   const renderStepIndicator = () => (
     <div className="mb-10 w-full flex flex-col items-center justify-center gap-4">
@@ -613,7 +644,7 @@ const SellerAddProducts = () => {
           </div>
           
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">Compare at Price (Optional)</label>
+            <label className="block text-sm font-medium text-gray-700 mb-1">Strike through price (Optional)</label>
             <div className="relative">
               <span className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500">₦</span>
               <input
@@ -935,25 +966,11 @@ const SellerAddProducts = () => {
                   ))}
                 </select>
                 <p className="text-gray-400 text-sm mt-1">Hold Ctrl/Cmd to select multiple</p>
-              </div>
-            )}
-          </div>
-          
-          <label className="flex items-center gap-3 cursor-pointer">
-            <input
-              type="checkbox"
-              checked={formData.deliveryRegions.international}
-              onChange={(e) => setFormData(prev => ({
-                ...prev,
-                deliveryRegions: { ...prev.deliveryRegions, international: e.target.checked }
-              }))}
-              className="w-4 h-4 text-primary rounded"
-            />
-            <span>International</span>
-          </label>
-        </div>
-      </div>
-      
+                </div>
+                )}
+                </div>
+                </div>
+                </div>      
       <div>
         <label className="block text-sm font-medium text-gray-700 mb-2">Shipping Fee</label>
         <div className="space-y-2">
@@ -1022,13 +1039,24 @@ const SellerAddProducts = () => {
       
       <div>
         <label className="block text-sm font-medium text-gray-700 mb-1">Estimated Delivery Time</label>
-        <input
-          type="text"
-          value={formData.estimatedDelivery}
-          onChange={(e) => handleInputChange('estimatedDelivery', e.target.value)}
-          className="w-full px-4 py-2 border border-gray-300 rounded-lg"
-          placeholder="e.g., 3 to 7 business days"
-        />
+        <div className="flex items-center gap-2">
+          <input
+            type="number"
+            value={formData.minDeliveryDays}
+            onChange={(e) => handleInputChange('minDeliveryDays', e.target.value)}
+            className="w-24 px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary outline-none"
+            placeholder="Min"
+          />
+          <span className="text-gray-500">to</span>
+          <input
+            type="number"
+            value={formData.maxDeliveryDays}
+            onChange={(e) => handleInputChange('maxDeliveryDays', e.target.value)}
+            className="w-24 px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary outline-none"
+            placeholder="Max"
+          />
+          <span className="text-gray-600 ml-1">business days</span>
+        </div>
       </div>
       
       <div>
@@ -1072,19 +1100,31 @@ const SellerAddProducts = () => {
                 <h2 className="text-xl font-bold mt-1">Product Preview</h2>
                 <p className="text-gray-600">Preview how buyers will see your product</p>
               </div>
-              <button className="text-primary">Edit</button>
+              <button className="text-primary cursor-not-allowed" disabled>Edit</button>
             </div>
             
             <div className="border rounded-lg p-4">
               <div className="flex items-start gap-4">
                 {formData.images[0] && (
-                  <img src={formData.images[0].preview} alt="Product" className="w-24 h-24 object-cover rounded" />
+                  <div className="relative group">
+                    <img src={formData.images[0].preview} alt="Product" className="w-24 h-24 object-cover rounded" />
+                    {formData.images.length > 1 && (
+                      <>
+                        <button className="absolute left-0 top-1/2 -translate-y-1/2 bg-white/80 rounded-full p-0.5 shadow-sm">
+                          <ChevronLeft size={14} />
+                        </button>
+                        <button className="absolute right-0 top-1/2 -translate-y-1/2 bg-white/80 rounded-full p-0.5 shadow-sm">
+                          <ChevronRight size={14} />
+                        </button>
+                      </>
+                    )}
+                  </div>
                 )}
                 <div className="flex-1">
                   <div className="flex items-center gap-2">
                     <span className="text-sm text-gray-500">Foreign Used</span>
                     <span className="text-sm font-medium">{formData.productName || 'Product Name'}</span>
-                    <button className="text-primary text-sm">Edit</button>
+                    <button className="text-primary text-sm cursor-not-allowed" disabled>Edit</button>
                   </div>
                   <p className="text-sm text-gray-600 mt-2">{formData.shortDescription || 'Product description preview...'}</p>
                   <div className="mt-2">
@@ -1098,12 +1138,6 @@ const SellerAddProducts = () => {
                       </>
                     )}
                   </div>
-                  <div className="flex items-center gap-2 mt-2">
-                    <div className="flex text-yellow-400">
-                      {[...Array(5)].map((_, i) => <Star key={i} size={16} fill="currentColor" />)}
-                    </div>
-                    <span className="text-sm text-gray-600">11 Reviews</span>
-                  </div>
                   
                   {formData.variations.length > 0 && (
                     <div className="flex gap-2 mt-3">
@@ -1116,27 +1150,11 @@ const SellerAddProducts = () => {
               </div>
             </div>
             
-            <div className="mt-6 space-y-3">
-              <h4 className="font-medium">Review Checklist</h4>
-              <label className="flex items-center gap-3">
-                <input type="checkbox" className="w-4 h-4 text-primary rounded" />
-                <span className="text-sm">I've reviewed all product information</span>
-              </label>
-              <label className="flex items-center gap-3">
-                <input type="checkbox" className="w-4 h-4 text-primary rounded" />
-                <span className="text-sm">Images accurately represent the product</span>
-              </label>
-              <label className="flex items-center gap-3">
-                <input type="checkbox" className="w-4 h-4 text-primary rounded" />
-                <span className="text-sm">Pricing and shipping details are correct</span>
-              </label>
-            </div>
-            
             <div className="flex gap-4 mt-6">
-              <button className="flex-1 py-2 border border-primary text-primary rounded-lg hover:bg-primary/5">
+              <button className="flex-1 py-2 border border-primary text-primary rounded-lg cursor-not-allowed" disabled>
                 Buy Now
               </button>
-              <button className="flex-1 py-2 bg-primary text-white rounded-lg hover:bg-primary-dark">
+              <button className="flex-1 py-2 bg-primary text-white rounded-lg cursor-not-allowed" disabled>
                 Add to Cart
               </button>
             </div>
@@ -1168,14 +1186,97 @@ const SellerAddProducts = () => {
     </div>
   );
   
+  const renderModals = () => {
+    return (
+      <>
+        {/* Navigation Blocker Modal */}
+        {blocker.state === "blocked" && (
+          <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm animate-in fade-in duration-200">
+            <div className="bg-white rounded-xl shadow-xl max-w-md w-full p-6 animate-in zoom-in-95 duration-200">
+              <div className="flex items-center gap-3 text-amber-600 mb-4">
+                <AlertCircle size={24} />
+                <h3 className="text-lg font-bold text-gray-900">Unsaved Changes</h3>
+              </div>
+              
+              <p className="text-gray-600 mb-6">
+                You have unsaved changes. Would you like to save this product as a draft before leaving?
+              </p>
+              
+              <div className="flex flex-col gap-3">
+                <button
+                  onClick={() => handleSaveDraft()}
+                  disabled={isSubmitting}
+                  className="w-full py-2.5 bg-primary text-white rounded-lg font-semibold hover:bg-primary-dark transition-colors flex items-center justify-center gap-2"
+                >
+                  {isSubmitting ? 'Saving...' : (
+                    <>
+                      <Save size={18} />
+                      Save as Draft and Leave
+                    </>
+                  )}
+                </button>
+                
+                <button
+                  onClick={() => blocker.proceed()}
+                  className="w-full py-2.5 bg-white border border-gray-300 text-gray-700 rounded-lg font-semibold hover:bg-gray-50 transition-colors"
+                >
+                  Leave without Saving
+                </button>
+                
+                <button
+                  onClick={() => blocker.reset()}
+                  className="w-full py-2 text-gray-500 font-medium hover:text-gray-700 transition-colors"
+                >
+                  Stay on Page
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* Success Modal */}
+        {showSaveSuccess && (
+          <div className="fixed inset-0 z-[110] flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm animate-in fade-in duration-200">
+            <div className="bg-white rounded-xl shadow-xl max-w-sm w-full p-8 text-center animate-in zoom-in-95 duration-200">
+              <div className="w-16 h-16 bg-green-100 text-green-600 rounded-full flex items-center justify-center mx-auto mb-4">
+                <CheckCircle size={32} />
+              </div>
+              <h3 className="text-xl font-bold text-gray-900 mb-2">Success!</h3>
+              <p className="text-gray-600">Product saved as draft successfully.</p>
+              <div className="mt-6 flex justify-center">
+                <div className="w-8 h-8 border-4 border-primary border-t-transparent rounded-full animate-spin"></div>
+              </div>
+              <p className="text-sm text-gray-400 mt-4">Redirecting...</p>
+            </div>
+          </div>
+        )}
+      </>
+    );
+  };
+
   return (
     <div className="">
-      {/* Breadcrumb */}
-      <ul className="text-sm text-gray-500 mb-6 flex items-center gap-1.5">
-        <Link to="/seller"> Dashboard </Link>
-        <ChevronRight size={16} className="flex" />
-        <Link to="/seller/add-products"> Add Products </Link>
-      </ul>
+      {renderModals()}
+      {/* Breadcrumb & Top Navigation */}
+      <div className="flex items-center gap-4 mb-6">
+        <button
+          onClick={handlePrevious}
+          disabled={currentStep === 1}
+          className={`p-2 rounded-full border transition-colors ${
+            currentStep === 1 
+              ? 'bg-gray-100 text-gray-300 border-gray-200 cursor-not-allowed' 
+              : 'border-gray-300 text-gray-600 hover:bg-gray-50'
+          }`}
+          title="Previous Step"
+        >
+          <ArrowLeft size={20} />
+        </button>
+        <ul className="text-sm text-gray-500 flex items-center gap-1.5">
+          <Link to="/seller"> Dashboard </Link>
+          <ChevronRight size={16} className="flex" />
+          <Link to="/seller/add-products"> Add Products </Link>
+        </ul>
+      </div>
           
       {/* <div className="flex items-center justify-between">
         <h1 className="text-2xl font-semibold">Add New Product</h1>
@@ -1205,15 +1306,12 @@ const SellerAddProducts = () => {
       {/* Navigation Buttons */}
       <div className="flex items-center justify-between">
         <button
-          onClick={handlePrevious}
-          disabled={currentStep === 1}
-          className={`flex items-center gap-2 px-6 py-2 rounded-lg transition-colors
-            ${currentStep === 1 
-              ? 'bg-gray-100 text-gray-400 cursor-not-allowed' 
-              : 'border border-gray-300 hover:bg-gray-50'}`}
+          onClick={handleSaveDraft}
+          disabled={isSubmitting}
+          className="flex items-center gap-2 px-6 py-2 border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors"
         >
-          <ArrowLeft size={16} />
-          Previous
+          <Save size={16} />
+          Save Draft
         </button>
         
         {currentStep < 6 ? (

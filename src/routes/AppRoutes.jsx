@@ -38,6 +38,7 @@ import Wishlist from "../pages/user/Wishlist";
 import Orders from '../pages/user/Orders';
 import Messages from '../pages/user/Messages';
 import Wallet from '../pages/user/Wallet';
+import Referrals from '../pages/user/Referrals';
 import Disputes from '../pages/user/Disputes';
 import Notifications from '../pages/user/Notifications';
 import AccountHelp from '../pages/user/AccountHelp';
@@ -54,9 +55,9 @@ import SellerAddProducts from '../pages/seller/products/SellerAddProducts.jsx';
 import SellerProductCategories from '../pages/seller/products/SellerProductCategories.jsx';
 import ProductSubmitted from '../pages/seller/products/ProductSubmitted.jsx';
 import SellerOrders from '../pages/seller/SellerOrders.jsx';
-import SellerPromotions from '../pages/seller/promotions/SellerPromotions.jsx';
-import SellerBoost from '../pages/seller/promotions/SellerBoost.jsx';
-import SellerPromotionHistory from '../pages/seller/promotions/SellerPromotionHistory.jsx';
+import SellerDiscounts from '../pages/seller/discounts/SellerDiscounts.jsx';
+import SellerBoost from '../pages/seller/discounts/SellerBoost.jsx';
+import SellerDiscountHistory from '../pages/seller/discounts/SellerDiscountHistory.jsx';
 import SellerEscrow from '../pages/seller/SellerEscrow.jsx';
 import SellerEarnings from '../pages/seller/SellerEarnings.jsx';
 import SellerMWallet from '../pages/seller/SellerMWallet.jsx';
@@ -182,6 +183,7 @@ const AppRoutes = () => {
         <Route path="orders/:orderId" element={<OrderTracking />} />
         <Route path="messages" element={<Messages />} />
         <Route path="wallet" element={<Wallet />} />
+        <Route path="referrals" element={<Referrals />} />
         <Route path="disputes" element={<Disputes />} />
         <Route path="notifications" element={<Notifications />} />
         <Route path="help" element={<AccountHelp />} />
@@ -207,13 +209,14 @@ const AppRoutes = () => {
         <Route path="products/submitted" element={<ProductSubmitted />} />
         <Route path="categories" element={<SellerProductCategories />} />
         <Route path="orders" element={<SellerOrders />} />
-        <Route path="promotions" element={<SellerPromotions />} />
+        <Route path="discounts" element={<SellerDiscounts />} />
         <Route path="boost" element={<SellerBoost />} />
-        <Route path="history" element={<SellerPromotionHistory />} />
+        <Route path="history" element={<SellerDiscountHistory />} />
         <Route path="escrow" element={<SellerEscrow />} />
         <Route path="earnings" element={<SellerEarnings />} />
         <Route path="m-wallet" element={<SellerMWallet />} />
         <Route path="analytics" element={<SellerAnalytics />} />
+        <Route path="referrals" element={<Referrals />} />
         <Route path="messages" element={<Messages />} />
         <Route path="disputes" element={<Disputes />} />
         <Route path="notifications" element={<Notifications />} />

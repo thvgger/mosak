@@ -20,6 +20,7 @@ import car from "../../assets/car.png";
 const Disputes = () => {
   const [selectedDispute, setSelectedDispute] = useState(null)
   const [isModalOpen, setIsModalOpen] = useState(false)
+  const [activeTab, setActiveTab] = useState('all')
   const [formData, setFormData] = useState({
     reason: '',
     description: ''
@@ -35,14 +36,14 @@ const Disputes = () => {
       seller: "David's Crafts",
       reason: "Item not as described",
       icon: Clock,
-      bgColor: "bg-orange-100",
-      textColor: "text-orange-600",
-      borderColor: "border-orange-200"
+      bgColor: "bg-blue-100",
+      textColor: "text-blue-600",
+      borderColor: "border-blue-200"
     },
     {
       id: 2,
       title: "HP Pavilion 15 Laptop",
-      status: "Awaiting seller",
+      status: "open",
       orderId: "ORD-2024-1547",
       date: "Dec 20, 2024",
       seller: "Fatima's Crafts",
@@ -55,7 +56,7 @@ const Disputes = () => {
     {
       id: 3,
       title: "HP Pavilion 15 Laptop",
-      status: "Resolved",
+      status: "resolved",
       orderId: "ORD-2024-1547",
       date: "Dec 20, 2024",
       seller: "Sarah's Crafts",
@@ -66,6 +67,12 @@ const Disputes = () => {
       borderColor: "border-green-200"
     }
   ]
+
+  const [disputes, setDisputes] = useState(initialDisputes);
+
+  const filteredDisputes = disputes.filter(dispute => 
+    activeTab === 'all' || dispute.status.toLowerCase() === activeTab.toLowerCase()
+  );
 
   const handleViewClick = (dispute) => {
     setSelectedDispute(dispute)
@@ -98,8 +105,6 @@ const Disputes = () => {
     handleCloseModal()
   }
 
-  const [disputes, setDisputes] = useState(initialDisputes);
-  
   const toggleDisputes = () => {
     if (disputes.length > 0) {
       setDisputes([]);
@@ -108,26 +113,45 @@ const Disputes = () => {
     }
   };
 
+  const tabs = ['all', 'open', 'in review', 'resolved'];
+
   return (
     <>
       <div className="space-y-6">
         <div className="mb-8">
           <h1 className="text-2xl font-bold text-gray-800">Disputes & Issues</h1>
           <p className="text-sm text-gray-500 my-1">Track and manage any issues with your orders</p>
-          <button className='btn text-xs' onClick={toggleDisputes}>
-            {disputes.length > 0 ? "Hide Disputes" : "Show Disputes"}
-          </button>
+          <div className="flex items-center justify-between mt-4">
+            <div className="flex bg-gray-100 p-1 rounded-lg">
+              {tabs.map((tab) => (
+                <button
+                  key={tab}
+                  onClick={() => setActiveTab(tab)}
+                  className={`px-4 py-1.5 text-sm font-medium rounded-md transition-all capitalize ${
+                    activeTab === tab
+                      ? "bg-white text-primary shadow-sm"
+                      : "text-gray-500 hover:text-gray-700"
+                  }`}
+                >
+                  {tab}
+                </button>
+              ))}
+            </div>
+            <button className='btn text-xs' onClick={toggleDisputes}>
+              {disputes.length > 0 ? "Hide Disputes" : "Show Disputes"}
+            </button>
+          </div>
         </div>
 
         {/* Disputes List */}
-        {disputes.length > 0 ? (
-          <div className="">
-            {initialDisputes.map((dispute) => {
+        {filteredDisputes.length > 0 ? (
+          <div className="space-y-4">
+            {filteredDisputes.map((dispute) => {
               const IconComponent = dispute.icon
               return (
                 <div 
                   key={dispute.id} 
-                  className={`bg-white shadow-sm border-b-2 border-gray-200 p-4 md:p-6 hover:shadow-md transition-shadow`}
+                  className={`bg-white shadow-sm border border-gray-100 rounded-xl p-4 md:p-6 hover:shadow-md transition-shadow`}
                 >
                   <div className="w-full flex flex-wrap items-center justify-between gap-3">
                     <img src={car} alt='' className='w-20 h-full md:w-30 md:h-30 object-cover rounded-xl' />

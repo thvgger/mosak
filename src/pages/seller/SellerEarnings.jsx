@@ -33,7 +33,7 @@ const SellerEarnings = () => {
     { id: 1, title: 'Completed Orders', points: '2,450 M-pts', cash: '₦2,450', icon: ShoppingBag, colorClass: 'bg-blue-50 text-blue-600' },
     { id: 2, title: 'Referrals', points: '1,200 pts', cash: '₦1,200', icon: Users, colorClass: 'bg-purple-50 text-purple-600' },
     { id: 3, title: 'Reviews & Ratings', points: '800 pts', cash: '₦800', icon: Star, colorClass: 'bg-yellow-50 text-yellow-600' },
-    { id: 4, title: 'Promotions & Bonuses', points: '400 pts', cash: '₦400', icon: Gift, colorClass: 'bg-green-50 text-green-600' },
+    { id: 4, title: 'Discounts & Bonuses', points: '400 pts', cash: '₦400', icon: Gift, colorClass: 'bg-green-50 text-green-600' },
   ];
 
   const earnMethods = [
@@ -50,7 +50,7 @@ const SellerEarnings = () => {
     { id: 2, date: 'Dec 24, 2024', activity: 'Referral Bonus', source: 'User joined via your link', points: '+500', status: 'Confirmed', ref: 'REF-1234' },
     { id: 3, date: 'Dec 24, 2024', activity: 'Review Posted', source: 'Product review #8821', points: '+50', status: 'Confirmed', ref: 'REV-8821' },
     { id: 4, date: 'Dec 24, 2024', activity: 'Order Completed', source: 'Order #2890', points: '+180', status: 'Pending', ref: 'ORD-2890' },
-    { id: 5, date: 'Dec 24, 2024', activity: 'New Year Bonus', source: 'Monthly promotion', points: '+250', status: 'Confirmed', ref: 'PROMO-JAN' },
+    { id: 5, date: 'Dec 24, 2024', activity: 'New Year Bonus', source: 'Monthly discount', points: '+250', status: 'Confirmed', ref: 'DISCOUNT-JAN' },
   ];
 
   return (

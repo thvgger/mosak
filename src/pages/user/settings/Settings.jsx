@@ -26,7 +26,7 @@ const Settings = () => {
       messages: { value: false, name: "Messages", text: "Receive notifications for new messages" },
       payment: { value: true, name: "Payment alerts", text: "Alerts for payments and refunds" },
       disputes: { value: false, name: "Dispute updates", text: "Updates on active disputes" },
-      marketing: { value: false, name: "Marketing emails", text: "Promotions and special offers" }
+      marketing: { value: false, name: "Marketing emails", text: "Discounts and special offers" }
     },
     push: {
       messages: true,

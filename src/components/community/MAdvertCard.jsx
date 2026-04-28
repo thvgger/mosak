@@ -16,12 +16,12 @@ const Modal = ({ isOpen, onClose, children }) => {
   );
 };
 
-// Promote to General Feed Modal
-const PromoteGeneralModal = ({ isOpen, onClose, onProceed }) => {
+// Discount to General Feed Modal
+const DiscountGeneralModal = ({ isOpen, onClose, onProceed }) => {
   const [selectedProduct, setSelectedProduct] = useState("Samsung Galaxy S23 Ultra 256GB");
   const [quantity, setQuantity] = useState(1);
   const [agreedPrice, setAgreedPrice] = useState("₱850,000");
-  const [promotionFee] = useState("₦5,000");
+  const [discountFee] = useState("₦5,000");
 
   const products = [
     "Samsung Galaxy S23 Ultra 256GB",
@@ -66,16 +66,16 @@ const PromoteGeneralModal = ({ isOpen, onClose, onProceed }) => {
 
 
           <div className="bg-primary/10 border border-gray-300 p-3 rounded-md">
-            <p className="text-sm font-medium">Promotion Visibility</p>
+            <p className="text-sm font-medium">Discount Visibility</p>
             <p className="text-xs text-gray-600 mt-1">This ad will be posted in the General Community after admin approval</p>
           </div>
 
           <div className="w-full flex justify-between items-center border-b border-gray-300 pb-4">
             <span className="font-semibold text-sm">
-              Promotion Fee: 
+              Discount Fee: 
             </span>
             <span>
-              {promotionFee}
+              {discountFee}
             </span>
           </div>
 
@@ -104,28 +104,28 @@ const PromoteGeneralModal = ({ isOpen, onClose, onProceed }) => {
   );
 };
 
-// Promote to Category Feed Modal (First Step)
-const PromoteCategoryModal = ({ isOpen, onClose, onNext }) => {
-  const [promotionType, setPromotionType] = useState("seller");
+// Discount to Category Feed Modal (First Step)
+const DiscountCategoryModal = ({ isOpen, onClose, onNext }) => {
+  const [discountType, setDiscountType] = useState("seller");
 
   return (
     <Modal isOpen={isOpen} onClose={onClose}>
       <div className="">
         <div className="bg-primary text-white p-4">
-          <h2 className="text-lg font-semibold">Promote to Category Feed</h2>
+          <h2 className="text-lg font-semibold">Discount to Category Feed</h2>
           <p className="text-sm">Boost visibility within a specific category</p>
         </div>
         
         <div className="space-y-4 p-4">
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-3">Choose Promotion Type</label>
+            <label className="block text-sm font-medium text-gray-700 mb-3">Choose Discount Type</label>
             <div className="space-y-2">
               <label className="flex items-center gap-2 p-3 border border-gray-300 rounded-lg cursor-pointer hover:bg-gray-50">
                 <input
                   type="radio"
-                  name="promotionType"
-                  checked={promotionType === "seller"}
-                  onChange={() => setPromotionType("seller")}
+                  name="discountType"
+                  checked={discountType === "seller"}
+                  onChange={() => setDiscountType("seller")}
                   className="text-blue-600"
                 />
                 <span>Run ad as Seller</span>
@@ -133,9 +133,9 @@ const PromoteCategoryModal = ({ isOpen, onClose, onNext }) => {
               <label className="flex items-center gap-2 p-3 border border-gray-300 rounded-lg cursor-pointer hover:bg-gray-50">
                 <input
                   type="radio"
-                  name="promotionType"
-                  checked={promotionType === "freelancer"}
-                  onChange={() => setPromotionType("freelancer")}
+                  name="discountType"
+                  checked={discountType === "freelancer"}
+                  onChange={() => setDiscountType("freelancer")}
                   className="text-blue-600"
                 />
                 <span>Run ad as Freelancer</span>
@@ -152,7 +152,7 @@ const PromoteCategoryModal = ({ isOpen, onClose, onNext }) => {
             </button>
             <button
               onClick={() => {
-                onNext?.(promotionType);
+                onNext?.(discountType);
                 onClose();
               }}
               className="btn btn-primary w-full"
@@ -167,7 +167,7 @@ const PromoteCategoryModal = ({ isOpen, onClose, onNext }) => {
 };
 
 // Category Feed Details Modal (Second Step)
-const CategoryDetailsModal = ({ isOpen, onClose, promotionType, onPay }) => {
+const CategoryDetailsModal = ({ isOpen, onClose, discountType, onPay }) => {
   const [category, setCategory] = useState("Automobile");
   const [cost] = useState("N2,500");
 
@@ -183,14 +183,14 @@ const CategoryDetailsModal = ({ isOpen, onClose, promotionType, onPay }) => {
     <Modal isOpen={isOpen} onClose={onClose}>
       <div className="">
         <div className="bg-primary text-white p-4">
-          <h2 className="text-lg font-semibold">Promote to Category Feed</h2>
+          <h2 className="text-lg font-semibold">Discount to Category Feed</h2>
           <p className="text-sm">Boost visibility within a specific category</p>
         </div>
         
         <div className="space-y-4 p-4">
           <div className="flex items-center gap-2">
-            <label className="text-sm"> Promotion Type: </label>
-            <p className="text-sm capitalize">{promotionType}</p>
+            <label className="text-sm"> Discount Type: </label>
+            <p className="text-sm capitalize">{discountType}</p>
           </div>
 
           <div>
@@ -249,7 +249,7 @@ const CategoryDetailsModal = ({ isOpen, onClose, promotionType, onPay }) => {
 };
 
 // Payment Modal
-const PaymentModal = ({ isOpen, onClose, promotionType = "General Feed", amount = "₦5,000", category = "" }) => {
+const PaymentModal = ({ isOpen, onClose, discountType = "General Feed", amount = "₦5,000", category = "" }) => {
   const [paymentMethod, setPaymentMethod] = useState("card");
 
   return (
@@ -263,8 +263,8 @@ const PaymentModal = ({ isOpen, onClose, promotionType = "General Feed", amount 
         <div className="space-y-4 p-4">
           <div className="bg-gray-50 p-4 rounded border border-gray-300 space-y-2 text-sm">
             <div className="flex justify-between">
-              <span className="text-gray-600">Promotion Type:</span>
-              <span className="font-medium">{promotionType}</span>
+              <span className="text-gray-600">Discount Type:</span>
+              <span className="font-medium">{discountType}</span>
             </div>
             <div className="flex justify-between pt-2 border-t border-gray-200">
               <span className="text-gray-600">Duration:</span>
@@ -354,7 +354,7 @@ const SlotsFullModal = ({ isOpen, onClose, onTryCategory }) => {
           }}
           className="w-full px-4 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700"
         >
-          Promote to Category Feed
+          Discount to Category Feed
         </button>
       </div>
     </Modal>
@@ -431,15 +431,15 @@ const DeleteModal = ({ isOpen, onClose, onConfirm }) => {
 // Main Component
 const MAdvertCard = ({ advert }) => {
   const [showMenu, setShowMenu] = useState(false);
-  const [showPromoteGeneral, setShowPromoteGeneral] = useState(false);
-  const [showPromoteCategory, setShowPromoteCategory] = useState(false);
+  const [showDiscountGeneral, setShowDiscountGeneral] = useState(false);
+  const [showDiscountCategory, setShowDiscountCategory] = useState(false);
   const [showCategoryDetails, setShowCategoryDetails] = useState(false);
   const [showPayment, setShowPayment] = useState(false);
   const [showSlotsFull, setShowSlotsFull] = useState(false);
   const [showSuccess, setShowSuccess] = useState(false);
   const [showDelete, setShowDelete] = useState(false);
   
-  const [promotionType, setPromotionType] = useState(null);
+  const [discountType, setDiscountType] = useState(null);
   const [selectedCategory, setSelectedCategory] = useState("");
   const [successMessage, setSuccessMessage] = useState("");
 
@@ -456,18 +456,18 @@ const MAdvertCard = ({ advert }) => {
     return () => document.removeEventListener("mousedown", handler);
   }, []);
 
-  const handlePromoteGeneral = () => {
+  const handleDiscountGeneral = () => {
     setShowMenu(false);
-    setShowPromoteGeneral(true);
+    setShowDiscountGeneral(true);
   };
 
-  const handlePromoteCategory = () => {
+  const handleDiscountCategory = () => {
     setShowMenu(false);
-    setShowPromoteCategory(true);
+    setShowDiscountCategory(true);
   };
 
   const handleCategoryNext = (type) => {
-    setPromotionType(type);
+    setDiscountType(type);
     setShowCategoryDetails(true);
   };
 
@@ -536,19 +536,19 @@ const MAdvertCard = ({ advert }) => {
                 />
               <div className="absolute right-0 mt-2 w-48 sm:w-64 bg-white rounded shadow-lg border border-gray-200 z-40">
                   <button 
-                    onClick={handlePromoteGeneral}
+                    onClick={handleDiscountGeneral}
                     className="flex items-center gap-2.5 sm:gap-3 w-full px-3 sm:px-4 py-2.5 sm:py-3 text-[13px] sm:text-sm hover:bg-gray-50 text-gray-700 transition-colors"
                   >
                     <TrendingUp size={16} className="text-gray-400 sm:w-[18px] sm:h-[18px]"/>
-                    <span>Promote to General</span>
+                    <span>Discount to General</span>
                   </button>
 
                   <button 
-                    onClick={handlePromoteCategory}
+                    onClick={handleDiscountCategory}
                     className="flex items-center gap-2.5 sm:gap-3 w-full px-3 sm:px-4 py-2.5 sm:py-3 text-[13px] sm:text-sm hover:bg-gray-50 text-gray-700 transition-colors"
                   >
                     <Tag size={16} className="text-gray-400 sm:w-[18px] sm:h-[18px]"/>
-                    <span>Promote to Category</span>
+                    <span>Discount to Category</span>
                   </button>
 
                   <div className="h-px bg-gray-100 my-1" />
@@ -617,33 +617,33 @@ const MAdvertCard = ({ advert }) => {
       </div>
 
       {/* Modals */}
-      <PromoteGeneralModal 
-        isOpen={showPromoteGeneral}
-        onClose={() => setShowPromoteGeneral(false)}
+      <DiscountGeneralModal 
+        isOpen={showDiscountGeneral}
+        onClose={() => setShowDiscountGeneral(false)}
         onProceed={() => {
-          setShowPromoteGeneral(false);
+          setShowDiscountGeneral(false);
           setShowPayment(true);
         }}
       />
 
-      <PromoteCategoryModal 
-        isOpen={showPromoteCategory}
-        onClose={() => setShowPromoteCategory(false)}
+      <DiscountCategoryModal 
+        isOpen={showDiscountCategory}
+        onClose={() => setShowDiscountCategory(false)}
         onNext={handleCategoryNext}
       />
 
       <CategoryDetailsModal 
         isOpen={showCategoryDetails}
         onClose={() => setShowCategoryDetails(false)}
-        promotionType={promotionType}
+        discountType={discountType}
         onPay={handleCategoryPay}
       />
 
       <PaymentModal 
         isOpen={showPayment}
         onClose={() => setShowPayment(false)}
-        promotionType={promotionType ? "Category Feed" : "General Feed"}
-        amount={promotionType ? "N2,500" : "₦5,000"}
+        discountType={discountType ? "Category Feed" : "General Feed"}
+        amount={discountType ? "N2,500" : "₦5,000"}
         category={selectedCategory}
       />
 
@@ -652,7 +652,7 @@ const MAdvertCard = ({ advert }) => {
         onClose={() => setShowSlotsFull(false)}
         onTryCategory={() => {
           setShowSlotsFull(false);
-          setShowPromoteCategory(true);
+          setShowDiscountCategory(true);
         }}
       />
 

@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { 
   TrendingUp, 
   Eye, 
@@ -15,9 +16,10 @@ import {
 } from 'lucide-react';
 import SellerBoostAnalytics from './SellerBoostAnalytics';
 
-const SellerPromotions = () => {
+const SellerDiscounts = () => {
+  const navigate = useNavigate();
   const [currentPage, setCurrentPage] = useState(1);
-  const [selectedPromotion, setSelectedPromotion] = useState(null);
+  const [selectedDiscount, setSelectedDiscount] = useState(null);
   const itemsPerPage = 3;
 
   // Stats data
@@ -49,8 +51,8 @@ const SellerPromotions = () => {
     }
   ];
 
-  // Sample promotions data
-  const promotions = [
+  // Sample discounts data
+  const discounts = [
     {
       id: 1,
       product: 'Wireless Bluetooth Headphones',
@@ -101,30 +103,30 @@ const SellerPromotions = () => {
     }
   ];
 
-  if (selectedPromotion) {
+  if (selectedDiscount) {
     return (
       <SellerBoostAnalytics 
-        promotion={selectedPromotion} 
-        onBack={() => setSelectedPromotion(null)} 
+        discount={selectedDiscount} 
+        onBack={() => setSelectedDiscount(null)} 
       />
     );
   }
 
   // Pagination
-  const totalPages = Math.ceil(promotions.length / itemsPerPage);
+  const totalPages = Math.ceil(discounts.length / itemsPerPage);
   const startIndex = (currentPage - 1) * itemsPerPage;
-  const paginatedPromotions = promotions.slice(startIndex, startIndex + itemsPerPage);
+  const paginatedDiscounts = discounts.slice(startIndex, startIndex + itemsPerPage);
 
-  const handlePause = (promotionId) => {
-    console.log('Pause promotion:', promotionId);
+  const handlePause = (discountId) => {
+    console.log('Pause discount:', discountId);
   };
 
-  const handleExtend = (promotionId) => {
-    console.log('Extend promotion:', promotionId);
+  const handleExtend = (discountId) => {
+    navigate('/seller/boost');
   };
 
-  const handleViewAnalytics = (promotion) => {
-    setSelectedPromotion(promotion);
+  const handleViewAnalytics = (discount) => {
+    setSelectedDiscount(discount);
   };
 
   const getBoostTypeColor = (type) => {
@@ -145,7 +147,7 @@ const SellerPromotions = () => {
       <div className="text-sm text-gray-500 mb-6 flex items-center gap-2">
         <span>Dashboard</span>
         <ChevronRight size={14} />
-        <span className="text-gray-900 font-medium">Promotions</span>
+        <span className="text-gray-900 font-medium">Discounts</span>
       </div>
 
       {/* Stats Cards */}
@@ -173,21 +175,21 @@ const SellerPromotions = () => {
         })}
       </div>
 
-      {/* Promotions List */}
+      {/* Discounts List */}
       <div className="space-y-4">
-        {paginatedPromotions.map((promotion) => (
+        {paginatedDiscounts.map((discount) => (
           <div 
-            key={promotion.id} 
+            key={discount.id} 
             className="bg-white rounded-lg border border-gray-200 p-6 hover:shadow-md transition-shadow cursor-pointer"
-            onClick={() => handleViewAnalytics(promotion)}
+            onClick={() => handleViewAnalytics(discount)}
           >
             {/* Product Name and Boost Type */}
             <div className="flex items-center justify-between mb-4">
               <h3 className="text-lg font-semibold text-gray-900">
-                {promotion.product}
+                {discount.product}
               </h3>
-              <span className={`inline-block px-3 py-1 text-xs font-medium rounded-full border ${getBoostTypeColor(promotion.boostType)}`}>
-                {promotion.boostType}
+              <span className={`inline-block px-3 py-1 text-xs font-medium rounded-full border ${getBoostTypeColor(discount.boostType)}`}>
+                {discount.boostType}
               </span>
             </div>
 
@@ -195,23 +197,23 @@ const SellerPromotions = () => {
             <div className="grid grid-cols-2 md:grid-cols-5 gap-4 mb-4">
               <div>
                 <p className="text-xs text-gray-500 mb-1">Daily Cost</p>
-                <p className="text-sm font-medium text-gray-900">{promotion.dailyCost}</p>
+                <p className="text-sm font-medium text-gray-900">{discount.dailyCost}</p>
               </div>
               <div>
                 <p className="text-xs text-gray-500 mb-1">Remaining Days</p>
-                <p className="text-sm font-medium text-gray-900">{promotion.remainingDays} days</p>
+                <p className="text-sm font-medium text-gray-900">{discount.remainingDays} days</p>
               </div>
               <div>
                 <p className="text-xs text-gray-500 mb-1">Views</p>
-                <p className="text-sm font-medium text-gray-900">{promotion.views.toLocaleString()}</p>
+                <p className="text-sm font-medium text-gray-900">{discount.views.toLocaleString()}</p>
               </div>
               <div>
                 <p className="text-xs text-gray-500 mb-1">Clicks</p>
-                <p className="text-sm font-medium text-gray-900">{promotion.clicks}</p>
+                <p className="text-sm font-medium text-gray-900">{discount.clicks}</p>
               </div>
               <div>
                 <p className="text-xs text-gray-500 mb-1">Started</p>
-                <p className="text-sm font-medium text-gray-900">{promotion.startDate}</p>
+                <p className="text-sm font-medium text-gray-900">{discount.startDate}</p>
               </div>
             </div>
 
@@ -219,28 +221,28 @@ const SellerPromotions = () => {
             <div className="flex items-center justify-between pt-4 border-t border-gray-100">
               <div className="flex items-center gap-2">
                 <Clock size={16} className="text-gray-400" />
-                <span className={`text-sm font-medium px-3 py-1 rounded-full ${getDaysLeftColor(promotion.daysLeft)}`}>
-                  {promotion.daysLeft} day{promotion.daysLeft !== 1 ? 's' : ''} left
+                <span className={`text-sm font-medium px-3 py-1 rounded-full ${getDaysLeftColor(discount.daysLeft)}`}>
+                  {discount.daysLeft} day{discount.daysLeft !== 1 ? 's' : ''} left
                 </span>
               </div>
               
               <div className="flex items-center gap-3" onClick={(e) => e.stopPropagation()}>
                 <button
-                  onClick={() => handlePause(promotion.id)}
+                  onClick={() => handlePause(discount.id)}
                   className="flex items-center gap-2 px-4 py-2 border border-gray-300 rounded-lg text-sm hover:bg-gray-50"
                 >
                   <Pause size={14} />
                   Pause
                 </button>
                 <button
-                  onClick={() => handleExtend(promotion.id)}
+                  onClick={() => handleExtend(discount.id)}
                   className="flex items-center gap-2 px-4 py-2 border border-gray-300 rounded-lg text-sm hover:bg-gray-50"
                 >
                   <Calendar size={14} />
                   Extend Boost
                 </button>
                 <button
-                  onClick={() => handleViewAnalytics(promotion)}
+                  onClick={() => handleViewAnalytics(discount)}
                   className="flex items-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-lg text-sm hover:bg-blue-700"
                 >
                   <BarChart3 size={14} />
@@ -253,7 +255,7 @@ const SellerPromotions = () => {
       </div>
 
       {/* Empty State */}
-      {promotions.length === 0 && (
+      {discounts.length === 0 && (
         <div className="text-center py-12 bg-white rounded-lg border border-gray-200">
           <Zap className="w-12 h-12 text-gray-400 mx-auto mb-3" />
           <p className="text-gray-500">No active boosts found</p>
@@ -264,10 +266,10 @@ const SellerPromotions = () => {
       )}
 
       {/* Pagination */}
-      {promotions.length > 0 && (
+      {discounts.length > 0 && (
         <div className="flex items-center justify-between mt-6">
           <div className="text-sm text-gray-600">
-            Showing {startIndex + 1} to {Math.min(startIndex + itemsPerPage, promotions.length)} of {promotions.length} boosts
+            Showing {startIndex + 1} to {Math.min(startIndex + itemsPerPage, discounts.length)} of {discounts.length} boosts
           </div>
           <div className="flex items-center gap-2">
             <button
@@ -314,4 +316,4 @@ const SellerPromotions = () => {
   );
 };
 
-export default SellerPromotions;
+export default SellerDiscounts;

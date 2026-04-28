@@ -7,24 +7,6 @@ const SellerProducts = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 5;
 
-  const [showAddModal, setShowAddModal] = useState(false);
-
-  const [newProduct, setNewProduct] = useState({
-    name: '',
-    price: '',
-    stock: '',
-    status: 'Active'
-  });
-
-  const handleAddProduct = (e) => {
-  e.preventDefault();
-
-    // Later: collect form data + send to API
-    console.log('Product added');
-
-    setShowAddModal(false);
-  };
-
   // Sample products data
   const products = [
     {
@@ -106,10 +88,10 @@ const SellerProducts = () => {
       {/* Header */}
       <div className="flex items-center justify-between mb-2">
         <h1 className="text-2xl font-semibold">My Products</h1>
-        <button className='btn btn-primary px-3 flex items-center gap-2' onClick={() => setShowAddModal(true)}>
+        <Link to="/seller/add-products" className='btn btn-primary px-3 flex items-center gap-2'>
           <Plus size={16} />
           Add New Product
-        </button>
+        </Link>
       </div>
 
         
@@ -232,91 +214,6 @@ const SellerProducts = () => {
             >
               <ChevronRight size={18} />
             </button>
-          </div>
-        </div>
-      )}
-
-
-      {showAddModal && (
-        <div className="fixed inset-0 bg-black/70 flex items-center justify-center z-5000">
-          
-          {/* Modal Box */}
-          <div className="bg-white rounded-xl w-full max-w-lg p-6 shadow-lg relative">
-            
-            {/* Header */}
-            <div className="flex items-center justify-between mb-4">
-              <h2 className="text-lg font-semibold">Add New Product</h2>
-              <button onClick={() => setShowAddModal(false)}>
-                ✕
-              </button>
-            </div>
-
-            {/* Form */}
-            <form onSubmit={handleAddProduct} className="space-y-4">
-              
-              {/* Product Name */}
-              <div>
-                <label className="text-sm text-gray-600">Product Name</label>
-                <input 
-                  type="text"
-                  value={newProduct.name}
-                  onChange={(e) => setNewProduct({...newProduct, name: e.target.value})}
-                  className="w-full mt-1 px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary outline-none"
-                  placeholder="Enter product name"
-                />
-              </div>
-
-              {/* Price */}
-              <div>
-                <label className="text-sm text-gray-600">Price</label>
-                <input 
-                  type="number"                  
-                  value={newProduct.price}
-                  onChange={(e) => setNewProduct({...newProduct, price: e.target.value})}
-                  className="w-full mt-1 px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary outline-none"
-                  placeholder="Enter price"
-                />
-              </div>
-
-              {/* Stock */}
-              <div>
-                <label className="text-sm text-gray-600">Stock</label>
-                <input 
-                  type="number"
-                  value={newProduct.stock}
-                  onChange={(e) => setNewProduct({...newProduct, stock: e.target.value})}
-                  className="w-full mt-1 px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary outline-none"
-                  placeholder="Enter stock quantity"
-                />
-              </div>
-
-              {/* Status */}
-              <div>
-                <label className="text-sm text-gray-600">Status</label>
-                <select className="w-full mt-1 px-3 py-2 border border-gray-300 rounded-lg">
-                  <option value="Active">Active</option>
-                  <option value="Draft">Draft</option>
-                </select>
-              </div>
-
-              {/* Actions */}
-              <div className="flex justify-end gap-3 pt-4">
-                <button 
-                  type="button"
-                  onClick={() => setShowAddModal(false)}
-                  className="px-4 btn btn-tertiary"
-                >
-                  Cancel
-                </button>
-                <button 
-                  type="submit"
-                  className="px-4 btn"
-                >
-                  Save Product
-                </button>
-              </div>
-
-            </form>
           </div>
         </div>
       )}

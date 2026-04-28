@@ -9,6 +9,7 @@ import {
   AlertCircle, 
   Bell, 
   User, 
+  Users,
   LogOut,
   Menu,
   PanelRightClose,
@@ -37,7 +38,7 @@ import { useAuth } from '../../contexts/AuthContext';
 const DashboardSidebar = ({ isMobileMenuOpen, setIsMobileMenuOpen }) => {
   const [isSettingsOpen, setIsSettingsOpen] = useState(false);
   const [isProductsOpen, setIsProductsOpen] = useState(false);
-  const [isPromotionsOpen, setIsPromotionsOpen] = useState(false);
+  const [isDiscountsOpen, setIsDiscountsOpen] = useState(false);
   const { user, logout } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
@@ -54,6 +55,7 @@ const DashboardSidebar = ({ isMobileMenuOpen, setIsMobileMenuOpen }) => {
     { path: '/account/orders', icon: ShoppingBag, label: 'Orders' },
     { path: '/account/messages', icon: MessageSquare, label: 'Messages' },
     { path: '/account/wallet', icon: Wallet, label: 'Wallet & Earnings' },
+    { path: '/account/referrals', icon: Users, label: 'Referrals' },
     { path: '/account/disputes', icon: AlertCircle, label: 'Disputes' },
     { path: '/account/notifications', icon: Bell, label: 'Notifications' },
     { path: '/account/help', icon: HelpCircle, label: 'Help & Support' },
@@ -66,11 +68,11 @@ const DashboardSidebar = ({ isMobileMenuOpen, setIsMobileMenuOpen }) => {
     { path: '/seller/categories', icon: Package, label: 'Categories' },
   ];
 
-  // Promotions dropdown items
-  const promotionsDropdownItems = [
-    { path: '/seller/promotions', icon: BoostIcon, label: 'Active Promotions' },
+  // Discounts dropdown items
+  const discountsDropdownItems = [
+    { path: '/seller/discounts', icon: BoostIcon, label: 'Active Discounts' },
     { path: '/seller/boost', icon: Sparkles, label: 'Boost Products' },
-    { path: '/seller/history', icon: TrendingUp, label: 'Promotion History' },
+    { path: '/seller/history', icon: TrendingUp, label: 'Discount History' },
   ];
 
   const sellerMenuItems = [
@@ -87,13 +89,14 @@ const DashboardSidebar = ({ isMobileMenuOpen, setIsMobileMenuOpen }) => {
     { 
       type: 'dropdown',
       icon: Zap, 
-      label: 'Promotions / Boost',
-      isOpen: isPromotionsOpen,
-      setIsOpen: setIsPromotionsOpen,
-      items: promotionsDropdownItems
+      label: 'Discounts / Boost',
+      isOpen: isDiscountsOpen,
+      setIsOpen: setIsDiscountsOpen,
+      items: discountsDropdownItems
     },
     { path: '/seller/escrow', icon: Shield, label: 'Escrow & Payments' },
     { path: '/seller/earnings', icon: Wallet, label: 'Wallet & Earnings' },
+    { path: '/seller/referrals', icon: Users, label: 'Referrals' },
     { path: '/seller/messages', icon: MessageSquare, label: 'Messages' },
     { path: '/seller/disputes', icon: AlertCircle, label: 'Disputes' },
     { path: '/seller/analytics', icon: TrendingUp, label: 'Analytics' },
@@ -142,8 +145,8 @@ const DashboardSidebar = ({ isMobileMenuOpen, setIsMobileMenuOpen }) => {
     location.pathname === item.path || location.pathname.startsWith(item.path + '/')
   );
 
-  // Check if any promotion dropdown route is active
-  const isPromotionsActive = isSellerDashboard && promotionsDropdownItems.some(item => 
+  // Check if any discount dropdown route is active
+  const isDiscountsActive = isSellerDashboard && discountsDropdownItems.some(item => 
     location.pathname === item.path || location.pathname.startsWith(item.path + '/')
   );
 
@@ -152,10 +155,10 @@ const DashboardSidebar = ({ isMobileMenuOpen, setIsMobileMenuOpen }) => {
     if (isProductsActive) {
       setIsProductsOpen(true);
     }
-    if (isPromotionsActive) {
-      setIsPromotionsOpen(true);
+    if (isDiscountsActive) {
+      setIsDiscountsOpen(true);
     }
-  }, [isProductsActive, isPromotionsActive]);
+  }, [isProductsActive, isDiscountsActive]);
 
   // Get current menu items based on dashboard type
   const getCurrentMenuItems = () => {
