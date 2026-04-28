@@ -27,10 +27,12 @@ const CreateSecureDealModal = ({ isOpen, onClose, recipientName }) => {
   };
 
   return (
-    <div onClick={onClose} className="fixed inset-0 z-[10001] flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm animate-in fade-in duration-200">
-      <div className="bg-white w-full max-w-2xl mt-4 rounded-2xl overflow-hidden shadow-2xl animate-in zoom-in-95 duration-200">
+    <div onClick={(e) => {
+      if (e.target === e.currentTarget) onClose();
+    }} className="fixed inset-0 z-[10001] flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm animate-in fade-in duration-200">
+      <div className="bg-white w-full max-w-2xl max-h-[90vh] flex flex-col mt-4 rounded-2xl overflow-hidden shadow-2xl animate-in zoom-in-95 duration-200">
         {/* Header */}
-        <div className="bg-primary p-4 flex items-center justify-between text-white">
+        <div className="bg-primary p-4 flex items-center justify-between text-white shrink-0">
           <div className="flex items-center gap-2">
             <Shield size={20} fill="white" className="text-primary" />
             <h2 className="font-bold text-lg">Create Secure Deal</h2>
@@ -41,7 +43,7 @@ const CreateSecureDealModal = ({ isOpen, onClose, recipientName }) => {
         </div>
 
         {/* Form Body */}
-        <div className="p-6 overflow-y-auto max-h-[80vh]">
+        <div className="p-6 overflow-y-auto flex-1">
           <div className="space-y-5">
             {/* Service Title */}
             <div>
