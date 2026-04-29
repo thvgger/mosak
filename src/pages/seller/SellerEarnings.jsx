@@ -33,7 +33,7 @@ const SellerEarnings = () => {
     { id: 1, title: 'Completed Orders', points: '2,450 M-pts', cash: '₦2,450', icon: ShoppingBag, colorClass: 'bg-blue-50 text-blue-600' },
     { id: 2, title: 'Referrals', points: '1,200 pts', cash: '₦1,200', icon: Users, colorClass: 'bg-purple-50 text-purple-600' },
     { id: 3, title: 'Reviews & Ratings', points: '800 pts', cash: '₦800', icon: Star, colorClass: 'bg-yellow-50 text-yellow-600' },
-    { id: 4, title: 'Discounts & Bonuses', points: '400 pts', cash: '₦400', icon: Gift, colorClass: 'bg-green-50 text-green-600' },
+    { id: 4, title: 'Promotions & Bonuses', points: '400 pts', cash: '₦400', icon: Gift, colorClass: 'bg-green-50 text-green-600' },
   ];
 
   const earnMethods = [

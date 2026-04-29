@@ -28,7 +28,7 @@ const SellerDiscountHistory = () => {
   ];
 
   const timeOptions = ['All Time', 'Last 7 Days', 'Last Month', 'Last 3 Months'];
-  const typeOptions = ['All Types', 'Boost Only', 'Discounts Only'];
+  const typeOptions = ['All Types', 'Boost Only', 'Promotions Only'];
   const productOptions = ['All Products', 'Smart Watch', 'Headphones', 'Laptop'];
 
   const toggleDropdown = (name) => {
@@ -68,7 +68,7 @@ const SellerDiscountHistory = () => {
     {
       id: 3,
       name: 'New Year Sale - Promo',
-      type: 'Discount',
+      type: 'Promotion',
       duration: '30 days',
       spend: '₦3,000',
       views: '-',

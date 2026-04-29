@@ -147,7 +147,7 @@ const SellerDiscounts = () => {
       <div className="text-sm text-gray-500 mb-6 flex items-center gap-2">
         <span>Dashboard</span>
         <ChevronRight size={14} />
-        <span className="text-gray-900 font-medium">Discounts</span>
+        <span className="text-gray-900 font-medium">Promotions</span>
       </div>
 
       {/* Stats Cards */}

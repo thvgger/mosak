@@ -1,6 +1,6 @@
 // components/user/DashboardSidebar.jsx (updated)
 import React, { useState, useEffect } from 'react';
-import { NavLink, useNavigate, useLocation } from 'react-router-dom';
+import { NavLink, useNavigate, useLocation, Link } from 'react-router-dom';
 import { 
   LayoutDashboard, 
   ShoppingBag, 
@@ -68,11 +68,11 @@ const DashboardSidebar = ({ isMobileMenuOpen, setIsMobileMenuOpen }) => {
     { path: '/seller/categories', icon: Package, label: 'Categories' },
   ];
 
-  // Discounts dropdown items
+  // Promotions dropdown items
   const discountsDropdownItems = [
-    { path: '/seller/discounts', icon: BoostIcon, label: 'Active Discounts' },
+    { path: '/seller/discounts', icon: BoostIcon, label: 'Active Promotions' },
     { path: '/seller/boost', icon: Sparkles, label: 'Boost Products' },
-    { path: '/seller/history', icon: TrendingUp, label: 'Discount History' },
+    { path: '/seller/history', icon: TrendingUp, label: 'Promotion History' },
   ];
 
   const sellerMenuItems = [
@@ -89,7 +89,7 @@ const DashboardSidebar = ({ isMobileMenuOpen, setIsMobileMenuOpen }) => {
     { 
       type: 'dropdown',
       icon: Zap, 
-      label: 'Discounts / Boost',
+      label: 'Promotions / Boost',
       isOpen: isDiscountsOpen,
       setIsOpen: setIsDiscountsOpen,
       items: discountsDropdownItems
@@ -364,14 +364,18 @@ const DashboardSidebar = ({ isMobileMenuOpen, setIsMobileMenuOpen }) => {
           {/* User Info & Logout - Sticky at bottom */}
           <div className="px-4 mt-auto">
             <div className="border-t border-gray-200 pt-4 space-y-4">
-              <div className="flex items-center gap-3 px-2">
+              <Link 
+                to={`/profile/${user?.id || 'stacey-samuel'}`}
+                className="flex items-center gap-3 px-2 hover:bg-gray-50 p-2 rounded-xl transition-colors group"
+                onClick={() => setIsMobileMenuOpen(false)}
+              >
                 <img 
                   src={user?.avatar || 'https://placehold.co/40'} 
                   alt={user?.name || 'User'} 
-                  className="w-8 h-8 md:w-10 md:h-10 bg-gray-100 rounded-full object-cover"
+                  className="w-8 h-8 md:w-10 md:h-10 bg-gray-100 rounded-full object-cover group-hover:ring-2 group-hover:ring-primary/20 transition-all"
                 />
                 <div className="flex flex-col gap-px overflow-hidden">
-                  <span className="text-sm md:text-base font-medium truncate">
+                  <span className="text-sm md:text-base font-medium truncate group-hover:text-primary transition-colors">
                     {user?.full_name || 'User'}
                   </span>
                   <div className="flex items-center gap-1">
@@ -383,7 +387,7 @@ const DashboardSidebar = ({ isMobileMenuOpen, setIsMobileMenuOpen }) => {
                     )}
                   </div>
                 </div>
-              </div>
+              </Link>
 
               <button
                 onClick={handleLogout}

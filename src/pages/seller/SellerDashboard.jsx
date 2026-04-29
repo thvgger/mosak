@@ -138,7 +138,7 @@ const SellerDashboard = () => {
   // Quick actions
   const quickActions = [
     { label: 'Add New Product', description: 'List items for sale', icon: Plus, color: 'blue-500', path: '/seller/add-products' },
-    { label: 'Boost Listing', description: 'Increase visibility', icon: Zap, color: 'red-500', path: '/seller/discounts' },
+    { label: 'Boost Product', description: 'Increase visibility', icon: Zap, color: 'red-500', path: '/seller/discounts' },
     { label: 'Verify Account', description: 'Build trust', icon: Shield, color: 'green-500', path: '/seller/verification' },
     { label: 'Withdraw Funds', description: 'Transfer to bank', icon: Wallet, color: 'orange-500', path: '/seller/m-wallet' }
   ];

@@ -16,6 +16,7 @@ import Contact from '../pages/public/Contact.jsx';
 import Leaderboards from '../pages/community/Leaderboards.jsx';
 import About from '../pages/public/About.jsx';
 import HowItWorks from '../pages/public/HowItWorks.jsx';
+import BuyerProfile from '../pages/public/BuyerProfile.jsx';
 import DisputeResolution from '../pages/public/DisputeResolution.jsx';
 import EscrowProtection from '../pages/public/EscrowProtection.jsx';
 import TrustSafety from '../pages/public/TrustSafety.jsx';
@@ -152,6 +153,7 @@ const AppRoutes = () => {
         <Route path="/terms" element={<Terms />} />
         <Route path="/privacy" element={<Privacy />} />
         <Route path="/cookies" element={<Cookies />} />
+        <Route path="/profile/:id" element={<BuyerProfile />} />
         
         
         <Route path="/cart" element={

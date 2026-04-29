@@ -75,7 +75,7 @@ const SellerBoostAnalytics = ({ discount, onBack }) => {
         Back to Discounts
       </button>
 
-      {/* Discount Summary Card */}
+      {/* Promotion Summary Card */}
       <div className="bg-white rounded-2xl border border-gray-100 p-6 sm:p-8 shadow-sm relative">
         <div className="flex flex-col md:flex-row justify-between gap-6">
           <div className="flex items-start gap-6">
@@ -420,3 +420,4 @@ const SellerBoostAnalytics = ({ discount, onBack }) => {
 };
 
 export default SellerBoostAnalytics;
+
