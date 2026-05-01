@@ -14,9 +14,12 @@ import {
   ChevronLeft
 } from 'lucide-react';
 
+import { Link, useNavigate } from 'react-router-dom';
+
 const SellerEscrow = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 5;
+  const navigate = useNavigate();
 
   // Stats data
   const stats = [
@@ -140,8 +143,7 @@ const SellerEscrow = () => {
   const paginatedOrders = escrowOrders.slice(startIndex, startIndex + itemsPerPage);
 
   const handleViewDetails = (orderId) => {
-    console.log('View order details:', orderId);
-    // Handle view details action
+    navigate(`/seller/orders/${orderId.replace('#', '')}`);
   };
 
   const handleWithdrawFunds = () => {
@@ -265,7 +267,7 @@ const SellerEscrow = () => {
                     </td>
                     <td className="py-4 px-6">
                       <button 
-                        onClick={() => handleViewDetails(order.id)}
+                        onClick={() => handleViewDetails(order.orderId)}
                         className="flex items-center gap-1 text-blue-600 hover:text-blue-800 text-sm font-medium"
                       >
                         <Eye size={16} />

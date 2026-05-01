@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { Search, MoreVertical, Eye, Trash2, ChevronLeft, ChevronRight, Plus } from 'lucide-react';
 
 const SellerProducts = () => {
+  const navigate = useNavigate();
   const [searchTerm, setSearchTerm] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 5;
@@ -63,8 +64,7 @@ const SellerProducts = () => {
   const paginatedProducts = filteredProducts.slice(startIndex, startIndex + itemsPerPage);
 
   const handleView = (productId) => {
-    console.log('View product:', productId);
-    // Handle view action
+    navigate(`/product/${productId}`);
   };
 
   const handleDelete = (productId) => {

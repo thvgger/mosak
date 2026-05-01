@@ -17,6 +17,7 @@ import Leaderboards from '../pages/community/Leaderboards.jsx';
 import About from '../pages/public/About.jsx';
 import HowItWorks from '../pages/public/HowItWorks.jsx';
 import BuyerProfile from '../pages/public/BuyerProfile.jsx';
+import SellerProfile from '../pages/public/SellerProfile.jsx';
 import DisputeResolution from '../pages/public/DisputeResolution.jsx';
 import EscrowProtection from '../pages/public/EscrowProtection.jsx';
 import TrustSafety from '../pages/public/TrustSafety.jsx';
@@ -48,6 +49,7 @@ import Verification from '../pages/user/settings/Verification';
 import Badges from '../pages/user/settings/Badges';
 import Settings from '../pages/user/settings/Settings.jsx';
 import Preferences from '../pages/user/settings/Preferences';
+import AccountSettings from '../pages/user/settings/AccountSettings';
 
 // Seller Pages
 import SellerDashboard from '../pages/seller/SellerDashboard.jsx';
@@ -154,6 +156,7 @@ const AppRoutes = () => {
         <Route path="/privacy" element={<Privacy />} />
         <Route path="/cookies" element={<Cookies />} />
         <Route path="/profile/:id" element={<BuyerProfile />} />
+        <Route path="/seller-profile/:id" element={<SellerProfile />} />
         
         
         <Route path="/cart" element={
@@ -189,11 +192,7 @@ const AppRoutes = () => {
         <Route path="disputes" element={<Disputes />} />
         <Route path="notifications" element={<Notifications />} />
         <Route path="help" element={<AccountHelp />} />
-        <Route path="profile" element={<Profile />} />
-        <Route path="verification" element={<Verification />} />
-        <Route path="badges" element={<Badges />} />
-        <Route path="settings" element={<Settings />} />
-        <Route path="preferences" element={<Preferences />} />
+        <Route path="settings" element={<AccountSettings />} />
       </Route>
 
       {/* Seller Dashboard Routes */}
@@ -211,6 +210,7 @@ const AppRoutes = () => {
         <Route path="products/submitted" element={<ProductSubmitted />} />
         <Route path="categories" element={<SellerProductCategories />} />
         <Route path="orders" element={<SellerOrders />} />
+        <Route path="orders/:orderId" element={<OrderTracking />} />
         <Route path="discounts" element={<SellerDiscounts />} />
         <Route path="boost" element={<SellerBoost />} />
         <Route path="history" element={<SellerDiscountHistory />} />
@@ -223,11 +223,7 @@ const AppRoutes = () => {
         <Route path="disputes" element={<Disputes />} />
         <Route path="notifications" element={<Notifications />} />
         <Route path="help" element={<AccountHelp />} />
-        <Route path="profile" element={<Profile />} />
-        <Route path="badges" element={<Badges />} />
-        <Route path="verification" element={<Verification />} />
-        <Route path="settings" element={<Settings />} />
-        <Route path="preferences" element={<Preferences />} />
+        <Route path="settings" element={<AccountSettings />} />
       </Route>
 
       {/* Freelancer Dashboard Routes */}
@@ -246,10 +242,7 @@ const AppRoutes = () => {
         <Route path="portfolio" element={<FreelancerPortfolio />} />
         <Route path="messages" element={<Messages />} />
         <Route path="notifications" element={<Notifications />} />
-        <Route path="profile" element={<Profile />} />
-        <Route path="badges" element={<Badges />} />
-        <Route path="verification" element={<Verification />} />
-        <Route path="preferences" element={<Preferences />} />
+        <Route path="settings" element={<AccountSettings />} />
         <Route path="help" element={<AccountHelp />} />
       </Route>
 
@@ -269,10 +262,7 @@ const AppRoutes = () => {
         <Route path="proposals" element={<FreelancerProposals />} />
         <Route path="messages" element={<Messages />} />
         <Route path="notifications" element={<Notifications />} />
-        <Route path="profile" element={<Profile />} />
-        <Route path="badges" element={<Badges />} />
-        <Route path="verification" element={<Verification />} />
-        <Route path="preferences" element={<Preferences />} />
+        <Route path="settings" element={<AccountSettings />} />
         <Route path="help" element={<AccountHelp />} />
       </Route>
 

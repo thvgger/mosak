@@ -31,12 +31,12 @@ import {
   List,
   PlusCircle,
   TrendingUp as BoostIcon,
-  Sparkles
+  Sparkles,
+  Sliders
 } from 'lucide-react';
 import { useAuth } from '../../contexts/AuthContext';
 
 const DashboardSidebar = ({ isMobileMenuOpen, setIsMobileMenuOpen }) => {
-  const [isSettingsOpen, setIsSettingsOpen] = useState(false);
   const [isProductsOpen, setIsProductsOpen] = useState(false);
   const [isDiscountsOpen, setIsDiscountsOpen] = useState(false);
   const { user, logout } = useAuth();
@@ -48,6 +48,16 @@ const DashboardSidebar = ({ isMobileMenuOpen, setIsMobileMenuOpen }) => {
   const isSellerDashboard = location.pathname.startsWith('/seller');
   const isFreelancerDashboard = location.pathname.startsWith('/freelancer');
   const isEmployerDashboard = location.pathname.startsWith('/employer');
+
+  const getBasePath = () => {
+    if (isBuyerDashboard) return '/account';
+    if (isSellerDashboard) return '/seller';
+    if (isFreelancerDashboard) return '/freelancer';
+    if (isEmployerDashboard) return '/employer';
+    return '/account';
+  };
+
+  const basePath = getBasePath();
 
   // Menu items for different dashboards
   const buyerMenuItems = [
@@ -124,22 +134,6 @@ const DashboardSidebar = ({ isMobileMenuOpen, setIsMobileMenuOpen }) => {
     { path: '/employer/notifications', icon: Bell, label: 'Notifications' },
   ];
 
-  // Settings items (same for all dashboards but with different base paths)
-  const getSettingsItems = () => {
-    const basePath = isBuyerDashboard ? '/account' : 
-                     isSellerDashboard ? '/seller' :
-                     isFreelancerDashboard ? '/freelancer' : '/employer';
-    
-    return [
-      { path: `${basePath}/profile`, icon: User, label: 'Profile' },
-      { path: `${basePath}/verification`, icon: Shield, label: 'Verification' },
-      { path: `${basePath}/badges`, icon: Award, label: 'Badges' },
-      { path: `${basePath}/settings`, icon: Shield, label: 'Settings' },
-    ];
-  };
-
-  const settingsItems = getSettingsItems();
-
   // Check if any product dropdown route is active
   const isProductsActive = isSellerDashboard && productsDropdownItems.some(item => 
     location.pathname === item.path || location.pathname.startsWith(item.path + '/')
@@ -171,21 +165,17 @@ const DashboardSidebar = ({ isMobileMenuOpen, setIsMobileMenuOpen }) => {
 
   const currentMenuItems = getCurrentMenuItems();
 
-  // Check if any settings route is active
-  const isSettingsActive = settingsItems.some(item => 
-    location.pathname === item.path || location.pathname.startsWith(item.path + '/')
-  );
-
-  // Auto-open settings if on a settings page
-  useEffect(() => {
-    if (isSettingsActive) {
-      setIsSettingsOpen(true);
-    }
-  }, [isSettingsActive]);
-
   const handleLogout = () => {
     logout();
     navigate('/');
+  };
+
+  const getPublicProfileLink = () => {
+    const profileId = user?.id || 'stacey-samuel';
+    if (isSellerDashboard || user?.role?.toLowerCase() === 'seller') {
+      return `/seller-profile/${profileId}`;
+    }
+    return `/profile/${profileId}`;
   };
 
   // Get dashboard title
@@ -313,50 +303,22 @@ const DashboardSidebar = ({ isMobileMenuOpen, setIsMobileMenuOpen }) => {
               {/* Main Menu Items */}
               {currentMenuItems.map((item, index) => renderMenuItem(item, index))}
 
-              {/* Settings Dropdown */}
+              {/* Consolidated Account & Settings Link */}
               <li>
-                <button
-                  onClick={() => setIsSettingsOpen(!isSettingsOpen)}
-                  className={`w-full flex items-center justify-between p-3 rounded-lg transition-colors ${
-                    isSettingsActive
-                      ? 'bg-primary/10 text-primary'
-                      : 'text-gray-700 hover:bg-gray-100'
-                  }`}
+                <NavLink
+                  to={`${basePath}/settings`}
+                  className={({ isActive }) =>
+                    `flex items-center space-x-3 p-3 rounded-lg transition-colors ${
+                      isActive
+                        ? 'bg-primary text-white'
+                        : 'text-gray-700 hover:bg-gray-100'
+                    }`
+                  }
+                  onClick={() => setIsMobileMenuOpen(false)}
                 >
-                  <div className="flex items-center space-x-3">
-                    <UserRound size={20} />
-                    <span className="text-sm">Account</span>
-                  </div>
-                  {isSettingsOpen ? (
-                    <ChevronUp size={18} />
-                  ) : (
-                    <ChevronDown size={18} />
-                  )}
-                </button>
-
-                {/* Dropdown Items */}
-                {isSettingsOpen && (
-                  <ul className="mt-1 ml-6 space-y-1 border-l-2 border-gray-200 pl-3">
-                    {settingsItems.map((item) => (
-                      <li key={item.path}>
-                        <NavLink
-                          to={item.path}
-                          className={({ isActive }) =>
-                            `flex items-center space-x-3 p-2.5 rounded-lg transition-colors text-sm ${
-                              isActive
-                                ? 'bg-primary text-white'
-                                : 'text-gray-600 hover:bg-gray-100'
-                            }`
-                          }
-                          onClick={() => setIsMobileMenuOpen(false)}
-                        >
-                          <item.icon size={16} />
-                          <span>{item.label}</span>
-                        </NavLink>
-                      </li>
-                    ))}
-                  </ul>
-                )}
+                  <Sliders size={20} />
+                  <span className="text-sm">Account & Settings</span>
+                </NavLink>
               </li>
             </ul>
           </div>
@@ -364,8 +326,22 @@ const DashboardSidebar = ({ isMobileMenuOpen, setIsMobileMenuOpen }) => {
           {/* User Info & Logout - Sticky at bottom */}
           <div className="px-4 mt-auto">
             <div className="border-t border-gray-200 pt-4 space-y-4">
+              {/* Premium Account Card */}
+              <div className="bg-primary/5 border border-primary/10 rounded-xl p-3 mb-4">
+                <div className="flex items-center gap-2 mb-1">
+                  <div className="bg-primary text-white p-1 rounded-md">
+                    <Shield size={14} />
+                  </div>
+                  <span className="text-[10px] font-bold text-primary uppercase tracking-wider">Verified Seller</span>
+                </div>
+                <p className="text-xs font-semibold text-gray-800">Premium Account</p>
+                <div className="mt-2 h-1 w-full bg-gray-200 rounded-full overflow-hidden">
+                  <div className="h-full bg-primary w-full"></div>
+                </div>
+              </div>
+
               <Link 
-                to={`/profile/${user?.id || 'stacey-samuel'}`}
+                to={getPublicProfileLink()}
                 className="flex items-center gap-3 px-2 hover:bg-gray-50 p-2 rounded-xl transition-colors group"
                 onClick={() => setIsMobileMenuOpen(false)}
               >

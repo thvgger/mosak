@@ -11,12 +11,13 @@ import {
   CheckCircle,
   AlertCircle
 } from 'lucide-react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 const SellerOrders = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 5;
+  const navigate = useNavigate();
 
   // Stats data
   const stats = [
@@ -30,48 +31,53 @@ const SellerOrders = () => {
   const orders = [
     {
       id: 1,
-      product: 'iPhone 15 Pro Max 256GB',
-      orderId: '#ORD-1234',
+      product: 'Logo Design Service',
+      orderId: '#MH-23849',
       buyer: 'Ahmed Hassan',
-      amount: '1,250,000',
+      amount: '30,000',
       escrowStatus: 'held',
-      shipping: 'pending'
+      shipping: 'pending',
+      time: '12 May, 2024'
     },
     {
       id: 2,
       product: 'iPhone 15 Pro Max 256GB',
       orderId: '#ORD-1234',
-      buyer: 'Ahmed Hassan',
+      buyer: 'John Doe',
       amount: '1,250,000',
       escrowStatus: 'held',
-      shipping: 'pending'
+      shipping: 'pending',
+      time: '10 May, 2024'
     },
     {
       id: 3,
-      product: 'iPhone 15 Pro Max 256GB',
-      orderId: '#ORD-1234',
-      buyer: 'Ahmed Hassan',
-      amount: '1,250,000',
+      product: 'Website UI Design',
+      orderId: '#MH-23850',
+      buyer: 'Sarah Smith',
+      amount: '150,000',
       escrowStatus: 'released',
-      shipping: 'shipped'
+      shipping: 'shipped',
+      time: '08 May, 2024'
     },
     {
       id: 4,
-      product: 'iPhone 15 Pro Max 256GB',
-      orderId: '#ORD-1234',
-      buyer: 'Ahmed Hassan',
-      amount: '1,250,000',
+      product: 'Content Writing',
+      orderId: '#MH-23851',
+      buyer: 'Mike Ross',
+      amount: '45,000',
       escrowStatus: 'released',
-      shipping: 'in transit'
+      shipping: 'in transit',
+      time: '05 May, 2024'
     },
     {
       id: 5,
-      product: 'iPhone 15 Pro Max 256GB',
-      orderId: '#ORD-1234',
-      buyer: 'Ahmed Hassan',
-      amount: '1,250,000',
+      product: 'SEO Audit',
+      orderId: '#MH-23852',
+      buyer: 'Jessica Pearson',
+      amount: '80,000',
       escrowStatus: 'disputed',
-      shipping: 'delivered'
+      shipping: 'delivered',
+      time: '01 May, 2024'
     }
   ];
 
@@ -107,9 +113,9 @@ const SellerOrders = () => {
   const startIndex = (currentPage - 1) * itemsPerPage;
   const paginatedOrders = filteredOrders.slice(startIndex, startIndex + itemsPerPage);
 
-  const handleViewDetails = (orderId) => {
-    console.log('View order details:', orderId);
-    // Handle view details action
+  const handleViewDetails = (order) => {
+    // Strip # from orderId for the URL if needed, or just pass it directly.
+    navigate(`/seller/orders/${order.orderId.replace('#', '')}`);
   };
 
   return (
@@ -200,7 +206,7 @@ const SellerOrders = () => {
                   <span className="text-sm text-gray-900">{order.buyer}</span>
                 </td>
                 <td className="py-4 px-6">
-                  <span className="text-sm text-gray-900">₱{order.amount}</span>
+                  <span className="text-sm text-gray-900">₦{order.amount}</span>
                 </td>
                 <td className="py-4 px-6">
                   <span className={`inline-block px-3 py-1 text-xs font-medium rounded-full capitalize ${getEscrowStatusStyle(order.escrowStatus)}`}>
@@ -214,7 +220,7 @@ const SellerOrders = () => {
                 </td>
                 <td className="py-4 px-6">
                   <button 
-                    onClick={() => handleViewDetails(order.id)}
+                    onClick={() => handleViewDetails(order)}
                     className="text-blue-600 hover:text-blue-800 text-sm font-medium"
                   >
                     View Details
@@ -280,6 +286,7 @@ const SellerOrders = () => {
           </div>
         </div>
       )}
+
     </div>
   );
 };

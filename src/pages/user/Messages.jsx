@@ -25,6 +25,7 @@ import {
 import { useAuth } from '../../contexts/AuthContext';
 import { useLocation } from 'react-router-dom';
 import CreateSecureDealModal from '../../components/community/CreateSecureDealModal';
+import OfferBreakdownModal from '../../components/user/OfferBreakdownModal';
 
 // Component to render initials placeholder
 const InitialsAvatar = ({ name, size = "w-12 h-12", textSize = "text-base" }) => (
@@ -76,8 +77,12 @@ const PaymentSentCard = ({ amount, orderId, time }) => (
   </div>
 );
 
-const OfferCard = ({ deal, time }) => {
+const OfferCard = ({ deal, time, onAcceptClick }) => {
   const [status, setStatus] = useState(deal.status);
+
+  const handleAccept = () => {
+    onAcceptClick(deal, () => setStatus('Accepted'));
+  };
 
   if (status === 'Accepted') {
     return <PaymentSentCard amount={deal.amount} orderId={deal.id} time={time} />;
@@ -142,7 +147,7 @@ const OfferCard = ({ deal, time }) => {
             Decline
           </button>
           <button 
-            onClick={() => setStatus('Accepted')}
+            onClick={handleAccept}
             className="flex-1 py-4 bg-blue-600 hover:bg-blue-700 text-white font-bold text-sm rounded-2xl transition-all shadow-lg shadow-blue-600/20"
           >
             Accept & Pay
@@ -209,11 +214,13 @@ const SecureDealCard = ({ deal, sender }) => (
 );
 
 const SystemNotification = ({ content, time }) => (
-  <div className="w-full bg-[#FFF7ED] border border-orange-100 rounded-2xl p-5 shadow-sm animate-in fade-in duration-500">
-    <p className="text-sm font-bold text-[#9A3412] leading-relaxed">
-      {content}
-    </p>
-    <p className="text-[10px] font-bold text-[#C2410C]/60 mt-2 uppercase tracking-tight">{time}</p>
+  <div className="flex justify-center my-4 px-4">
+    <div className="bg-orange-50/80 border border-orange-100 rounded-2xl p-4 max-w-[500px] w-full shadow-sm animate-in fade-in duration-500 text-center">
+      <p className="text-xs font-bold text-orange-800/80 leading-relaxed">
+        {content}
+      </p>
+      {time && <p className="text-[9px] font-bold text-orange-600/50 mt-1 uppercase tracking-wider">{time}</p>}
+    </div>
   </div>
 );
 
@@ -229,14 +236,43 @@ const ChatContent = ({
   setShowOptions, 
   optionsRef, 
   setIsDealModalOpen,
+  setIsOfferModalOpen,
+  setSelectedDeal,
+  setOfferAcceptedCallback,
   location
 }) => {
+  const scrollRef = React.useRef(null);
+  const [isDragging, setIsDragging] = useState(false);
+  const [startX, setStartX] = useState(0);
+  const [scrollLeft, setScrollLeft] = useState(0);
+
+  const handleMouseDown = (e) => {
+    setIsDragging(true);
+    setStartX(e.pageX - scrollRef.current.offsetLeft);
+    setScrollLeft(scrollRef.current.scrollLeft);
+  };
+
+  const handleMouseLeave = () => {
+    setIsDragging(false);
+  };
+
+  const handleMouseUp = () => {
+    setIsDragging(false);
+  };
+
+  const handleMouseMove = (e) => {
+    if (!isDragging) return;
+    e.preventDefault();
+    const x = e.pageX - scrollRef.current.offsetLeft;
+    const walk = (x - startX) * 2; // scroll-speed
+    scrollRef.current.scrollLeft = scrollLeft - walk;
+  };
   const getStatusIcon = (status) => {
     switch(status) {
       case 'read':
-        return <CheckCheck size={14} className="text-white" />;
+        return <CheckCheck size={14} className="text-blue-500" />;
       case 'delivered':
-        return <CheckCheck size={14} className="text-gray-500" />;
+        return <CheckCheck size={14} className="text-gray-400" />;
       case 'sent':
         return <Check size={14} className="text-gray-400" />;
       default:
@@ -245,10 +281,10 @@ const ChatContent = ({
   };
 
   return (
-    <div className={`flex flex-col bg-white ${showMobileChat ? 'fixed inset-0 z-[10000] w-screen h-[100dvh]' : 'h-full flex-1'}`}>
+    <div className={`flex flex-col bg-white ${showMobileChat ? 'fixed inset-0 z-[10000] w-screen h-[100dvh]' : 'h-full flex-1 min-w-0 overflow-hidden'}`}>
       {/* Chat Header */}
-      <div className="bg-blue-600 text-white shrink-0">
-        <div className="px-8 py-6 flex items-center justify-between safe-top">
+      <div className="bg-blue-600 text-white shrink-0 shadow-md relative z-10">
+        <div className="px-8 py-5 flex items-center justify-between safe-top">
           <div className="flex items-center space-x-4">
             <button 
               onClick={handleBack}
@@ -261,25 +297,25 @@ const ChatContent = ({
                 src={selectedChat.avatar} 
                 name={selectedChat.name}
                 border="border-2 border-white/20"
-                size="w-14 h-14"
+                size="w-12 h-12"
               />
               {selectedChat.online && (
-                <span className="absolute bottom-0.5 right-0.5 w-3.5 h-3.5 bg-green-400 border-2 border-blue-600 rounded-full"></span>
+                <span className="absolute bottom-0 right-0 w-3 h-3 bg-green-400 border-2 border-blue-600 rounded-full"></span>
               )}
             </div>
             <div>
-              <h2 className="font-bold text-xl">{selectedChat.name}</h2>
-              <p className="text-xs text-blue-100 flex items-center gap-1.5">
+              <h2 className="font-bold text-lg">{selectedChat.name}</h2>
+              <p className="text-[11px] text-blue-100 flex items-center gap-1.5 opacity-90">
                 Active now <span className="w-1.5 h-1.5 bg-green-400 rounded-full"></span>
               </p>
             </div>
           </div>
-          <div className="flex items-center space-x-4">
+          <div className="flex items-center space-x-3">
             <button className="p-2 hover:bg-white/10 rounded-xl transition-colors">
-              <Video size={24} />
+              <Video size={20} />
             </button>
             <button className="p-2 hover:bg-white/10 rounded-xl transition-colors">
-              <Phone size={24} />
+              <Phone size={20} />
             </button>
             
             <div className="relative" ref={optionsRef}>
@@ -287,7 +323,7 @@ const ChatContent = ({
                 onClick={() => setShowOptions(!showOptions)}
                 className="p-2 hover:bg-white/10 rounded-xl transition-colors"
               >
-                <MoreVertical size={24} />
+                <MoreVertical size={20} />
               </button>
 
               {showOptions && (
@@ -328,12 +364,12 @@ const ChatContent = ({
       </div>
 
       {/* Messages */}
-      <div className="flex-1 overflow-y-auto p-6 space-y-6 bg-[#FAFAFA]">
+      <div className="flex-1 overflow-y-auto px-8 py-6 space-y-4 bg-[#F8F9FB]">
         {messages.map((message) => {
           if (message.type === 'date') {
             return (
-              <div key={message.id} className="flex justify-center">
-                <span className="px-4 py-1.5 bg-gray-100 text-gray-500 text-[11px] font-bold rounded-lg uppercase tracking-wider">
+              <div key={message.id} className="flex justify-center my-6">
+                <span className="px-3 py-1 bg-gray-200/50 text-gray-500 text-[10px] font-bold rounded-full uppercase tracking-widest">
                   {message.content}
                 </span>
               </div>
@@ -342,9 +378,7 @@ const ChatContent = ({
 
           if (message.type === 'system') {
             return (
-              <div key={message.id} className="w-full px-4">
-                <SystemNotification content={message.content} time={message.time} />
-              </div>
+              <SystemNotification key={message.id} content={message.content} time={message.time} />
             );
           }
 
@@ -353,8 +387,8 @@ const ChatContent = ({
               key={message.id}
               className={`flex ${message.sender === 'me' ? 'justify-end' : 'justify-start'}`}
             >
-              <div className={`flex items-end space-x-3 max-w-[85%] sm:max-w-[70%] ${
-                message.sender === 'me' ? 'flex-row-reverse space-x-reverse' : ''
+              <div className={`flex items-end gap-2 max-w-[85%] sm:max-w-[70%] ${
+                message.sender === 'me' ? 'flex-row-reverse' : ''
               }`}>
                 {message.sender === 'them' && (
                   <AvatarWithFallback 
@@ -366,22 +400,30 @@ const ChatContent = ({
                 )}
                 
                 {message.type === 'offer' ? (
-                  <OfferCard deal={message.dealData} time={message.time} />
+                  <OfferCard 
+                    deal={message.dealData} 
+                    time={message.time} 
+                    onAcceptClick={(deal, callback) => {
+                      setSelectedDeal(deal);
+                      setOfferAcceptedCallback(() => callback);
+                      setIsOfferModalOpen(true);
+                    }}
+                  />
                 ) : message.type === 'deal' ? (
                   <SecureDealCard deal={message.dealData} sender={message.sender} />
                 ) : (
-                  <div className="group flex flex-col items-end">
+                  <div className={`flex flex-col ${message.sender === 'me' ? 'items-end' : 'items-start'}`}>
                     {message.productData && <ProductCard product={message.productData} />}
                     <div
-                      className={`px-5 py-3 rounded-2xl ${
+                      className={`px-4 py-2.5 rounded-2xl shadow-sm ${
                         message.sender === 'me'
                           ? 'bg-blue-600 text-white rounded-tr-none'
-                          : 'bg-white text-gray-900 rounded-tl-none border border-gray-100 shadow-sm'
+                          : 'bg-white text-gray-900 rounded-tl-none border border-gray-100'
                       }`}
                     >
                       <p className="text-sm font-medium leading-relaxed whitespace-pre-wrap">{message.content}</p>
                     </div>
-                    <div className={`flex items-center gap-1.5 mt-1.5 text-[10px] font-bold text-gray-400 ${
+                    <div className={`flex items-center gap-1.5 mt-1 text-[9px] font-bold text-gray-400 ${
                       message.sender === 'me' ? 'justify-end' : 'justify-start'
                     }`}>
                       <span>{message.time}</span>
@@ -396,7 +438,14 @@ const ChatContent = ({
       </div>
 
       {/* Quick Replies */}
-      <div className="px-6 py-3 bg-[#FAFAFA] flex items-center gap-2 overflow-x-auto no-scrollbar">
+      <div 
+        ref={scrollRef}
+        onMouseDown={handleMouseDown}
+        onMouseLeave={handleMouseLeave}
+        onMouseUp={handleMouseUp}
+        onMouseMove={handleMouseMove}
+        className={`px-8 py-3 bg-[#F8F9FB] flex items-center gap-2 overflow-x-auto no-scrollbar select-none ${isDragging ? 'cursor-grabbing' : 'cursor-grab'}`}
+      >
         {[
           'Thank you for your interest', 
           'Is this still available?', 
@@ -410,7 +459,7 @@ const ChatContent = ({
           <button 
             key={idx}
             onClick={() => setMessageInput(reply)}
-            className="px-4 py-2 bg-white border border-gray-200 rounded-xl text-xs font-bold text-gray-600 whitespace-nowrap hover:bg-gray-50 transition-colors shadow-sm"
+            className="px-4 py-2 bg-white border border-gray-100 rounded-xl text-[11px] font-bold text-gray-500 whitespace-nowrap hover:bg-gray-50 transition-colors shadow-sm"
           >
             {reply}
           </button>
@@ -418,14 +467,14 @@ const ChatContent = ({
       </div>
 
       {/* Message Input */}
-      <div className="p-6 border-t border-gray-100 bg-white shrink-0 safe-bottom">
-        <div className="flex items-end gap-4">
-          <div className="flex items-center gap-3 mb-2">
+      <div className="px-8 py-5 border-t border-gray-100 bg-white shrink-0 safe-bottom">
+        <div className="flex items-end gap-3">
+          <div className="flex items-center gap-1 mb-1.5">
             <button type="button" className="p-2 text-gray-400 hover:text-blue-600 transition-colors">
-              <Paperclip size={24} />
+              <Paperclip size={20} />
             </button>
             <button type="button" className="p-2 text-gray-400 hover:text-blue-600 transition-colors">
-              <ImageIcon size={24} />
+              <ImageIcon size={20} />
             </button>
           </div>
 
@@ -435,7 +484,7 @@ const ChatContent = ({
               onChange={(e) => setMessageInput(e.target.value)}
               placeholder="Type your message..."
               rows={1}
-              className="w-full pl-6 pr-12 py-4 bg-gray-50 border-none rounded-2xl focus:ring-2 focus:ring-blue-600/20 text-sm font-medium placeholder:text-gray-400 shadow-inner resize-none min-h-[56px] max-h-[150px] overflow-y-auto"
+              className="w-full pl-5 pr-12 py-3.5 bg-gray-50 border-none rounded-2xl focus:ring-2 focus:ring-blue-600/10 text-sm font-medium placeholder:text-gray-400 shadow-inner resize-none min-h-[50px] max-h-[150px] overflow-y-auto"
               onInput={(e) => {
                 e.target.style.height = 'auto';
                 e.target.style.height = e.target.scrollHeight + 'px';
@@ -443,16 +492,16 @@ const ChatContent = ({
             />
             <button 
               type="button"
-              className="absolute right-4 bottom-4 p-1.5 text-gray-400 hover:text-blue-600 transition-colors"
+              className="absolute right-4 bottom-3.5 p-1 text-gray-400 hover:text-blue-600 transition-colors"
             >
-              <Smile size={20} />
+              <Smile size={18} />
             </button>
           </div>
 
           <button
             type="button"
             onClick={() => setIsDealModalOpen(true)}
-            className="px-6 py-4 mb-0.5 text-xs font-bold text-white bg-blue-600 rounded-2xl hover:bg-blue-700 transition-all shadow-lg shadow-blue-600/20 shrink-0 whitespace-nowrap uppercase tracking-wider"
+            className="px-5 py-3.5 mb-0.5 text-[10px] font-bold text-white bg-blue-600 rounded-2xl hover:bg-blue-700 transition-all shadow-lg shadow-blue-600/20 shrink-0 whitespace-nowrap uppercase tracking-widest"
           >
             {location.pathname.startsWith('/seller') || location.pathname.startsWith('/freelancer') 
               ? 'Create Offer' 
@@ -463,9 +512,9 @@ const ChatContent = ({
           <button
             onClick={handleSendMessage}
             disabled={!messageInput.trim()}
-            className="p-4 mb-0.5 bg-blue-600 text-white rounded-2xl hover:bg-blue-700 transition-all disabled:opacity-50 disabled:bg-gray-200 shadow-lg shadow-blue-600/20 shrink-0"
+            className="p-3.5 mb-0.5 bg-blue-600 text-white rounded-2xl hover:bg-blue-700 transition-all disabled:opacity-50 disabled:bg-gray-200 shadow-lg shadow-blue-600/20 shrink-0"
           >
-            <Send size={20} />
+            <Send size={18} />
           </button>
         </div>
       </div>
@@ -482,6 +531,9 @@ const Messages = () => {
   const [showMobileChat, setShowMobileChat] = useState(false);
   const [showOptions, setShowOptions] = useState(false);
   const [isDealModalOpen, setIsDealModalOpen] = useState(false);
+  const [isOfferModalOpen, setIsOfferModalOpen] = useState(false);
+  const [selectedDeal, setSelectedDeal] = useState(null);
+  const [offerAcceptedCallback, setOfferAcceptedCallback] = useState(null);
   const optionsRef = React.useRef(null);
 
   useEffect(() => {
@@ -674,6 +726,13 @@ const Messages = () => {
     setSelectedChat(chat);
   };
 
+  const handleAcceptOffer = () => {
+    if (offerAcceptedCallback) {
+      offerAcceptedCallback();
+    }
+    setIsOfferModalOpen(false);
+  };
+
   const chatContentProps = {
     selectedChat,
     showMobileChat,
@@ -686,6 +745,9 @@ const Messages = () => {
     setShowOptions,
     optionsRef,
     setIsDealModalOpen,
+    setIsOfferModalOpen,
+    setSelectedDeal,
+    setOfferAcceptedCallback,
     location
   };
 
@@ -776,6 +838,12 @@ const Messages = () => {
         isOpen={isDealModalOpen} 
         onClose={() => setIsDealModalOpen(false)} 
         recipientName={selectedChat?.name}
+      />
+      <OfferBreakdownModal 
+        isOpen={isOfferModalOpen}
+        onClose={() => setIsOfferModalOpen(false)}
+        deal={selectedDeal}
+        onAccept={handleAcceptOffer}
       />
     </div>
   );
