@@ -142,13 +142,14 @@ const Header = ({ isCommunity, isMobileMenuOpen, setIsMobileMenuOpen, isDashboar
                           {wishlist.length}
                         </span>
                       )}
+                  </Link>
+                  <Link to={currentMessagesLink} className="relative p-1.5 hover:bg-gray-50 rounded-full transition-colors">
+                      <MessageSquare size={19} strokeWidth={1.5} className="text-gray-700" />
                     </Link>
                     <Link to={currentNotificationsLink} className="relative p-1.5 hover:bg-gray-50 rounded-full transition-colors">
                       <Bell size={20} strokeWidth={1.5} className="text-gray-700" />
                     </Link>
-                    <Link to={currentMessagesLink} className="relative p-1.5 hover:bg-gray-50 rounded-full transition-colors">
-                      <MessageSquare size={19} strokeWidth={1.5} className="text-gray-700" />
-                    </Link>
+                    
                   </div>
                   
                   <div ref={accountRef} className="relative"> 
