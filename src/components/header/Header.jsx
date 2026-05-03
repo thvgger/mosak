@@ -99,14 +99,14 @@ const Header = ({ isCommunity, isMobileMenuOpen, setIsMobileMenuOpen, isDashboar
       <header className="sticky top-0 z-600 bg-white md:bg-white/60 backdrop-blur-md shadow h-16 md:h-20">
         <div className="container w-full h-full flex items-center justify-between gap-0 relative z-60">
           {/* Mobile Menu Toggle Button */}
-          {isDashboard && (
+          {/* {isDashboard && (
             <button
               onClick={() => {setIsMobileMenuOpen(!isMobileMenuOpen); }}
               className="lg:hidden p-2 bg-white hover:bg-gray-50 rounded-xl border border-gray-100 shadow-sm transition-all active:scale-95 shrink-0"
             >
               {isMobileMenuOpen ? <X size={24} className="text-gray-500" /> : <PanelRightClose className="text-gray-500" size={24} />}
             </button>
-          )}
+          )} */}
           <div className="w-full h-full flex items-center gap-4">
             <Link to="/" className="w-fit h-fit" onClick={()=> { setIsMenuOpen(false); scrollTo(0,0); }}>
               <img src={Logo} alt="Mosak Hub Logo" className="w-20 md:w-26 -ml-1 object-cover" />
@@ -200,14 +200,14 @@ const Header = ({ isCommunity, isMobileMenuOpen, setIsMobileMenuOpen, isDashboar
               </div>
             )}
             
-            {!isDashboard && (
+            {/* {!isDashboard && (
               <button 
                 className="lg:hidden p-2 text-gray-700 hover:bg-gray-50 rounded-xl transition-colors ml-1" 
                 onClick={() => setIsMenuOpen(prev => !prev)}
               >
                 {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
               </button>
-            )}
+            )} */}
 
             {user && (
               <Link to="/sell" className="hidden xl:flex btn uppercase tracking-widest text-[10px] py-2.5">
