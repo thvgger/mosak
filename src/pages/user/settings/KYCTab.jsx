@@ -16,7 +16,7 @@ import {
 } from 'lucide-react';
 
 const KYCTab = () => {
-  const [view, setView] = useState('overview'); // overview, levels, level1_step1, level1_step2, submitted, level2_step1, level2_step2
+  const [view, setView] = useState('overview'); // overview, levels, level1_step1, level1_step2, submitted, level2_step1, level2_step2, level3_step1
   const [kycLevel, setKycLevel] = useState(0); // 0: Unverified, 1: Level 1, 2: Level 2
 
   const benefits = [
@@ -332,7 +332,10 @@ const KYCTab = () => {
           </div>
 
           {kycLevel >= 2 ? (
-            <button className="w-full py-3.5 bg-blue-600 text-white font-bold rounded-xl hover:bg-blue-700 transition-all text-sm shadow-lg shadow-blue-600/20">
+            <button 
+              onClick={() => setView('level3_step1')}
+              className="w-full py-3.5 bg-blue-600 text-white font-bold rounded-xl hover:bg-blue-700 transition-all text-sm shadow-lg shadow-blue-600/20"
+            >
               Start Level 3
             </button>
           ) : (
@@ -664,6 +667,142 @@ const KYCTab = () => {
     </div>
   );
 
+  const renderLevel3Step1 = () => (
+    <div className="space-y-8 animate-in fade-in slide-in-from-right-4 duration-500">
+      {/* Header with Step Indicator */}
+      <div className="flex items-center justify-between gap-4">
+        <div className="flex items-center gap-4">
+          <div className="w-10 h-10 bg-blue-50 rounded-full flex items-center justify-center text-blue-600 font-bold">
+            3
+          </div>
+          <div>
+            <h2 className="text-lg font-bold text-gray-900">KYC Level 3 Verification</h2>
+            <p className="text-xs text-gray-500">Full verification</p>
+          </div>
+        </div>
+        <div className="text-right">
+          <p className="text-xs font-medium text-gray-500 mb-2">Step 1 of 2</p>
+          <div className="flex items-center gap-1.5">
+            <div className="h-1.5 w-6 bg-blue-600 rounded-full" />
+            <div className="h-1.5 w-1.5 bg-gray-200 rounded-full" />
+          </div>
+        </div>
+      </div>
+
+      {/* Form Card */}
+      <div className="bg-white rounded-2xl border border-gray-100 p-8 md:p-12 shadow-sm max-w-3xl mx-auto space-y-8">
+        <div className="space-y-6">
+          <label className="block text-sm font-semibold text-gray-700">Proof of Address</label>
+          
+          {/* Upload Zone */}
+          <div className="border-2 border-dashed border-gray-200 rounded-2xl p-16 flex flex-col items-center justify-center gap-4 bg-gray-50/50 hover:bg-gray-50 transition-colors cursor-pointer group">
+            <div className="w-14 h-14 bg-white rounded-xl flex items-center justify-center text-gray-400 shadow-sm group-hover:text-blue-600 transition-colors">
+              <Upload size={28} />
+            </div>
+            <div className="text-center">
+              <p className="text-base font-bold text-gray-700">Upload Proof of Address</p>
+              <p className="text-xs text-gray-400 mt-2 max-w-xs mx-auto">
+                Utility bill or bank statement (Document must be dated within last 3 months)
+              </p>
+            </div>
+          </div>
+        </div>
+
+        {/* Buttons */}
+        <div className="flex flex-col md:flex-row gap-4 pt-4">
+          <button 
+            onClick={() => setView('levels')}
+            className="flex-1 py-3.5 border border-gray-200 text-gray-700 font-bold rounded-xl hover:bg-gray-50 transition-all text-sm uppercase tracking-wide"
+          >
+            Cancel
+          </button>
+          <button 
+            onClick={() => setView('level3_step2')}
+            className="flex-1 py-3.5 bg-blue-600 text-white font-bold rounded-xl hover:bg-blue-700 transition-all text-sm uppercase tracking-wide shadow-lg shadow-blue-600/20"
+          >
+            Continue
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+
+  const renderLevel3Step2 = () => (
+    <div className="space-y-8 animate-in fade-in slide-in-from-right-4 duration-500">
+      {/* Header with Step Indicator */}
+      <div className="flex items-center justify-between gap-4">
+        <div className="flex items-center gap-4">
+          <div className="w-10 h-10 bg-blue-50 rounded-full flex items-center justify-center text-blue-600 font-bold">
+            3
+          </div>
+          <div>
+            <h2 className="text-lg font-bold text-gray-900">KYC Level 3 Verification</h2>
+            <p className="text-xs text-gray-500">Full verification</p>
+          </div>
+        </div>
+        <div className="text-right">
+          <p className="text-xs font-medium text-gray-500 mb-2">Step 2 of 2</p>
+          <div className="flex items-center gap-1.5">
+            <div className="h-1.5 w-1.5 bg-gray-200 rounded-full" />
+            <div className="h-1.5 w-6 bg-blue-600 rounded-full" />
+          </div>
+        </div>
+      </div>
+
+      {/* Form Card */}
+      <div className="bg-white rounded-2xl border border-gray-100 p-8 md:p-12 shadow-sm max-w-3xl mx-auto space-y-8">
+        <div className="space-y-6">
+          <label className="block text-sm font-semibold text-gray-700">Selfie with ID</label>
+          
+          {/* Upload Zone */}
+          <div className="border-2 border-dashed border-gray-200 rounded-2xl p-10 flex flex-col items-center justify-center gap-4 bg-gray-50/50 hover:bg-gray-50 transition-colors cursor-pointer group">
+            <div className="w-14 h-14 bg-white rounded-xl flex items-center justify-center text-gray-400 shadow-sm group-hover:text-blue-600 transition-colors">
+              <Upload size={28} />
+            </div>
+            <div className="text-center">
+              <p className="text-base font-bold text-gray-700">Upload a clear selfie holding your ID</p>
+              <p className="text-xs text-gray-400 mt-2">Face and ID details must be clearly visible</p>
+            </div>
+          </div>
+
+          {/* Tips Box */}
+          <div className="bg-blue-50/50 border border-blue-100 rounded-2xl p-6 space-y-4">
+            <h4 className="text-sm font-bold text-blue-800">Tips for a good selfie:</h4>
+            <ul className="space-y-3">
+              {[
+                "Ensure good lighting",
+                "Hold ID next to your face",
+                "Keep both face and ID in focus",
+                "Remove glasses if possible"
+              ].map((tip, i) => (
+                <li key={i} className="flex items-center gap-3">
+                  <div className="w-1.5 h-1.5 bg-blue-600 rounded-full" />
+                  <span className="text-sm font-medium text-blue-700/80">{tip}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </div>
+
+        {/* Buttons */}
+        <div className="flex flex-col md:flex-row gap-4 pt-4">
+          <button 
+            onClick={() => setView('level3_step1')}
+            className="flex-1 py-3.5 border border-gray-200 text-gray-700 font-bold rounded-xl hover:bg-gray-50 transition-all text-sm uppercase tracking-wide"
+          >
+            Cancel
+          </button>
+          <button 
+            onClick={() => setView('submitted')}
+            className="flex-1 py-3.5 bg-blue-600 text-white font-bold rounded-xl hover:bg-blue-700 transition-all text-sm uppercase tracking-wide shadow-lg shadow-blue-600/20"
+          >
+            Submit Level 3 Verification
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+
   const renderContent = () => {
     switch (view) {
       case 'overview': return renderOverview();
@@ -672,6 +811,8 @@ const KYCTab = () => {
       case 'level1_step2': return renderLevel1Step2();
       case 'level2_step1': return renderLevel2Step1();
       case 'level2_step2': return renderLevel2Step2();
+      case 'level3_step1': return renderLevel3Step1();
+      case 'level3_step2': return renderLevel3Step2();
       case 'submitted': return renderSubmitted();
       default: return renderOverview();
     }

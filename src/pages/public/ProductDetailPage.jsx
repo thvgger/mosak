@@ -370,7 +370,7 @@ const ProductDetailPage = () => {
                 <div className='flex items-center gap-1'>
                   <button 
                     onClick={handleWishlistToggle}
-                    className={`p-2 rounded-full ${isInWishlist ? 'bg-red-50 text-red-500' : 'hover:bg-gray-100'}`}
+                    className={`p-2 rounded-full ${isInWishlist ? 'bg-primary/5 text-primary' : 'hover:bg-gray-100'}`}
                     title={isInWishlist ? 'Remove from wishlist' : 'Add to wishlist'}
                   >
                     <Heart size={20} fill={isInWishlist ? "currentColor" : "none"} />

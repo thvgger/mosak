@@ -39,6 +39,25 @@ const Header = ({ isCommunity, isMobileMenuOpen, setIsMobileMenuOpen, isDashboar
     navigate('/');
   };
 
+  const AvatarWithFallback = ({ src, name, size = "w-8 h-8" }) => {
+    const [imgError, setImgError] = useState(false);
+    if (src && !imgError) {
+      return (
+        <img
+          src={src}
+          onError={() => setImgError(true)}
+          className={`${size} rounded-full object-cover`}
+          alt={name}
+        />
+      );
+    }
+    return (
+      <span className={`bg-primary text-white ${size} flex items-center justify-center rounded-full text-[13px] font-bold`}>
+        {name?.charAt(0).toUpperCase()}
+      </span>
+    );
+  };
+
   // Close account popup when clicking outside
   useEffect(() => {
     const handleClickOutside = (event) => {
@@ -73,7 +92,7 @@ const Header = ({ isCommunity, isMobileMenuOpen, setIsMobileMenuOpen, isDashboar
           {isDashboard && (
             <button
               onClick={() => {setIsMobileMenuOpen(!isMobileMenuOpen); }}
-              className="lg:hidden md:top-20 left-0 z-40 p-2 bg-white hover:bg-gray-100 rounded-lg w-fit"
+              className="lg:hidden p-2 bg-white hover:bg-gray-50 rounded-xl border border-gray-100 shadow-sm transition-all active:scale-95 shrink-0"
             >
               {isMobileMenuOpen ? <X size={24} className="text-gray-500" /> : <PanelRightClose className="text-gray-500" size={24} />}
             </button>
@@ -94,55 +113,53 @@ const Header = ({ isCommunity, isMobileMenuOpen, setIsMobileMenuOpen, isDashboar
           </nav>
 
           {/* User Actions */}
-          <div className="w-full flex items-center justify-end gap-2.5">
+          <div className="w-full flex items-center justify-end gap-2 md:gap-4">
             {isAuthenticated ? (
-              <div className="flex items-center gap-4">
-                  <div className="space-x-4 flex">
-                    <Link to="/cart" className="relative"> 
-                      <ShoppingCart size={21} strokeWidth={1.5} className="" />
+              <div className="flex items-center gap-2 md:gap-4">
+                  <div className="flex items-center gap-3 md:gap-4">
+                    <Link to="/cart" className="relative p-1.5 hover:bg-gray-50 rounded-full transition-colors"> 
+                      <ShoppingCart size={20} strokeWidth={1.5} className="text-gray-700" />
                       {cartItemCount > 0 && (
-                        <span className="absolute -right-1.5 -top-1 w-4 h-4 flex items-center justify-center rounded-full bg-[#EF4444] text-[9px] text-white font-medium">
+                        <span className="absolute right-0 top-0 w-4 h-4 flex items-center justify-center rounded-full bg-primary text-[8px] text-white font-bold border-2 border-white">
                           {cartItemCount}
                         </span>
                       )}
                     </Link>
-                    <Link to="/wishlist" className="relative"> 
-                      <Heart size={21} strokeWidth={1.5} className="" />
+                    <Link to="/wishlist" className="relative p-1.5 hover:bg-gray-50 rounded-full transition-colors hidden sm:block"> 
+                      <Heart size={20} strokeWidth={1.5} className="text-gray-700" />
                       {wishlist.length > 0 && (
-                        <span className="absolute -right-1.5 -top-1 w-4 h-4 flex items-center justify-center rounded-full bg-[#EF4444] text-[9px] text-white font-medium">
+                        <span className="absolute right-0 top-0 w-4 h-4 flex items-center justify-center rounded-full bg-primary text-[8px] text-white font-bold border-2 border-white">
                           {wishlist.length}
                         </span>
                       )}
                     </Link>
-                    <Link to="/account/messages" className="relative">
-                      <MessageSquare size={19} strokeWidth={1.5} className="" />
+                    <Link to="/account/messages" className="relative p-1.5 hover:bg-gray-50 rounded-full transition-colors hidden xs:block">
+                      <MessageSquare size={19} strokeWidth={1.5} className="text-gray-700" />
                     </Link>
-                    <Link to="/account/notifications" className="relative">
-                      <Bell size={20} strokeWidth={1.5} className="" />
+                    <Link to="/account/notifications" className="relative p-1.5 hover:bg-gray-50 rounded-full transition-colors">
+                      <Bell size={20} strokeWidth={1.5} className="text-gray-700" />
                     </Link>
                   </div>
-                  <div ref={accountRef} className="text-sm text-dark/80 relative"> 
+                  
+                  <div ref={accountRef} className="relative"> 
                     <button 
                       onClick={() => setAccountPopup(!accountPopup)} 
-                      className={`flex items-center gap-2 cursor-pointer transition-all duration-200 ${isDashboard ? "bg-gray-50 hover:bg-gray-100 px-2 py-1 rounded-full border border-gray-200" : ""}`}
+                      className={`flex items-center gap-2 cursor-pointer transition-all duration-200 ${isDashboard ? "bg-gray-50 hover:bg-gray-100 p-1 rounded-full border border-gray-100" : "p-0.5 hover:bg-gray-50 rounded-full"}`}
                     >
-                      {user.avatar ? (
-                        <img src={user?.avatar || avatar} alt={user?.name || 'User'} className="w-7 h-7 rounded-full object-cover" />
-                      ) : (
-                        <span className="bg-primary text-white w-8 h-8 flex items-center justify-center rounded-full text-[13px] font-bold">
-                          {user?.full_name.charAt(0)}
-                        </span>
-                      )}
+                      <AvatarWithFallback 
+                        src={user?.avatar} 
+                        name={user?.full_name || 'User'} 
+                        size="w-7 h-7" 
+                      />
 
                       {isDashboard && currentDashboardLabel && (
-                        <span className="hidden sm:block text-[10px] font-bold text-gray-500 uppercase tracking-widest">
+                        <span className="hidden lg:block text-[10px] font-bold text-gray-500 uppercase tracking-widest px-1">
                           {currentDashboardLabel}
                         </span>
                       )}
 
                       <ChevronDown 
-                        size={16} 
-                        strokeWidth={1.5} 
+                        size={14} 
                         className={`text-gray-400 transition-all duration-200 ${accountPopup ? "rotate-180" : ""}`} 
                       />
                     </button>
@@ -156,51 +173,52 @@ const Header = ({ isCommunity, isMobileMenuOpen, setIsMobileMenuOpen, isDashboar
                   </div>
                 </div>
             ) : (
-              !isCommunity && (
-                <div className="space-x-2.5 flex">
-                  <button 
-                    className="btn btn-text border border-primary text-primary px-4"
-                    onClick={() => openModal("login")}
-                  >
-                    Login
-                  </button>
-                  <button 
-                    className="btn"
-                    onClick={() => openModal("role")}
-                  >
-                    Sign Up
-                  </button>
-                </div>
-              )
+              <div className="flex items-center gap-2">
+                <button 
+                  className="hidden xs:flex px-4 py-2 text-primary font-bold text-xs uppercase tracking-widest hover:bg-primary/5 rounded-xl transition-all"
+                  onClick={() => openModal("login")}
+                >
+                  Login
+                </button>
+                <button 
+                  className="bg-primary hover:bg-primary-hover text-white px-5 py-2.5 rounded-xl text-xs font-bold uppercase tracking-widest shadow-lg shadow-blue-600/20 transition-all"
+                  onClick={() => openModal("role")}
+                >
+                  Sign Up
+                </button>
+              </div>
             )}
             
-            {!isDashboard && isCommunity && (
-              <button className="lg:hidden text-2xl cursor-pointer" onClick={() => setIsMenuOpen(prev => !prev)}>
-                {isMenuOpen ? <X /> : <Menu />}
+            {!isDashboard && (
+              <button 
+                className="lg:hidden p-2 text-gray-700 hover:bg-gray-50 rounded-xl transition-colors ml-1" 
+                onClick={() => setIsMenuOpen(prev => !prev)}
+              >
+                {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
               </button>
             )}
 
             {user && (
-              <Link to="/sell" className="hidden md:flex btn uppercase">
-                Sell
+              <Link to="/sell" className="hidden xl:flex btn uppercase tracking-widest text-[10px] py-2.5">
+                Sell Something
               </Link>
             )}
           </div>
 
           {/* Mobile Menu */}
-          <div className={`lg:hidden flex fixed left-0 top-16 md:top-20 w-[75vw] sm:w-[50vw] h-screen bg-white z-60 py-6 transition-all duration-400 ${isMenuOpen ? "translate-x-0" : "-translate-x-full" }`}>
-            <div className="container flex flex-col gap-6 items-start">
-              <NavLink to="/" className={navlink} onClick={()=> { setIsMenuOpen(false); }}> Home </NavLink>
-              <NavLink to="/marketplace" className={navlink} onClick={()=> { setIsMenuOpen(false); }}> Market Place </NavLink>
-              {/* <NavLink to="/freelance" className={navlink} onClick={()=> { setIsMenuOpen(false); }}> Freelance </NavLink> */}
-              <NavLink to="/community" className={navlink} onClick={()=> { setIsMenuOpen(false); }}> Community </NavLink>
-              <NavLink to="/postings" className={navlink} onClick={()=> { setIsMenuOpen(false); }}> Postings </NavLink>
-              {/* <NavLink to="/leaderboards" className={navlink} onClick={()=> { setIsMenuOpen(false); }}> Leaderboards </NavLink> */}
+          <div className={`lg:hidden flex fixed left-0 top-16 md:top-20 w-[80vw] sm:w-80 h-[calc(100vh-64px)] md:h-[calc(100vh-80px)] bg-white z-60 transition-all duration-400 ease-in-out border-r border-gray-100 shadow-2xl ${isMenuOpen ? "translate-x-0" : "-translate-x-full" }`}>
+            <div className="w-full flex flex-col p-8 bg-white h-full">
+              <nav className="flex flex-col gap-8 items-start mb-auto">
+                <NavLink to="/" className="text-lg font-bold text-gray-900 hover:text-primary transition-colors" onClick={()=> { setIsMenuOpen(false); }}> Home </NavLink>
+                <NavLink to="/marketplace" className="text-lg font-bold text-gray-900 hover:text-primary transition-colors" onClick={()=> { setIsMenuOpen(false); }}> Market Place </NavLink>
+                <NavLink to="/community" className="text-lg font-bold text-gray-900 hover:text-primary transition-colors" onClick={()=> { setIsMenuOpen(false); }}> Community </NavLink>
+                <NavLink to="/postings" className="text-lg font-bold text-gray-900 hover:text-primary transition-colors" onClick={()=> { setIsMenuOpen(false); }}> Postings </NavLink>
+              </nav>
               
               {!isAuthenticated && (
-                <div className="space-x-2.5 flex md:hidden">
+                <div className="flex flex-col gap-3 pt-8 border-t border-gray-50">
                   <button 
-                    className="btn btn-tertiary"
+                    className="w-full py-4 border border-gray-200 text-gray-700 font-bold rounded-2xl text-sm uppercase tracking-widest hover:bg-gray-50"
                     onClick={() => {
                       setIsMenuOpen(false);
                       openModal("login");
@@ -209,17 +227,28 @@ const Header = ({ isCommunity, isMobileMenuOpen, setIsMobileMenuOpen, isDashboar
                     Login
                   </button>
                   <button 
-                    className="btn"
+                    className="w-full py-4 bg-primary text-white font-bold rounded-2xl text-sm uppercase tracking-widest shadow-lg shadow-blue-600/20"
                     onClick={() => {
                       setIsMenuOpen(false);
                       openModal("role");
                     }}
                   >
-                    Sign Up
+                    Create Account
                   </button>
                 </div>
               )}
 
+              {isAuthenticated && (
+                <div className="pt-8 border-t border-gray-50 mt-8">
+                  <Link 
+                    to="/sell" 
+                    className="w-full flex items-center justify-center py-4 bg-primary text-white font-bold rounded-2xl text-sm uppercase tracking-widest shadow-lg shadow-blue-600/20 mb-8"
+                    onClick={() => setIsMenuOpen(false)}
+                  >
+                    Sell Something
+                  </Link>
+                </div>
+              )}
             </div>
           </div>
         </div>

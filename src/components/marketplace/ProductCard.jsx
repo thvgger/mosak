@@ -206,7 +206,7 @@ const ProductCard = ({ product, showBadge = true }) => {
           >
             <Heart 
               size={16} 
-              className={isProductInWishlist ? 'text-red-500 fill-red-500' : 'text-gray-700'}
+              className={isProductInWishlist ? 'text-primary fill-primary' : 'text-gray-700'}
             />
           </button>
           <button 

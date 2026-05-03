@@ -158,6 +158,7 @@ const Profile = () => {
                 type="text" 
                 value={profileData.businessName}
                 disabled={!isEditing}
+                onChange={(e) => handleChange('businessName', e.target.value)}
                 className="w-full bg-[#F8F9FB] border-none rounded-xl px-4 py-3 text-sm font-bold text-gray-800 disabled:opacity-80"
               />
             </div>
@@ -168,17 +169,19 @@ const Profile = () => {
                   type="text" 
                   value={profileData.location}
                   disabled={!isEditing}
+                  onChange={(e) => handleChange('location', e.target.value)}
                   className="w-full bg-[#F8F9FB] border-none rounded-xl px-4 py-3 text-sm font-bold text-gray-800 disabled:opacity-80"
                 />
                 <MapPin className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-300" size={16} />
               </div>
             </div>
             <div>
-              <label className="text-[10px] font-bold text-gray-400 uppercase tracking-widest block mb-1">Store Bio / Description</label>
+              <label className="text-[10px] font-bold text-gray-400 uppercase tracking-widest block mb-1">Business Description</label>
               <textarea 
                 rows="3"
                 value={profileData.description}
                 disabled={!isEditing}
+                onChange={(e) => handleChange('description', e.target.value)}
                 className="w-full bg-[#F8F9FB] border-none rounded-xl px-4 py-3 text-sm font-medium text-gray-600 resize-none disabled:opacity-80"
               />
             </div>

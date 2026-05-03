@@ -39,32 +39,31 @@ const SellerMWallet = () => {
 
   const transactions = [
     { id: 1, date: '2026-01-10', type: 'Sale', typeIcon: ArrowUpRight, ref: 'ORD-2024-1237', amount: '+₦450,000', amountClass: 'text-green-600', status: 'Completed', statusClass: 'bg-green-100 text-green-700' },
-    { id: 2, date: '2026-01-10', type: 'Withdrawal', typeIcon: ArrowDownRight, ref: 'WTH-2024-0089', amount: '₦300,000', amountClass: 'text-gray-800', status: 'Pending', statusClass: 'bg-orange-100 text-orange-700' },
+    { id: 2, date: '2026-01-10', type: 'Withdrawal', typeIcon: ArrowDownRight, ref: 'WTH-2024-0089', amount: '-₦300,000', amountClass: 'text-gray-900', status: 'Pending', statusClass: 'bg-orange-100 text-orange-700' },
     { id: 3, date: '2026-01-10', type: 'Escrow Release', typeIcon: ShieldCheck, ref: 'ORD-2024-1220', amount: '+₦750,000', amountClass: 'text-green-600', status: 'Completed', statusClass: 'bg-green-100 text-green-700' },
     { id: 4, date: '2026-01-10', type: 'Sale', typeIcon: ArrowUpRight, ref: 'ORD-2024-1215', amount: '+₦280,000', amountClass: 'text-green-600', status: 'Completed', statusClass: 'bg-green-100 text-green-700' },
-    { id: 5, date: '2026-01-10', type: 'Withdrawal', typeIcon: ArrowDownRight, ref: 'WTH-2024-0088', amount: '₦500,000', amountClass: 'text-gray-800', status: 'Completed', statusClass: 'bg-green-100 text-green-700' }
+    { id: 5, date: '2026-01-10', type: 'Withdrawal', typeIcon: ArrowDownRight, ref: 'WTH-2024-0088', amount: '-₦500,000', amountClass: 'text-gray-900', status: 'Completed', statusClass: 'bg-green-100 text-green-700' }
   ];
 
   return (
-    <div className="space-y-6 max-w-7xl mx-auto w-full pb-8">
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-        <div className="flex items-center text-sm text-gray-500">
-          <span className="hover:text-primary cursor-pointer" onClick={() => navigate('/seller')}>Dashboard</span>
-          <ChevronRight size={16} className="mx-1" />
-          <span className="text-gray-900 font-medium">Wallet & Earnings</span>
+    <div className="space-y-6 max-w-7xl mx-auto w-full pb-12">
+      {/* Header & Navigation */}
+      <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
+        <div>
+          <h1 className="text-2xl font-bold text-gray-900 mb-1">Wallet & Earnings</h1>
+          <p className="text-sm text-gray-500">Manage your funds and track your revenue</p>
         </div>
         
-        <div className="flex items-center gap-4">
-          <div className="flex items-center bg-gray-100 rounded-lg p-1 border border-gray-200">
-            <span className="text-sm font-medium text-gray-600 px-3">Switch:</span>
+        <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-4">
+          <div className="flex bg-gray-100 p-1 rounded-xl border border-gray-200">
             <button 
-              className={`px-4 py-1.5 text-sm font-medium rounded-md transition-colors ${activeTab === 'm-wallet' ? 'bg-primary text-white shadow-sm' : 'text-gray-600 hover:bg-gray-200'}`}
+              className={`flex-1 sm:flex-none px-6 py-2 text-xs font-bold rounded-lg uppercase tracking-wider transition-all ${activeTab === 'm-wallet' ? 'bg-white text-primary shadow-sm' : 'text-gray-500 hover:text-gray-700'}`}
               onClick={() => setActiveTab('m-wallet')}
             >
               M-Wallet
             </button>
             <button 
-              className={`px-4 py-1.5 text-sm font-medium rounded-md transition-colors ${activeTab === 'earnings' ? 'bg-primary text-white shadow-sm' : 'text-gray-600 hover:bg-gray-200'}`}
+              className={`flex-1 sm:flex-none px-6 py-2 text-xs font-bold rounded-lg uppercase tracking-wider transition-all ${activeTab === 'earnings' ? 'bg-white text-primary shadow-sm' : 'text-gray-500 hover:text-gray-700'}`}
               onClick={() => {
                 setActiveTab('earnings');
                 navigate('/seller/earnings');
@@ -75,213 +74,220 @@ const SellerMWallet = () => {
           </div>
           <button 
             onClick={() => setIsWithdrawModalOpen(true)}
-            className="bg-primary hover:bg-primary-hover text-white px-5 py-2.5 rounded-lg text-sm font-medium transition-colors"
+            className="bg-primary hover:bg-primary-hover text-white px-8 py-2.5 rounded-xl text-xs font-bold uppercase tracking-widest shadow-lg shadow-blue-600/20 transition-all active:scale-95"
           >
-            Withdraw Funds
+            Withdraw
           </button>
         </div>
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        <div className="bg-primary rounded-xl p-6 text-white relative overflow-hidden shadow-sm flex flex-col justify-between min-h-[220px]">
-          <div className="flex justify-between items-start mb-2">
-            <div className="flex items-center gap-3">
-              <div className="bg-white text-primary p-2 rounded-lg">
-                <Wallet size={24} />
-              </div>
-              <span className="text-white/90 font-medium">Available Balance</span>
-            </div>
-            <button 
-              onClick={() => setShowBalance(!showBalance)}
-              className="w-8 h-8 bg-white/80 rounded-full flex items-center justify-center hover:bg-white transition-colors"
-            >
-              {showBalance ? (
-                <EyeIcon color="#000" size={24} strokeWidth={1.5} />
-              ) : (
-                <EyeOffIcon color="#000" size={24} strokeWidth={1.5} />
-              )}
-            </button>
+      {/* Balance Cards Grid */}
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+        {/* Available Balance */}
+        <div className="bg-primary rounded-[32px] p-8 text-white relative overflow-hidden shadow-xl shadow-blue-600/10 group">
+          <div className="absolute top-0 right-0 p-8 opacity-10 group-hover:scale-110 transition-transform">
+            <Wallet size={120} />
           </div>
           
-          <div className="mt-4">
-            <h2 className="text-3xl lg:text-4xl font-semibold mb-2 truncate" title={showBalance ? "₦1,245,000" : "****"}>
-              {showBalance ? "₦1,245,000" : "₦****"}
-            </h2>
-            <div className="flex items-center justify-between mt-6">
-              <span className="text-white/80 text-sm">Ready to withdraw</span>
-              <span className="bg-white text-primary text-xs font-semibold px-2 py-1 rounded-full flex items-center gap-1">
-                <ArrowUpRight size={14} /> +18.5%
+          <div className="relative z-10 h-full flex flex-col justify-between space-y-8">
+            <div className="flex justify-between items-start">
+              <div className="space-y-1">
+                <p className="text-[10px] font-bold text-white/60 uppercase tracking-[0.2em]">Available Balance</p>
+                <div className="flex items-center gap-4">
+                  <h2 className="text-3xl lg:text-4xl font-bold tracking-tight">
+                    {showBalance ? "₦1,245,000" : "₦****"}
+                  </h2>
+                  <button 
+                    onClick={() => setShowBalance(!showBalance)}
+                    className="p-2 bg-white/10 hover:bg-white/20 rounded-full transition-colors"
+                  >
+                    {showBalance ? <EyeIcon size={18} /> : <EyeOffIcon size={18} />}
+                  </button>
+                </div>
+              </div>
+            </div>
+            
+            <div className="flex items-center justify-between">
+              <span className="text-xs font-medium text-white/80">Withdraw anytime</span>
+              <span className="bg-white/20 backdrop-blur-sm text-[10px] font-bold px-2.5 py-1 rounded-lg flex items-center gap-1 border border-white/10">
+                <ArrowUpRight size={12} /> +18.5%
               </span>
             </div>
           </div>
-          
-          <button 
-            onClick={() => setIsWithdrawModalOpen(true)}
-            className="w-full bg-white text-primary hover:bg-gray-50 py-3 rounded-lg font-medium transition-colors mt-6"
-          >
-            Withdraw Now
-          </button>
         </div>
 
-        <div className="bg-white border border-gray-200 rounded-xl p-6 shadow-sm flex flex-col min-h-[220px]">
-          <div className="flex items-center gap-3 mb-6">
-            <div className="text-orange-500">
-              <Clock size={24} />
-            </div>
-            <span className="text-gray-600 font-medium">Pending Balance</span>
+        {/* Pending Balance */}
+        <div className="bg-white border border-gray-100 rounded-[32px] p-8 shadow-sm flex flex-col justify-between group">
+          <div className="space-y-1 mb-6">
+            <p className="text-[10px] font-bold text-gray-400 uppercase tracking-[0.2em]">Pending Balance</p>
+            <h2 className="text-2xl lg:text-3xl font-bold text-gray-900">
+              {showBalance ? "₦850,000" : "₦****"}
+            </h2>
           </div>
           
-          <h2 className="text-2xl lg:text-3xl font-bold text-gray-900 mb-2">
-            {showBalance ? "₦850,000" : "₦****"}
-          </h2>
-          <p className="text-gray-500 text-sm">Funds in Escrow</p>
-          
-          <div className="mt-auto pt-6 flex items-center gap-2 text-sm text-gray-500">
-            <ShieldCheck size={16} />
-            <span>Protected by Escrow</span>
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-2 text-xs font-bold text-orange-500 uppercase tracking-widest">
+              <Clock size={16} />
+              <span>In Escrow</span>
+            </div>
+            <div className="w-10 h-10 bg-orange-50 text-orange-500 rounded-xl flex items-center justify-center group-hover:scale-110 transition-transform">
+              <ShieldCheck size={20} />
+            </div>
           </div>
         </div>
 
-        <div className="bg-white border border-gray-200 rounded-xl p-6 shadow-sm flex flex-col min-h-[220px]">
-          <div className="flex items-center gap-3 mb-6">
-            <div className="text-green-500">
-              <CircleCheckBig size={24} />
-            </div>
-            <span className="text-gray-600 font-medium">Total Withdrawn</span>
+        {/* Total Withdrawn */}
+        <div className="bg-white border border-gray-100 rounded-[32px] p-8 shadow-sm flex flex-col justify-between group">
+          <div className="space-y-1 mb-6">
+            <p className="text-[10px] font-bold text-gray-400 uppercase tracking-[0.2em]">Total Withdrawn</p>
+            <h2 className="text-2xl lg:text-3xl font-bold text-gray-900">
+              {showBalance ? "₦2,650,000" : "₦****"}
+            </h2>
           </div>
           
-          <h2 className="text-2xl lg:text-3xl font-bold text-gray-900 mb-2">
-            {showBalance ? "₦850,000" : "₦****"}
-          </h2>
-          <p className="text-gray-500 text-sm">Lifetime earnings</p>
-          
-          <div className="mt-auto pt-6 flex items-center gap-2 text-sm text-gray-500">
-            <ArrowUpRight size={16} />
-            <span className="hover:text-primary cursor-pointer transition-colors">All-time withdrawals</span>
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-2 text-xs font-bold text-green-500 uppercase tracking-widest">
+              <CircleCheckBig size={16} />
+              <span>Lifetime</span>
+            </div>
+            <div className="w-10 h-10 bg-green-50 text-green-500 rounded-xl flex items-center justify-center group-hover:scale-110 transition-transform">
+              <ArrowUpRight size={20} />
+            </div>
           </div>
         </div>
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        <div className="lg:col-span-2 bg-white border border-gray-200 rounded-xl p-6 lg:p-8 flex flex-col">
-          <div className="flex items-center justify-between mb-6">
-            <h3 className="text-lg font-semibold text-gray-900">Linked Bank Account</h3>
-            <button className="text-primary text-sm font-medium hover:underline">Update Account</button>
+        {/* Linked Bank Card */}
+        <div className="lg:col-span-2 bg-white border border-gray-100 rounded-[32px] p-6 md:p-8 flex flex-col shadow-sm">
+          <div className="flex items-center justify-between mb-8">
+            <div className="flex items-center gap-2">
+              <CreditCard className="text-primary" size={20} />
+              <h3 className="text-lg font-bold text-gray-900">Settlement Account</h3>
+            </div>
+            <button className="text-[10px] font-bold text-primary uppercase tracking-widest hover:underline">Update</button>
           </div>
           
-          <div className="bg-[#00179B] rounded-xl p-6 text-white mb-6 relative overflow-hidden shadow-md">
-            <div className="absolute top-0 right-0 p-6 opacity-30">
-              <CreditCard size={100} strokeWidth={1} className="transform rotate-12" />
+          <div className="bg-gray-900 rounded-2xl p-8 text-white mb-8 relative overflow-hidden shadow-2xl">
+            <div className="absolute top-0 right-0 p-8 opacity-10">
+              <CreditCard size={140} strokeWidth={1} className="transform rotate-12" />
             </div>
             
-            <div className="relative z-10">
-              <div className="flex justify-between items-start mb-8">
+            <div className="relative z-10 space-y-10">
+              <div className="flex justify-between items-start">
                 <div>
-                  <p className="text-white/70 text-xs uppercase tracking-wider mb-1">Bank Name</p>
-                  <p className="font-semibold text-lg">GTBank</p>
+                  <p className="text-white/40 text-[10px] font-bold uppercase tracking-widest mb-1">Bank Institution</p>
+                  <p className="font-bold text-xl">Guaranty Trust Bank</p>
                 </div>
-                <CreditCard size={28} className="text-white/80" />
+                <div className="w-12 h-12 bg-white/10 backdrop-blur-md rounded-xl flex items-center justify-center border border-white/10">
+                  <CreditCard size={24} />
+                </div>
               </div>
               
-              <div className="flex flex-col sm:flex-row sm:justify-between gap-6">
+              <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
                 <div>
-                  <p className="text-white/70 text-xs uppercase tracking-wider mb-1">Account Number</p>
-                  <p className="font-mono text-xl font-medium tracking-widest">0123456789</p>
+                  <p className="text-white/40 text-[10px] font-bold uppercase tracking-widest mb-1">Account Identifier</p>
+                  <p className="font-mono text-2xl font-bold tracking-[0.3em]">0123456789</p>
                 </div>
-                <div>
-                  <p className="text-white/70 text-xs uppercase tracking-wider mb-1">Account Name</p>
-                  <p className="font-medium text-lg truncate max-w-[200px]">TechGadgets Store</p>
+                <div className="text-right">
+                  <p className="text-white/40 text-[10px] font-bold uppercase tracking-widest mb-1">Account Holder</p>
+                  <p className="font-bold text-lg uppercase">TechGadgets Store</p>
                 </div>
               </div>
             </div>
           </div>
           
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mt-auto">
-            <div className="bg-white rounded-lg p-4 shadow-xs border border-white/50">
-              <p className="text-xs text-gray-500 mb-1">This Month</p>
-              <p className="text-lg font-bold text-gray-900">₦3.2M</p>
-            </div>
-            <div className="bg-white rounded-lg p-4 shadow-xs border border-white/50">
-              <p className="text-xs text-gray-500 mb-1">Last 7 Days</p>
-              <p className="text-lg font-bold text-gray-900">₦905K</p>
-            </div>
-            <div className="bg-white rounded-lg p-4 shadow-xs border border-white/50">
-              <p className="text-xs text-gray-500 mb-1">Avg. Order</p>
-              <p className="text-lg font-bold text-gray-900">₦485K</p>
-            </div>
+          <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+            {[
+              { label: 'This Month', value: '₦3.2M' },
+              { label: 'Last 7 Days', value: '₦905K' },
+              { label: 'Avg. Sale', value: '₦485K', hideOnMobile: true }
+            ].map((stat, i) => (
+              <div key={i} className={`bg-gray-50 rounded-2xl p-4 border border-gray-100 ${stat.hideOnMobile ? 'hidden md:block' : ''}`}>
+                <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-1">{stat.label}</p>
+                <p className="text-base md:text-xl font-bold text-gray-900">{stat.value}</p>
+              </div>
+            ))}
           </div>
         </div>
 
-        <div className="bg-white border border-gray-200 rounded-xl p-6 lg:p-8 flex flex-col">
-          <h3 className="text-lg font-semibold text-gray-900 mb-6">Recent Withdrawals</h3>
+        {/* Recent Activity List */}
+        <div className="bg-white border border-gray-100 rounded-[32px] p-8 shadow-sm flex flex-col group">
+          <div className="flex items-center gap-2 mb-8">
+            <ArrowUpRight className="text-primary" size={20} />
+            <h3 className="text-lg font-bold text-gray-900">Recent Cashouts</h3>
+          </div>
           
-          <div className="flex-1 space-y-3">
+          <div className="flex-1 space-y-4">
             {recentWithdrawals.map((item, idx) => (
-              <div key={idx} className="bg-white rounded-lg p-4 flex items-center justify-between border border-white/60 shadow-xs">
+              <div key={idx} className="flex items-center justify-between p-4 bg-gray-50/50 rounded-2xl border border-gray-100/50 hover:bg-gray-50 transition-colors">
                 <div>
-                  <p className="font-bold text-gray-900">{item.amount}</p>
-                  <p className="text-xs text-gray-500 mt-1">{item.date}</p>
+                  <p className="text-sm font-bold text-gray-900">{item.amount}</p>
+                  <p className="text-[10px] font-bold text-gray-400 uppercase mt-0.5">{item.date}</p>
                 </div>
-                <div className="w-8 h-8 rounded-full border border-green-200 flex items-center justify-center">
-                  <CircleCheckBig size={16} className="text-green-500" />
+                <div className="w-8 h-8 rounded-full bg-green-50 text-green-500 flex items-center justify-center">
+                  <CircleCheckBig size={16} />
                 </div>
               </div>
             ))}
           </div>
           
-          <button className="text-primary text-sm font-medium flex items-center justify-center gap-2 mt-6 hover:underline w-full py-2">
-            View All Withdrawals <ArrowUpRight size={16} />
+          <button className="w-full mt-8 py-3.5 bg-gray-50 text-gray-700 text-[10px] font-bold rounded-2xl hover:bg-gray-100 transition-all uppercase tracking-[0.2em]">
+            History Log
           </button>
         </div>
       </div>
 
-      <div className="bg-white border border-gray-200 rounded-xl shadow-sm overflow-hidden">
-        <div className="p-5 flex flex-col lg:flex-row lg:items-center justify-between gap-4 border-b border-gray-100">
-          <h3 className="font-semibold text-gray-900">Transaction History</h3>
+      {/* Transactions Section */}
+      <div className="bg-white border border-gray-100 rounded-[32px] shadow-sm overflow-hidden">
+        <div className="p-6 md:p-8 flex flex-col md:flex-row md:items-center justify-between gap-6 border-b border-gray-50">
+          <h3 className="text-lg font-bold text-gray-900">Transaction History</h3>
           
-          <div className="flex flex-col sm:flex-row gap-3">
-            <button className="flex items-center justify-between gap-2 px-4 py-2 border border-gray-200 rounded-lg text-sm text-gray-600 bg-white hover:bg-gray-50 transition-colors">
-              <span>All Types</span>
-              <ChevronDown size={14} />
-            </button>
-            <button className="flex items-center justify-between gap-2 px-4 py-2 border border-gray-200 rounded-lg text-sm text-gray-600 bg-white hover:bg-gray-50 transition-colors">
-              <span>All Time</span>
-              <ChevronDown size={14} />
-            </button>
-            <button className="flex items-center justify-center gap-2 px-4 py-2 border border-gray-200 rounded-lg text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 transition-colors">
-              <span>Export</span>
-              <Download size={16} />
+          <div className="flex flex-wrap items-center gap-3">
+            <div className="flex gap-2">
+              <button className="px-4 py-2 bg-gray-50 text-gray-700 font-bold rounded-xl text-[10px] uppercase tracking-widest border border-gray-100 flex items-center gap-2">
+                All Types <ChevronDown size={14} />
+              </button>
+              <button className="px-4 py-2 bg-gray-50 text-gray-700 font-bold rounded-xl text-[10px] uppercase tracking-widest border border-gray-100 flex items-center gap-2">
+                This Year <ChevronDown size={14} />
+              </button>
+            </div>
+            <button className="p-2 bg-primary/5 text-primary rounded-xl hover:bg-primary/10 transition-all border border-primary/10">
+              <Download size={20} />
             </button>
           </div>
         </div>
         
-        <div className="overflow-x-auto">
+        {/* Desktop Table View */}
+        <div className="hidden md:block overflow-x-auto">
           <table className="w-full text-left text-sm whitespace-nowrap">
-            <thead className="bg-gray-50 text-gray-500 font-medium">
+            <thead className="bg-gray-50/50 text-gray-400 font-bold text-[10px] uppercase tracking-widest">
               <tr>
-                <th className="px-6 py-4">Date</th>
-                <th className="px-6 py-4">Transaction Type</th>
-                <th className="px-6 py-4">Reference</th>
-                <th className="px-6 py-4">Amount</th>
-                <th className="px-6 py-4">Escrow Status</th>
+                <th className="px-8 py-4 text-center">Date</th>
+                <th className="px-8 py-4">Transaction Details</th>
+                <th className="px-8 py-4">Reference ID</th>
+                <th className="px-8 py-4">Value</th>
+                <th className="px-8 py-4 text-right">Status</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-gray-100 text-gray-700">
+            <tbody className="divide-y divide-gray-50 text-gray-700">
               {transactions.map((tx) => {
                 const Icon = tx.typeIcon;
                 return (
-                  <tr key={tx.id} className="hover:bg-gray-50/50 transition-colors">
-                    <td className="px-6 py-4">{tx.date}</td>
-                    <td className="px-6 py-4">
-                      <div className="flex items-center gap-2">
-                        <Icon size={16} className="text-gray-500" />
-                        <span>{tx.type}</span>
+                  <tr key={tx.id} className="hover:bg-gray-50/80 transition-colors">
+                    <td className="px-8 py-5 text-center font-medium text-gray-500">{tx.date}</td>
+                    <td className="px-8 py-5">
+                      <div className="flex items-center gap-3">
+                        <div className="w-9 h-9 bg-gray-100 rounded-xl flex items-center justify-center text-gray-500">
+                          <Icon size={18} />
+                        </div>
+                        <span className="font-bold text-gray-900">{tx.type}</span>
                       </div>
                     </td>
-                    <td className="px-6 py-4 text-gray-500">{tx.ref}</td>
-                    <td className={`px-6 py-4 font-medium ${tx.amountClass}`}>{tx.amount}</td>
-                    <td className="px-6 py-4">
-                      <span className={`px-3 py-1 text-xs font-medium rounded-full ${tx.statusClass}`}>
+                    <td className="px-8 py-5 text-gray-400 font-mono tracking-tighter">{tx.ref}</td>
+                    <td className={`px-8 py-5 font-bold ${tx.amountClass}`}>{tx.amount}</td>
+                    <td className="px-8 py-5 text-right">
+                      <span className={`inline-block px-3 py-1 text-[10px] font-bold rounded-lg uppercase tracking-tight ${tx.statusClass}`}>
                         {tx.status}
                       </span>
                     </td>
@@ -291,11 +297,42 @@ const SellerMWallet = () => {
             </tbody>
           </table>
         </div>
+
+        {/* Mobile View Card List */}
+        <div className="md:hidden divide-y divide-gray-50">
+          {transactions.map((tx) => (
+            <div key={tx.id} className="p-5 active:bg-gray-50 transition-colors space-y-4">
+              <div className="flex justify-between items-start">
+                <div className="flex items-center gap-3">
+                  <div className="w-10 h-10 bg-gray-50 rounded-xl flex items-center justify-center text-gray-500 border border-gray-100">
+                    <tx.typeIcon size={20} />
+                  </div>
+                  <div>
+                    <p className="text-sm font-bold text-gray-900">{tx.type}</p>
+                    <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest">{tx.date}</p>
+                  </div>
+                </div>
+                <div className="text-right">
+                  <p className={`text-sm font-bold ${tx.amountClass}`}>{tx.amount}</p>
+                  <span className={`inline-block mt-1 px-2 py-0.5 text-[9px] font-bold rounded-md uppercase tracking-tight ${tx.statusClass}`}>
+                    {tx.status}
+                  </span>
+                </div>
+              </div>
+              <div className="flex items-center justify-between pt-2 border-t border-gray-50 border-dashed">
+                <span className="text-[9px] font-bold text-gray-400 uppercase tracking-widest">Reference</span>
+                <span className="text-[10px] font-mono font-bold text-gray-500">{tx.ref}</span>
+              </div>
+            </div>
+          ))}
+        </div>
       </div>
 
-      <div className="flex justify-center items-center py-6 text-gray-500 text-sm gap-2">
-        <Lock size={16} className="text-gray-400" />
-        <span>Your funds are protected by Mosalak escrow system</span>
+      <div className="flex flex-col items-center justify-center py-8 text-gray-400 gap-2">
+        <Lock size={20} strokeWidth={1.5} />
+        <p className="text-[10px] font-bold uppercase tracking-[0.3em] text-center max-w-[250px] leading-relaxed">
+          Secured By Mosalak Escrow Infrastructure
+        </p>
       </div>
 
       <WithdrawalModal 

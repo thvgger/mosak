@@ -149,8 +149,8 @@ const PinnedAdvert = () => {
       <div className="embla overflow-x-hidden overflow-y-hidden relative pb-0" ref={emblaRef}>
         <div className="embla__container w-full h-full pb-2">
           {ads.map((ad, index) => (
-            <div key={index} className="embla__slide md:flex-[0_0_50%] flex items-center justify-start gap-4 bg-primary/20 border border-primary/20 rounded-lg px-3 py-2! last-of-type:mr-3 cursor-pointer" onClick={() => { navigate(`/${ad.link}`)}}>
-              <div className="flex flex-col items-start gap-2">
+            <div key={index} className="embla__slide flex-[0_0_90%] md:flex-[0_0_50%] mx-1 flex items-center justify-start gap-4 bg-primary/10 border border-primary/20 rounded-lg px-3 py-2 cursor-pointer transition-colors hover:bg-primary/20" onClick={() => { navigate(`/${ad.link}`)}}>
+              <div className="flex flex-col items-start gap-1.5 w-full">
                 <div className="w-full flex items-center justify-between gap-2">
                   {/* Avatar */}
                   <div className='flex items-center gap-2'>
