@@ -689,16 +689,16 @@ const Messages = () => {
             ${!selectedChat ? 'md:flex' : ''}
           `}
         >
-          <div className="p-4 md:p-6 border-b border-gray-50 shrink-0">
-            <h1 className="text-xl md:text-2xl font-bold mb-4 md:mb-6 text-left">Messages</h1>
-            <div className="relative mb-4 md:mb-6">
-              <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400" size={18} />
-              <input type="text" placeholder="Search conversations..." className="w-full pl-11 pr-4 py-2.5 bg-gray-50 border-none rounded-xl text-sm font-medium" />
+          <div className="p-6 md:p-8 border-b border-gray-50 shrink-0">
+            <h1 className="text-2xl md:text-3xl font-extrabold mb-6 md:mb-8 text-left tracking-tight">Messages</h1>
+            <div className="relative mb-6 md:mb-8">
+              <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400" size={20} />
+              <input type="text" placeholder="Search conversations..." className="w-full pl-12 pr-4 py-3 bg-gray-50 border-none rounded-2xl text-sm font-medium placeholder:text-gray-400 focus:ring-2 focus:ring-primary/5 transition-all" />
             </div>
-            <div className='flex gap-1 bg-gray-100/80 p-1.5 rounded-2xl'>
-              <button className='bg-white text-gray-900 font-bold text-[10px] uppercase tracking-widest py-2 rounded-xl w-full shadow-sm'>All</button>
-              <button className='text-gray-500 font-bold text-[10px] uppercase tracking-widest py-2 rounded-xl w-full hover:bg-gray-50 transition-colors'>Unread</button>
-              <button className='text-gray-500 font-bold text-[10px] uppercase tracking-widest py-2 rounded-xl w-full hover:bg-gray-50 transition-colors'>Newest</button>
+            <div className='flex gap-1.5 bg-gray-100/80 p-1.5 rounded-2xl'>
+              <button className='bg-white text-gray-900 font-bold text-[10px] uppercase tracking-widest py-2.5 rounded-xl w-full shadow-sm'>All</button>
+              <button className='text-gray-500 font-bold text-[10px] uppercase tracking-widest py-2.5 rounded-xl w-full hover:bg-gray-50 transition-colors'>Unread</button>
+              <button className='text-gray-500 font-bold text-[10px] uppercase tracking-widest py-2.5 rounded-xl w-full hover:bg-gray-50 transition-colors'>Newest</button>
             </div>
           </div>
           <div className="flex-1 overflow-y-auto scrollbar-hide pb-20 md:pb-0">
