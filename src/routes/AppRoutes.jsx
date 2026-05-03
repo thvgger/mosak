@@ -139,7 +139,11 @@ const AppRoutes = () => {
 
         
         {/* Updated Community Route - Now uses nested routes */}
-        <Route path="/community/*" element={<CommunityRoutes />} />
+        <Route path="/community/*" element={
+          <ProtectedRoute>
+            <CommunityRoutes />
+          </ProtectedRoute>
+        } />
         
         <Route path="/postings" element={<Postings />} />
         {/* <Route path="/leaderboards" element={<Leaderboards />} /> */}

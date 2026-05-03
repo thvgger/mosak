@@ -12,26 +12,7 @@ let refreshInterval = null;
 
 export const AuthProvider = ({ children }) => {
   const { openModal } = useAuthModal();
-  const [user, setUser] = useState({
-    /* 
-    |--------------------------------------------------------------------------
-    | TEMPORARY BYPASS - DELETE THIS MOCK USER WHEN AUTH IS READY
-    |--------------------------------------------------------------------------
-    | This hardcoded user allows you to access the Seller Dashboard without 
-    | logging in. To restore real auth, set this back to 'useState(null)'.
-    */
-    id: "mock-seller-id",
-    full_name: "Demo Seller",
-    email: "seller@example.com",
-    roles: ["SELLER", "BUYER"],
-    kyc_status: "VERIFIED",
-    business_profile: {
-      business_name: "Demo Store",
-      business_address: "123 Mock Street",
-      business_description: "A demo store for testing"
-    }
-    // END OF TEMPORARY BYPASS
-  });
+  const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true); // Start with loading true
   const [error, setError] = useState(null);
   const [pendingVerification, setPendingVerification] = useState({
@@ -155,39 +136,27 @@ export const AuthProvider = ({ children }) => {
 
   // CRITICAL: This function checks the actual session via HttpOnly cookies
   const checkAuthStatus = async () => {
-    /* 
-    |--------------------------------------------------------------------------
-    | TEMPORARY BYPASS - DELETE THIS WHEN AUTH IS READY
-    |--------------------------------------------------------------------------
-    | This bypasses the real session check. To restore real auth, uncomment 
-    | the code below and delete the premature 'return'.
-    */
-    setLoading(true);
-    setTimeout(() => setLoading(false), 500); // Simulate network request
-    return;
-    // END OF TEMPORARY BYPASS
+    try {
+      const response = await fetch(`${API_URL}/api/auth/me`, {
+        method: 'GET',
+        credentials: 'include',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
 
-    // try {
-    //   const response = await fetch(`${API_URL}/api/auth/me`, {
-    //     method: 'GET',
-    //     credentials: 'include',
-    //     headers: {
-    //       'Content-Type': 'application/json',
-    //     },
-    //   });
-
-    //   if (response.ok) {
-    //     const data = await response.json();
-    //     setUser(data.user || data);
-    //   } else {
-    //     setUser(null);
-    //   }
-    // } catch (err) {
-    //   console.error('Auth check failed:', err);
-    //   setUser(null);
-    // } finally {
-    //   setLoading(false);
-    // }
+      if (response.ok) {
+        const data = await response.json();
+        setUser(data.user || data);
+      } else {
+        setUser(null);
+      }
+    } catch (err) {
+      console.error('Auth check failed:', err);
+      setUser(null);
+    } finally {
+      setLoading(false);
+    }
   };
 
   // Login function
