@@ -53,12 +53,12 @@ const AvatarWithFallback = ({ src, name, size = "w-12 h-12", textSize = "text-ba
 };
 
 const ProductCard = ({ product }) => (
-  <div className="flex items-center gap-4 bg-gray-50 p-4 rounded-xl border border-gray-100 mb-2 w-fit max-w-[320px]">
+  <div className="flex items-center gap-4 bg-white p-4 rounded-xl border border-gray-100 mb-2 w-fit max-w-[320px] shadow-lg shadow-gray-200/50">
     <div className="w-12 h-12 bg-gray-200 rounded-lg flex-shrink-0">
       {product.image && <img src={product.image} className="w-full h-full object-cover rounded-lg" alt="" />}
     </div>
     <div className="text-left">
-      <h4 className="text-xs font-semibold text-gray-900 leading-tight mb-1">{product.name}</h4>
+      <h4 className="text-xs font-semibold text-gray-900 leading-tight mb-1 drop-shadow-sm">{product.name}</h4>
       <p className="text-[10px] text-gray-500">Original Price: <span className="font-bold text-gray-900">₦{product.price}</span></p>
     </div>
   </div>
