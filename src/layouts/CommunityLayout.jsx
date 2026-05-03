@@ -21,7 +21,7 @@ const CommunityLayout = () => {
   }, [isCommunity]);
   
   return (
-    <div className="flex h-[100dvh] bg-gray-100 overflow-hidden relative w-full p-0">
+    <div className="flex h-[calc(100dvh-64px)] md:h-[calc(100dvh-80px)] bg-gray-100 overflow-hidden relative w-full p-0">
       {/* Left Sidebar - Channels & Groups */}
       <CommunitySidebar 
         isOpen={isSidebarOpen} 

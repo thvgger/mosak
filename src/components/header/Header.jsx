@@ -20,6 +20,16 @@ const Header = ({ isCommunity, isMobileMenuOpen, setIsMobileMenuOpen, isDashboar
                                 location.pathname.startsWith('/freelancer') ? 'Freelancer' :
                                 location.pathname.startsWith('/employer') ? 'Employer' :
                                 location.pathname.startsWith('/account') ? 'Buyer' : null;
+
+  const currentMessagesLink = location.pathname.startsWith('/seller') ? '/seller/messages' : 
+                               location.pathname.startsWith('/freelancer') ? '/freelancer/messages' :
+                               location.pathname.startsWith('/employer') ? '/employer/messages' :
+                               '/account/messages';
+  
+  const currentNotificationsLink = location.pathname.startsWith('/seller') ? '/seller/notifications' : 
+                                  location.pathname.startsWith('/freelancer') ? '/freelancer/notifications' :
+                                  location.pathname.startsWith('/employer') ? '/employer/notifications' :
+                                  '/account/notifications';
   
   const [accountPopup, setAccountPopup] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -86,7 +96,7 @@ const Header = ({ isCommunity, isMobileMenuOpen, setIsMobileMenuOpen, isDashboar
 
   return (
     <>
-      <header className={`${isCommunity ? "relative" : "sticky"}  top-0 z-600 bg-white md:bg-white/60 backdrop-blur-md shadow h-16 md:h-20`}>
+      <header className="sticky top-0 z-600 bg-white md:bg-white/60 backdrop-blur-md shadow h-16 md:h-20">
         <div className="container w-full h-full flex items-center justify-between gap-0 relative z-60">
           {/* Mobile Menu Toggle Button */}
           {isDashboard && (
@@ -133,11 +143,11 @@ const Header = ({ isCommunity, isMobileMenuOpen, setIsMobileMenuOpen, isDashboar
                         </span>
                       )}
                     </Link>
-                    <Link to="/account/messages" className="relative p-1.5 hover:bg-gray-50 rounded-full transition-colors hidden xs:block">
-                      <MessageSquare size={19} strokeWidth={1.5} className="text-gray-700" />
-                    </Link>
-                    <Link to="/account/notifications" className="relative p-1.5 hover:bg-gray-50 rounded-full transition-colors">
+                    <Link to={currentNotificationsLink} className="relative p-1.5 hover:bg-gray-50 rounded-full transition-colors">
                       <Bell size={20} strokeWidth={1.5} className="text-gray-700" />
+                    </Link>
+                    <Link to={currentMessagesLink} className="relative p-1.5 hover:bg-gray-50 rounded-full transition-colors">
+                      <MessageSquare size={19} strokeWidth={1.5} className="text-gray-700" />
                     </Link>
                   </div>
                   
@@ -200,7 +210,7 @@ const Header = ({ isCommunity, isMobileMenuOpen, setIsMobileMenuOpen, isDashboar
 
             {user && (
               <Link to="/sell" className="hidden xl:flex btn uppercase tracking-widest text-[10px] py-2.5">
-                Sell Something
+                Sell
               </Link>
             )}
           </div>

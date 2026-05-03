@@ -219,11 +219,11 @@ const CommunitySidebar = ({ isOpen, onClose }) => {
 
       {/* Sidebar */}
       <aside className={`
-        fixed md:sticky inset-y-0 top-0 z-50
-        bg-white pt-16 md:pt-0 pb-0 md:pb-20
+        fixed md:sticky inset-y-0 md:top-20 z-50
+        bg-white pt-16 md:pt-0 pb-0 md:h-[calc(100vh-80px)]
         flex flex-col transition-all duration-300
         border-r border-gray-200
-        ${isOpen ? 'w-64' : 'w-0'}
+        ${isOpen ? 'w-64' : 'w-0 md:w-64'}
       `}>
 
         <div className="flex-1 h-full overflow-y-auto">

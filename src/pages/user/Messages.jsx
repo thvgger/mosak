@@ -405,32 +405,46 @@ const ChatContent = ({
 
       {/* Footer / Input */}
       <div className="bg-white shrink-0 border-t border-gray-100">
-        <div ref={scrollRef} onMouseDown={handleMouseDown} onMouseLeave={handleMouseLeave} onMouseUp={handleMouseUp} onMouseMove={handleMouseMove} className={`px-6 md:px-8 py-3 bg-gray-50 flex items-center gap-2 overflow-x-auto no-scrollbar select-none ${isDragging ? 'cursor-grabbing' : 'cursor-grab'}`}>
+        <div ref={scrollRef} onMouseDown={handleMouseDown} onMouseLeave={handleMouseLeave} onMouseUp={handleMouseUp} onMouseMove={handleMouseMove} className={`px-6 md:px-8 py-3 bg-gray-50 flex items-center gap-2 overflow-x-auto scrollbar-hide select-none ${isDragging ? 'cursor-grabbing' : 'cursor-grab'}`}>
           {['Thanks for interest', 'Available?', 'Best price?', "Get back soon", 'Inspection?', 'More pics?', 'Yes, it is.', 'No, thanks.'].map((reply, idx) => (
             <button key={idx} onClick={() => setMessageInput(reply)} className="px-4 py-2 bg-white border border-gray-200 rounded-xl text-[10px] font-bold text-gray-500 whitespace-nowrap hover:bg-gray-50 transition-all shadow-xs">{reply}</button>
           ))}
         </div>
 
         <div className="px-6 md:px-8 py-4 md:py-6 safe-bottom">
-          <div className="flex items-end gap-3">
-            <div className="flex items-center gap-0.5 mb-1.5">
-              <button className="p-2 text-gray-400 hover:text-primary transition-colors"><Paperclip size={20} /></button>
-              <button className="p-2 text-gray-400 hover:text-primary transition-colors"><ImageIcon size={20} /></button>
+          <div className="flex items-center gap-2 md:gap-3">
+            <div className="flex items-center gap-0.5">
+              <button className="p-2 text-gray-400 hover:text-primary transition-colors hover:bg-gray-50 rounded-xl"><Paperclip size={20} /></button>
+              <button className="p-2 text-gray-400 hover:text-primary transition-colors hover:bg-gray-50 rounded-xl"><ImageIcon size={20} /></button>
             </div>
             <div className="flex-1 relative">
-              <textarea value={messageInput} onChange={(e) => setMessageInput(e.target.value)} placeholder="Type your message..." rows={1} className="w-full pl-5 pr-12 py-3.5 bg-gray-50 border-none rounded-2xl focus:ring-2 focus:ring-primary/10 text-sm font-medium placeholder:text-gray-400 shadow-inner resize-none min-h-[52px] max-h-[120px]" />
-              <button className="absolute right-4 bottom-3.5 p-1 text-gray-400 hover:text-primary transition-colors"><Smile size={18} /></button>
+              <textarea 
+                value={messageInput} 
+                onChange={(e) => setMessageInput(e.target.value)} 
+                placeholder="Type your message..." 
+                rows={1} 
+                className="w-full pl-5 pr-12 py-4 bg-gray-50 border-none rounded-2xl focus:ring-2 focus:ring-primary/10 text-sm font-medium placeholder:text-gray-400 shadow-inner resize-none min-h-[56px] max-h-[120px] flex items-center" 
+              />
+              <button className="absolute right-4 top-1/2 -translate-y-1/2 p-1 text-gray-400 hover:text-primary transition-colors">
+                <Smile size={20} />
+              </button>
             </div>
             
             <button
               type="button"
               onClick={() => setIsDealModalOpen(true)}
-              className="hidden sm:flex px-5 py-3.5 mb-0.5 text-[10px] font-bold text-white bg-blue-600 rounded-2xl hover:bg-blue-700 transition-all shadow-lg shadow-blue-600/30 shrink-0 whitespace-nowrap uppercase tracking-widest"
+              className="hidden sm:flex h-[56px] px-6 text-[11px] font-bold text-white bg-blue-600 rounded-2xl hover:bg-blue-700 transition-all shadow-lg shadow-blue-600/30 shrink-0 whitespace-nowrap uppercase tracking-widest items-center justify-center"
             >
               {location.pathname.startsWith('/seller') || location.pathname.startsWith('/freelancer') ? 'Create Offer' : 'Create Deal'}
             </button>
 
-            <button onClick={handleSendMessage} disabled={!messageInput.trim()} className="p-3.5 mb-0.5 bg-primary text-white rounded-2xl hover:bg-primary-hover transition-all disabled:opacity-50 disabled:bg-gray-200 shadow-lg shadow-blue-600/30 shrink-0"><Send size={18} /></button>
+            <button 
+              onClick={handleSendMessage} 
+              disabled={!messageInput.trim()} 
+              className="w-[56px] h-[56px] flex items-center justify-center bg-primary text-white rounded-2xl hover:bg-primary-hover transition-all disabled:opacity-50 disabled:bg-gray-200 shadow-lg shadow-blue-600/30 shrink-0"
+            >
+              <Send size={20} />
+            </button>
           </div>
         </div>
       </div>
@@ -666,16 +680,16 @@ const Messages = () => {
   };
 
   return (
-    <div className="flex flex-col h-[calc(100vh-100px)] md:h-[calc(100vh-140px)] w-full overflow-hidden relative pb-4 text-gray-900">
-      <div className="flex-1 bg-white border-0 md:border border-gray-100 rounded-[32px] overflow-hidden flex flex-col md:flex-row shadow-none relative w-full">
+    <div className="flex flex-col h-[calc(100vh-120px)] md:h-[calc(100vh-180px)] w-full overflow-hidden relative pb-4 text-gray-900">
+      <div className="flex-1 bg-white border border-gray-100 rounded-3xl overflow-hidden flex flex-col md:flex-row shadow-sm relative w-full">
         <div 
           className={`
-            w-full md:w-96 border-r border-gray-50 flex flex-col bg-white h-full
+            w-full md:w-80 lg:w-96 border-r border-gray-50 flex flex-col bg-white h-full
             ${showMobileChat ? 'hidden md:flex' : 'flex'}
             ${!selectedChat ? 'md:flex' : ''}
           `}
         >
-          <div className="p-4 md:p-8 border-b border-gray-50 shrink-0">
+          <div className="p-4 md:p-6 border-b border-gray-50 shrink-0">
             <h1 className="text-xl md:text-2xl font-bold mb-4 md:mb-6 text-left">Messages</h1>
             <div className="relative mb-4 md:mb-6">
               <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400" size={18} />
@@ -687,7 +701,7 @@ const Messages = () => {
               <button className='text-gray-500 font-bold text-[10px] uppercase tracking-widest py-2 rounded-xl w-full hover:bg-gray-50 transition-colors'>Newest</button>
             </div>
           </div>
-          <div className="flex-1 overflow-y-auto no-scrollbar pb-20 md:pb-0">
+          <div className="flex-1 overflow-y-auto scrollbar-hide pb-20 md:pb-0">
             {conversations.map((chat, idx) => (
               <button key={idx} onClick={() => handleSelectChat(chat)} className={`w-full px-4 md:px-6 py-4 md:py-5 flex items-start space-x-3 md:space-x-4 hover:bg-gray-50 transition-all border-b border-gray-50 last:border-b-0 relative group ${selectedChat?.id === chat.id ? 'bg-primary/5' : ''}`}>
                 {selectedChat?.id === chat.id && <div className="absolute left-0 top-0 bottom-0 w-1 bg-primary rounded-r-full" />}
