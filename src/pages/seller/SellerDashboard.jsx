@@ -170,9 +170,6 @@ const SellerDashboard = () => {
           </div>
           
           <div className="flex items-center gap-2">
-            <button className="bg-white/10 hover:bg-white/20 text-white p-2.5 rounded-xl transition-colors border border-white/10">
-              <Download size={20} />
-            </button>
             <button 
               onClick={() => navigate('/seller/add-products')}
               className="bg-white text-primary hover:bg-white/90 px-6 py-2.5 rounded-xl font-bold text-sm shadow-lg transition-all active:scale-95 flex items-center gap-2"
