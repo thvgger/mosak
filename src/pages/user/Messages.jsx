@@ -30,7 +30,7 @@ import OfferBreakdownModal from '../../components/user/OfferBreakdownModal';
 // --- HELPER COMPONENTS ---
 
 const InitialsAvatar = ({ name, size = "w-12 h-12", textSize = "text-base" }) => (
-  <div className={`${size} rounded-full bg-blue-600 text-white flex items-center justify-center font-bold ${textSize}`}>
+  <div className={`${size} rounded-full bg-gray-100 text-gray-600 flex items-center justify-center font-bold ${textSize}`}>
     {name?.split(' ').map(n => n[0]).join('').toUpperCase().substring(0, 2)}
   </div>
 );
@@ -380,7 +380,7 @@ const ChatContent = ({
           return (
             <div key={message.id} className={`flex ${message.sender === 'me' ? 'justify-end' : 'justify-start'}`}>
               <div className={`flex items-end gap-2 max-w-[90%] sm:max-w-[75%] ${message.sender === 'me' ? 'flex-row-reverse' : ''}`}>
-                {message.sender === 'them' && <AvatarWithFallback src={selectedChat.avatar} name={selectedChat.name} size="w-8 h-8" textSize="text-[10px]" />}
+                {message.sender === 'them' && <AvatarWithFallback src={selectedChat.avatar} name={selectedChat.name} size="w-8 h-8" textSize="text-[10px]" variant="gray" />}
                 {message.type === 'offer' ? (
                   <OfferCard deal={message.dealData} time={message.time} onAcceptClick={(deal, callback) => { setSelectedDeal(deal); setOfferAcceptedCallback(() => callback); setIsOfferModalOpen(true); }} />
                 ) : message.type === 'deal' ? (
