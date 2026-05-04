@@ -9,7 +9,9 @@ import {
   Clock, 
   Users,
   MessageCircle,
-  ChevronRight
+  ChevronRight,
+  Trophy,
+  Info
 } from 'lucide-react';
 
 const Referrals = () => {
@@ -36,9 +38,9 @@ const Referrals = () => {
   ];
 
   const referralData = [
-    { email: 'sar***@email.com', status: 'Joined', reward: '-----', date: '2 days ago', statusColor: 'bg-gray-100 text-gray-600' },
-    { email: 'moh***@email.com', status: 'Verified', reward: '100 points', date: '5 days ago', statusColor: 'bg-green-100 text-green-600' },
-    { email: 'fat***@email.com', status: 'Active', reward: '---', date: '2 weeks ago', statusColor: 'bg-blue-100 text-blue-600' },
+    { email: 'sar***@email.com', status: 'Joined', reward: '-----', date: '2 days ago', statusColor: 'bg-gray-100 text-gray-600', icon: Clock },
+    { email: 'moh***@email.com', status: 'Verified', reward: '100 points', date: '5 days ago', statusColor: 'bg-green-100 text-green-600', icon: CheckCircle2 },
+    { email: 'fat***@email.com', status: 'Active', reward: '---', date: '2 weeks ago', statusColor: 'bg-blue-100 text-blue-600', icon: Info },
   ];
 
   return (
@@ -70,11 +72,11 @@ const Referrals = () => {
       </div>
 
       {/* Referral Link Section */}
-      <div className="bg-[#E0E7FF] rounded-xl p-8 border border-blue-100">
+      <div className="bg-[#f3f4f6] rounded-xl p-8 border border-gray-200">
         <h2 className="text-center text-xl font-bold text-gray-900 mb-6">Your Referral Link</h2>
         
-        <div className="flex flex-col md:flex-row gap-3 max-w-3xl mx-auto mb-8">
-          <div className="flex-1 bg-white border border-blue-200 rounded-lg px-4 py-3 text-blue-700 font-medium truncate">
+        <div className="flex flex-col md:flex-row gap-3 max-w-3xl mx-auto mb-10">
+          <div className="flex-1 bg-white border border-gray-300 rounded-lg px-4 py-3 text-blue-700 font-medium truncate flex items-center">
             {referralLink}
           </div>
           <button 
@@ -86,8 +88,10 @@ const Referrals = () => {
           </button>
         </div>
 
-        <div className="space-y-4">
-          <p className="text-center text-blue-800 font-bold uppercase tracking-wider text-sm">Share via</p>
+        <div className="space-y-6">
+          <div className="bg-[#818cf8]/60 py-2 rounded-md">
+            <p className="text-center text-white font-bold uppercase tracking-widest text-sm">Share via</p>
+          </div>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             <button className="bg-[#2D3748] hover:bg-gray-800 text-white py-3 px-4 rounded-lg flex items-center justify-center gap-3 transition-colors">
               <MessageCircle size={20} />
@@ -109,7 +113,8 @@ const Referrals = () => {
       <div className="bg-white rounded-xl p-8 border border-gray-100 shadow-sm space-y-8">
         <div>
           <h3 className="text-lg font-bold text-gray-900 flex items-center gap-2">
-            🏆 How Rewards Work
+            <Trophy className="text-yellow-500" size={24} />
+            How Rewards Work
           </h3>
           <p className="text-sm text-gray-500 mt-1">Limited-time opportunities</p>
         </div>
@@ -126,7 +131,7 @@ const Referrals = () => {
             <h4 className="text-blue-600 font-bold mb-4">Bonus Milestones</h4>
             <div className="space-y-4">
               {milestones.map((m, i) => (
-                <div key={i} className="flex items-center justify-between py-3 border-b border-gray-50 last:border-0">
+                <div key={i} className="flex items-center justify-between py-3 border-b border-gray-100 last:border-0">
                   <span className="text-sm text-gray-700 font-medium">{m.count} referrals: {m.reward}</span>
                 </div>
               ))}
@@ -150,11 +155,11 @@ const Referrals = () => {
                 <span className="mt-1.5 w-1.5 h-1.5 rounded-full bg-gray-400 shrink-0"></span>
                 Maximum 50 referrals per month
               </li>
-              <li className="flex items-start gap-2 border-t border-gray-50 pt-4">
+              <li className="flex items-start gap-2 border-t border-gray-100 pt-4">
                 <span className="mt-1.5 w-1.5 h-1.5 rounded-full bg-gray-400 shrink-0"></span>
                 Referred user must complete KYC verification
               </li>
-              <li className="flex items-start gap-2 border-t border-gray-50 pt-4">
+              <li className="flex items-start gap-2 border-t border-gray-100 pt-4">
                 <span className="mt-1.5 w-1.5 h-1.5 rounded-full bg-gray-400 shrink-0"></span>
                 Rewards credited within 24 hours of verification
               </li>
@@ -165,7 +170,7 @@ const Referrals = () => {
 
       {/* Referral Performance */}
       <div className="bg-white rounded-xl border border-gray-100 shadow-sm overflow-hidden">
-        <div className="p-6 flex items-center justify-between border-b border-gray-50">
+        <div className="p-6 flex items-center justify-between border-b border-gray-100">
           <h3 className="font-bold text-gray-900">Referral Performance</h3>
           <button className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-lg text-sm font-semibold transition-colors">
             Invite More Friends
@@ -182,13 +187,13 @@ const Referrals = () => {
                 <th className="px-6 py-4 text-xs font-bold text-gray-500 uppercase tracking-wider">Date</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-gray-50">
+            <tbody className="divide-y divide-gray-100">
               {referralData.map((row, index) => (
-                <tr key={index} className="hover:bg-gray-50/50 transition-colors">
+                <tr key={index} className="hover:bg-gray-50 transition-colors">
                   <td className="px-6 py-5 text-sm font-medium text-gray-700">{row.email}</td>
                   <td className="px-6 py-5">
-                    <span className={`px-3 py-1 rounded-full text-xs font-semibold flex items-center gap-1.5 w-fit ${row.statusColor}`}>
-                      <Clock size={12} />
+                    <span className={`px-3 py-1 rounded-full text-[10px] font-bold flex items-center gap-1.5 w-fit uppercase tracking-wider ${row.statusColor}`}>
+                      <row.icon size={12} />
                       {row.status}
                     </span>
                   </td>
@@ -207,4 +212,5 @@ const Referrals = () => {
 };
 
 export default Referrals;
+
 
