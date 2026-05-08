@@ -149,19 +149,19 @@ const Message = ({ message, currentUser, onUserSelect, onReply, onReaction }) =>
             </button>
             
             {menuPopupVisible && (
-              <div className="absolute right-0 top-full mt-1 z-30 min-w-[140px] bg-white border border-gray-100 rounded-xl shadow-xl p-1 animate-popup-in">
+              <div className="absolute right-0 top-full mt-1 z-30 min-w-[100px] bg-white border border-gray-100 rounded-xl shadow-xl p-1 animate-popup-in">
                 <button className="w-full flex items-center gap-2 px-3 py-1.5 text-xs text-gray-700 hover:bg-gray-50 rounded-lg transition-colors">
                   <Pencil size={12} />
-                  <span>Edit Message</span>
+                  <span>Edit</span>
                 </button>
                 <button className="w-full flex items-center gap-2 px-3 py-1.5 text-xs text-red-600 hover:bg-red-50 rounded-lg transition-colors">
                   <Trash2 size={12} />
-                  <span>Delete Message</span>
+                  <span>Delete</span>
                 </button>
                 <div className="my-1 border-t border-gray-100"></div>
                 <button className="w-full flex items-center gap-2 px-3 py-1.5 text-xs text-gray-700 hover:bg-gray-50 rounded-lg transition-colors">
                   <Flag size={12} />
-                  <span>Report Content</span>
+                  <span>Report</span>
                 </button>
               </div>
             )}

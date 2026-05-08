@@ -272,21 +272,20 @@ const CommunitySidebar = ({ isOpen, onClose }) => {
                           to={channel.path}
                           onClick={handleNavClick}
                           className={({ isActive }) => `
-                            w-full flex items-center justify-between px-3 py-2 rounded-lg text-sm transition-all
+                            w-full flex items-center px-3 py-2 rounded-lg text-sm transition-all gap-2
                             ${isActive 
-                              ? 'bg-blue-50 text-blue-600 font-semibold' 
+                              ? 'bg-primary/10 text-primary font-semibold' 
                               : 'text-gray-500 hover:bg-gray-100 hover:text-gray-700'
                             }
                           `}
                         >
-                          <div className="flex items-center gap-3 min-w-0">
-                            <channel.icon size={18} className="shrink-0" />
-                            <span className="truncate">{channel.name}</span>
+                          <channel.icon size={18} className="shrink-0" />
+                          <span className="truncate flex-1">{channel.name}</span>
+                          
+                          <div className="flex items-center gap-1.5 shrink-0">
                             {channel.locked && <Lock size={12} className="shrink-0 text-gray-400" />}
-                          </div>
-                          <div className="flex items-center gap-2 shrink-0 pr-6">
                             {channel.badge && (
-                              <span className="px-1.5 py-0.5 text-[10px] bg-blue-600 text-white rounded-full min-w-[18px] text-center">
+                              <span className="px-1.5 py-0.5 text-[10px] bg-primary text-white rounded-full min-w-[18px] text-center font-bold">
                                 {channel.badge}
                               </span>
                             )}
@@ -297,43 +296,6 @@ const CommunitySidebar = ({ isOpen, onClose }) => {
                             )}
                           </div>
                         </NavLink>
-
-                        {/* Channel Options Button */}
-                        <button 
-                          onClick={(e) => {
-                            e.preventDefault();
-                            e.stopPropagation();
-                            setOpenMenuId(openMenuId === channel.path ? null : channel.path);
-                          }}
-                          className={`
-                            absolute right-1 top-1/2 -translate-y-1/2 p-1 rounded hover:bg-gray-200 text-gray-400 transition-opacity
-                            ${openMenuId === channel.path ? 'opacity-100 bg-gray-100' : 'opacity-100 md:opacity-0 group-hover/channel:opacity-100'}
-                          `}
-                        >
-                          <MoreVertical size={14} />
-                        </button>
-
-                        {/* Channel Dropdown Menu */}
-                        {openMenuId === channel.path && (
-                          <div 
-                            ref={menuRef}
-                            className="absolute left-full top-0 ml-1 w-48 bg-white border border-gray-100 rounded-xl shadow-xl p-1 z-[60] animate-popup-in"
-                          >
-                            <button className="w-full flex items-center gap-3 px-3 py-2 text-xs text-gray-700 hover:bg-gray-50 rounded-lg transition-colors">
-                              <BellOff size={14} />
-                              <span>Mute Channel</span>
-                            </button>
-                            <button className="w-full flex items-center gap-3 px-3 py-2 text-xs text-gray-700 hover:bg-gray-50 rounded-lg transition-colors">
-                              <LinkIcon size={14} />
-                              <span>Copy Link</span>
-                            </button>
-                            <div className="my-1 border-t border-gray-100"></div>
-                            <button className="w-full flex items-center gap-3 px-3 py-2 text-xs text-red-600 hover:bg-red-50 rounded-lg transition-colors">
-                              <LogOut size={14} />
-                              <span>Leave Channel</span>
-                            </button>
-                          </div>
-                        )}
                       </div>
                     ))}
                   </div>
