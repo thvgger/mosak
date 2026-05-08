@@ -20,6 +20,124 @@ const ChannelChat = () => {
   const { setIsSidebarOpen, isSidebarOpen } = useOutletContext();
   const navigate = useNavigate();
 
+  // Initial messages from screenshot
+  const initialMessages = [
+    {
+      id: 'static-1',
+      user: { 
+        id: 'user-chioma', 
+        name: 'Chioma Adeleke', 
+        badge: 'Gold', 
+        role: 'Seller',
+        avatar: 'C' 
+      },
+      content: 'Good morning everyone! Just launched my new collection on the marketplace. Would love your feedback! 🎨',
+      timestamp: new Date().setHours(10, 24, 0, 0),
+      reactions: [
+        { type: '👍', userId: 'other-1' },
+        { type: '👍', userId: 'other-2' },
+        { type: '👍', userId: 'other-3' },
+        { type: '👍', userId: 'other-4' },
+        { type: '👍', userId: 'other-5' },
+        { type: '🔥', userId: 'other-6' },
+        { type: '🔥', userId: 'other-7' },
+        { type: '🔥', userId: 'other-8' },
+      ]
+    },
+    {
+      id: 'static-2',
+      user: { 
+        id: 'user-tunde', 
+        name: 'Tunde Bakere', 
+        badge: 'Silver', 
+        role: 'Buyer',
+        avatar: 'T'
+      },
+      content: "Congratulations Chioma! I'll check it out. Has anyone tried the new search filters?",
+      timestamp: new Date().setHours(10, 24, 0, 0),
+      reactions: [
+        { type: '👍', userId: 'other-1' },
+        { type: '👍', userId: 'other-2' },
+        { type: '👍', userId: 'other-3' },
+        { type: '👍', userId: 'other-4' },
+        { type: '👍', userId: 'other-5' },
+        { type: '🔥', userId: 'other-6' },
+        { type: '🔥', userId: 'other-7' },
+        { type: '🔥', userId: 'other-8' },
+      ]
+    },
+    {
+      id: 'static-3',
+      user: { 
+        id: 'user-ngozi', 
+        name: 'Ngozi Okonkwo', 
+        badge: 'Platinum', 
+        role: 'Freelancer',
+        avatar: 'N'
+      },
+      content: 'Yes! The filters are super helpful. Makes discovery much easier.',
+      timestamp: new Date().setHours(10, 24, 0, 0),
+      reactions: [
+        { type: '👍', userId: 'other-1' },
+        { type: '👍', userId: 'other-2' },
+        { type: '👍', userId: 'other-3' },
+        { type: '👍', userId: 'other-4' },
+        { type: '👍', userId: 'other-5' },
+        { type: '🔥', userId: 'other-6' },
+        { type: '🔥', userId: 'other-7' },
+        { type: '🔥', userId: 'other-8' },
+      ]
+    },
+    {
+      id: 'static-4',
+      user: { 
+        id: 'user-kunle', 
+        name: 'Kunle Edwards', 
+        badge: 'Gold', 
+        role: 'Seller',
+        avatar: 'K'
+      },
+      content: "Has anyone checked out the new Porsche Macan on the marketplace? It's fully loaded and clean! 🚗🔥",
+      timestamp: new Date().setHours(10, 25, 0, 0),
+      reactions: [
+        { type: '👍', userId: 'other-1' },
+        { type: '😮', userId: 'other-2' },
+        { type: '❤️', userId: 'other-3' },
+      ]
+    },
+    {
+      id: 'static-5',
+      user: { 
+        id: 'user-amina', 
+        name: 'Amina Sule', 
+        badge: 'Platinum', 
+        role: 'Designer',
+        avatar: 'A'
+      },
+      content: "Just uploaded some new African print designs. Limited stock available! 🎨👗",
+      timestamp: new Date().setHours(10, 26, 0, 0),
+      reactions: [
+        { type: '❤️', userId: 'other-1' },
+        { type: '🔥', userId: 'other-2' },
+      ]
+    },
+    {
+      id: 'static-6',
+      user: { 
+        id: 'user-emeka', 
+        name: 'Emeka Okafor', 
+        badge: 'Bronze', 
+        role: 'Buyer',
+        avatar: 'E'
+      },
+      content: "Welcome everyone! Happy to be part of the community. Looking forward to some great deals! 👋✨",
+      timestamp: new Date().setHours(10, 27, 0, 0),
+      reactions: [
+        { type: '👍', userId: 'other-1' },
+      ]
+    }
+  ];
+
   // Use our messages hook with WebSocket
   const {
     messages,
@@ -32,7 +150,7 @@ const ChannelChat = () => {
     onlineCount,
     isConnected,
     typingUsers
-  } = useMessages(channelId);
+  } = useMessages(channelId, initialMessages);
 
   // Check screen size
   useEffect(() => {
@@ -61,9 +179,14 @@ const ChannelChat = () => {
 
   // Build messages with parent references
   const getMessagesWithParents = () => {
-    return messages.map(message => ({
+    // Combine initial static messages with fetched messages for the general channel
+    const allMessages = channelId === 'general' || !channelId 
+      ? [...initialMessages, ...messages.filter(m => !m.id.toString().startsWith('static-'))]
+      : messages;
+
+    return allMessages.map(message => ({
       ...message,
-      parentMessage: message.parentId ? messages.find(m => m.id === message.parentId) : null
+      parentMessage: message.parentId ? allMessages.find(m => m.id === message.parentId) : null
     }));
   };
 
@@ -101,11 +224,11 @@ const ChannelChat = () => {
   const messagesWithParents = getMessagesWithParents();
 
   return (
-    <div className="flex h-full bg-white">
+    <div className="flex h-full bg-white overflow-hidden overscroll-none">
       {/* Chat Area */}
-      <div className="flex-1 flex flex-col min-w-0 w-full h-full">
+      <div className="flex-1 flex flex-col min-w-0 w-full h-full relative overflow-hidden overscroll-behavior-contain">
         {/* Channel Header */}
-        <div className="min-h-14 border-b border-gray-200 flex items-center justify-between px-4 bg-white sticky top-0 z-10">
+        <div className="min-h-14 border-b border-gray-200 flex items-center justify-between px-4 bg-white sticky top-0 z-10 shrink-0">
           <div className="w-full flex items-center gap-3">
             <div className="flex items-center">
               <button
@@ -139,20 +262,19 @@ const ChannelChat = () => {
               </p>
               
               <button 
-                className="btn gap-1 px-2 md:px-3 py-1.5 md:py-2 text-[10px] md:text-xs shrink-0" 
+                className="bg-primary text-white flex items-center gap-1.5 px-4 py-2 rounded-lg text-xs font-semibold shrink-0 hover:bg-primary/90 transition-colors shadow-sm" 
                 onClick={() => navigate("/community/all-m-adverts")}
               >
-                <span className="hidden xs:inline"> View All Ads </span>
-                <ChevronRight size={14} />
+                <span className=""> View All Ads </span>
+                <ChevronRight size={14} strokeWidth={3} />
               </button>
             </div>
           </div>
         </div>
 
-        <PinnedAdvert />
-
         {/* Messages */}
         <div className="flex-1 overflow-y-auto">
+          <PinnedAdvert />
           <MessageList 
             messages={messagesWithParents}
             currentUser={communityUser || authUser}

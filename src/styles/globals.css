@@ -125,6 +125,10 @@
     scrollbar-width: none;
   }
 
+  .pb-safe {
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+
   /* Hide header when mobile chat is active - Mobile Only */
   @media (max-width: 767px) {
     body.mobile-chat-active header {

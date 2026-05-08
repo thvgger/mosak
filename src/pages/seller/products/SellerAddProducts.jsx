@@ -320,8 +320,12 @@ const SellerAddProducts = () => {
   };
   
   const handlePrevious = () => {
-    setCurrentStep(prev => Math.max(prev - 1, 1));
-    window.scrollTo(0, 0);
+    if (currentStep === 1) {
+      navigate('/seller');
+    } else {
+      setCurrentStep(prev => Math.max(prev - 1, 1));
+      window.scrollTo(0, 0);
+    }
   };
   
   const handleSaveDraft = async () => {
@@ -1261,13 +1265,8 @@ const SellerAddProducts = () => {
       <div className="flex items-center gap-4 mb-6">
         <button
           onClick={handlePrevious}
-          disabled={currentStep === 1}
-          className={`p-2 rounded-full border transition-colors ${
-            currentStep === 1 
-              ? 'bg-gray-100 text-gray-300 border-gray-200 cursor-not-allowed' 
-              : 'border-gray-300 text-gray-600 hover:bg-gray-50'
-          }`}
-          title="Previous Step"
+          className="p-2 rounded-full border border-gray-300 text-gray-600 hover:bg-gray-50 transition-colors"
+          title={currentStep === 1 ? "Back to Dashboard" : "Previous Step"}
         >
           <ArrowLeft size={20} />
         </button>

@@ -8,6 +8,16 @@ import { useNavigate } from 'react-router-dom';
 const PinnedAdvert = () => {
   const ads = [
     {
+      id: 5,
+      type: "M-Advert",
+      initials: "KE",
+      name: "Kunle Edwards",
+      badge: "Gold",
+      role: "Seller",
+      message: "Weekend special: Buy 2 get 1 free on all fashion items. Shop now! 👗",
+      link: "https://mosak.com/invite/jkl012xyz"
+    },
+    {
       id: 1,
       type: "M-Advert",
       initials: "CA",
@@ -46,16 +56,6 @@ const PinnedAdvert = () => {
       role: "Designer",
       message: "New African print collection now available. Limited stock available! 🎨",
       link: "https://mosak.com/invite/ghi789xyz"
-    },
-    {
-      id: 5,
-      type: "M-Advert",
-      initials: "KE",
-      name: "Kunle Edwards",
-      badge: "Gold",
-      role: "Seller",
-      message: "Weekend special: Buy 2 get 1 free on all fashion items. Shop now! 👗",
-      link: "https://mosak.com/invite/jkl012xyz"
     },
     {
       id: 6,

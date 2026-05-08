@@ -190,7 +190,7 @@ const Message = ({ message, currentUser, onUserSelect, onReply, onReaction }) =>
             <div className="relative">
               <button
                 onClick={() => setShowReactionPicker(!showReactionPicker)}
-                className="w-6 h-6 flex items-center justify-center bg-gray-100 rounded-full text-xs hover:bg-gray-200 transition-colors"
+                className="w-6 h-6 flex items-center justify-center bg-gray-50 border border-gray-100 rounded-full text-xs text-gray-400 hover:bg-gray-100 transition-colors"
               >
                 +
               </button>
@@ -214,9 +214,9 @@ const Message = ({ message, currentUser, onUserSelect, onReply, onReaction }) =>
           {/* Reply button */}
           <button 
             onClick={onReply}
-            className="flex items-center gap-1 text-[10px] md:text-xs text-gray-500 hover:text-primary transition-colors px-1 py-0.5"
+            className="flex items-center gap-1 text-[10px] md:text-xs text-gray-400 hover:text-primary transition-colors px-1 py-0.5"
           >
-            <Reply size={12} />
+            <Reply size={14} className="rotate-180" />
             <span>Reply</span>
           </button>
         </div>

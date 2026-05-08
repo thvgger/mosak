@@ -180,7 +180,7 @@ const MessageInput = ({ channelId, onSendMessage, onTyping, replyingTo, onCancel
   };
 
   return (
-    <div className="w-full bg-white px-4 py-3 md:py-4 border-t border-gray-100">
+    <div className="w-full bg-white px-4 py-3 md:py-4 border-t border-gray-100 pb-safe">
       <form onSubmit={handleSubmit} className="max-w-4xl mx-auto">
         {/* Reply preview */}
         {replyingTo && (
@@ -208,11 +208,11 @@ const MessageInput = ({ channelId, onSendMessage, onTyping, replyingTo, onCancel
 
         {/* Input area */}
         <div className="flex items-center gap-2 md:gap-3">
-          <button type="button" className="p-2 hover:bg-gray-100 rounded-full transition-colors text-gray-400 shrink-0">
-            <Paperclip size={20} />
-          </button>
-
-          <div className="flex-1 relative">
+          <div className="flex-1 relative flex items-center bg-white border border-gray-300 rounded-2xl focus-within:border-primary/50 transition-colors">
+            <button type="button" className="p-2.5 hover:bg-gray-50 rounded-full transition-colors text-gray-400 shrink-0 ml-1">
+              <Paperclip size={20} />
+            </button>
+            
             <input
               ref={inputRef}
               type="text"
@@ -220,21 +220,16 @@ const MessageInput = ({ channelId, onSendMessage, onTyping, replyingTo, onCancel
               onChange={handleTyping}
               onKeyPress={handleKeyPress}
               placeholder={replyingTo ? "Write your reply..." : "Type your message..."}
-              className="w-full bg-gray-50 border-none rounded-full px-4 py-2.5 focus:ring-2 focus:ring-primary/20 text-sm md:text-base placeholder:text-gray-400"
+              className="w-full bg-transparent border-none rounded-full px-2 py-2.5 focus:ring-0 text-sm md:text-base placeholder:text-gray-400"
             />
-          </div>
 
-          <button
-            type="submit"
-            disabled={!message.trim()}
-            className={`p-2.5 rounded-full transition-all shadow-md ${
-              message.trim() 
-                ? 'bg-primary text-white hover:bg-primary-dark shadow-primary/20' 
-                : 'bg-gray-100 text-gray-300 cursor-not-allowed shadow-none'
-            }`}
-          >
-            <Send size={18} className={message.trim() ? 'translate-x-0.5' : ''} />
-          </button>
+            <button
+              type="submit"
+              className="p-2 mr-1 rounded-full transition-all shrink-0 text-primary"
+            >
+              <Send size={22} className="fill-primary text-primary" />
+            </button>
+          </div>
         </div>
       </form>
     </div>

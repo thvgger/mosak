@@ -440,8 +440,7 @@ const ChatContent = ({
 
             <button 
               onClick={handleSendMessage} 
-              disabled={!messageInput.trim()} 
-              className="w-[56px] h-[56px] flex items-center justify-center bg-primary text-white rounded-2xl hover:bg-primary-hover transition-all disabled:opacity-50 disabled:bg-gray-200 shadow-lg shadow-blue-600/30 shrink-0"
+              className="w-[56px] h-[56px] flex items-center justify-center bg-primary text-white rounded-2xl hover:bg-primary-hover transition-all shadow-lg shadow-blue-600/30 shrink-0"
             >
               <Send size={20} />
             </button>
