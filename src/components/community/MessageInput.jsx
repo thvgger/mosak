@@ -207,12 +207,12 @@ const MessageInput = ({ channelId, onSendMessage, onTyping, replyingTo, onCancel
         )}
 
         {/* Input area */}
-        <div className="flex items-center gap-2 md:gap-3">
-          <div className="flex-1 relative flex items-center bg-white border border-gray-300 rounded-2xl focus-within:border-primary/50 transition-colors">
-            <button type="button" className="p-2.5 hover:bg-gray-50 rounded-full transition-colors text-gray-400 shrink-0 ml-1">
-              <Paperclip size={20} />
-            </button>
-            
+        <div className="flex items-center gap-2 md:gap-4">
+          <button type="button" className="p-2 hover:bg-gray-100 rounded-full transition-colors text-gray-400 shrink-0">
+            <Paperclip size={22} strokeWidth={1.5} />
+          </button>
+          
+          <div className="flex-1 relative flex items-center bg-white border border-gray-200 rounded-xl focus-within:border-gray-300 transition-all shadow-sm">
             <input
               ref={inputRef}
               type="text"
@@ -220,16 +220,21 @@ const MessageInput = ({ channelId, onSendMessage, onTyping, replyingTo, onCancel
               onChange={handleTyping}
               onKeyPress={handleKeyPress}
               placeholder={replyingTo ? "Write your reply..." : "Type your message..."}
-              className="w-full bg-transparent border-none rounded-full px-2 py-2.5 focus:ring-0 text-sm md:text-base placeholder:text-gray-400"
+              className="w-full bg-transparent border-none rounded-xl px-4 py-2.5 focus:ring-0 text-sm md:text-base placeholder:text-gray-400"
             />
-
-            <button
-              type="submit"
-              className="p-2 mr-1 rounded-full transition-all shrink-0 text-primary"
-            >
-              <Send size={22} className="fill-primary text-primary" />
-            </button>
           </div>
+
+          <button
+            type="submit"
+            disabled={!message.trim()}
+            className={`p-3 rounded-xl md:rounded-2xl transition-all shrink-0 flex items-center justify-center ${
+              message.trim() 
+                ? 'bg-blue-600 text-white hover:bg-blue-700 shadow-md' 
+                : 'bg-gray-200 text-gray-400'
+            }`}
+          >
+            <Send size={20} className={message.trim() ? "fill-white" : ""} />
+          </button>
         </div>
       </form>
     </div>

@@ -531,10 +531,10 @@ const MAdvertCard = ({ advert }) => {
               <>
                 {/* Mobile Backdrop Overlay */}
                 <div 
-                  className="fixed inset-0 z-30 md:hidden" 
+                  className="fixed inset-0 z-40 md:hidden" 
                   onClick={() => setShowMenu(false)}
                 />
-              <div className="absolute right-0 mt-2 w-48 sm:w-64 bg-white rounded shadow-lg border border-gray-200 z-40">
+                <div className="absolute right-0 mt-2 w-48 sm:w-64 bg-white rounded shadow-xl border border-gray-100 z-50 animate-popup-in">
                   <button 
                     onClick={handleDiscountGeneral}
                     className="flex items-center gap-2.5 sm:gap-3 w-full px-3 sm:px-4 py-2.5 sm:py-3 text-[13px] sm:text-sm hover:bg-gray-50 text-gray-700 transition-colors"

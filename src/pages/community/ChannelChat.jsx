@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { useParams, useOutletContext, useNavigate } from 'react-router-dom';
-import { PanelLeftOpen, PanelRightOpen, ChevronRight, Users, Wifi, WifiOff } from 'lucide-react';
+import { PanelLeftOpen, PanelRightOpen, ChevronRight, Users, Wifi, WifiOff, MoreVertical, Bell, BellOff, Info, LogOut } from 'lucide-react';
 import MessageList from '../../components/community/MessageList';
 import MessageInput from '../../components/community/MessageInput';
 import UserProfileSidebar from '../../components/community/UserProfileSidebar';
@@ -14,6 +14,20 @@ const ChannelChat = () => {
   const [isRightSidebarOpen, setIsRightSidebarOpen] = useState(false);
   const [selectedUser, setSelectedUser] = useState(null);
   const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
+  const [showChannelMenu, setShowChannelMenu] = useState(false);
+  const [isMuted, setIsMuted] = useState(false);
+  
+  const channelMenuRef = useRef();
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (channelMenuRef.current && !channelMenuRef.current.contains(event.target)) {
+        setShowChannelMenu(false);
+      }
+    };
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, []);
   
   const { user: authUser } = useAuth();
   const { communityUser } = useCommunityUser();
@@ -243,31 +257,59 @@ const ChannelChat = () => {
               </button>
             </div>
 
-            <div className="w-full flex items-center justify-between gap-2.5">
-              <div className="flex items-center gap-2 md:gap-3">
-                <h2 className="font-semibold text-sm md:text-base truncate max-w-[120px] md:max-w-none"> #{channelInfo.name} </h2>
-                <div className="hidden xs:flex items-center gap-1 text-[10px] md:text-xs text-gray-500 whitespace-nowrap">
-                  <Users size={12} />
-                  <span>{channelInfo.members}</span>
+            <div className="w-full flex items-center justify-between gap-4">
+              <div className="flex items-center gap-2 md:gap-4">
+                <h2 className="font-bold text-base md:text-lg text-gray-800"> #{channelInfo.name} </h2>
+                <div className="flex items-center gap-1.5 text-xs text-gray-400 font-medium">
+                  <Users size={14} />
+                  <span>{channelInfo.members} online</span>
+                  <div className="w-1.5 h-1.5 bg-red-500 rounded-full animate-pulse ml-1"></div>
                 </div>
-                {isConnected ? (
-                  <Wifi size={12} className="text-green-500 shrink-0" />
-                ) : (
-                  <WifiOff size={12} className="text-red-500 shrink-0" />
-                )}
               </div>
               
-              <p className="text-xs text-gray-500 hidden lg:block truncate max-w-md">
+              <p className="text-xs text-gray-400 hidden lg:block font-medium">
                 {channelInfo.description}
               </p>
               
-              <button 
-                className="bg-primary text-white flex items-center gap-1.5 px-4 py-2 rounded-lg text-xs font-semibold shrink-0 hover:bg-primary/90 transition-colors shadow-sm" 
-                onClick={() => navigate("/community/all-m-adverts")}
-              >
-                <span className=""> View All Ads </span>
-                <ChevronRight size={14} strokeWidth={3} />
-              </button>
+              <div className="flex items-center gap-3">
+                <button 
+                  className="bg-blue-600 text-white flex items-center gap-2 px-4 py-2 rounded-lg text-xs font-bold shrink-0 hover:bg-blue-700 transition-all shadow-sm" 
+                  onClick={() => navigate("/community/all-m-adverts")}
+                >
+                  <span className=""> View All Ads </span>
+                  <ChevronRight size={14} strokeWidth={3} />
+                </button>
+
+                {/* <div className="relative" ref={channelMenuRef}>
+                  <button 
+                    onClick={() => setShowChannelMenu(!showChannelMenu)}
+                    className="p-2 hover:bg-gray-100 rounded-full transition-colors text-gray-400"
+                  >
+                    <MoreVertical size={20} />
+                  </button>
+
+                  {showChannelMenu && (
+                    <div className="absolute right-0 top-full mt-2 w-48 bg-white border border-gray-100 rounded-xl shadow-xl p-1 z-50 animate-in fade-in zoom-in-95 duration-200">
+                      <button className="w-full flex items-center gap-3 px-3 py-2 text-sm text-gray-700 hover:bg-gray-50 rounded-lg transition-colors">
+                        <Info size={16} />
+                        <span>Channel Info</span>
+                      </button>
+                      <button 
+                        onClick={() => setIsMuted(!isMuted)}
+                        className="w-full flex items-center gap-3 px-3 py-2 text-sm text-gray-700 hover:bg-gray-50 rounded-lg transition-colors"
+                      >
+                        {isMuted ? <BellOff size={16} /> : <Bell size={16} />}
+                        <span>{isMuted ? 'Unmute' : 'Mute Notifications'}</span>
+                      </button>
+                      <div className="my-1 border-t border-gray-100"></div>
+                      <button className="w-full flex items-center gap-3 px-3 py-2 text-sm text-red-600 hover:bg-red-50 rounded-lg transition-colors">
+                        <LogOut size={16} />
+                        <span>Leave Channel</span>
+                      </button>
+                    </div>
+                  )}
+                </div> */}
+              </div>
             </div>
           </div>
         </div>

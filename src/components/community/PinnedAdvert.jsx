@@ -176,18 +176,6 @@ const PinnedAdvert = () => {
                     <p className="text-xs text-gray-700 line-clamp-2">
                       {ad.message}
                     </p>
-                    
-                    {/* Link */}
-                    {/* <div className="overflow-hidden">
-                      <a 
-                        href={ad.link} 
-                        target="_blank" 
-                        rel="noopener noreferrer"
-                        className="text-primary text-xs font-medium hover:underline break-all line-clamp-1"
-                      >
-                        {ad.link}
-                      </a>
-                    </div> */}
                   </div>
 
                   <img src={ad?.img || car} alt='' className='w-14 h-auto rounded-sm object-cover object-center' />

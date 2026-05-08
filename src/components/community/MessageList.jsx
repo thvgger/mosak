@@ -114,33 +114,63 @@ const Message = ({ message, currentUser, onUserSelect, onReply, onReaction }) =>
         {user?.avatar || user?.name?.charAt(0) || 'U'}
       </div>
 
-      <div className={`flex-1 min-w-0 max-w-[85%] md:max-w-[75%] ${isOwnMessage ? 'items-end flex flex-col' : ''}`}>
+      <div className={`flex-1 min-w-0 ${isOwnMessage ? 'items-end md:items-start flex flex-col' : ''}`}>
         {/* Header */}
-        <div className={`flex flex-wrap items-center gap-1 md:gap-2 mb-1 ${isOwnMessage ? 'flex-row-reverse justify-start' : ''}`}>
-          <span 
-            onClick={handleUserClick}
-            className="font-semibold text-xs md:text-sm cursor-pointer hover:underline truncate max-w-[120px] md:max-w-none"
-          >
-            {user?.name || 'Unknown User'}
-          </span>
-          {user?.badge && (
-            <span className="text-[10px] md:text-xs bg-yellow-100 text-yellow-800 px-1.5 py-0.5 rounded whitespace-nowrap">
-              {user.badge}
+        <div className={`flex items-center justify-between mb-0.5 ${isOwnMessage ? 'flex-row-reverse md:flex-row' : ''}`}>
+          <div className={`flex flex-wrap items-center gap-1 md:gap-2 ${isOwnMessage ? 'flex-row-reverse md:flex-row justify-start' : ''}`}>
+            <span 
+              onClick={handleUserClick}
+              className="font-semibold text-xs md:text-sm cursor-pointer hover:underline truncate max-w-[120px] md:max-w-none"
+            >
+              {user?.name || 'Unknown User'}
             </span>
-          )}
-          {user?.role && (
-            <span className="text-[10px] md:text-xs bg-gray-100 text-gray-600 px-1.5 py-0.5 rounded whitespace-nowrap">
-              {user.role}
+            {user?.badge && (
+              <span className="text-[10px] md:text-xs bg-yellow-100 text-yellow-800 px-1.5 py-0.5 rounded whitespace-nowrap font-medium">
+                {user.badge}
+              </span>
+            )}
+            {user?.role && (
+              <span className="text-[10px] md:text-xs bg-gray-100 text-gray-600 px-1.5 py-0.5 rounded whitespace-nowrap">
+                {user.role}
+              </span>
+            )}
+            <span className={`text-[10px] text-gray-400 whitespace-nowrap ${isOwnMessage ? 'mr-1 md:ml-2' : 'ml-1 md:ml-2'}`}>
+              {formatTime(timestamp)}
             </span>
-          )}
-          <span className={`text-[10px] text-gray-400 whitespace-nowrap ${isOwnMessage ? 'mr-1' : 'ml-1'}`}>
-            {formatTime(timestamp)}
-          </span>
+          </div>
+
+          {/* Menu button */}
+          <div className="relative shrink-0">
+            <button 
+              onClick={() => setMenuPopupVisible(!menuPopupVisible)}
+              className="p-1 rounded-full hover:bg-gray-100 text-gray-400"
+            >
+              <EllipsisVertical size={16} />
+            </button>
+            
+            {menuPopupVisible && (
+              <div className="absolute right-0 top-full mt-1 z-30 min-w-[140px] bg-white border border-gray-100 rounded-xl shadow-xl p-1 animate-popup-in">
+                <button className="w-full flex items-center gap-2 px-3 py-1.5 text-xs text-gray-700 hover:bg-gray-50 rounded-lg transition-colors">
+                  <Pencil size={12} />
+                  <span>Edit Message</span>
+                </button>
+                <button className="w-full flex items-center gap-2 px-3 py-1.5 text-xs text-red-600 hover:bg-red-50 rounded-lg transition-colors">
+                  <Trash2 size={12} />
+                  <span>Delete Message</span>
+                </button>
+                <div className="my-1 border-t border-gray-100"></div>
+                <button className="w-full flex items-center gap-2 px-3 py-1.5 text-xs text-gray-700 hover:bg-gray-50 rounded-lg transition-colors">
+                  <Flag size={12} />
+                  <span>Report Content</span>
+                </button>
+              </div>
+            )}
+          </div>
         </div>
 
         {/* Replying to indicator */}
         {parentMessage && (
-          <div className={`flex items-center gap-1 mt-1 mb-1 text-[10px] text-gray-500 border-l-2 border-primary/30 pl-2 ${isOwnMessage ? 'mr-auto' : ''}`}>
+          <div className={`flex items-center gap-1 mt-1 mb-1 text-[10px] text-gray-500 border-l-2 border-primary/30 pl-2 ${isOwnMessage ? 'mr-auto md:mr-0' : ''}`}>
             <Reply size={10} className="rotate-180" />
             <span>Replying to {parentMessage.user?.name || parentMessage.name}</span>
           </div>
@@ -148,24 +178,24 @@ const Message = ({ message, currentUser, onUserSelect, onReply, onReaction }) =>
 
         {/* Quoted message */}
         {parentMessage && (
-          <div className={`mt-1 mb-2 p-2 bg-gray-50 rounded border-l-4 border-primary/60 text-xs ${isOwnMessage ? 'text-right' : ''}`}>
+          <div className={`mt-1 mb-2 p-2 bg-gray-50 rounded border-l-4 border-primary/60 text-xs ${isOwnMessage ? 'text-right md:text-left' : ''}`}>
             <p className="text-gray-600 line-clamp-2 italic">"{parentMessage.content}"</p>
           </div>
         )}
 
         {/* Message content */}
         <div className={`
-          relative px-3 py-2 rounded-2xl text-sm md:text-base break-words
+          relative text-sm md:text-base break-words
           ${isOwnMessage 
-            ? 'bg-primary text-white rounded-tr-none' 
-            : 'bg-gray-100 text-gray-800 rounded-tl-none'
+            ? 'px-3 py-2 rounded-2xl bg-primary text-white rounded-tr-none md:p-0 md:bg-transparent md:text-gray-700 md:rounded-none' 
+            : 'px-3 py-2 rounded-2xl bg-gray-100 text-gray-800 rounded-tl-none md:p-0 md:bg-transparent md:text-gray-700 md:rounded-none'
           }
         `}>
           <p className="whitespace-pre-wrap">{content || message.message}</p>
         </div>
 
         {/* Reactions and actions */}
-        <div className={`flex flex-wrap items-center gap-2 mt-1.5 ${isOwnMessage ? 'flex-row-reverse' : ''}`}>
+        <div className={`flex flex-wrap items-center gap-2 mt-1.5 ${isOwnMessage ? 'flex-row-reverse md:flex-row' : ''}`}>
           {/* Reaction buttons */}
           <div className="flex items-center gap-1">
             {commonReactions.slice(0, 3).map(reaction => {
@@ -176,12 +206,14 @@ const Message = ({ message, currentUser, onUserSelect, onReply, onReaction }) =>
                 <button
                   key={reaction}
                   onClick={() => handleReaction(reaction)}
-                  className={`px-1.5 py-0.5 rounded-full text-[10px] md:text-xs hover:bg-gray-200 transition-colors flex items-center gap-1 ${
-                    userReacted ? 'bg-primary/10 border border-primary/20' : 'bg-gray-100 border border-transparent'
+                  className={`px-2 py-0.5 rounded-full text-[10px] md:text-xs hover:bg-gray-200 transition-colors flex items-center gap-1 border ${
+                    userReacted 
+                      ? 'bg-primary/5 border-primary/20 text-primary' 
+                      : 'bg-gray-50 border-gray-200 text-gray-600'
                   }`}
                 >
                   <span>{reaction}</span>
-                  {count > 0 && <span>{count}</span>}
+                  {count > 0 && <span className="font-medium">{count}</span>}
                 </button>
               );
             })}
@@ -190,13 +222,13 @@ const Message = ({ message, currentUser, onUserSelect, onReply, onReaction }) =>
             <div className="relative">
               <button
                 onClick={() => setShowReactionPicker(!showReactionPicker)}
-                className="w-6 h-6 flex items-center justify-center bg-gray-50 border border-gray-100 rounded-full text-xs text-gray-400 hover:bg-gray-100 transition-colors"
+                className="w-6 h-6 flex items-center justify-center bg-gray-50 border border-gray-100 rounded-full text-[10px] text-gray-400 hover:bg-gray-100 transition-colors"
               >
                 +
               </button>
               
               {showReactionPicker && (
-                <div className={`absolute ${isOwnMessage ? 'right-0' : 'left-0'} bottom-full mb-2 bg-white border border-gray-100 rounded-full shadow-lg px-2 py-1 flex gap-1 z-20`}>
+                <div className={`absolute ${isOwnMessage ? 'right-0 md:left-0' : 'left-0'} bottom-full mb-2 bg-white border border-gray-100 rounded-full shadow-lg px-2 py-1 flex gap-1 z-20`}>
                   {commonReactions.map(reaction => (
                     <button
                       key={reaction}
@@ -214,41 +246,14 @@ const Message = ({ message, currentUser, onUserSelect, onReply, onReaction }) =>
           {/* Reply button */}
           <button 
             onClick={onReply}
-            className="flex items-center gap-1 text-[10px] md:text-xs text-gray-400 hover:text-primary transition-colors px-1 py-0.5"
+            className="flex items-center gap-1 text-[10px] md:text-xs text-gray-400 hover:text-primary transition-colors px-2 py-0.5 rounded-full hover:bg-gray-50"
           >
-            <Reply size={14} className="rotate-180" />
-            <span>Reply</span>
+            <Reply size={12} className="rotate-180" />
+            <span className="font-medium">reply</span>
           </button>
         </div>
       </div>
 
-      {/* Menu button */}
-      <div className={`opacity-0 group-hover:opacity-100 transition-opacity ${isOwnMessage ? 'mr-auto' : 'ml-auto'}`}>
-        <button 
-          onClick={() => setMenuPopupVisible(!menuPopupVisible)}
-          className="p-1 rounded-full hover:bg-gray-100 text-gray-400"
-        >
-          <EllipsisVertical size={16} />
-        </button>
-        
-        {menuPopupVisible && (
-          <div className={`absolute ${isOwnMessage ? 'left-4' : 'right-4'} top-8 z-30 min-w-[120px] bg-white border border-gray-100 rounded-xl shadow-xl p-1 animate-popup-in`}>
-            <button className="w-full flex items-center gap-2 px-3 py-1.5 text-xs text-gray-700 hover:bg-gray-50 rounded-lg transition-colors">
-              <Pencil size={12} />
-              <span>Edit</span>
-            </button>
-            <button className="w-full flex items-center gap-2 px-3 py-1.5 text-xs text-red-600 hover:bg-red-50 rounded-lg transition-colors">
-              <Trash2 size={12} />
-              <span>Delete</span>
-            </button>
-            <div className="my-1 border-t border-gray-100"></div>
-            <button className="w-full flex items-center gap-2 px-3 py-1.5 text-xs text-gray-700 hover:bg-gray-50 rounded-lg transition-colors">
-              <Flag size={12} />
-              <span>Report</span>
-            </button>
-          </div>
-        )}
-      </div>
     </div>
   );
 };
