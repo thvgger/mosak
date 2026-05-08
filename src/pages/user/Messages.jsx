@@ -81,6 +81,7 @@ const PaymentSentCard = ({ amount, orderId, time }) => (
 
 const OfferCard = ({ deal, time, onAcceptClick }) => {
   const [status, setStatus] = useState(deal.status);
+  const [showDeclineConfirm, setShowDeclineConfirm] = useState(false);
 
   const handleAccept = () => {
     onAcceptClick(deal, () => setStatus('Accepted'));
@@ -88,6 +89,39 @@ const OfferCard = ({ deal, time, onAcceptClick }) => {
 
   if (status === 'Accepted') {
     return <PaymentSentCard amount={deal.amount} orderId={deal.id} time={time} />;
+  }
+
+  if (showDeclineConfirm) {
+    return (
+      <div className="w-full max-w-[400px] rounded-3xl overflow-hidden bg-white shadow-xl border border-red-50 animate-in zoom-in-95 duration-300 text-left p-8 space-y-6">
+        <div className="flex flex-col items-center text-center space-y-4">
+          <div className="w-20 h-20 bg-red-50 rounded-full flex items-center justify-center text-red-500 mb-2">
+            <AlertCircle size={40} />
+          </div>
+          <h3 className="text-2xl font-bold text-gray-900">Decline Offer?</h3>
+          <p className="text-sm text-gray-500 font-medium leading-relaxed">
+            Are you sure you want to decline this offer from the seller? This action cannot be undone.
+          </p>
+        </div>
+        <div className="flex gap-4 pt-2">
+          <button 
+            onClick={() => setShowDeclineConfirm(false)}
+            className="flex-1 py-4 border-2 border-gray-200 text-gray-900 font-bold text-sm rounded-2xl hover:bg-gray-50 transition-colors uppercase tracking-wider"
+          >
+            Cancel
+          </button>
+          <button 
+            onClick={() => {
+              setStatus('Declined');
+              setShowDeclineConfirm(false);
+            }}
+            className="flex-1 py-4 bg-red-500 hover:bg-red-600 text-white font-bold text-sm rounded-2xl transition-all shadow-lg shadow-red-500/20 uppercase tracking-wider"
+          >
+            Decline
+          </button>
+        </div>
+      </div>
+    );
   }
 
   if (status === 'Declined') {
@@ -143,7 +177,7 @@ const OfferCard = ({ deal, time, onAcceptClick }) => {
         </div>
         <div className="flex gap-4 pt-2">
           <button 
-            onClick={() => setStatus('Declined')}
+            onClick={() => setShowDeclineConfirm(true)}
             className="flex-1 py-4 border-2 border-gray-200 text-gray-900 font-bold text-sm rounded-2xl hover:bg-gray-50 transition-colors"
           >
             Decline

@@ -75,7 +75,6 @@ const DashboardSidebar = ({ isMobileMenuOpen, setIsMobileMenuOpen }) => {
   const productsDropdownItems = [
     { path: '/seller/products', icon: List, label: 'All Products' },
     { path: '/seller/add-products', icon: PlusCircle, label: 'Add New Product' },
-    { path: '/seller/categories', icon: Package, label: 'Categories' },
   ];
 
   // Promotions dropdown items
