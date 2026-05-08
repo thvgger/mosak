@@ -239,8 +239,8 @@ const CommunitySidebar = ({ isOpen, onClose }) => {
         fixed md:sticky inset-y-0 md:top-20 z-50
         bg-white pt-16 md:pt-0 pb-0 md:h-[calc(100vh-80px)]
         flex flex-col transition-all duration-300
-        border-r border-gray-200
-        ${isOpen ? 'w-64' : 'w-0 md:w-64'}
+        border-r border-gray-200 overflow-hidden
+        ${isOpen ? 'w-64' : 'w-0'}
       `}>
 
         <div className="flex-1 h-full overflow-y-auto bg-[#F9FAFB]">
