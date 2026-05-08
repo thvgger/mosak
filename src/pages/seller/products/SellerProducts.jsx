@@ -111,20 +111,12 @@ const SellerProducts = () => {
       <div className="grid grid-cols-1 gap-4 md:hidden">
         {paginatedProducts.map((product) => (
           <div key={product.id} className="bg-white p-4 rounded-2xl border border-gray-100 shadow-sm space-y-4">
-            <div className="flex items-start gap-4">
+            <div className="flex items-center gap-4">
               <div className="w-16 h-16 bg-gray-100 rounded-xl flex-shrink-0 flex items-center justify-center text-gray-400">
                 <ImageIcon size={24} />
               </div>
               <div className="flex-1 min-w-0">
-                <h3 className="text-sm font-bold text-gray-900 truncate mb-1">{product.name}</h3>
-                <span className={`inline-flex px-2.5 py-0.5 text-[10px] font-bold uppercase tracking-wider rounded-lg ${getStatusColor(product.status)}`}>
-                  {product.status}
-                </span>
-              </div>
-              <div className="relative">
-                <button className="p-1 hover:bg-gray-50 rounded-lg transition-colors">
-                  <MoreVertical size={20} className="text-gray-400" />
-                </button>
+                <h3 className="text-sm font-bold text-gray-900 truncate">{product.name}</h3>
               </div>
             </div>
 
