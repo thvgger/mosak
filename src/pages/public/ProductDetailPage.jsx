@@ -249,7 +249,7 @@ const ProductDetailPage = () => {
               {/* Lightbox Modal */}
               {isLightboxOpen && (
                 <div
-                  className="fixed inset-0 bg-black/80 backdrop-blur-sm flex items-center justify-center z-100 p-4"
+                  className="fixed inset-0 bg-black/80 backdrop-blur-sm flex items-center justify-center z-1000 p-4"
                   onClick={() => setIsLightboxOpen(false)}
                 >
                   {/* Prevent closing when clicking image area */}
@@ -700,7 +700,7 @@ const ProductDetailPage = () => {
 
       {/* Escrow Modal */}
       {isEscrowModalOpen && (
-        <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-90 p-4">
+        <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-1000 p-4">
           <div className="bg-white rounded-lg shadow-xl max-w-md w-full max-h-[90vh] overflow-y-auto scrollbar-hide">
             {/* Modal Header */}
             <div className="sticky top-0 w-full bg-primary text-white flex items-center justify-between p-4 border-b">
