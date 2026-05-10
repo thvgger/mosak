@@ -141,9 +141,9 @@ const SellerOrders = () => {
                   <p className="text-[10px] md:text-xs font-bold text-gray-400 uppercase tracking-widest mb-1">{stat.label}</p>
                   <p className="text-lg md:text-2xl font-bold text-gray-900">{stat.value}</p>
                 </div>
-                <div className={`w-10 h-10 md:w-12 md:h-12 ${stat.color} bg-opacity-10 rounded-xl flex items-center justify-center group-hover:scale-110 transition-transform`}>
+                {/* <div className={`w-10 h-10 md:w-12 md:h-12 ${stat.color} bg-opacity-10 rounded-xl flex items-center justify-center group-hover:scale-110 transition-transform`}>
                   <Icon className={`w-5 h-5 md:w-6 md:h-6 ${stat.color.replace('bg-', 'text-')}`} />
-                </div>
+                </div> */}
               </div>
             </div>
           );

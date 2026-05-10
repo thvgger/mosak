@@ -151,23 +151,23 @@ const SellerDiscounts = () => {
       </div>
 
       {/* Stats Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 md:gap-4 mb-8">
         {stats.map((stat, index) => {
           const Icon = stat.icon;
           return (
-            <div key={index} className="bg-white rounded-lg border border-gray-200 p-6">
-              <div className="flex items-start justify-between">
-                <div>
-                  <p className="text-sm text-gray-500 mb-1">{stat.label}</p>
+            <div key={index} className="bg-white rounded-xl border border-gray-100 p-4 md:p-6 shadow-xs">
+              <div className="flex flex-col md:flex-row md:items-start justify-between gap-3">
+                <div className="order-2 md:order-1">
+                  <p className="text-[10px] md:text-xs font-bold text-gray-400 uppercase tracking-widest mb-1">{stat.label}</p>
                   <div className="flex items-baseline gap-2">
-                    <p className="text-2xl font-semibold">{stat.value}</p>
+                    <p className="text-lg md:text-2xl font-bold text-gray-900">{stat.value}</p>
                     {stat.subValue && (
-                      <span className="text-sm text-gray-400">{stat.subValue}</span>
+                      <span className="text-xs text-gray-400 font-medium">{stat.subValue}</span>
                     )}
                   </div>
                 </div>
-                <div className={`w-12 h-12 ${stat.color} rounded-lg flex items-center justify-center`}>
-                  <Icon className="w-6 h-6 text-white" />
+                <div className={`w-10 h-10 md:w-12 md:h-12 ${stat.color} rounded-xl flex items-center justify-center shadow-lg shadow-current/10 order-1 md:order-2`}>
+                  <Icon className="w-5 h-5 md:w-6 md:h-6 text-white" />
                 </div>
               </div>
             </div>
@@ -180,73 +180,74 @@ const SellerDiscounts = () => {
         {paginatedDiscounts.map((discount) => (
           <div 
             key={discount.id} 
-            className="bg-white rounded-lg border border-gray-200 p-6 hover:shadow-md transition-shadow cursor-pointer"
+            className="bg-white rounded-2xl border border-gray-100 p-4 md:p-6 hover:shadow-xl hover:shadow-gray-200/50 transition-all duration-300 cursor-pointer group"
             onClick={() => handleViewAnalytics(discount)}
           >
             {/* Product Name and Boost Type */}
-            <div className="flex items-center justify-between mb-4">
-              <h3 className="text-lg font-semibold text-gray-900">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-6">
+              <h3 className="text-base md:text-lg font-bold text-gray-900 group-hover:text-primary transition-colors">
                 {discount.product}
               </h3>
-              <span className={`inline-block px-3 py-1 text-xs font-medium rounded-full border ${getBoostTypeColor(discount.boostType)}`}>
+              <span className={`inline-flex items-center px-3 py-1 text-[10px] font-bold uppercase tracking-widest rounded-full border w-fit ${getBoostTypeColor(discount.boostType)}`}>
+                <Zap size={10} className="mr-1.5" />
                 {discount.boostType}
               </span>
             </div>
 
             {/* Boost Details Grid */}
-            <div className="grid grid-cols-2 md:grid-cols-5 gap-4 mb-4">
-              <div>
-                <p className="text-xs text-gray-500 mb-1">Daily Cost</p>
-                <p className="text-sm font-medium text-gray-900">{discount.dailyCost}</p>
+            <div className="grid grid-cols-2 md:grid-cols-5 gap-4 md:gap-6 mb-6 p-4 bg-gray-50 rounded-xl border border-gray-100/50">
+              <div className="space-y-1">
+                <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest">Daily Cost</p>
+                <p className="text-sm font-bold text-gray-900">{discount.dailyCost}</p>
               </div>
-              <div>
-                <p className="text-xs text-gray-500 mb-1">Remaining Days</p>
-                <p className="text-sm font-medium text-gray-900">{discount.remainingDays} days</p>
+              <div className="space-y-1">
+                <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest">Remaining Days</p>
+                <p className="text-sm font-bold text-gray-900">{discount.remainingDays} days</p>
               </div>
-              <div>
-                <p className="text-xs text-gray-500 mb-1">Views</p>
-                <p className="text-sm font-medium text-gray-900">{discount.views.toLocaleString()}</p>
+              <div className="space-y-1">
+                <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest">Views</p>
+                <p className="text-sm font-bold text-gray-900">{discount.views.toLocaleString()}</p>
               </div>
-              <div>
-                <p className="text-xs text-gray-500 mb-1">Clicks</p>
-                <p className="text-sm font-medium text-gray-900">{discount.clicks}</p>
+              <div className="space-y-1">
+                <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest">Clicks</p>
+                <p className="text-sm font-bold text-gray-900">{discount.clicks}</p>
               </div>
-              <div>
-                <p className="text-xs text-gray-500 mb-1">Started</p>
-                <p className="text-sm font-medium text-gray-900">{discount.startDate}</p>
+              <div className="space-y-1 col-span-2 md:col-span-1 border-t md:border-t-0 pt-3 md:pt-0">
+                <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest">Started</p>
+                <p className="text-sm font-bold text-gray-900">{discount.startDate}</p>
               </div>
             </div>
 
             {/* Days Left and Actions */}
-            <div className="flex items-center justify-between pt-4 border-t border-gray-100">
+            <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4 pt-4 border-t border-gray-100">
               <div className="flex items-center gap-2">
                 <Clock size={16} className="text-gray-400" />
-                <span className={`text-sm font-medium px-3 py-1 rounded-full ${getDaysLeftColor(discount.daysLeft)}`}>
+                <span className={`text-[10px] font-bold uppercase tracking-widest px-3 py-1.5 rounded-lg border ${getDaysLeftColor(discount.daysLeft)}`}>
                   {discount.daysLeft} day{discount.daysLeft !== 1 ? 's' : ''} left
                 </span>
               </div>
               
-              <div className="flex items-center gap-3" onClick={(e) => e.stopPropagation()}>
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-2 w-full lg:w-auto" onClick={(e) => e.stopPropagation()}>
                 <button
                   onClick={() => handlePause(discount.id)}
-                  className="flex items-center gap-2 px-4 py-2 border border-gray-300 rounded-lg text-sm hover:bg-gray-50"
+                  className="flex items-center justify-center gap-2 px-4 py-2.5 border border-gray-200 rounded-xl text-xs font-bold uppercase tracking-widest text-gray-600 hover:bg-gray-50 transition-all active:scale-95"
                 >
                   <Pause size={14} />
                   Pause
                 </button>
                 <button
                   onClick={() => handleExtend(discount.id)}
-                  className="flex items-center gap-2 px-4 py-2 border border-gray-300 rounded-lg text-sm hover:bg-gray-50"
+                  className="flex items-center justify-center gap-2 px-4 py-2.5 border border-gray-200 rounded-xl text-xs font-bold uppercase tracking-widest text-gray-600 hover:bg-gray-50 transition-all active:scale-95"
                 >
                   <Calendar size={14} />
-                  Extend Boost
+                  Extend
                 </button>
                 <button
                   onClick={() => handleViewAnalytics(discount)}
-                  className="flex items-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-lg text-sm hover:bg-blue-700"
+                  className="flex items-center justify-center gap-2 px-4 py-2.5 bg-primary text-white rounded-xl text-xs font-bold uppercase tracking-widest shadow-lg shadow-blue-600/20 hover:bg-primary/90 transition-all active:scale-95"
                 >
                   <BarChart3 size={14} />
-                  View Analytics
+                  Analytics
                 </button>
               </div>
             </div>

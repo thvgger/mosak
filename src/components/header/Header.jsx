@@ -3,7 +3,7 @@ import { useState, useRef, useEffect } from "react";
 import { Link, NavLink, useNavigate, useLocation } from "react-router-dom";
 import Logo from "../../assets/mosalak-logo.png";
 import avatar from "../../assets/avatar.png";
-import { X, Menu, MessageSquare, Bell } from 'lucide-react';
+import { X, Menu, MessageSquare, Bell, User as UserIcon, Store, Briefcase, Building2 } from 'lucide-react';
 import { ShoppingCart, Heart, ChevronDown, PanelRightClose } from 'lucide-react';
 import AccountPopup from "./AccountPopup";
 import { useAuth } from "../../contexts/AuthContext";
@@ -162,13 +162,28 @@ const Header = ({ isCommunity, isMobileMenuOpen, setIsMobileMenuOpen, isDashboar
                   <div ref={accountRef} className="relative"> 
                     <button 
                       onClick={() => setAccountPopup(!accountPopup)} 
-                      className={`flex items-center gap-2 cursor-pointer transition-all duration-200 ${isDashboard ? "bg-gray-50 hover:bg-gray-100 p-1 rounded-full border border-gray-100" : "p-0.5 hover:bg-gray-50 rounded-full"}`}
+                      className={`flex items-center gap-1.5 md:gap-2 cursor-pointer transition-all duration-200 ${isDashboard ? "bg-gray-50 hover:bg-gray-100 p-1 rounded-full border border-gray-100" : "p-0.5 hover:bg-gray-50 rounded-full"}`}
                     >
-                      <AvatarWithFallback 
-                        src={user?.avatar} 
-                        name={user?.full_name || 'User'} 
-                        size="w-7 h-7" 
-                      />
+                      <div className="relative flex items-center">
+                        <AvatarWithFallback 
+                          src={user?.avatar} 
+                          name={user?.full_name || 'User'} 
+                          size="w-7 h-7" 
+                        />
+                        
+                        {isDashboard && currentDashboardLabel && (
+                          <div className="lg:hidden flex items-center justify-center ml-1">
+                            <div className="bg-primary/10 w-6 h-6 rounded-full flex items-center justify-center border border-primary/20 text-primary">
+                              {currentDashboardLabel === 'Seller' ? <Store size={12} strokeWidth={2.5} /> : 
+                               currentDashboardLabel === 'Buyer' ? <UserIcon size={12} strokeWidth={2.5} /> : 
+                               currentDashboardLabel === 'Freelancer' ? <Briefcase size={12} strokeWidth={2.5} /> :
+                               currentDashboardLabel === 'Employer' ? <Building2 size={12} strokeWidth={2.5} /> :
+                               <span className="text-[10px] font-black">{currentDashboardLabel.charAt(0)}</span>
+                              }
+                            </div>
+                          </div>
+                        )}
+                      </div>
 
                       {isDashboard && currentDashboardLabel && (
                         <span className="hidden lg:block text-[10px] font-bold text-gray-500 uppercase tracking-widest px-1">
