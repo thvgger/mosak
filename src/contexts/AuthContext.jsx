@@ -12,7 +12,7 @@ let refreshInterval = null;
 
 export const AuthProvider = ({ children }) => {
   const { openModal } = useAuthModal();
-  const [user, setUser] = useState({
+  const [user, setUser] = useState("");
     /* 
     |--------------------------------------------------------------------------
     | TEMPORARY BYPASS - DELETE THIS MOCK USER WHEN AUTH IS READY
@@ -20,18 +20,17 @@ export const AuthProvider = ({ children }) => {
     | This hardcoded user allows you to access the Seller Dashboard without 
     | logging in. To restore real auth, set this back to 'useState(null)'.
     */
-    id: "mock-seller-id",
-    full_name: "Demo Seller",
-    email: "seller@example.com",
-    roles: ["SELLER", "BUYER"],
-    kyc_status: "VERIFIED",
-    business_profile: {
-      business_name: "Demo Store",
-      business_address: "123 Mock Street",
-      business_description: "A demo store for testing"
-    }
+    // id: "mock-seller-id",
+    // full_name: "Demo Seller",
+    // email: "seller@example.com",
+    // roles: ["SELLER", "BUYER"],
+    // kyc_status: "VERIFIED",
+    // business_profile: {
+    //   business_name: "Demo Store",
+    //   business_address: "123 Mock Street",
+    //   business_description: "A demo store for testing"
+    // }
     // END OF TEMPORARY BYPASS
-  });
   const [loading, setLoading] = useState(true); // Start with loading true
   const [error, setError] = useState(null);
   const [pendingVerification, setPendingVerification] = useState({
