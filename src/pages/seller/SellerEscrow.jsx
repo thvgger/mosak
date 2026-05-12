@@ -14,9 +14,12 @@ import {
   ChevronLeft
 } from 'lucide-react';
 
+import { Link, useNavigate } from 'react-router-dom';
+
 const SellerEscrow = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 5;
+  const navigate = useNavigate();
 
   // Stats data
   const stats = [
@@ -39,7 +42,7 @@ const SellerEscrow = () => {
       trendUp: true
     },
     { 
-      label: 'Processing withdrawals', 
+      label: 'Processing', 
       value: 'N500,000',
       subtext: 'Awaiting delivery',
       icon: Clock, 
@@ -48,7 +51,7 @@ const SellerEscrow = () => {
       trendUp: null
     },
     { 
-      label: 'Total lifetime earnings', 
+      label: 'Total Earnings', 
       value: 'N15,750,000',
       subtext: 'This month',
       icon: TrendingUp, 
@@ -72,8 +75,8 @@ const SellerEscrow = () => {
     {
       id: 2,
       product: 'iPhone 15 Pro Max 256GB',
-      orderId: '#ORD-1234',
-      buyerName: 'Ahmed Hassan',
+      orderId: '#ORD-1235',
+      buyerName: 'Jane Smith',
       amount: 'N1,250,000',
       escrowStatus: 'Pending Payment',
       expectedRelease: '2026-01-10'
@@ -81,8 +84,8 @@ const SellerEscrow = () => {
     {
       id: 3,
       product: 'iPhone 15 Pro Max 256GB',
-      orderId: '#ORD-1234',
-      buyerName: 'Ahmed Hassan',
+      orderId: '#ORD-1236',
+      buyerName: 'Mike Ross',
       amount: 'N1,250,000',
       escrowStatus: 'In Escrow',
       expectedRelease: '2026-01-10'
@@ -90,8 +93,8 @@ const SellerEscrow = () => {
     {
       id: 4,
       product: 'iPhone 15 Pro Max 256GB',
-      orderId: '#ORD-1234',
-      buyerName: 'Ahmed Hassan',
+      orderId: '#ORD-1237',
+      buyerName: 'Sarah John',
       amount: 'N1,250,000',
       escrowStatus: 'In Escrow',
       expectedRelease: '2026-01-10'
@@ -99,8 +102,8 @@ const SellerEscrow = () => {
     {
       id: 5,
       product: 'iPhone 15 Pro Max 256GB',
-      orderId: '#ORD-1234',
-      buyerName: 'Ahmed Hassan',
+      orderId: '#ORD-1238',
+      buyerName: 'David Lee',
       amount: 'N1,250,000',
       escrowStatus: 'Shipped',
       expectedRelease: '2026-01-10'
@@ -110,28 +113,22 @@ const SellerEscrow = () => {
   // Get status color and icon
   const getEscrowStatusStyle = (status) => {
     const styles = {
-      'Pending Payment': {
-        bg: 'bg-yellow-100',
-        text: 'text-yellow-700',
-        icon: Clock
-      },
-      'In Escrow': {
-        bg: 'bg-blue-100',
-        text: 'text-blue-700',
-        icon: Shield
-      },
-      'Shipped': {
-        bg: 'bg-purple-100',
-        text: 'text-purple-700',
-        icon: Truck
-      },
-      'Delivered': {
-        bg: 'bg-green-100',
-        text: 'text-green-700',
-        icon: CheckCircle
-      }
+      'Pending Payment': 'bg-amber-50 text-amber-600 border-amber-100',
+      'In Escrow': 'bg-blue-50 text-blue-600 border-blue-100',
+      'Shipped': 'bg-purple-50 text-purple-600 border-purple-100',
+      'Delivered': 'bg-green-50 text-green-600 border-green-100'
     };
-    return styles[status] || { bg: 'bg-gray-100', text: 'text-gray-700', icon: AlertCircle };
+    return styles[status] || 'bg-gray-50 text-gray-600 border-gray-100';
+  };
+
+  const getStatusIcon = (status) => {
+    const icons = {
+      'Pending Payment': Clock,
+      'In Escrow': Shield,
+      'Shipped': Truck,
+      'Delivered': CheckCircle
+    };
+    return icons[status] || AlertCircle;
   };
 
   // Pagination
@@ -140,28 +137,25 @@ const SellerEscrow = () => {
   const paginatedOrders = escrowOrders.slice(startIndex, startIndex + itemsPerPage);
 
   const handleViewDetails = (orderId) => {
-    console.log('View order details:', orderId);
-    // Handle view details action
+    navigate(`/seller/orders/${orderId.replace('#', '')}`);
   };
 
   const handleWithdrawFunds = () => {
-    console.log('Withdraw funds');
-    // Handle withdraw action
+    navigate('/seller/m-wallet');
   };
 
   return (
-    <div className="">
-      {/* Breadcrumb */}
-      <div className="text-sm text-gray-500 mb-6">
-        Dashboard
-      </div>
-
-      {/* Header with Withdraw Button */}
-      <div className="flex items-center justify-between mb-6">
-        <h1 className="text-2xl font-semibold">Payments</h1>
+    <div className="space-y-6 max-w-7xl mx-auto pb-12">
+      {/* Header */}
+      <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
+        <div>
+          <h1 className="text-2xl font-bold text-gray-900 mb-1">Escrow & Payments</h1>
+          <p className="text-sm text-gray-500">Track your funds and pending releases</p>
+        </div>
+        
         <button 
           onClick={handleWithdrawFunds}
-          className="flex items-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700"
+          className="bg-primary hover:bg-primary-hover text-white px-8 py-3 rounded-xl text-xs font-bold uppercase tracking-widest shadow-lg shadow-blue-600/20 transition-all active:scale-95 flex items-center justify-center gap-2"
         >
           <Wallet size={18} />
           Withdraw Funds
@@ -169,107 +163,96 @@ const SellerEscrow = () => {
       </div>
 
       {/* Stats Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
         {stats.map((stat, index) => {
           const Icon = stat.icon;
           return (
-            <div key={index} className="bg-white rounded-lg border border-gray-200 p-6">
-              <div className="flex items-start justify-between mb-2">
-                <div className={`w-10 h-10 ${stat.color} rounded-lg flex items-center justify-center`}>
-                  <Icon className="w-5 h-5 text-white" />
+            <div key={index} className="bg-white rounded-2xl border border-gray-100 p-4 md:p-6 shadow-sm group">
+              <div className="flex items-start justify-between mb-4">
+                <div className={`w-10 h-10 md:w-12 md:h-12 ${stat.color} bg-opacity-10 rounded-xl flex items-center justify-center group-hover:scale-110 transition-transform`}>
+                  <Icon className={`w-5 h-5 md:w-6 md:h-6 ${stat.color.replace('bg-', 'text-')}`} />
                 </div>
                 {stat.trend && (
-                  <div className={`flex items-center gap-1 text-xs ${
-                    stat.trendUp === true ? 'text-green-600' : 
-                    stat.trendUp === false ? 'text-red-600' : 'text-gray-600'
+                  <span className={`text-[10px] font-bold px-2 py-1 rounded-lg ${
+                    stat.trendUp === true ? 'bg-green-50 text-green-600' : 
+                    stat.trendUp === false ? 'bg-red-50 text-red-600' : 'bg-gray-50 text-gray-500'
                   }`}>
-                    {stat.trendUp === true && <ArrowUpRight size={14} />}
-                    {stat.trendUp === false && <ArrowDownRight size={14} />}
-                    <span>{stat.trend}</span>
-                  </div>
+                    {stat.trend}
+                  </span>
                 )}
               </div>
               
-              <p className="text-2xl font-semibold mb-1">{stat.value}</p>
-              <p className="text-sm text-gray-500 mb-1">{stat.label}</p>
-              <p className="text-xs text-gray-400">{stat.subtext}</p>
+              <h3 className="text-lg md:text-2xl font-bold text-gray-900 mb-1">{stat.value}</h3>
+              <p className="text-[10px] md:text-xs font-bold text-gray-400 uppercase tracking-widest">{stat.label}</p>
             </div>
           );
         })}
       </div>
 
       {/* Escrow Breakdown Section */}
-      <div className="mb-6">
-        <div className="flex items-center justify-between mb-4">
-          <h2 className="text-lg font-semibold">Escrow Funds Breakdown</h2>
-          <div className="flex items-center gap-2 text-sm text-blue-600">
-            <span>3 orders in escrow</span>
-            <ChevronRight size={16} />
-          </div>
-        </div>
-
-        {/* Escrow Protection Banner */}
-        <div className="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-6 flex items-start gap-3">
-          <Shield className="w-5 h-5 text-blue-600 shrink-0 mt-0.5" />
+      <div className="bg-white rounded-[32px] border border-gray-100 shadow-sm overflow-hidden">
+        <div className="p-6 md:p-8 flex flex-col md:flex-row md:items-center justify-between gap-6 border-b border-gray-50">
           <div>
-            <h3 className="text-sm font-medium text-blue-800 mb-1">Escrow Protection Active</h3>
-            <p className="text-xs text-blue-600">
-              Funds are held securely until the buyer confirms receipt of goods. This protects both parties in the transaction.
-            </p>
+            <h2 className="text-lg font-bold text-gray-900">Pending Releases</h2>
+            <p className="text-sm text-gray-500">Overview of all funds currently held in escrow</p>
+          </div>
+          <div className="bg-blue-50 border border-blue-100 rounded-2xl px-4 py-2 flex items-center gap-3">
+            <Shield className="w-5 h-5 text-blue-600" />
+            <p className="text-xs font-bold text-blue-800 uppercase tracking-widest">Escrow Active</p>
           </div>
         </div>
 
-        {/* Escrow Orders Table */}
-        <div className="bg-white rounded-lg border border-gray-200 overflow-hidden">
-          <table className="w-full">
-            <thead className="bg-gray-50 border-b border-gray-200">
+        {/* Desktop Table View */}
+        <div className="hidden lg:block overflow-x-auto">
+          <table className="w-full text-left">
+            <thead className="bg-gray-50/50 border-b border-gray-50">
               <tr>
-                <th className="text-left py-4 px-6 text-sm font-medium text-gray-600">Product</th>
-                <th className="text-left py-4 px-6 text-sm font-medium text-gray-600">Order ID</th>
-                <th className="text-left py-4 px-6 text-sm font-medium text-gray-600">Buyer Name</th>
-                <th className="text-left py-4 px-6 text-sm font-medium text-gray-600">Amount</th>
-                <th className="text-left py-4 px-6 text-sm font-medium text-gray-600">Escrow Status</th>
-                <th className="text-left py-4 px-6 text-sm font-medium text-gray-600">Expected Release</th>
-                <th className="text-left py-4 px-6 text-sm font-medium text-gray-600">Actions</th>
+                <th className="px-8 py-4 text-[10px] font-bold text-gray-400 uppercase tracking-widest">Product & Order</th>
+                <th className="px-8 py-4 text-[10px] font-bold text-gray-400 uppercase tracking-widest">Buyer</th>
+                <th className="px-8 py-4 text-[10px] font-bold text-gray-400 uppercase tracking-widest">Value</th>
+                <th className="px-8 py-4 text-[10px] font-bold text-gray-400 uppercase tracking-widest">Escrow Status</th>
+                <th className="px-8 py-4 text-[10px] font-bold text-gray-400 uppercase tracking-widest">Estimated Release</th>
+                <th className="px-8 py-4 text-right"></th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-gray-200">
+            <tbody className="divide-y divide-gray-50">
               {paginatedOrders.map((order) => {
-                const statusStyle = getEscrowStatusStyle(order.escrowStatus);
-                const StatusIcon = statusStyle.icon;
-                
+                const StatusIcon = getStatusIcon(order.escrowStatus);
                 return (
-                  <tr key={order.id} className="hover:bg-gray-50">
-                    <td className="py-4 px-6">
-                      <span className="text-sm text-gray-900">{order.product}</span>
-                    </td>
-                    <td className="py-4 px-6">
-                      <span className="text-sm text-gray-900 font-mono">{order.orderId}</span>
-                    </td>
-                    <td className="py-4 px-6">
-                      <span className="text-sm text-gray-900">{order.buyerName}</span>
-                    </td>
-                    <td className="py-4 px-6">
-                      <span className="text-sm text-gray-900">{order.amount}</span>
-                    </td>
-                    <td className="py-4 px-6">
-                      <div className="flex items-center gap-2">
-                        <StatusIcon size={14} className={statusStyle.text} />
-                        <span className={`inline-block px-3 py-1 text-xs font-medium rounded-full ${statusStyle.bg} ${statusStyle.text}`}>
-                          {order.escrowStatus}
-                        </span>
+                  <tr key={order.id} className="hover:bg-gray-50/80 transition-colors">
+                    <td className="px-8 py-5">
+                      <div className="space-y-0.5">
+                        <p className="text-sm font-bold text-gray-900">{order.product}</p>
+                        <p className="text-[10px] font-mono font-bold text-gray-400 uppercase">{order.orderId}</p>
                       </div>
                     </td>
-                    <td className="py-4 px-6">
-                      <span className="text-sm text-gray-600">{order.expectedRelease}</span>
+                    <td className="px-8 py-5">
+                      <div className="flex items-center gap-2">
+                        <div className="w-7 h-7 bg-primary/10 text-primary rounded-full flex items-center justify-center text-[10px] font-bold uppercase">
+                          {order.buyerName.charAt(0)}
+                        </div>
+                        <span className="text-sm font-medium text-gray-700">{order.buyerName}</span>
+                      </div>
                     </td>
-                    <td className="py-4 px-6">
+                    <td className="px-8 py-5 text-sm font-bold text-gray-900">{order.amount}</td>
+                    <td className="px-8 py-5">
+                      <span className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-lg text-[10px] font-bold uppercase tracking-tight border ${getEscrowStatusStyle(order.escrowStatus)}`}>
+                        <StatusIcon size={10} />
+                        {order.escrowStatus}
+                      </span>
+                    </td>
+                    <td className="px-8 py-5">
+                      <div className="flex items-center gap-2 text-xs font-bold text-gray-500">
+                        <Clock size={14} className="text-gray-400" />
+                        {order.expectedRelease}
+                      </div>
+                    </td>
+                    <td className="px-8 py-5 text-right">
                       <button 
-                        onClick={() => handleViewDetails(order.id)}
-                        className="flex items-center gap-1 text-blue-600 hover:text-blue-800 text-sm font-medium"
+                        onClick={() => handleViewDetails(order.orderId)}
+                        className="p-2 text-gray-400 hover:text-primary transition-colors"
                       >
-                        <Eye size={16} />
-                        View Details
+                        <ChevronRight size={18} />
                       </button>
                     </td>
                   </tr>
@@ -277,64 +260,79 @@ const SellerEscrow = () => {
               })}
             </tbody>
           </table>
-
-          {/* Empty State */}
-          {escrowOrders.length === 0 && (
-            <div className="text-center py-12">
-              <Shield className="w-12 h-12 text-gray-400 mx-auto mb-3" />
-              <p className="text-gray-500">No escrow orders found</p>
-            </div>
-          )}
         </div>
 
-        {/* Pagination */}
-        {escrowOrders.length > 0 && (
-          <div className="flex items-center justify-between mt-6">
-            <div className="text-sm text-gray-600">
-              Showing {startIndex + 1} to {Math.min(startIndex + itemsPerPage, escrowOrders.length)} of {escrowOrders.length} orders
-            </div>
-            <div className="flex items-center gap-2">
-              <button
-                onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))}
-                disabled={currentPage === 1}
-                className={`p-2 rounded border ${
-                  currentPage === 1 
-                    ? 'border-gray-200 text-gray-300 cursor-not-allowed' 
-                    : 'border-gray-300 text-gray-600 hover:bg-gray-50'
-                }`}
+        {/* Mobile View Card List */}
+        <div className="lg:hidden divide-y divide-gray-50">
+          {paginatedOrders.map((order) => {
+            const StatusIcon = getStatusIcon(order.escrowStatus);
+            return (
+              <div 
+                key={order.id} 
+                className="p-5 active:bg-gray-50 transition-colors space-y-4"
+                onClick={() => handleViewDetails(order.orderId)}
               >
-                <ChevronLeft size={18} />
-              </button>
-              
-              {[...Array(totalPages)].map((_, index) => (
-                <button
-                  key={index + 1}
-                  onClick={() => setCurrentPage(index + 1)}
-                  className={`w-8 h-8 rounded border ${
-                    currentPage === index + 1
-                      ? 'bg-blue-600 text-white border-blue-600'
-                      : 'border-gray-300 text-gray-600 hover:bg-gray-50'
-                  }`}
-                >
-                  {index + 1}
-                </button>
-              ))}
-              
-              <button
-                onClick={() => setCurrentPage(prev => Math.min(prev + 1, totalPages))}
-                disabled={currentPage === totalPages}
-                className={`p-2 rounded border ${
-                  currentPage === totalPages 
-                    ? 'border-gray-200 text-gray-300 cursor-not-allowed' 
-                    : 'border-gray-300 text-gray-600 hover:bg-gray-50'
-                }`}
-              >
-                <ChevronRight size={18} />
-              </button>
+                <div className="flex justify-between items-start gap-4">
+                  <div className="space-y-1 flex-1">
+                    <p className="text-sm font-bold text-gray-900 leading-tight">{order.product}</p>
+                    <p className="text-[10px] font-mono font-bold text-gray-400 uppercase">{order.orderId} • {order.buyerName}</p>
+                  </div>
+                  <span className="text-sm font-bold text-gray-900">{order.amount}</span>
+                </div>
+                
+                <div className="flex flex-wrap items-center justify-between gap-3">
+                  <span className={`px-2.5 py-1 rounded-lg text-[10px] font-bold uppercase tracking-tight border ${getEscrowStatusStyle(order.escrowStatus)} flex items-center gap-1.5`}>
+                    <StatusIcon size={10} />
+                    {order.escrowStatus}
+                  </span>
+                  
+                  <div className="flex items-center gap-2 text-[10px] font-bold text-gray-400 uppercase tracking-widest">
+                    <Clock size={12} />
+                    <span>Est. {order.expectedRelease}</span>
+                  </div>
+                </div>
+              </div>
+            );
+          })}
+        </div>
+
+        {/* Empty State */}
+        {escrowOrders.length === 0 && (
+          <div className="text-center py-20 px-4">
+            <div className="w-20 h-20 bg-gray-50 rounded-full flex items-center justify-center mx-auto mb-6 text-gray-200">
+              <Shield size={40} />
             </div>
+            <h3 className="text-xl font-bold text-gray-900 mb-2">No active escrow funds</h3>
+            <p className="text-sm text-gray-500 max-w-xs mx-auto">Your pending payments will appear here once buyers place orders</p>
           </div>
         )}
       </div>
+
+      {/* Pagination */}
+      {escrowOrders.length > 0 && (
+        <div className="flex flex-col sm:flex-row items-center justify-between mt-8 gap-6 px-4">
+          <div className="text-[10px] font-bold text-gray-400 uppercase tracking-[0.2em]">
+            Page {currentPage} of {totalPages}
+          </div>
+          
+          <div className="flex items-center gap-2">
+            <button
+              onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))}
+              disabled={currentPage === 1}
+              className="p-3 rounded-xl border border-gray-200 text-gray-600 hover:bg-gray-50 disabled:opacity-30 transition-all active:scale-95"
+            >
+              <ChevronLeft size={20} />
+            </button>
+            <button
+              onClick={() => setCurrentPage(prev => Math.min(prev + 1, totalPages))}
+              disabled={currentPage === totalPages}
+              className="p-3 rounded-xl border border-gray-200 text-gray-600 hover:bg-gray-50 disabled:opacity-30 transition-all active:scale-95"
+            >
+              <ChevronRight size={20} />
+            </button>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

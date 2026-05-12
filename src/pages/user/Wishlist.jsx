@@ -83,8 +83,8 @@ const Wishlist = () => {
         <div className="container mx-auto px-4">
           <div className="max-w-md mx-auto text-center">
             <div className="bg-white rounded-xl shadow-sm p-8">
-              <div className="w-20 h-20 bg-red-50 rounded-full flex items-center justify-center mx-auto mb-6">
-                <Heart className="text-red-400" size={40} fill="currentColor" />
+              <div className="w-20 h-20 bg-primary/5 rounded-full flex items-center justify-center mx-auto mb-6">
+                <Heart className="text-primary/60" size={40} fill="currentColor" />
               </div>
               <h2 className="text-2xl font-bold mb-4">Sign In Required</h2>
               <p className="text-gray-600 mb-8">
@@ -214,8 +214,8 @@ const Wishlist = () => {
         <div className="bg-white rounded-xl shadow-sm p-6 mb-8 hidden">
           <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
             <div className="flex items-center gap-4">
-              <div className="w-16 h-16 bg-red-50 rounded-full flex items-center justify-center">
-                <Heart className="text-red-500" size={28} fill="currentColor" />
+              <div className="w-16 h-16 bg-primary/5 rounded-full flex items-center justify-center">
+                <Heart className="text-primary" size={28} fill="currentColor" />
               </div>
               <div>
                 <h3 className="font-bold text-lg">Your Wishlist</h3>

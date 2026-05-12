@@ -17,7 +17,7 @@ const Preferences = () => {
   const [notifications, setNotifications] = useState({
     email: {
       orders: true,
-      promotions: false,
+      discounts: false,
       security: true,
       newsletter: false
     },

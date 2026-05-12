@@ -166,27 +166,27 @@ export const AuthProvider = ({ children }) => {
     return;
     // END OF TEMPORARY BYPASS
 
-    // try {
-    //   const response = await fetch(`${API_URL}/api/auth/me`, {
-    //     method: 'GET',
-    //     credentials: 'include',
-    //     headers: {
-    //       'Content-Type': 'application/json',
-    //     },
-    //   });
+    try {
+      const response = await fetch(`${API_URL}/api/auth/me`, {
+        method: 'GET',
+        credentials: 'include',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
 
-    //   if (response.ok) {
-    //     const data = await response.json();
-    //     setUser(data.user || data);
-    //   } else {
-    //     setUser(null);
-    //   }
-    // } catch (err) {
-    //   console.error('Auth check failed:', err);
-    //   setUser(null);
-    // } finally {
-    //   setLoading(false);
-    // }
+      if (response.ok) {
+        const data = await response.json();
+        setUser(data.user || data);
+      } else {
+        setUser(null);
+      }
+    } catch (err) {
+      console.error('Auth check failed:', err);
+      setUser(null);
+    } finally {
+      setLoading(false);
+    }
   };
 
   // Login function

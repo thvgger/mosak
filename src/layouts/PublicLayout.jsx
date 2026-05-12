@@ -16,7 +16,7 @@ const PublicLayout = ({ isMobileMenuOpen, setIsMobileMenuOpen }) => {
   // const isCommunity = [ '/community' ].includes(location.pathname);
   
   return (
-    <div className='relative pb-18 md:pb-0'>
+    <div className={`relative ${!isCommunity ? 'pb-18 md:pb-0' : ''}`}>
       {isHome && !isCommunity && <TopBanner />}
       {!isHome && !isCommunity && <TopNav />}
       <Header 

@@ -14,14 +14,30 @@ import {
   Filter,
   CheckCircle,
   Package,
-  CreditCard
+  CreditCard,
+  ChevronDown
 } from 'lucide-react';
 import { useAuth } from '../../contexts/AuthContext';
 
 const Notifications = () => {
   const { user, loading, isAuthenticated } = useAuth();
+  const [isFilterOpen, setIsFilterOpen] = useState(false);
+  const filterRef = React.useRef(null);
 
   const [filter, setFilter] = useState('all'); // 'all', 'unread', 'orders', 'payments', 'messages'
+
+  // Close dropdown when clicking outside
+  React.useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (filterRef.current && !filterRef.current.contains(event.target)) {
+        setIsFilterOpen(false);
+      }
+    };
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, []);
+
+  const tabs = ["all", "orders", "messages", "payments", "disputes"];
   const [notifications, setNotifications] = useState([
     {
       id: 1,
@@ -153,21 +169,60 @@ const Notifications = () => {
   return (
     <div className="space-y-6">
 
-      {/* FILTER TABS */}
-      <div className="flex flex-wrap gap-3">
-        {["all", "orders", "messages", "payments", "disputes"].map((tab) => (
+      {/* FILTER TABS & DROPDOWN */}
+      <div className="relative" ref={filterRef}>
+        {/* Mobile Dropdown Button */}
+        <div className="md:hidden">
           <button
-            key={tab}
-            onClick={() => setFilter(tab)}
-            className={`px-4 py-2 rounded-lg text-sm font-medium transition ${
-              filter === tab
-                ? "bg-blue-600 text-white"
-                : "bg-gray-100 text-gray-600 hover:bg-gray-200"
-            }`}
+            onClick={() => setIsFilterOpen(!isFilterOpen)}
+            className="w-full flex items-center justify-between px-4 py-2.5 bg-white border border-gray-200 rounded-xl text-sm font-semibold text-gray-700 shadow-sm"
           >
-            {tab.charAt(0).toUpperCase() + tab.slice(1)}
+            <div className="flex items-center gap-2">
+              <Filter size={16} className="text-gray-400" />
+              <span>Filter: <span className="text-primary capitalize">{filter}</span></span>
+            </div>
+            <ChevronDown size={18} className={`text-gray-400 transition-transform ${isFilterOpen ? 'rotate-180' : ''}`} />
           </button>
-        ))}
+
+          {/* Mobile Dropdown Menu */}
+          {isFilterOpen && (
+            <div className="absolute top-full left-0 right-0 mt-2 bg-white border border-gray-100 rounded-xl shadow-xl z-50 py-1 overflow-hidden">
+              {tabs.map((tab) => (
+                <button
+                  key={tab}
+                  onClick={() => {
+                    setFilter(tab);
+                    setIsFilterOpen(false);
+                  }}
+                  className={`w-full text-left px-4 py-3 text-sm font-medium capitalize transition-colors ${
+                    filter === tab
+                      ? "bg-blue-50 text-blue-600"
+                      : "text-gray-600 hover:bg-gray-50"
+                  }`}
+                >
+                  {tab}
+                </button>
+              ))}
+            </div>
+          )}
+        </div>
+
+        {/* Desktop Tabs */}
+        <div className="hidden md:flex flex-wrap gap-3">
+          {tabs.map((tab) => (
+            <button
+              key={tab}
+              onClick={() => setFilter(tab)}
+              className={`px-4 py-2 rounded-lg text-sm font-medium transition capitalize ${
+                filter === tab
+                  ? "bg-blue-600 text-white shadow-md shadow-blue-500/20"
+                  : "bg-gray-100 text-gray-600 hover:bg-gray-200"
+              }`}
+            >
+              {tab}
+            </button>
+          ))}
+        </div>
       </div>
 
       {/* NOTIFICATIONS */}

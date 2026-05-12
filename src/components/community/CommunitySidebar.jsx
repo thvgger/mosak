@@ -25,13 +25,18 @@ import {
   Settings,
   Map,
   Star,
-  Trophy
+  Trophy,
+  MoreVertical,
+  BellOff,
+  Link as LinkIcon,
+  LogOut
 } from 'lucide-react';
 // import Logo from "../../assets/mosalak-logo.png";
 import CreateChannelModal from './CreateChannelModal';
 
 const CommunitySidebar = ({ isOpen, onClose }) => {
   const [isCreateChannelModalOpen, setIsCreateChannelModalOpen] = useState(false);
+  const [openMenuId, setOpenMenuId] = useState(null);
 
   const navigate = useNavigate();
   const [expandedGroups, setExpandedGroups] = useState({
@@ -49,6 +54,18 @@ const CommunitySidebar = ({ isOpen, onClose }) => {
       [group]: !prev[group]
     }));
   };
+
+  const menuRef = React.useRef();
+
+  React.useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (menuRef.current && !menuRef.current.contains(event.target)) {
+        setOpenMenuId(null);
+      }
+    };
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, []);
 
   const channelGroups = [
      {
@@ -219,28 +236,24 @@ const CommunitySidebar = ({ isOpen, onClose }) => {
 
       {/* Sidebar */}
       <aside className={`
-        fixed md:sticky inset-y-0 top-0 z-50
-        bg-white pt-16 md:pt-0 pb-0 md:pb-20
+        fixed md:sticky inset-y-0 md:top-20 z-50
+        bg-white pt-16 md:pt-0 pb-0 md:h-[calc(100vh-80px)]
         flex flex-col transition-all duration-300
-        border-r border-gray-200
+        border-r border-gray-200 overflow-hidden
         ${isOpen ? 'w-64' : 'w-0'}
       `}>
 
-        <div className="flex-1 h-full overflow-y-auto">
-          {/* <Link to="/" className="w-full h-14 px-4 flex items-center justify-start border-b border-gray-200">
-            <img src={Logo} alt="Mosak Hub Logo" className="w-32 md:w-38 h-auto mr-auto object-cover" />
-          </Link> */}
+        <div className="flex-1 h-full overflow-y-auto bg-[#F9FAFB]">
           {/* Channels by Group */}
-          <div className="space-y-4 p-3">
+          <div className="space-y-6 p-4">
             {channelGroups.map((group) => (
               <div key={group.id} className="space-y-1">
                 {/* Group Header */}
                 <button
                   onClick={() => toggleGroup(group.id)}
-                  className="w-full flex items-center justify-between px-2 py-1.5 text-xs font-semibold text-gray-500 uppercase tracking-wider hover:text-gray-700 rounded-lg hover:bg-gray-50"
+                  className="w-full flex items-center justify-between px-2 py-1.5 text-[11px] font-bold text-gray-400 uppercase tracking-widest hover:text-gray-600 rounded-lg"
                 >
                   <div className="flex items-center gap-2">
-                    {/* <group.icon size={14} /> */}
                     <span>{group.title}</span>
                   </div>
                   {expandedGroups[group.id] ? (
@@ -252,38 +265,38 @@ const CommunitySidebar = ({ isOpen, onClose }) => {
 
                 {/* Channels */}
                 {expandedGroups[group.id] && (
-                  <div className="space-y-0.5 mt-1 ml-2">
+                  <div className="space-y-0.5 mt-1">
                     {group.channels.map((channel) => (
-                      <NavLink
-                        key={channel.path}
-                        to={channel.path}
-                        onClick={handleNavClick}
-                        className={({ isActive }) => `
-                          w-full flex items-center justify-between px-3 py-1.5 rounded-lg text-sm transition-colors
-                          ${isActive 
-                            ? 'bg-primary/10 text-primary font-medium' 
-                            : 'text-gray-600 hover:bg-gray-100'
-                          }
-                        `}
-                      >
-                        <div className="flex items-center gap-3 min-w-0">
-                          <channel.icon size={16} className="shrink-0" />
-                          <span className="truncate">{channel.name}</span>
-                          {channel.locked && <Lock size={12} className="shrink-0 text-gray-400" />}
-                        </div>
-                        <div className="flex items-center gap-2 shrink-0">
-                          {channel.badge && (
-                            <span className="px-1.5 py-0.5 text-xs bg-primary text-white rounded-full">
-                              {channel.badge}
-                            </span>
-                          )}
-                          {channel.members && (
-                            <span className="text-xs text-gray-400">
-                              {channel.members}
-                            </span>
-                          )}
-                        </div>
-                      </NavLink>
+                      <div key={channel.path} className="relative group/channel">
+                        <NavLink
+                          to={channel.path}
+                          onClick={handleNavClick}
+                          className={({ isActive }) => `
+                            w-full flex items-center px-3 py-2 rounded-lg text-sm transition-all gap-2
+                            ${isActive 
+                              ? 'bg-primary/10 text-primary font-semibold' 
+                              : 'text-gray-500 hover:bg-gray-100 hover:text-gray-700'
+                            }
+                          `}
+                        >
+                          <channel.icon size={18} className="shrink-0" />
+                          <span className="truncate flex-1">{channel.name}</span>
+                          
+                          <div className="flex items-center gap-1.5 shrink-0">
+                            {channel.locked && <Lock size={12} className="shrink-0 text-gray-400" />}
+                            {channel.badge && (
+                              <span className="px-1.5 py-0.5 text-[10px] bg-primary text-white rounded-full min-w-[18px] text-center font-bold">
+                                {channel.badge}
+                              </span>
+                            )}
+                            {channel.members && (
+                              <span className="text-xs text-gray-400">
+                                {channel.members}
+                              </span>
+                            )}
+                          </div>
+                        </NavLink>
+                      </div>
                     ))}
                   </div>
                 )}

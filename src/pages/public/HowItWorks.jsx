@@ -169,7 +169,7 @@ const HowItWorks = () => {
             points="Starting at 200 points"
           />
           <Card
-            title="Promotion Discounts"
+            title="Discounts"
             desc="Save on paid features"
             points="Redeem points for discounts"
           />

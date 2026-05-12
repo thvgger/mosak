@@ -1,6 +1,6 @@
 // App.jsx
 import AppRoutes from "./routes/AppRoutes";
-import { BrowserRouter } from "react-router-dom";
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import { MarketplaceProvider } from './contexts/MarketplaceContext';
 import { AuthProvider } from './contexts/AuthContext';
 import { AuthModalProvider } from './contexts/AuthModalContext';
@@ -26,20 +26,25 @@ const AppContent = () => {
   return <AppRoutes />;
 };
 
+const router = createBrowserRouter([
+  {
+    path: "*",
+    element: <AppContent />,
+  },
+]);
+
 function App() {
   return (
-    <BrowserRouter>
-      <AuthModalProvider>
-        <AuthProvider>
-          <ShoppingProvider>
-            <MarketplaceProvider>
-              <AuthModal />
-              <AppContent />
-            </MarketplaceProvider>
-          </ShoppingProvider>
-        </AuthProvider>
-      </AuthModalProvider>
-    </BrowserRouter>
+    <AuthModalProvider>
+      <AuthProvider>
+        <ShoppingProvider>
+          <MarketplaceProvider>
+            <AuthModal />
+            <RouterProvider router={router} />
+          </MarketplaceProvider>
+        </ShoppingProvider>
+      </AuthProvider>
+    </AuthModalProvider>
   );
 }
 

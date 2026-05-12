@@ -340,7 +340,7 @@
 
 
 // components/community/UserProfileSidebar.jsx (updated)
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { 
   X, 
   Star, 
@@ -355,17 +355,32 @@ import {
   ThumbsUp,
   MessageSquare,
   ShoppingBag,
-  Briefcase
+  Briefcase,
+  Flag,
+  Ban,
+  Share2
 } from 'lucide-react';
 import { useAuth } from '../../contexts/AuthContext';
 
 const UserProfileSidebar = ({ isOpen, onClose, selectedUser, isMobile }) => {
   const { user: currentUser } = useAuth();
   const [isDesktop, setIsDesktop] = useState(!isMobile);
+  const [showMoreMenu, setShowMoreMenu] = useState(false);
+  const moreMenuRef = useRef();
 
   useEffect(() => {
     setIsDesktop(!isMobile);
   }, [isMobile]);
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (moreMenuRef.current && !moreMenuRef.current.contains(event.target)) {
+        setShowMoreMenu(false);
+      }
+    };
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, []);
 
   if (!isOpen || !selectedUser) return null;
 
@@ -394,14 +409,14 @@ const UserProfileSidebar = ({ isOpen, onClose, selectedUser, isMobile }) => {
     isCurrentUser: currentUser?.id === selectedUser.id
   };
 
-  const getBadgesByRole = (role) => {
+  function getBadgesByRole(role) {
     const badges = ['Verified'];
     if (role === 'SELLER') badges.push('Top Seller');
     if (role === 'FREELANCER') badges.push('Top Rated');
     if (role === 'BUYER') badges.push('Trusted Buyer');
-    if (userData.kyc_status === 'VERIFIED') badges.push('KYC Verified');
+    if (selectedUser.kyc_status === 'VERIFIED') badges.push('KYC Verified');
     return badges;
-  };
+  }
 
   // Format date
   const formatDate = (dateString) => {
@@ -568,18 +583,35 @@ const UserProfileSidebar = ({ isOpen, onClose, selectedUser, isMobile }) => {
                   {userData.isCurrentUser ? 'Your Profile' : 'Message'}
                 </button>
                 {!userData.isCurrentUser && (
-                  <button className="flex-1 flex items-center justify-center gap-2 px-4 py-3 border border-gray-300 rounded-lg hover:bg-gray-50 transition text-sm font-medium">
-                    <MoreHorizontal size={16} />
-                    More
-                  </button>
+                  <div className="flex-1 relative" ref={moreMenuRef}>
+                    <button 
+                      onClick={() => setShowMoreMenu(!showMoreMenu)}
+                      className="w-full flex items-center justify-center gap-2 px-4 py-3 border border-gray-300 rounded-lg hover:bg-gray-50 transition text-sm font-medium text-gray-700"
+                    >
+                      <MoreHorizontal size={16} />
+                      More
+                    </button>
+
+                    {showMoreMenu && (
+                      <div className="absolute right-0 bottom-full mb-2 w-48 bg-white border border-gray-100 rounded-xl shadow-xl p-1 z-50 animate-popup-in">
+                        <button className="w-full flex items-center gap-3 px-3 py-2 text-sm text-gray-700 hover:bg-gray-50 rounded-lg transition-colors">
+                          <Share2 size={16} />
+                          <span>Share Profile</span>
+                        </button>
+                        <button className="w-full flex items-center gap-3 px-3 py-2 text-sm text-gray-700 hover:bg-gray-50 rounded-lg transition-colors">
+                          <Ban size={16} />
+                          <span>Block User</span>
+                        </button>
+                        <div className="my-1 border-t border-gray-100"></div>
+                        <button className="w-full flex items-center gap-3 px-3 py-2 text-sm text-red-600 hover:bg-red-50 rounded-lg transition-colors">
+                          <Flag size={16} />
+                          <span>Report User</span>
+                        </button>
+                      </div>
+                    )}
+                  </div>
                 )}
               </div>
-              
-              {!userData.isCurrentUser && (
-                <button className="w-full mt-4 text-sm text-gray-400 hover:text-red-500 transition text-center">
-                  Report User
-                </button>
-              )}
             </div>
           </div>
         </aside>
@@ -664,6 +696,35 @@ const UserProfileSidebar = ({ isOpen, onClose, selectedUser, isMobile }) => {
               <MessageCircle size={16} />
               {userData.isCurrentUser ? 'Your Profile' : 'Message'}
             </button>
+            {!userData.isCurrentUser && (
+              <div className="flex-1 relative" ref={moreMenuRef}>
+                <button 
+                  onClick={() => setShowMoreMenu(!showMoreMenu)}
+                  className="w-full flex items-center justify-center gap-2 px-4 py-3 border border-gray-300 rounded-lg hover:bg-gray-50 transition text-sm font-medium text-gray-700"
+                >
+                  <MoreHorizontal size={16} />
+                  More
+                </button>
+
+                {showMoreMenu && (
+                  <div className="absolute right-0 bottom-full mb-2 w-48 bg-white border border-gray-100 rounded-xl shadow-xl p-1 z-50 animate-popup-in">
+                    <button className="w-full flex items-center gap-3 px-3 py-2 text-sm text-gray-700 hover:bg-gray-50 rounded-lg transition-colors">
+                      <Share2 size={16} />
+                      <span>Share Profile</span>
+                    </button>
+                    <button className="w-full flex items-center gap-3 px-3 py-2 text-sm text-gray-700 hover:bg-gray-50 rounded-lg transition-colors">
+                      <Ban size={16} />
+                      <span>Block User</span>
+                    </button>
+                    <div className="my-1 border-t border-gray-100"></div>
+                    <button className="w-full flex items-center gap-3 px-3 py-2 text-sm text-red-600 hover:bg-red-50 rounded-lg transition-colors">
+                      <Flag size={16} />
+                      <span>Report User</span>
+                    </button>
+                  </div>
+                )}
+              </div>
+            )}
           </div>
         </div>
       </div>

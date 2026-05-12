@@ -16,6 +16,8 @@ import Contact from '../pages/public/Contact.jsx';
 import Leaderboards from '../pages/community/Leaderboards.jsx';
 import About from '../pages/public/About.jsx';
 import HowItWorks from '../pages/public/HowItWorks.jsx';
+import BuyerProfile from '../pages/public/BuyerProfile.jsx';
+import SellerProfile from '../pages/public/SellerProfile.jsx';
 import DisputeResolution from '../pages/public/DisputeResolution.jsx';
 import EscrowProtection from '../pages/public/EscrowProtection.jsx';
 import TrustSafety from '../pages/public/TrustSafety.jsx';
@@ -38,6 +40,7 @@ import Wishlist from "../pages/user/Wishlist";
 import Orders from '../pages/user/Orders';
 import Messages from '../pages/user/Messages';
 import Wallet from '../pages/user/Wallet';
+import Referrals from '../pages/user/Referrals';
 import Disputes from '../pages/user/Disputes';
 import Notifications from '../pages/user/Notifications';
 import AccountHelp from '../pages/user/AccountHelp';
@@ -46,6 +49,7 @@ import Verification from '../pages/user/settings/Verification';
 import Badges from '../pages/user/settings/Badges';
 import Settings from '../pages/user/settings/Settings.jsx';
 import Preferences from '../pages/user/settings/Preferences';
+import AccountSettings from '../pages/user/settings/AccountSettings';
 
 // Seller Pages
 import SellerDashboard from '../pages/seller/SellerDashboard.jsx';
@@ -54,9 +58,9 @@ import SellerAddProducts from '../pages/seller/products/SellerAddProducts.jsx';
 // import SellerProductCategories from '../pages/seller/products/SellerProductCategories.jsx';
 import ProductSubmitted from '../pages/seller/products/ProductSubmitted.jsx';
 import SellerOrders from '../pages/seller/SellerOrders.jsx';
-import SellerPromotions from '../pages/seller/promotions/SellerPromotions.jsx';
-import SellerBoost from '../pages/seller/promotions/SellerBoost.jsx';
-import SellerPromotionHistory from '../pages/seller/promotions/SellerPromotionHistory.jsx';
+import SellerDiscounts from '../pages/seller/discounts/SellerDiscounts.jsx';
+import SellerBoost from '../pages/seller/discounts/SellerBoost.jsx';
+import SellerDiscountHistory from '../pages/seller/discounts/SellerDiscountHistory.jsx';
 import SellerEscrow from '../pages/seller/SellerEscrow.jsx';
 import SellerEarnings from '../pages/seller/SellerEarnings.jsx';
 import SellerMWallet from '../pages/seller/SellerMWallet.jsx';
@@ -135,7 +139,11 @@ const AppRoutes = () => {
 
         
         {/* Updated Community Route - Now uses nested routes */}
-        <Route path="/community/*" element={<CommunityRoutes />} />
+        <Route path="/community/*" element={
+          <ProtectedRoute>
+            <CommunityRoutes />
+          </ProtectedRoute>
+        } />
         
         <Route path="/postings" element={<Postings />} />
         {/* <Route path="/leaderboards" element={<Leaderboards />} /> */}
@@ -151,6 +159,8 @@ const AppRoutes = () => {
         <Route path="/terms" element={<Terms />} />
         <Route path="/privacy" element={<Privacy />} />
         <Route path="/cookies" element={<Cookies />} />
+        <Route path="/profile/:id" element={<BuyerProfile />} />
+        <Route path="/seller-profile/:id" element={<SellerProfile />} />
         
         
         <Route path="/cart" element={
@@ -182,14 +192,11 @@ const AppRoutes = () => {
         <Route path="orders/:orderId" element={<OrderTracking />} />
         <Route path="messages" element={<Messages />} />
         <Route path="wallet" element={<Wallet />} />
+        <Route path="referrals" element={<Referrals />} />
         <Route path="disputes" element={<Disputes />} />
         <Route path="notifications" element={<Notifications />} />
         <Route path="help" element={<AccountHelp />} />
-        <Route path="profile" element={<Profile />} />
-        <Route path="verification" element={<Verification />} />
-        <Route path="badges" element={<Badges />} />
-        <Route path="settings" element={<Settings />} />
-        <Route path="preferences" element={<Preferences />} />
+        <Route path="settings" element={<AccountSettings />} />
       </Route>
 
       {/* Seller Dashboard Routes */}
@@ -207,22 +214,20 @@ const AppRoutes = () => {
         <Route path="products/submitted" element={<ProductSubmitted />} />
         {/* <Route path="categories" element={<SellerProductCategories />} /> */}
         <Route path="orders" element={<SellerOrders />} />
-        <Route path="promotions" element={<SellerPromotions />} />
+        <Route path="orders/:orderId" element={<OrderTracking />} />
+        <Route path="discounts" element={<SellerDiscounts />} />
         <Route path="boost" element={<SellerBoost />} />
-        <Route path="history" element={<SellerPromotionHistory />} />
+        <Route path="history" element={<SellerDiscountHistory />} />
         <Route path="escrow" element={<SellerEscrow />} />
         <Route path="earnings" element={<SellerEarnings />} />
         <Route path="m-wallet" element={<SellerMWallet />} />
         <Route path="analytics" element={<SellerAnalytics />} />
+        <Route path="referrals" element={<Referrals />} />
         <Route path="messages" element={<Messages />} />
         <Route path="disputes" element={<Disputes />} />
         <Route path="notifications" element={<Notifications />} />
         <Route path="help" element={<AccountHelp />} />
-        <Route path="profile" element={<Profile />} />
-        <Route path="badges" element={<Badges />} />
-        <Route path="verification" element={<Verification />} />
-        <Route path="settings" element={<Settings />} />
-        <Route path="preferences" element={<Preferences />} />
+        <Route path="settings" element={<AccountSettings />} />
       </Route>
 
       {/* Freelancer Dashboard Routes */}
@@ -241,10 +246,7 @@ const AppRoutes = () => {
         <Route path="portfolio" element={<FreelancerPortfolio />} />
         <Route path="messages" element={<Messages />} />
         <Route path="notifications" element={<Notifications />} />
-        <Route path="profile" element={<Profile />} />
-        <Route path="badges" element={<Badges />} />
-        <Route path="verification" element={<Verification />} />
-        <Route path="preferences" element={<Preferences />} />
+        <Route path="settings" element={<AccountSettings />} />
         <Route path="help" element={<AccountHelp />} />
       </Route>
 
@@ -264,10 +266,7 @@ const AppRoutes = () => {
         <Route path="proposals" element={<FreelancerProposals />} />
         <Route path="messages" element={<Messages />} />
         <Route path="notifications" element={<Notifications />} />
-        <Route path="profile" element={<Profile />} />
-        <Route path="badges" element={<Badges />} />
-        <Route path="verification" element={<Verification />} />
-        <Route path="preferences" element={<Preferences />} />
+        <Route path="settings" element={<AccountSettings />} />
         <Route path="help" element={<AccountHelp />} />
       </Route>
 

@@ -1,9 +1,11 @@
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../../contexts/AuthContext';
 import { useAuthModal } from '../../contexts/AuthModalContext';
 import SellBg from "../../assets/sell-bg.png";
 
 const Sell = () => {
+  const navigate = useNavigate();
   // const { isAuthenticated } = useAuth();
   const { hasCompleteSellerProfile } = useAuth();
   const { openModal } = useAuthModal();
@@ -31,7 +33,7 @@ const Sell = () => {
       // e.preventDefault();
       openModal('login');
     } else {
-      setShowAddModal(!showAddModal);
+      navigate('/seller/add-products');
     }
   };
 
