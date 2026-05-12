@@ -20,7 +20,8 @@ import {
   Clock,
   AlertCircle,
   PlusCircle,
-  ShieldCheck
+  ShieldCheck,
+  User as UserIcon
 } from 'lucide-react';
 import { useAuth } from '../../contexts/AuthContext';
 import { useLocation } from 'react-router-dom';
@@ -367,8 +368,8 @@ const ChatContent = ({
               {showOptions && (
                 <div className="absolute right-0 top-12 mt-2 bg-white rounded-2xl shadow-xl border border-gray-100 p-2 min-w-[200px] z-50 animate-popup-in text-gray-700 text-left">
                   <button className="flex items-center gap-3 w-full px-4 py-3 text-sm font-bold hover:bg-gray-50 rounded-xl transition-colors group">
-                    <Box size={18} className="text-gray-400 group-hover:text-primary" />
-                    <span>View Product</span>
+                    <UserIcon size={18} className="text-gray-400 group-hover:text-primary" />
+                    <span>View Profile</span>
                   </button>
                   <button 
                     onClick={() => {
@@ -499,7 +500,15 @@ const Messages = () => {
   const [isOfferModalOpen, setIsOfferModalOpen] = useState(false);
   const [selectedDeal, setSelectedDeal] = useState(null);
   const [offerAcceptedCallback, setOfferAcceptedCallback] = useState(null);
+  const [isScrolled, setIsScrolled] = useState(false);
   const optionsRef = React.useRef(null);
+
+  const handleScroll = (e) => {
+    const scrolled = e.target.scrollTop > 20;
+    if (scrolled !== isScrolled) {
+      setIsScrolled(scrolled);
+    }
+  };
 
   useEffect(() => {
     const handleClickOutside = (event) => { if (optionsRef.current && !optionsRef.current.contains(event.target)) setShowOptions(false); };
@@ -722,19 +731,27 @@ const Messages = () => {
             ${!selectedChat ? 'md:flex' : ''}
           `}
         >
-          <div className="p-6 md:p-8 border-b border-gray-50 shrink-0">
-            <h1 className="text-2xl md:text-3xl font-extrabold mb-6 md:mb-8 text-left tracking-tight">Messages</h1>
-            <div className="relative mb-6 md:mb-8">
-              <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400" size={20} />
-              <input type="text" placeholder="Search conversations..." className="w-full pl-12 pr-4 py-3 bg-gray-50 border-none rounded-2xl text-sm font-medium placeholder:text-gray-400 focus:ring-2 focus:ring-primary/5 transition-all" />
-            </div>
-            <div className='flex gap-1.5 bg-gray-100/80 p-1.5 rounded-2xl'>
-              <button className='bg-white text-gray-900 font-bold text-[10px] uppercase tracking-widest py-2.5 rounded-xl w-full shadow-sm'>All</button>
-              <button className='text-gray-500 font-bold text-[10px] uppercase tracking-widest py-2.5 rounded-xl w-full hover:bg-gray-50 transition-colors'>Unread</button>
-              <button className='text-gray-500 font-bold text-[10px] uppercase tracking-widest py-2.5 rounded-xl w-full hover:bg-gray-50 transition-colors'>Newest</button>
-            </div>
+          <div className={`shrink-0 border-b border-gray-50 transition-all duration-300 ease-out ${isScrolled ? 'p-4 md:p-5' : 'p-6 md:p-8'}`}>
+            <h1 className={`font-extrabold text-left tracking-tight transition-all duration-300 ease-out ${isScrolled ? 'text-lg md:text-xl' : 'text-2xl md:text-3xl'}`}>
+              Messages
+            </h1>
           </div>
-          <div className="flex-1 overflow-y-auto scrollbar-hide pb-20 md:pb-0">
+          <div 
+            onScroll={handleScroll}
+            className="flex-1 overflow-y-auto scrollbar-hide pb-20 md:pb-0"
+          >
+            <div className="p-4 md:p-6 pb-2">
+              <div className="relative mb-4">
+                <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400" size={18} />
+                <input type="text" placeholder="Search conversations..." className="w-full pl-11 pr-4 py-2.5 bg-gray-50 border-none rounded-2xl text-sm font-medium placeholder:text-gray-400 focus:ring-2 focus:ring-primary/5 transition-all" />
+              </div>
+              <div className='flex gap-1.5 bg-gray-100/80 p-1 rounded-2xl'>
+                <button className='bg-white text-gray-900 font-bold text-[10px] uppercase tracking-widest py-2 rounded-xl w-full shadow-sm'>All</button>
+                <button className='text-gray-500 font-bold text-[10px] uppercase tracking-widest py-2 rounded-xl w-full hover:bg-gray-50 transition-colors'>Unread</button>
+                <button className='text-gray-500 font-bold text-[10px] uppercase tracking-widest py-2 rounded-xl w-full hover:bg-gray-50 transition-colors'>Newest</button>
+              </div>
+            </div>
+
             {conversations.map((chat, idx) => (
               <button key={idx} onClick={() => handleSelectChat(chat)} className={`w-full px-4 md:px-6 py-4 md:py-5 flex items-start space-x-3 md:space-x-4 hover:bg-gray-50 transition-all border-b border-gray-50 last:border-b-0 relative group ${selectedChat?.id === chat.id ? 'bg-primary/5' : ''}`}>
                 {selectedChat?.id === chat.id && <div className="absolute left-0 top-0 bottom-0 w-1 bg-primary rounded-r-full" />}
