@@ -51,7 +51,7 @@ import Preferences from '../pages/user/settings/Preferences';
 import SellerDashboard from '../pages/seller/SellerDashboard.jsx';
 import SellerProducts from '../pages/seller/products/SellerProducts.jsx';
 import SellerAddProducts from '../pages/seller/products/SellerAddProducts.jsx';
-import SellerProductCategories from '../pages/seller/products/SellerProductCategories.jsx';
+// import SellerProductCategories from '../pages/seller/products/SellerProductCategories.jsx';
 import ProductSubmitted from '../pages/seller/products/ProductSubmitted.jsx';
 import SellerOrders from '../pages/seller/SellerOrders.jsx';
 import SellerPromotions from '../pages/seller/promotions/SellerPromotions.jsx';
@@ -205,7 +205,7 @@ const AppRoutes = () => {
         <Route path="products" element={<SellerProducts />} />
         <Route path="add-products" element={<SellerAddProducts />} />
         <Route path="products/submitted" element={<ProductSubmitted />} />
-        <Route path="categories" element={<SellerProductCategories />} />
+        {/* <Route path="categories" element={<SellerProductCategories />} /> */}
         <Route path="orders" element={<SellerOrders />} />
         <Route path="promotions" element={<SellerPromotions />} />
         <Route path="boost" element={<SellerBoost />} />
