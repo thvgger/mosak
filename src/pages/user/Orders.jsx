@@ -135,9 +135,9 @@ const Orders = () => {
           <h1 className="text-2xl font-bold text-gray-800">My Orders</h1>
           <p className="text-sm text-gray-500 my-1">Manage and track all your purchases</p>
 
-          <button className='btn text-xs' onClick={toggleOrders}>
+          {/* <button className='btn text-xs' onClick={toggleOrders}>
             {orders.length > 0 ? "Hide Orders" : "Show Orders"}
-          </button>
+          </button> */}
         </div>
       </div>
 

@@ -196,7 +196,7 @@ const AppRoutes = () => {
         <Route path="disputes" element={<Disputes />} />
         <Route path="notifications" element={<Notifications />} />
         <Route path="help" element={<AccountHelp />} />
-        <Route path="settings" element={<AccountSettings />} />
+        <Route path="settings/*" element={<AccountSettings />} />
       </Route>
 
       {/* Seller Dashboard Routes */}
@@ -227,7 +227,7 @@ const AppRoutes = () => {
         <Route path="disputes" element={<Disputes />} />
         <Route path="notifications" element={<Notifications />} />
         <Route path="help" element={<AccountHelp />} />
-        <Route path="settings" element={<AccountSettings />} />
+        <Route path="settings/*" element={<AccountSettings />} />
       </Route>
 
       {/* Freelancer Dashboard Routes */}
@@ -246,7 +246,7 @@ const AppRoutes = () => {
         <Route path="portfolio" element={<FreelancerPortfolio />} />
         <Route path="messages" element={<Messages />} />
         <Route path="notifications" element={<Notifications />} />
-        <Route path="settings" element={<AccountSettings />} />
+        <Route path="settings/*" element={<AccountSettings />} />
         <Route path="help" element={<AccountHelp />} />
       </Route>
 
@@ -266,7 +266,7 @@ const AppRoutes = () => {
         <Route path="proposals" element={<FreelancerProposals />} />
         <Route path="messages" element={<Messages />} />
         <Route path="notifications" element={<Notifications />} />
-        <Route path="settings" element={<AccountSettings />} />
+        <Route path="settings/*" element={<AccountSettings />} />
         <Route path="help" element={<AccountHelp />} />
       </Route>
 

@@ -74,7 +74,7 @@ const Settings = ({ section }) => {
 
   const renderSecurity = () => (
     <div className="space-y-6">
-      <h1 className="text-2xl font-bold text-gray-800 mb-2">Security</h1>
+      <h1 className="text-2xl font-bold text-gray-800 mb-2">Settings</h1>
       <div className="bg-white p-6 rounded-xl border border-gray-200 flex items-center justify-between">
         <div className="flex flex-col items-start gap-2">
           <h2 className="font-semibold flex items-center gap-2">

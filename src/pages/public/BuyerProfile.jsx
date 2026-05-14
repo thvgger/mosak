@@ -4,13 +4,15 @@ import {
   ChevronRight, 
   MessageSquare, 
   Share2, 
-  ShieldCheck, 
   Star, 
   Clock, 
   CheckCircle,
   Shield,
   MoreHorizontal,
-  ArrowLeft
+  ArrowLeft,
+  Heart,
+  Box,
+  TrendingUp
 } from 'lucide-react';
 import bronzeBadge from '../../assets/badges/bronze.png';
 import avatarImg from '../../assets/avatar.png';
@@ -22,11 +24,10 @@ const BuyerProfile = () => {
   const [activeTab, setActiveTab] = useState('overview');
 
   const stats = [
-    { label: 'Total Products', value: '8', icon: null },
-    { label: 'Completed Transactions', value: '340', icon: CheckCircle },
-    { label: 'Disputes', value: '2%', icon: Clock },
-    { label: 'Rating', value: '4.9', icon: Star },
-    { label: 'Active Status', value: 'Active now', icon: ShieldCheck, color: 'text-green-500' }
+    { label: 'Total Products', value: '8', icon: Box, color: 'text-blue-600' },
+    { label: 'Completed Transactions', value: '340', icon: CheckCircle, color: 'text-green-500' },
+    { label: 'Disputes', value: '2%', icon: TrendingUp, color: 'text-blue-600' },
+    { label: 'Rating', value: '4.9', icon: Star, color: 'text-gray-400' }
   ];
 
   const reviews = [
@@ -109,57 +110,62 @@ const BuyerProfile = () => {
         </button>
 
         {/* Profile Header Card */}
-        <div className="bg-white rounded-2xl border border-gray-200 p-8 mb-6 relative overflow-hidden shadow-sm">
-          <div className="absolute top-4 right-4 flex gap-2">
-            <button className="p-2 hover:bg-gray-100 rounded-full text-gray-400 transition-colors">
-              <Share2 size={20} />
+        <div className="bg-white rounded-[32px] border border-gray-100 p-10 mb-6 relative overflow-hidden shadow-sm">
+          {/* Top-left Badges */}
+          <div className="absolute top-8 left-8 flex gap-2">
+            <span className="flex items-center gap-1.5 px-3 py-1 bg-blue-50 text-blue-600 text-[10px] font-bold rounded-full border border-blue-100 uppercase tracking-tight">
+              <CheckCircle size={12} fill="currentColor" className="text-white" />
+              Verified Users
+            </span>
+            <span className="flex items-center gap-1.5 px-3 py-1 bg-orange-50 text-orange-600 text-[10px] font-bold rounded-full border border-orange-100 uppercase tracking-tight">
+              <img src={bronzeBadge} alt="" className="w-3 h-3" />
+              Bronze
+            </span>
+          </div>
+
+          {/* Top-right Icons */}
+          <div className="absolute top-8 right-8 flex gap-4">
+            <button className="text-gray-400 hover:text-red-500 transition-colors">
+              <Heart size={24} />
             </button>
-            <button className="p-2 hover:bg-gray-100 rounded-full text-gray-400 transition-colors">
-              <MoreHorizontal size={20} />
+            <button className="text-gray-400 hover:text-primary transition-colors">
+              <Share2 size={24} />
             </button>
           </div>
 
-          <div className="flex flex-col items-center">
-            <div className="relative mb-4">
+          {/* Centered Content */}
+          <div className="flex flex-col items-center mt-4">
+            <div className="relative mb-6">
               <img 
                 src={avatarImg} 
                 alt="Stacey Samuel" 
-                className="w-24 h-24 rounded-full object-cover border-4 border-white shadow-sm"
+                className="w-32 h-32 rounded-full object-cover border-4 border-white shadow-xl"
               />
             </div>
             
-            <h1 className="text-2xl font-bold text-gray-900 mb-1">Stacey Samuel</h1>
-            <p className="text-sm text-gray-500 mb-4 font-medium">Member since Oct 2023</p>
+            <h1 className="text-3xl font-bold text-gray-900 mb-1">Stacey Samuel</h1>
+            <p className="text-sm text-gray-500 mb-8 font-medium">Member since Jan 2025</p>
 
-            <div className="flex items-center gap-3 mb-6">
-              <span className="flex items-center gap-1.5 px-3.5 py-1.5 bg-blue-50 text-primary text-xs font-bold rounded-full border border-blue-100 tracking-wide uppercase">
-                <CheckCircle size={12} fill="currentColor" className="text-white" />
-                Verified
-              </span>
-              <span className="flex items-center gap-1.5 px-3.5 py-1.5 bg-orange-50 text-orange-600 text-xs font-bold rounded-full border border-orange-100 tracking-wide uppercase">
-                <img src={bronzeBadge} alt="" className="w-3.5 h-3.5" />
-                Bronze
-              </span>
-            </div>
-
-            {/* <button className="flex items-center gap-2 px-10 py-3 bg-primary text-white rounded-full font-bold hover:bg-primary-hover transition-all shadow-md shadow-primary/20">
-              <MessageSquare size={18} />
+            <button className="flex items-center gap-2 px-10 py-3.5 border-2 border-blue-600 text-blue-600 bg-white rounded-xl font-bold hover:bg-blue-50 transition-all active:scale-95">
+              <MessageSquare size={18} fill="currentColor" />
               Message User
-            </button> */}
+            </button>
           </div>
         </div>
 
         {/* Stats Row */}
-        <div className="grid grid-cols-2 md:grid-cols-5 gap-4 mb-8">
-          {stats.map((stat, i) => (
-            <div key={i} className="bg-white rounded-xl border border-gray-200 p-6 flex flex-col items-center justify-center text-center shadow-sm">
-              <div className="flex items-center gap-2 mb-2">
-                {stat.icon && <stat.icon size={18} className={stat.color || 'text-primary'} />}
-                <span className="text-xl font-bold text-gray-900">{stat.value}</span>
+        <div className="bg-white rounded-2xl border border-gray-100 shadow-sm mb-12 overflow-hidden">
+          <div className="grid grid-cols-2 md:grid-cols-4 divide-y md:divide-y-0 md:divide-x divide-gray-100">
+            {stats.map((stat, i) => (
+              <div key={i} className="px-8 py-8 flex flex-col items-center justify-center text-center hover:bg-gray-50 transition-colors">
+                <div className="flex items-center gap-2 mb-2">
+                  {stat.icon && <stat.icon size={20} className={stat.color || 'text-blue-600'} />}
+                  <span className="text-2xl font-black text-gray-900">{stat.value}</span>
+                </div>
+                <span className="text-[10px] text-gray-400 font-bold uppercase tracking-[0.2em]">{stat.label}</span>
               </div>
-              <span className="text-xs text-gray-400 font-bold uppercase tracking-wider">{stat.label}</span>
-            </div>
-          ))}
+            ))}
+          </div>
         </div>
 
         {/* Tabs */}

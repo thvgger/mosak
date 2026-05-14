@@ -38,7 +38,7 @@ export const AuthProvider = ({ children }) => {
     timestamp: null,
     isPending: false
   });
-  
+
   // Use ref to track if token refresh is in progress
   const isRefreshing = useRef(false);
   // Store pending requests to avoid multiple refreshes
@@ -51,7 +51,7 @@ export const AuthProvider = ({ children }) => {
       const pendingData = JSON.parse(savedPending);
       const now = Date.now();
       const fifteenMinutes = 15 * 60 * 1000;
-      
+
       if (now - pendingData.timestamp < fifteenMinutes) {
         setPendingVerification(pendingData);
       } else {
@@ -72,7 +72,7 @@ export const AuthProvider = ({ children }) => {
     } else {
       stopTokenRefresh();
     }
-    
+
     return () => {
       stopTokenRefresh();
     };
@@ -82,7 +82,7 @@ export const AuthProvider = ({ children }) => {
     if (refreshInterval) {
       clearInterval(refreshInterval);
     }
-    
+
     refreshInterval = setInterval(() => {
       refreshToken();
     }, TOKEN_REFRESH_INTERVAL);
@@ -128,10 +128,10 @@ export const AuthProvider = ({ children }) => {
 
     if (!isRefreshing.current) {
       let response = await makeRequest();
-      
+
       if (response.status === 401 && user) {
         isRefreshing.current = true;
-        
+
         try {
           const refreshSuccess = await refreshToken();
           if (refreshSuccess) {
@@ -145,10 +145,10 @@ export const AuthProvider = ({ children }) => {
           processQueue();
         }
       }
-      
+
       return response;
     }
-    
+
     return queueRequest(makeRequest);
   }, [user]);
 
@@ -223,10 +223,10 @@ export const AuthProvider = ({ children }) => {
       // Clear pending verification
       localStorage.removeItem('pendingVerification');
       setPendingVerification({ email: null, timestamp: null, isPending: false });
-      
+
       // Set user from response
       setUser(data.user);
-      
+
       return { success: true, user: data.user };
     } catch (err) {
       setError(err.message);
@@ -275,11 +275,11 @@ export const AuthProvider = ({ children }) => {
       localStorage.setItem('pendingVerification', JSON.stringify(pendingData));
       setPendingVerification(pendingData);
 
-      return { 
-        success: true, 
+      return {
+        success: true,
         message: data.message,
         requiresVerification: true,
-        email: userData.email 
+        email: userData.email
       };
     } catch (err) {
       setError(err.message);
@@ -293,7 +293,7 @@ export const AuthProvider = ({ children }) => {
   const verifyEmail = async (email, otp) => {
     setError(null);
     setLoading(true);
-  
+
     try {
       const response = await fetch(`${API_URL}/api/auth/verify-email`, {
         method: 'POST',
@@ -303,7 +303,7 @@ export const AuthProvider = ({ children }) => {
         },
         body: JSON.stringify({ email, otp }),
       });
-  
+
       const data = await response.json();
 
       if (!response.ok) {
@@ -312,10 +312,10 @@ export const AuthProvider = ({ children }) => {
 
       localStorage.removeItem('pendingVerification');
       setPendingVerification({ email: null, timestamp: null, isPending: false });
-      
+
       setUser(data.user);
       startTokenRefresh();
-      
+
       return { success: true, user: data.user };
     } catch (err) {
       setError(err.message);
@@ -379,12 +379,12 @@ export const AuthProvider = ({ children }) => {
       }
 
       const data = await response.json();
-      
+
       // Update user if returned in response
       if (data.user) {
         setUser(data.user);
       }
-      
+
       return true;
     } catch (err) {
       console.error('Token refresh failed:', err);
@@ -435,9 +435,9 @@ export const AuthProvider = ({ children }) => {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ 
-          current_password: currentPassword, 
-          new_password: newPassword 
+        body: JSON.stringify({
+          current_password: currentPassword,
+          new_password: newPassword
         }),
       });
 
@@ -489,26 +489,26 @@ export const AuthProvider = ({ children }) => {
   // Logout function
   const logout = async () => {
     setLoading(true);
-    
+
     try {
       await fetch(`${API_URL}/api/auth/logout`, {
         method: 'POST',
         credentials: 'include',
       });
-      
+
       // Clear all auth-related state
       setUser(null);
       localStorage.removeItem('pendingVerification');
       setPendingVerification({ email: null, timestamp: null, isPending: false });
       checkAuthStatus();
-      
+
       // Stop token refresh
       stopTokenRefresh();
-      
+
       // Clear any pending requests
       pendingRequests.current = [];
       isRefreshing.current = false;
-      
+
       return { success: true };
     } catch (err) {
       console.error('Logout error:', err);
@@ -617,7 +617,7 @@ export const AuthProvider = ({ children }) => {
         ...prevUser,
         roles: data.roles || prevUser?.roles
       }));
-      
+
       return { success: true, roles: data.roles };
     } catch (err) {
       setError(err.message);
@@ -633,7 +633,7 @@ export const AuthProvider = ({ children }) => {
 
     try {
       console.log('Sending profile data:', profileData);
-      
+
       const response = await fetch(`${API_URL}/api/users/profile?type=business`, {
         method: 'POST',
         credentials: 'include',
@@ -659,7 +659,7 @@ export const AuthProvider = ({ children }) => {
             },
             body: JSON.stringify(profileData),
           });
-          
+
           if (updateResponse.ok) {
             const updateData = await updateResponse.json();
             await refreshUserData();
@@ -671,7 +671,7 @@ export const AuthProvider = ({ children }) => {
 
       // Force refresh user data to get the new profile
       await refreshUserData();
-      
+
       return { success: true, profile: data.profile };
     } catch (err) {
       console.error('Create business profile error:', err);
@@ -686,10 +686,10 @@ export const AuthProvider = ({ children }) => {
   // In AuthContext.jsx, update the becomeSeller function:
   const becomeSeller = async (businessData) => {
     setError(null);
-    
+
     try {
       let hasSellerRole = false;
-      
+
       // Step 1: Check if user already has SELLER role
       if (user?.roles?.includes('SELLER')) {
         hasSellerRole = true;
@@ -697,7 +697,7 @@ export const AuthProvider = ({ children }) => {
       } else {
         // Try to add SELLER role
         const roleResult = await addRole({ role: 'SELLER' });
-        
+
         if (!roleResult.success) {
           // If error is not "already assigned", throw it
           if (!roleResult.error?.includes('already assigned') && !roleResult.error?.includes('already has this role')) {
@@ -709,14 +709,14 @@ export const AuthProvider = ({ children }) => {
           hasSellerRole = true;
         }
       }
-      
+
       // Step 2: Check if business profile already exists
       const existingProfile = user?.business_profile;
       if (existingProfile?.business_name && existingProfile?.business_address && existingProfile?.business_description) {
         console.log('Business profile already exists, no need to create');
         return { success: true, user, message: 'Profile already exists' };
       }
-      
+
       // Step 3: Create or update business profile
       console.log('Creating business profile with data:', businessData);
       const profileResult = await createBusinessProfile({
@@ -724,14 +724,14 @@ export const AuthProvider = ({ children }) => {
         business_address: businessData.business_address,
         business_description: businessData.business_description,
       });
-      
+
       if (!profileResult.success) {
         throw new Error(profileResult.error);
       }
-      
+
       // Step 4: Force refresh user data
       await refreshUserData();
-      
+
       return { success: true, user: profileResult.user };
     } catch (err) {
       console.error('Become seller error:', err);
@@ -748,11 +748,11 @@ export const AuthProvider = ({ children }) => {
     try {
       // Step 1: Add BUYER role
       const roleResult = await addRole({ role: 'BUYER' });
-      
+
       if (!roleResult.success && !roleResult.error?.includes('already assigned')) {
         throw new Error(roleResult.error);
       }
-      
+
       // Step 2: If buyer data provided, create buyer profile
       if (buyerData && (buyerData.address || buyerData.date_of_birth)) {
         const profileResponse = await fetch(`${API_URL}/api/users/profile?type=buyer`, {
@@ -766,13 +766,13 @@ export const AuthProvider = ({ children }) => {
             date_of_birth: buyerData.date_of_birth
           }),
         });
-        
+
         if (!profileResponse.ok) {
           const profileData = await profileResponse.json();
           throw new Error(profileData.message || 'Failed to create buyer profile');
         }
       }
-      
+
       await checkAuthStatus();
       return { success: true };
     } catch (err) {
@@ -789,29 +789,29 @@ export const AuthProvider = ({ children }) => {
       console.log('No user object');
       return false;
     }
-    
+
     const hasSellerRole = user.roles?.includes('SELLER');
     console.log('Has seller role:', hasSellerRole);
-    
+
     if (!hasSellerRole) {
       console.log('User does not have SELLER role');
       return false;
     }
-    
+
     const businessProfile = user.business_profile;
     console.log('Business profile object:', businessProfile);
-    
+
     if (!businessProfile) {
       console.log('No business_profile found in user object');
       return false;
     }
-    
+
     const { business_name, business_address, business_description } = businessProfile;
     const isComplete = !!(business_name && business_address && business_description);
-    
+
     console.log('Profile fields:', { business_name, business_address, business_description });
     console.log('Is profile complete?', isComplete);
-    
+
     return isComplete;
   };
 
@@ -841,8 +841,8 @@ export const AuthProvider = ({ children }) => {
       checkAuthStatus,
       resendOtp,
       clearPendingVerification,
-      becomeBuyer, 
-      becomeSeller, 
+      becomeBuyer,
+      becomeSeller,
       hasCompleteSellerProfile,
       addRole,
       createBusinessProfile,

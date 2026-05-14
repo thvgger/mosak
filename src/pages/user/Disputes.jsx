@@ -205,9 +205,9 @@ const Disputes = () => {
               </div>
             </div>
 
-            <button className='btn text-xs' onClick={toggleDisputes}>
+            {/* <button className='btn text-xs' onClick={toggleDisputes}>
               {disputes.length > 0 ? "Hide Disputes" : "Show Disputes"}
-            </button>
+            </button> */}
           </div>
         </div>
 

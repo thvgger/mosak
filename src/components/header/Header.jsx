@@ -208,13 +208,13 @@ const Header = ({ isCommunity, isMobileMenuOpen, setIsMobileMenuOpen, isDashboar
             ) : (
               <div className="flex items-center gap-2">
                 <button 
-                  className="hidden xs:flex px-4 py-2 text-primary font-bold text-xs uppercase tracking-widest hover:bg-primary/5 rounded-xl transition-all"
+                  className="btn btn-text border border-primary text-primary px-4"
                   onClick={() => openModal("login")}
                 >
                   Login
                 </button>
                 <button 
-                  className="bg-primary hover:bg-primary-hover text-white px-5 py-2.5 rounded-xl text-xs font-bold uppercase tracking-widest shadow-lg shadow-blue-600/20 transition-all"
+                  className="btn"
                   onClick={() => openModal("role")}
                 >
                   Sign Up
@@ -239,19 +239,19 @@ const Header = ({ isCommunity, isMobileMenuOpen, setIsMobileMenuOpen, isDashboar
           </div>
 
           {/* Mobile Menu */}
-          <div className={`lg:hidden flex fixed left-0 top-16 md:top-20 w-[80vw] sm:w-80 h-[calc(100vh-64px)] md:h-[calc(100vh-80px)] bg-white z-60 transition-all duration-400 ease-in-out border-r border-gray-100 shadow-2xl ${isMenuOpen ? "translate-x-0" : "-translate-x-full" }`}>
-            <div className="w-full flex flex-col p-8 bg-white h-full">
-              <nav className="flex flex-col gap-8 items-start mb-auto">
-                <NavLink to="/" className="text-lg font-bold text-gray-900 hover:text-primary transition-colors" onClick={()=> { setIsMenuOpen(false); }}> Home </NavLink>
-                <NavLink to="/marketplace" className="text-lg font-bold text-gray-900 hover:text-primary transition-colors" onClick={()=> { setIsMenuOpen(false); }}> Market Place </NavLink>
-                <NavLink to="/community" className="text-lg font-bold text-gray-900 hover:text-primary transition-colors" onClick={()=> { setIsMenuOpen(false); }}> Community </NavLink>
-                <NavLink to="/postings" className="text-lg font-bold text-gray-900 hover:text-primary transition-colors" onClick={()=> { setIsMenuOpen(false); }}> Postings </NavLink>
-              </nav>
+          <div className={`lg:hidden flex fixed left-0 top-16 md:top-20 w-[75vw] sm:w-[50vw] h-screen bg-white z-60 py-6 transition-all duration-400 ${isMenuOpen ? "translate-x-0" : "-translate-x-full" }`}>
+            <div className="container flex flex-col gap-6 items-start">
+              <NavLink to="/" className={navlink} onClick={()=> { setIsMenuOpen(false); }}> Home </NavLink>
+              <NavLink to="/marketplace" className={navlink} onClick={()=> { setIsMenuOpen(false); }}> Market Place </NavLink>
+              {/* <NavLink to="/freelance" className={navlink} onClick={()=> { setIsMenuOpen(false); }}> Freelance </NavLink> */}
+              <NavLink to="/community" className={navlink} onClick={()=> { setIsMenuOpen(false); }}> Community </NavLink>
+              <NavLink to="/postings" className={navlink} onClick={()=> { setIsMenuOpen(false); }}> Postings </NavLink>
+              {/* <NavLink to="/leaderboards" className={navlink} onClick={()=> { setIsMenuOpen(false); }}> Leaderboards </NavLink> */}
               
               {!isAuthenticated && (
-                <div className="flex flex-col gap-3 pt-8 border-t border-gray-50">
+                <div className="space-x-2.5 flex md:hidden">
                   <button 
-                    className="w-full py-4 border border-gray-200 text-gray-700 font-bold rounded-2xl text-sm uppercase tracking-widest hover:bg-gray-50"
+                    className="btn btn-tertiary"
                     onClick={() => {
                       setIsMenuOpen(false);
                       openModal("login");
@@ -260,28 +260,17 @@ const Header = ({ isCommunity, isMobileMenuOpen, setIsMobileMenuOpen, isDashboar
                     Login
                   </button>
                   <button 
-                    className="w-full py-4 bg-primary text-white font-bold rounded-2xl text-sm uppercase tracking-widest shadow-lg shadow-blue-600/20"
+                    className="btn"
                     onClick={() => {
                       setIsMenuOpen(false);
                       openModal("role");
                     }}
                   >
-                    Create Account
+                    Sign Up
                   </button>
                 </div>
               )}
 
-              {isAuthenticated && (
-                <div className="pt-8 border-t border-gray-50 mt-8">
-                  <Link 
-                    to="/sell" 
-                    className="w-full flex items-center justify-center py-4 bg-primary text-white font-bold rounded-2xl text-sm uppercase tracking-widest shadow-lg shadow-blue-600/20 mb-8"
-                    onClick={() => setIsMenuOpen(false)}
-                  >
-                    Sell Something
-                  </Link>
-                </div>
-              )}
             </div>
           </div>
         </div>

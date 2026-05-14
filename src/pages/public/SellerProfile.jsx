@@ -36,8 +36,7 @@ const SellerProfile = () => {
     { label: 'Total Products', value: '8', icon: LayoutGrid },
     { label: 'Completed Sales', value: '340', icon: CheckCircle },
     { label: 'Completion Rate', value: '98%', icon: TrendingUp },
-    { label: 'Dispute Resolution', value: '4.9', icon: Star },
-    { label: 'Last Active', value: 'Active now', icon: ShieldCheck, color: 'text-green-500' }
+    { label: 'Dispute Resolution', value: '4.9', icon: Star }
   ];
 
   const products = [
@@ -232,7 +231,7 @@ const SellerProfile = () => {
         </div>
 
         {/* Stats Row */}
-        <div className="grid grid-cols-2 md:grid-cols-5 gap-4 mb-12">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-12">
           {sellerStats.map((stat, i) => (
             <div key={i} className="bg-white rounded-[24px] border border-gray-100 p-6 flex flex-col items-center justify-center text-center shadow-sm hover:shadow-md transition-shadow">
               <div className="flex items-center gap-2 mb-2">
