@@ -37,7 +37,7 @@ const OrderTracking = () => {
         <div className="space-y-6">
           
           {/* Status Banner */}
-          <div className="bg-white border-2 border-[#0024FF]/10 rounded-[24px] p-8 shadow-sm">
+          <div className="bg-white border-2 border-[#0024FF]/10 rounded-xl p-8 shadow-sm">
             <div className="inline-flex items-center gap-2 bg-[#8B9CFF] text-white px-5 py-2.5 rounded-xl font-bold text-sm mb-6">
               <ShieldCheck size={18} fill="white" className="text-[#8B9CFF]" />
               Payment Held in Escrow
@@ -52,7 +52,7 @@ const OrderTracking = () => {
           </div>
 
           {/* Delivery Information */}
-          <div className="bg-white rounded-[24px] overflow-hidden shadow-sm border border-gray-100">
+          <div className="bg-white rounded-xl overflow-hidden shadow-sm border border-gray-100">
             <div className="bg-[#DDE4FF] px-8 py-5 flex items-center gap-3">
               <Truck size={24} className="text-[#0024FF]" />
               <h3 className="text-lg font-bold text-gray-900">Delivery Information</h3>
@@ -135,12 +135,12 @@ const OrderTracking = () => {
           </div>
 
           {/* Bottom Actions */}
-          <div className="flex gap-4 p-8 bg-white rounded-[24px] border border-gray-100 shadow-sm">
-            <button className="flex items-center justify-center gap-2 flex-1 py-4 border-2 border-blue-600 text-blue-600 font-bold rounded-xl hover:bg-blue-50 transition-all">
+          <div className="flex flex-col sm:flex-row gap-3 md:gap-4 p-6 md:p-8 bg-white rounded-xl border border-gray-100 shadow-sm">
+            <button className="flex items-center justify-center gap-2 w-full sm:flex-1 py-4 border-2 border-blue-600 text-blue-600 font-bold rounded-xl hover:bg-blue-50 transition-all text-sm">
               <MessageCircle size={20} fill="currentColor" className="opacity-10" />
               Chat with seller
             </button>
-            <button className="flex items-center justify-center gap-2 flex-1 py-4 border-2 border-gray-200 text-gray-500 font-bold rounded-xl hover:bg-gray-50 transition-all">
+            <button className="flex items-center justify-center gap-2 w-full sm:flex-1 py-4 border-2 border-gray-200 text-gray-500 font-bold rounded-xl hover:bg-gray-50 transition-all text-sm">
               <ShieldAlert size={20} />
               Report an issue
             </button>
@@ -153,7 +153,7 @@ const OrderTracking = () => {
         <div className="space-y-6">
           
           {/* Order Summary */}
-          <div className="bg-[#EEF2FF] rounded-[24px] overflow-hidden shadow-sm">
+          <div className="bg-[#EEF2FF] rounded-xl overflow-hidden shadow-sm">
             <div className="px-8 py-6 flex items-center gap-3 border-b border-white/50">
               <Truck size={24} className="text-[#0024FF]" />
               <h3 className="text-lg font-bold text-gray-900">Order Summary</h3>
@@ -186,13 +186,13 @@ const OrderTracking = () => {
           </div>
 
           {/* Payment Protected Card */}
-          <div className="bg-[#DDE4FF] rounded-[24px] p-8 shadow-sm border border-blue-100">
+          <div className="bg-[#DDE4FF] rounded-xl p-8 shadow-sm border border-blue-100">
             <div className="flex items-center gap-2 text-[#0024FF] font-black uppercase tracking-[0.1em] text-xs mb-6">
               <ShieldCheck size={20} fill="#0024FF" className="text-white" />
               Your Payment is Protected
             </div>
             
-            <div className="bg-white rounded-2xl p-4 flex items-center justify-between mb-2 shadow-sm border border-blue-50">
+            <div className="bg-white rounded-xl p-4 flex items-center justify-between mb-2 shadow-sm border border-blue-50">
               <span className="text-xs font-bold text-gray-400 uppercase tracking-wider">Amount held</span>
               <div className="flex items-center gap-2 text-[#0024FF] font-black text-lg">
                 <Lock size={18} />
@@ -210,13 +210,13 @@ const OrderTracking = () => {
               </p>
             </div>
 
-            <button className="w-full bg-[#0024FF] hover:bg-blue-700 text-white font-black py-5 rounded-2xl transition-all shadow-xl shadow-blue-600/20 uppercase tracking-widest text-xs">
+            <button className="w-full bg-[#0024FF] hover:bg-blue-700 text-white font-black py-5 rounded-xl transition-all shadow-xl shadow-blue-600/20 uppercase tracking-widest text-xs">
               Report an Issue
             </button>
           </div>
 
           {/* Seller Information */}
-          <div className="bg-[#F8F9FB] border border-gray-100 rounded-[24px] p-8 shadow-sm">
+          <div className="bg-[#F8F9FB] border border-gray-100 rounded-xl p-8 shadow-sm">
             <h3 className="text-lg font-bold text-gray-900 mb-6">Seller Information</h3>
             
             <div className="flex items-center gap-4 mb-8">
@@ -254,7 +254,7 @@ const OrderTracking = () => {
           </div>
 
           {/* Developer Tool: Select Order State */}
-          <div className="bg-[#DDE4FF] rounded-[24px] p-8 shadow-sm border border-blue-100">
+          <div className="bg-[#DDE4FF] rounded-xl p-8 shadow-sm border border-blue-100">
              <p className="text-[10px] font-black text-blue-700 uppercase tracking-widest mb-4">HERE: Select Order State</p>
              <div className="relative">
                 <select 

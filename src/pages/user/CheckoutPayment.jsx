@@ -71,14 +71,14 @@ const CheckoutPayment = () => {
         <div className="flex flex-col lg:flex-row gap-8">
           {/* Left Column - Payment Form */}
           <div className="lg:w-2/3">
-            <div className="bg-white rounded-lg shadow-sm p-6">
+            <div className="bg-white rounded-xl shadow-sm p-6">
               <h2 className="text-2xl font-bold mb-6">Payment Method</h2>
 
               {/* Payment Method Selection */}
               <div className="space-y-4 mb-8">
                 {/* Card Payment */}
                 <div 
-                  className={`border rounded-lg p-4 cursor-pointer transition flex items-start justify-between gap-2 ${paymentMethod === 'card' ? 'border-blue-600 bg-blue-50' : 'border-gray-300 hover:border-gray-400'}`}
+                  className={`border rounded-xl p-4 cursor-pointer transition flex items-start justify-between gap-2 ${paymentMethod === 'card' ? 'border-blue-600 bg-blue-50' : 'border-gray-300 hover:border-gray-400'}`}
                   onClick={() => setPaymentMethod('card')}
                 >
                   <div className={`w-4 h-4 rounded-full border flex items-center justify-center ${paymentMethod === 'card' ? 'border-blue-600 bg-blue-600' : 'border-gray-400'}`}>
@@ -102,7 +102,7 @@ const CheckoutPayment = () => {
 
                 {/* Bank Transfer */}
                 <div 
-                  className={`border rounded-lg p-4 cursor-pointer transition ${paymentMethod === 'bank' ? 'border-blue-600 bg-blue-50' : 'border-gray-300 hover:border-gray-400'}`}
+                  className={`border rounded-xl p-4 cursor-pointer transition ${paymentMethod === 'bank' ? 'border-blue-600 bg-blue-50' : 'border-gray-300 hover:border-gray-400'}`}
                   onClick={() => setPaymentMethod('bank')}
                 >
                   <div className="flex items-center gap-3">
@@ -119,7 +119,7 @@ const CheckoutPayment = () => {
 
                 {/* Pay From Wallet */}
                 {/* <div 
-                  className={`border rounded-lg p-4 cursor-pointer transition ${paymentMethod === 'wallet' ? 'border-blue-600 bg-blue-50' : 'border-gray-300 hover:border-gray-400'}`}
+                  className={`border rounded-xl p-4 cursor-pointer transition ${paymentMethod === 'wallet' ? 'border-blue-600 bg-blue-50' : 'border-gray-300 hover:border-gray-400'}`}
                   onClick={() => setPaymentMethod('wallet')}
                 >
                   <div className="flex items-center gap-3">
@@ -150,7 +150,7 @@ const CheckoutPayment = () => {
                         value={cardInfo.cardName}
                         onChange={handleCardChange}
                         placeholder="Enter card name"
-                        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition"
+                        className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition"
                         required
                       />
                     </div>
@@ -166,7 +166,7 @@ const CheckoutPayment = () => {
                         value={cardInfo.cardNumber}
                         onChange={handleCardChange}
                         placeholder="Enter your card number"
-                        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition"
+                        className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition"
                         required
                       />
                     </div>
@@ -183,7 +183,7 @@ const CheckoutPayment = () => {
                           value={cardInfo.expiryDate}
                           onChange={handleCardChange}
                           placeholder="MM/YY"
-                          className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition"
+                          className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition"
                           required
                         />
                       </div>
@@ -198,7 +198,7 @@ const CheckoutPayment = () => {
                           value={cardInfo.cvv}
                           onChange={handleCardChange}
                           placeholder="123"
-                          className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition"
+                          className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition"
                           required
                         />
                       </div>
@@ -225,14 +225,14 @@ const CheckoutPayment = () => {
               <div className="flex flex-col sm:flex-row gap-4 mt-8 pt-6 border-t">
                 <Link
                   to="/checkout"
-                  className="px-6 py-3 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50 transition flex items-center justify-center gap-2"
+                  className="w-full sm:w-auto px-6 py-3 border border-gray-300 rounded-xl text-gray-700 hover:bg-gray-50 transition flex items-center justify-center gap-2"
                 >
                   <ArrowLeft size={18} />
                   Back to Delivery
                 </Link>
                 <button
                   onClick={handleSubmit}
-                  className="flex-1 bg-blue-600 text-white py-3 rounded-lg hover:bg-blue-700 transition font-medium"
+                  className="w-full sm:flex-1 bg-blue-600 text-white py-3 rounded-xl hover:bg-blue-700 transition font-medium"
                 >
                   Complete Order
                 </button>
@@ -242,7 +242,7 @@ const CheckoutPayment = () => {
 
           {/* Right Column - Order Summary */}
           <div className="lg:w-1/3">
-            <div className="bg-white rounded-lg shadow-sm p-6 sticky top-6">
+            <div className="bg-white rounded-xl shadow-sm p-6 sticky top-6">
               <h3 className="text-xl font-bold mb-6">Order Summary</h3>
               
               {/* Order Items */}
@@ -275,7 +275,7 @@ const CheckoutPayment = () => {
               </div>
 
               {/* Escrow Protection */}
-              <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
+              <div className="bg-blue-50 border border-blue-200 rounded-xl p-4">
                 <div className="flex items-start gap-3">
                   <ShieldCheck className="text-blue-600 shrink-0" size={24} />
                   <div>

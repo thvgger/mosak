@@ -36,8 +36,9 @@ const SellerDashboard = () => {
   const [selectedOrder, setSelectedOrder] = useState(null);
 
   const handleViewOrder = (order) => {
-    setSelectedOrder(order);
-    setIsOrderModalOpen(true);
+    // setSelectedOrder(order);
+    // setIsOrderModalOpen(true);
+    navigate(`/seller/orders/${order.id}`);
   };
   
 

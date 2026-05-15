@@ -135,7 +135,7 @@ const SellerOrders = () => {
         {stats.map((stat, index) => {
           const Icon = stat.icon;
           return (
-            <div key={index} className="bg-white rounded-2xl border border-gray-100 p-4 md:p-6 shadow-sm group">
+            <div key={index} className="bg-white rounded-xl border border-gray-100 p-4 md:p-6 shadow-sm group">
               <div className="flex items-center justify-between">
                 <div>
                   <p className="text-[10px] md:text-xs font-bold text-gray-400 uppercase tracking-widest mb-1">{stat.label}</p>
@@ -151,27 +151,27 @@ const SellerOrders = () => {
       </div>
 
       {/* Search and Filter Section */}
-      <div className="bg-white rounded-2xl border border-gray-100 p-4 md:p-6 mb-6 space-y-4">
+      <div className="bg-white rounded-xl border border-gray-100 p-4 md:p-6 mb-6 space-y-4">
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
           <h2 className="text-lg font-bold text-gray-900">Orders History</h2>
-          <button className="flex items-center justify-center gap-2 px-6 py-2.5 bg-gray-50 text-gray-700 font-bold rounded-xl text-xs uppercase tracking-widest hover:bg-gray-100 transition-all">
+          <button className="flex items-center justify-center gap-2 px-6 py-2.5 bg-gray-50 text-gray-700 font-bold rounded-xl text-xs uppercase tracking-widest hover:bg-gray-100 transition-all w-full md:w-auto">
             <Download size={16} />
             Export
           </button>
         </div>
 
-        <div className="flex flex-col sm:flex-row items-stretch gap-3">
+        <div className="flex flex-col md:flex-row items-stretch gap-3">
           <div className="relative flex-1">
             <input
               type="text"
-              placeholder="Search by ID, product, or buyer..."
+              placeholder="Search orders..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
               className="w-full pl-11 pr-4 py-3 bg-gray-50 border border-gray-100 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 focus:bg-white transition-all"
             />
             <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400" size={18} />
           </div>
-          <button className="flex items-center justify-center gap-2 px-6 py-3 border border-gray-200 text-gray-700 font-bold rounded-xl text-xs uppercase tracking-widest hover:bg-gray-50 transition-all">
+          <button className="flex items-center justify-center gap-2 px-6 py-3 border border-gray-200 text-gray-700 font-bold rounded-xl text-xs uppercase tracking-widest hover:bg-gray-50 transition-all w-full md:w-auto">
             <Filter size={16} />
             Filter
           </button>
@@ -179,7 +179,7 @@ const SellerOrders = () => {
       </div>
 
       {/* Orders Table/Cards */}
-      <div className="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden">
+      <div className="bg-white rounded-xl border border-gray-100 shadow-sm overflow-hidden">
         {/* Desktop Table View */}
         <div className="hidden lg:block overflow-x-auto">
           <table className="w-full">

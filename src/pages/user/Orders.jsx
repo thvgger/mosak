@@ -142,23 +142,23 @@ const Orders = () => {
       </div>
 
       {/* Filters and Search */}
-      <div className="flex flex-col sm:flex-row gap-4">
+      <div className="flex flex-col md:flex-row gap-4">
         <div className="flex-1 relative">
           <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" size={20} />
           <input
             type="text"
-            placeholder="Search orders by ID, product, or seller..."
+            placeholder="Search orders..."
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
-            className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:border-primary"
+            className="w-full pl-10 pr-4 py-2.5 border border-gray-300 rounded-lg focus:border-primary text-sm"
           />
         </div>
         <div className="flex gap-2">
-          <div className="relative">
+          <div className="relative flex-1 md:flex-none">
             <select
               value={statusFilter}
               onChange={(e) => setStatusFilter(e.target.value)}
-              className="appearance-none pl-4 pr-10 py-2 border border-gray-300 rounded-lg bg-white focus:ring-2 focus:ring-primary focus:border-transparent"
+              className="w-full appearance-none pl-4 pr-10 py-2.5 border border-gray-300 rounded-lg bg-white focus:ring-2 focus:ring-primary focus:border-transparent text-sm"
             >
               <option value="all">All Status</option>
               <option value="processing">Processing</option>
@@ -169,10 +169,10 @@ const Orders = () => {
             </select>
             <ChevronDown className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400" size={16} />
           </div>
-          <button className="p-2 px-2.5 border border-gray-300 rounded-lg hover:bg-gray-50" title='Filter'>
+          <button className="p-2.5 border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors" title='Filter'>
             <Filter size={20} className="text-gray-600" />
           </button>
-          <button className="p-2 px-2.5 border border-gray-300 rounded-lg hover:bg-gray-50" title='Export'>
+          <button className="p-2.5 border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors" title='Export'>
             <Download size={20} className="text-gray-600" />
           </button>
         </div>
@@ -180,7 +180,7 @@ const Orders = () => {
 
       {/* Orders Table & Mobile Cards */}
       {orders.length > 0 ? (
-      <div className="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden">
+      <div className="bg-white rounded-xl border border-gray-100 shadow-sm overflow-hidden">
         {/* Desktop Table View */}
         <div className="hidden md:block overflow-x-auto">
           <table className="w-full">

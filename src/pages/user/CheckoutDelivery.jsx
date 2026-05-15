@@ -61,7 +61,7 @@ const CheckoutDelivery = () => {
         <div className="flex flex-col lg:flex-row gap-8">
           {/* Left Column - Delivery Form */}
           <div className="lg:w-2/3">
-            <div className="bg-white rounded-lg shadow-sm overflow-hidden">
+            <div className="bg-white rounded-xl shadow-sm overflow-hidden">
               <div className="bg-primary/40 flex items-center gap-3 mb-6 p-6">
                 <div className="flex items-center justify-center">
                   <Truck className="text-blue-600" size={20} />
@@ -82,7 +82,7 @@ const CheckoutDelivery = () => {
                       value={deliveryInfo.fullName}
                       onChange={handleChange}
                       placeholder="Enter your full name"
-                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition"
+                      className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition"
                       required
                     />
                   </div>
@@ -98,7 +98,7 @@ const CheckoutDelivery = () => {
                       value={deliveryInfo.phoneNumber}
                       onChange={handleChange}
                       placeholder="Enter your phone number"
-                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition"
+                      className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition"
                       required
                     />
                   </div>
@@ -114,7 +114,7 @@ const CheckoutDelivery = () => {
                       value={deliveryInfo.address}
                       onChange={handleChange}
                       placeholder="Enter your delivery address"
-                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition"
+                      className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition"
                       required
                     />
                   </div>
@@ -130,7 +130,7 @@ const CheckoutDelivery = () => {
                       value={deliveryInfo.city}
                       onChange={handleChange}
                       placeholder="Enter city"
-                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition"
+                      className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition"
                       required
                     />
                   </div>
@@ -144,7 +144,7 @@ const CheckoutDelivery = () => {
                       name="state"
                       value={deliveryInfo.state}
                       onChange={handleChange}
-                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition bg-white"
+                      className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition bg-white"
                     >
                       <option value="Lagos">Lagos</option>
                       <option value="Abuja">Abuja</option>
@@ -159,14 +159,14 @@ const CheckoutDelivery = () => {
                 <div className="flex flex-col sm:flex-row gap-4 mt-8 pt-6 border-t">
                   <Link
                     to="/cart"
-                    className="px-6 py-3 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50 transition flex items-center justify-center gap-2"
+                    className="w-full sm:w-auto px-6 py-3 border border-gray-300 rounded-xl text-gray-700 hover:bg-gray-50 transition flex items-center justify-center gap-2"
                   >
                     <ArrowLeft size={18} />
                     Back to Cart
                   </Link>
                   <button
                     type="submit"
-                    className="flex-1 bg-blue-600 text-white py-3 rounded-lg hover:bg-blue-700 transition font-medium"
+                    className="w-full sm:flex-1 bg-blue-600 text-white py-3 rounded-xl hover:bg-blue-700 transition font-medium"
                   >
                     Proceed to Payment
                   </button>
@@ -177,7 +177,7 @@ const CheckoutDelivery = () => {
 
           {/* Right Column - Order Summary */}
           <div className="lg:w-1/3">
-            <div className="bg-white rounded-lg shadow-sm sticky top-6 overflow-hidden">
+            <div className="bg-white rounded-xl shadow-sm sticky top-6 overflow-hidden">
               <h3 className="text-xl font-bold mb-6 bg-primary/40 p-6">Order Summary</h3>
               
               {/* Order Items */}
@@ -215,7 +215,7 @@ const CheckoutDelivery = () => {
 
               {/* Escrow Protection */}
               <div className="p-6">
-                <div className="flex items-start gap-3 bg-blue-50 border border-blue-200 rounded-lg p-4">
+                <div className="flex items-start gap-3 bg-blue-50 border border-blue-200 rounded-xl p-4">
                   <div>
                     <h4 className="font-bold text-blue-800 flex gap-1">
                       <ShieldCheck className="text-blue-600 shrink-0" size={24} />
