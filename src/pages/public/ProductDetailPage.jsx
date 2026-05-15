@@ -712,10 +712,10 @@ const ProductDetailPage = () => {
 
       {/* Escrow Modal */}
       {isEscrowModalOpen && (
-        <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-1000 p-4">
-          <div className="bg-white rounded-lg shadow-xl max-w-md w-full max-h-[90vh] overflow-y-auto scrollbar-hide">
+        <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-1000 md:p-4">
+          <div className="bg-white w-full h-full md:h-auto md:rounded-lg shadow-xl md:max-w-md md:max-h-[90vh] overflow-y-auto scrollbar-hide flex flex-col">
             {/* Modal Header */}
-            <div className="sticky top-0 w-full bg-primary text-white flex items-center justify-between p-4 border-b">
+            <div className="sticky top-0 z-10 w-full bg-primary text-white flex items-center justify-between p-4 border-b">
               <div className="flex flex-col items-start gap-1">
                 <h2 className="text-base font-bold flex gap-2"> 
                   <Shield className="" size={20} /> 
