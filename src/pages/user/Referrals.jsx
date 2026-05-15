@@ -11,7 +11,14 @@ import {
   MessageCircle,
   ChevronRight,
   Trophy,
-  Info
+  Info as InfoIcon,
+  Check as CheckIcon,
+  Share2,
+  Gift,
+  ArrowUpRight,
+  ShieldCheck,
+  Award,
+  History as HistoryIcon
 } from 'lucide-react';
 
 const Referrals = () => {
@@ -22,6 +29,28 @@ const Referrals = () => {
     navigator.clipboard.writeText(referralLink);
     setCopied(true);
     setTimeout(() => setCopied(false), 2000);
+  };
+
+  const handleShare = () => {
+    const shareData = {
+      title: 'Join Mosalak',
+      text: 'Join me on Mosalak and earn exclusive reward points!',
+      url: window.location.origin + '/ref/AB12CD', // Using absolute URL
+    };
+
+    if (navigator.share && navigator.canShare && navigator.canShare(shareData)) {
+      navigator.share(shareData)
+        .then(() => console.log('Successful share'))
+        .catch((error) => {
+          if (error.name !== 'AbortError') {
+            console.error('Error sharing:', error);
+            handleCopy();
+          }
+        });
+    } else {
+      // Fallback for browsers that don't support Web Share API or non-HTTPS
+      handleCopy();
+    }
   };
 
   const stats = [
@@ -40,7 +69,7 @@ const Referrals = () => {
   const referralData = [
     { email: 'sar***@email.com', status: 'Joined', reward: '-----', date: '2 days ago', statusColor: 'bg-gray-100 text-gray-600', icon: Clock },
     { email: 'moh***@email.com', status: 'Verified', reward: '100 points', date: '5 days ago', statusColor: 'bg-green-100 text-green-600', icon: CheckCircle2 },
-    { email: 'fat***@email.com', status: 'Active', reward: '---', date: '2 weeks ago', statusColor: 'bg-blue-100 text-blue-600', icon: Info },
+    { email: 'fat***@email.com', status: 'Active', reward: '---', date: '2 weeks ago', statusColor: 'bg-blue-100 text-blue-600', icon: InfoIcon },
   ];
 
   return (
@@ -72,20 +101,29 @@ const Referrals = () => {
       </div>
 
       {/* Referral Link Section */}
-      <div className="bg-[#f3f4f6] rounded-xl p-8 border border-gray-200">
+      <div className="bg-[#f3f4f6] rounded-xl p-6 md:p-8 border border-gray-200">
         <h2 className="text-center text-xl font-bold text-gray-900 mb-6">Your Referral Link</h2>
         
         <div className="flex flex-col md:flex-row gap-3 max-w-3xl mx-auto mb-10">
           <div className="flex-1 bg-white border border-gray-300 rounded-lg px-4 py-3 text-blue-700 font-medium truncate flex items-center">
             {referralLink}
           </div>
-          <button 
-            onClick={handleCopy}
-            className="bg-blue-600 hover:bg-blue-700 text-white px-10 py-3 rounded-lg font-semibold transition-colors flex items-center justify-center gap-2"
-          >
-            {copied ? <CheckCircle2 size={18} /> : <Copy size={18} />}
-            {copied ? 'Copied!' : 'Copy'}
-          </button>
+          <div className="flex gap-2 w-full md:w-auto">
+            <button 
+              onClick={handleCopy}
+              className="flex-1 md:flex-none bg-blue-600 hover:bg-blue-700 text-white px-10 py-3 rounded-lg font-semibold transition-colors flex items-center justify-center gap-2"
+            >
+              {copied ? <CheckCircle2 size={18} /> : <Copy size={18} />}
+              {copied ? 'Copied!' : 'Copy'}
+            </button>
+            <button 
+              onClick={handleShare}
+              className="bg-blue-600/10 hover:bg-blue-600/20 text-blue-600 px-4 py-3 rounded-lg transition-colors flex items-center justify-center"
+              title="Share"
+            >
+              <Share2 size={20} />
+            </button>
+          </div>
         </div>
 
         <div className="space-y-6">
@@ -93,15 +131,15 @@ const Referrals = () => {
             <p className="text-center text-white font-bold uppercase tracking-widest text-sm">Share via</p>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-            <button className="bg-[#2D3748] hover:bg-gray-800 text-white py-3 px-4 rounded-lg flex items-center justify-center gap-3 transition-colors">
+            <button onClick={handleShare} className="bg-[#2D3748] hover:bg-gray-800 text-white py-3 px-4 rounded-lg flex items-center justify-center gap-3 transition-colors">
               <MessageCircle size={20} />
               <span>Whatsapp</span>
             </button>
-            <button className="bg-[#2D3748] hover:bg-gray-800 text-white py-3 px-4 rounded-lg flex items-center justify-center gap-3 transition-colors">
+            <button onClick={handleShare} className="bg-[#2D3748] hover:bg-gray-800 text-white py-3 px-4 rounded-lg flex items-center justify-center gap-3 transition-colors">
               <Twitter size={20} />
               <span>X (Twitter)</span>
             </button>
-            <button className="bg-[#2D3748] hover:bg-gray-800 text-white py-3 px-4 rounded-lg flex items-center justify-center gap-3 transition-colors">
+            <button onClick={handleShare} className="bg-[#2D3748] hover:bg-gray-800 text-white py-3 px-4 rounded-lg flex items-center justify-center gap-3 transition-colors">
               <Send size={20} />
               <span>Telegram</span>
             </button>
@@ -110,7 +148,7 @@ const Referrals = () => {
       </div>
 
       {/* How Rewards Work */}
-      <div className="bg-white rounded-xl p-8 border border-gray-100 shadow-sm space-y-8">
+      <div className="bg-white rounded-xl p-6 md:p-8 border border-gray-100 shadow-sm space-y-8">
         <div>
           <h3 className="text-lg font-bold text-gray-900 flex items-center gap-2">
             <Trophy className="text-yellow-500" size={24} />
@@ -172,19 +210,23 @@ const Referrals = () => {
       <div className="bg-white rounded-xl border border-gray-100 shadow-sm overflow-hidden">
         <div className="p-6 flex items-center justify-between border-b border-gray-100">
           <h3 className="font-bold text-gray-900">Referral Performance</h3>
-          <button className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-lg text-sm font-semibold transition-colors">
+          <button 
+            onClick={handleShare}
+            className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-lg text-sm font-semibold transition-colors"
+          >
             Invite More Friends
           </button>
         </div>
         
-        <div className="overflow-x-auto">
+        {/* Desktop Table View */}
+        <div className="hidden md:block overflow-x-auto">
           <table className="w-full">
             <thead className="bg-gray-50 text-left">
               <tr>
-                <th className="px-6 py-4 text-xs font-bold text-gray-500 uppercase tracking-wider">Referred User</th>
-                <th className="px-6 py-4 text-xs font-bold text-gray-500 uppercase tracking-wider">Status</th>
-                <th className="px-6 py-4 text-xs font-bold text-gray-500 uppercase tracking-wider">Reward Earned</th>
-                <th className="px-6 py-4 text-xs font-bold text-gray-500 uppercase tracking-wider">Date</th>
+                <th className="px-6 py-4 text-xs font-bold text-gray-500 uppercase tracking-wider text-nowrap">Referred User</th>
+                <th className="px-6 py-4 text-xs font-bold text-gray-500 uppercase tracking-wider text-nowrap">Status</th>
+                <th className="px-6 py-4 text-xs font-bold text-gray-500 uppercase tracking-wider text-nowrap">Reward Earned</th>
+                <th className="px-6 py-4 text-xs font-bold text-gray-500 uppercase tracking-wider text-nowrap">Date</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-gray-100">
@@ -205,6 +247,29 @@ const Referrals = () => {
               ))}
             </tbody>
           </table>
+        </div>
+
+        {/* Mobile Card View */}
+        <div className="md:hidden divide-y divide-gray-100">
+          {referralData.map((row, index) => (
+            <div key={index} className="p-4 active:bg-gray-50 transition-colors flex items-center justify-between gap-4">
+              <div className="space-y-2 flex-1 min-w-0">
+                <div className="flex items-center justify-between gap-2">
+                  <p className="text-sm font-bold text-gray-900 truncate">{row.email}</p>
+                  <span className={`text-sm font-bold shrink-0 ${row.reward.includes('points') ? 'text-yellow-600' : 'text-gray-400'}`}>
+                    {row.reward}
+                  </span>
+                </div>
+                <div className="flex items-center justify-between gap-2">
+                  <p className="text-[10px] text-gray-500 font-medium">{row.date}</p>
+                  <span className={`px-2 py-0.5 rounded-md text-[9px] font-bold uppercase tracking-tight flex items-center gap-1 ${row.statusColor}`}>
+                    <row.icon size={10} />
+                    {row.status}
+                  </span>
+                </div>
+              </div>
+            </div>
+          ))}
         </div>
       </div>
     </div>

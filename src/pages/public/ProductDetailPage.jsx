@@ -616,16 +616,19 @@ const ProductDetailPage = () => {
             </div>
 
             {/* Seller Info */}
-            <div className="bg-primary/10 border border-primary/20 rounded-xl p-4 md:p-6">
+            <div 
+              className="bg-primary/10 border border-primary/20 rounded-xl p-4 md:p-6 cursor-pointer hover:bg-primary/15 transition-all group"
+              onClick={() => navigate(`/seller-profile/${product.seller.id}`)}
+            >
               <div className="flex items-center justify-between">
                 <div>
-                  <h3 className='text-2xl'> Seller Information </h3>
+                  <h3 className='text-2xl group-hover:text-primary transition-colors'> Seller Information </h3>
                   <div className="flex items-center gap-2 my-4">
-                    <span className='w-8 h-8 rounded-full bg-primary text-white flex items-center justify-center'>{product.seller.name[0]}</span>
+                    <span className='w-8 h-8 rounded-full bg-primary text-white flex items-center justify-center font-bold'>{product.seller.name[0]}</span>
                     <div className='flex flex-col gap-0'>
-                      <h5 className="text-sm font-semibold">{product.seller.name}</h5>
+                      <h5 className="text-sm font-semibold group-hover:underline">{product.seller.name}</h5>
                       {product.seller.verified && (
-                        <span className='flex items-center gap-1 text-xs'>
+                        <span className='flex items-center gap-1 text-xs text-primary font-medium'>
                           <ShieldCheck size={12} />
                           Verified Seller
                         </span>
@@ -634,18 +637,27 @@ const ProductDetailPage = () => {
                   </div>
                   <div className="flex flex-col items-start gap-2 text-sm text-gray-600 mb-3">
                     <div> Location: {product.location} </div>
-                    <div> Response Rate: </div>
-                    <div className="flex items-center">
-                      Rating: {product.seller.rating}
+                    <div> Response Rate: 98% </div>
+                    <div className="flex items-center gap-1">
+                      Rating: <span className="font-bold text-dark">{product.seller.rating}</span>
+                      <div className="flex text-amber-500">
+                        <Star size={12} fill="currentColor" />
+                      </div>
                     </div>
                   </div>
                   {/* Chat with seller button - now using global modal */}
                   <button 
                     className='btn btn-tertiary' 
-                    onClick={handleChatWithSeller}
+                    onClick={(e) => {
+                      e.stopPropagation(); // Prevent navigating to profile when clicking chat
+                      handleChatWithSeller();
+                    }}
                   >
                     <MessageCircle size={16} strokeWidth={1.75} /> Chat with seller
                   </button>
+                </div>
+                <div className="hidden sm:block text-primary opacity-0 group-hover:opacity-100 transition-opacity">
+                  <ArrowRight size={24} />
                 </div>
               </div>
             </div>

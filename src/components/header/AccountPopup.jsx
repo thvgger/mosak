@@ -153,7 +153,7 @@ const AccountPopup = ({ user, onLogout, onClose }) => {
         <p className="px-3 py-1 text-[10px] font-bold text-gray-400 uppercase tracking-widest">Account</p>
 
         <button 
-          onClick={() => handleNavigation('/account/profile')}
+          onClick={() => handleNavigation('/account/settings/security')}
           className='w-full flex items-center gap-3 px-3 py-2.5 hover:bg-gray-50 rounded-lg text-gray-700'
         >
           <Settings size={18} strokeWidth={1.5} className="text-gray-400" />

@@ -239,17 +239,27 @@ const Header = ({ isCommunity, isMobileMenuOpen, setIsMobileMenuOpen, isDashboar
           </div>
 
           {/* Mobile Menu */}
-          <div className={`lg:hidden flex fixed left-0 top-16 md:top-20 w-[75vw] sm:w-[50vw] h-screen bg-white z-60 py-6 transition-all duration-400 ${isMenuOpen ? "translate-x-0" : "-translate-x-full" }`}>
-            <div className="container flex flex-col gap-6 items-start">
+          <div className={`lg:hidden flex flex-col fixed inset-0 w-full h-screen bg-white z-700 transition-all duration-400 ${isMenuOpen ? "translate-x-0" : "-translate-x-full" }`}>
+            <div className="h-16 md:h-20 flex items-center justify-between px-4 border-b border-gray-100">
+              <Link to="/" onClick={()=> { setIsMenuOpen(false); scrollTo(0,0); }}>
+                <img src={Logo} alt="Mosak Hub Logo" className="w-20 md:w-26" />
+              </Link>
+              <button 
+                className="p-2 text-gray-700 hover:bg-gray-50 rounded-xl transition-colors" 
+                onClick={() => setIsMenuOpen(false)}
+              >
+                <X size={28} />
+              </button>
+            </div>
+            
+            <div className="container py-8 flex flex-col gap-6 items-start overflow-y-auto">
               <NavLink to="/" className={navlink} onClick={()=> { setIsMenuOpen(false); }}> Home </NavLink>
               <NavLink to="/marketplace" className={navlink} onClick={()=> { setIsMenuOpen(false); }}> Market Place </NavLink>
-              {/* <NavLink to="/freelance" className={navlink} onClick={()=> { setIsMenuOpen(false); }}> Freelance </NavLink> */}
               <NavLink to="/community" className={navlink} onClick={()=> { setIsMenuOpen(false); }}> Community </NavLink>
               <NavLink to="/postings" className={navlink} onClick={()=> { setIsMenuOpen(false); }}> Postings </NavLink>
-              {/* <NavLink to="/leaderboards" className={navlink} onClick={()=> { setIsMenuOpen(false); }}> Leaderboards </NavLink> */}
               
               {!isAuthenticated && (
-                <div className="space-x-2.5 flex md:hidden">
+                <div className="flex gap-2.5 mt-4">
                   <button 
                     className="btn btn-tertiary"
                     onClick={() => {
@@ -270,7 +280,6 @@ const Header = ({ isCommunity, isMobileMenuOpen, setIsMobileMenuOpen, isDashboar
                   </button>
                 </div>
               )}
-
             </div>
           </div>
         </div>

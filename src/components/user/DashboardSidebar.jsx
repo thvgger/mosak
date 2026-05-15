@@ -30,6 +30,7 @@ import {
   UserRound,
   List,
   PlusCircle,
+  TrendingUp as BoostIcon,
   Sparkles,
   Sliders,
   ShieldCheck,

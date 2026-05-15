@@ -288,7 +288,9 @@ const SellerDashboard = () => {
                   </ul>
                 </div>
 
-                <button className="w-full py-3 bg-white/10 hover:bg-white text-white hover:text-gray-900 text-xs font-bold rounded-xl transition-all border border-white/20">
+                <button 
+                  className="w-full py-3 bg-white/10 hover:bg-white text-white hover:text-gray-900 text-xs font-bold rounded-xl transition-all border border-white/20"
+                >
                   Manage Subscription
                 </button>
               </div>
@@ -360,7 +362,7 @@ const SellerDashboard = () => {
                     <p className="text-[10px] text-white/80 font-bold uppercase tracking-wider">To Platinum</p>
                   </div>
                   <button 
-                    onClick={() => navigate('/seller/badges')}
+                    onClick={() => navigate('/seller/settings/badges')}
                     className="px-4 py-2 bg-white text-yellow-600 text-[10px] font-bold rounded-lg hover:bg-white/90 transition-all uppercase tracking-wider shadow-md"
                   >
                     View Details

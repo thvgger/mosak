@@ -178,67 +178,96 @@ const Orders = () => {
         </div>
       </div>
 
-      {/* Orders Table */}
+      {/* Orders Table & Mobile Cards */}
       {orders.length > 0 ? (
-      <div className="bg-white rounded-xl border border-gray-200 shadow-sm overflow-hidden">
-        <div className="overflow-x-auto">
+      <div className="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden">
+        {/* Desktop Table View */}
+        <div className="hidden md:block overflow-x-auto">
           <table className="w-full">
             <thead>
-              <tr className="bg-gray-50 border-b border-gray-200">
-                <th className="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Product ID</th>
-                <th className="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Product</th>
-                <th className="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
-                <th className="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Seller</th>
-                <th className="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Escrow</th>
-                <th className="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Amount</th>
-                <th className="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
+              <tr className="bg-gray-50/50 border-b border-gray-100">
+                <th className="px-6 py-4 text-left text-[10px] font-bold text-gray-400 uppercase tracking-widest text-nowrap">Order ID</th>
+                <th className="px-6 py-4 text-left text-[10px] font-bold text-gray-400 uppercase tracking-widest text-nowrap">Product</th>
+                <th className="px-6 py-4 text-left text-[10px] font-bold text-gray-400 uppercase tracking-widest text-nowrap">Status</th>
+                <th className="px-6 py-4 text-left text-[10px] font-bold text-gray-400 uppercase tracking-widest text-nowrap">Seller</th>
+                <th className="px-6 py-4 text-left text-[10px] font-bold text-gray-400 uppercase tracking-widest text-nowrap">Escrow</th>
+                <th className="px-6 py-4 text-left text-[10px] font-bold text-gray-400 uppercase tracking-widest text-nowrap">Amount</th>
+                <th className="px-6 py-4 text-right"></th>
               </tr>
             </thead>
-            <tbody className="w-full divide-y divide-gray-200 overflow-x-auto">
+            <tbody className="divide-y divide-gray-50">
               {orders.map((order, index) => (
-                <tr key={index} className="hover:bg-gray-50 transition-colors">
+                <tr key={index} className="hover:bg-gray-50/80 transition-colors group">
                   <td className="px-6 py-4 whitespace-nowrap">
-                    <span className="text-sm font-medium text-gray-900">{order.id}</span>
+                    <span className="text-sm font-bold text-gray-900">{order.id}</span>
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap">
-                    <span className="text-sm text-gray-900 text-nowrap">{order.product}</span>
+                    <span className="text-sm text-gray-700">{order.product}</span>
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap">
-                    <div className="flex items-center">
+                    <div className="flex items-center gap-1.5">
                       {getStatusIcon(order.status)}
-                      <span className={`ml-2 px-2 py-1 text-xs font-medium rounded-full ${getStatusColor(order.status)}`}>
+                      <span className={`px-2.5 py-1 rounded-lg text-[10px] font-bold uppercase tracking-tight ${getStatusColor(order.status)}`}>
                         {order.status}
                       </span>
                     </div>
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap">
-                    <span className="text-sm text-gray-900">{order.seller}</span>
+                    <span className="text-sm font-medium text-gray-700">{order.seller}</span>
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap">
-                    <span className={`px-2 py-1 text-xs font-medium rounded-full ${getEscrowColor(order.escrow)}`}>
+                    <span className={`px-2.5 py-1 rounded-lg text-[10px] font-bold uppercase tracking-tight ${getEscrowColor(order.escrow)}`}>
                       {order.escrow}
                     </span>
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap">
-                    <span className="text-sm font-semibold text-gray-900">{order.amount}</span>
+                    <span className="text-sm font-bold text-gray-900">{order.amount}</span>
                   </td>
-                  <td className="px-6 py-4 whitespace-nowrap">
-                    {/* <button className="flex items-center space-x-1 px-3 py-1.5 bg-gray-100 hover:bg-gray-200 rounded-lg transition-colors text-sm text-gray-700">
-                      <Eye size={16} />
-                      <span>View</span>
-                    </button> */}
+                  <td className="px-6 py-4 text-right">
                     <button
                       onClick={() => navigate(`/account/orders/${order.id}`)}
-                      className="flex items-center space-x-1 px-3 py-1.5 bg-gray-100 hover:bg-gray-200 rounded-lg transition-colors text-sm text-gray-700"
+                      className="p-2 text-gray-400 hover:text-primary transition-colors"
                     >
-                      <Eye size={16} />
-                      <span>View</span>
+                      <Eye size={18} />
                     </button>
                   </td>
                 </tr>
               ))}
             </tbody>
           </table>
+        </div>
+
+        {/* Mobile Card View */}
+        <div className="md:hidden divide-y divide-gray-50">
+          {orders.map((order, index) => (
+            <div 
+              key={index} 
+              className="p-4 active:bg-gray-50 transition-colors flex items-center justify-between gap-4"
+              onClick={() => navigate(`/account/orders/${order.id}`)}
+            >
+              <div className="space-y-2 flex-1">
+                <div className="flex items-center justify-between gap-2">
+                  <p className="text-sm font-bold text-gray-900 line-clamp-1">{order.product}</p>
+                  <span className="text-sm font-bold text-gray-900 whitespace-nowrap">{order.amount}</span>
+                </div>
+                <div className="flex items-center justify-between gap-2">
+                  <div className="flex flex-col gap-1">
+                    <p className="text-[10px] text-gray-500 font-medium">By {order.seller}</p>
+                    <p className="text-[10px] text-gray-400 font-mono tracking-tighter">{order.id}</p>
+                  </div>
+                  <div className="flex flex-col items-end gap-1">
+                    <span className={`px-2 py-0.5 rounded-md text-[9px] font-bold uppercase tracking-tight ${getStatusColor(order.status)}`}>
+                      {order.status}
+                    </span>
+                    <span className={`px-2 py-0.5 rounded-md text-[9px] font-bold uppercase tracking-tight ${getEscrowColor(order.escrow)}`}>
+                      Escrow: {order.escrow}
+                    </span>
+                  </div>
+                </div>
+              </div>
+              {/* <ChevronDown size={16} className="text-gray-400 shrink-0 -rotate-90" /> */}
+            </div>
+          ))}
         </div>
 
         {/* Empty State - Uncomment if no orders */}

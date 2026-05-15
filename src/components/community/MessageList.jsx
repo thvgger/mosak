@@ -4,10 +4,20 @@ import { EllipsisVertical, Reply, ThumbsUp, Heart, Smile, X, Pencil, Trash2, Fla
 const MessageList = ({ messages = [], onUserSelect, onReply, onReaction, currentUser }) => {
   const messagesEndRef = useRef(null);
 
-  // Scroll to bottom when new messages arrive
+  const isFirstLoad = useRef(true);
+
+  // Scroll to bottom when new messages arrive from the current user
   useEffect(() => {
-    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
-  }, [messages]);
+    if (isFirstLoad.current) {
+      isFirstLoad.current = false;
+      return;
+    }
+
+    const lastMessage = messages[messages.length - 1];
+    if (lastMessage?.user?.id === currentUser?.id || lastMessage?.userId === currentUser?.id) {
+      messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+    }
+  }, [messages, currentUser?.id]);
 
   return (
     <div className="p-4 space-y-6 md:space-y-8 pb-10">
