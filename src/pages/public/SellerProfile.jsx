@@ -247,7 +247,7 @@ const SellerProfile = () => {
             </div>
             
             <h1 className="text-2xl md:text-3xl font-black text-gray-900 mb-3 flex items-center justify-center gap-2 px-4">
-              Sarah's Craft Store
+              Sarah's Store
               <div className="flex items-center gap-1.5 shrink-0">
                 <BadgeCheck size={28} className="text-white" fill='#0024FF' />
                 <img src={bronzeBadge} alt="Bronze" className="w-6 h-6 md:w-7 md:h-7" />
